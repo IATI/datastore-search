@@ -1,4 +1,4 @@
-# dss
+# datastore-search
 
 ## Project setup
 ```
