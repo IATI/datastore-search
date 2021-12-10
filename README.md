@@ -1,5 +1,4 @@
-# datastore-search
-Browser application to search IATI datasets using the IATI Datastore API
+# dss
 
 ## Project setup
 ```
