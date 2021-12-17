@@ -1,5 +1,9 @@
 <template>
+<div class="flex h-5/6">
+  <div class="m-auto">
   <SearchBar />
+  </div>  
+</div>
 </template>
 
 <script>

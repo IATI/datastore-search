@@ -1,8 +1,8 @@
 <template>
   <SearchBar />
   <div class="h-full split">
-      <div id="split-0" class="bg-yellow-500"><SideBar /></div>
-      <div id="split-1" class="bg-orange-500"><Results /></div>
+      <div id="split-0"><SideBar /></div>
+      <div id="split-1"><Results /></div>
   </div>  
 </template>
 
