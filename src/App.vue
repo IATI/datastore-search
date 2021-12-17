@@ -23,3 +23,12 @@
   color: #2c3e50;
 }
 </style>
+
+<script>
+import global from './global'
+
+export default {
+  provide: {global}
+}
+</script>
+

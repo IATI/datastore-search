@@ -15,7 +15,8 @@
 
 <script>
 export default {
-  name: 'SearchBar'
+  name: 'SearchBar',
+  inject: ["global"]
 }
 </script>
 
