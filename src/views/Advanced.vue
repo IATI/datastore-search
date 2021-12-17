@@ -1,17 +1,27 @@
 <template>
-  <h1>Advanced View</h1>
   <SearchBar />
-  <SideBar />
-  <Results />
+  <div class="h-full split">
+      <div id="split-0" class="bg-yellow-500"><SideBar /></div>
+      <div id="split-1" class="bg-orange-500"><Results /></div>
+  </div>  
 </template>
 
 <script>
+import Split from 'split.js'
 import SearchBar from '../components/SearchBar.vue'
 import SideBar from '../components/SideBar.vue'
 import Results from '../components/Results.vue'
 
+
 export default {
   name: 'Landing',
+  mounted: function () {
+    Split(['#split-0', '#split-1'], {
+        sizes: [25, 75],
+        minSize: 100,
+        gutterAlign: 'start',
+    })
+  },
   components: {
     SearchBar,
     SideBar,
@@ -19,3 +29,21 @@ export default {
   }
 }
 </script>
+
+<style>
+.split {
+    display: flex;
+    flex-direction: row;
+}
+
+.gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: col-resize;
+}
+</style>

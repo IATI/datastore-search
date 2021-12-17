@@ -1,5 +1,5 @@
 <template>
-  <h2>Results Component</h2>
+  <h2>Results</h2>
 </template>
 
 <script>

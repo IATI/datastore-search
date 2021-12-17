@@ -1,5 +1,4 @@
 <template>
-  <h1>Simple View</h1>
   <SearchBar />
   <Results />
 </template>

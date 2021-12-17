@@ -1,5 +1,5 @@
 <template>
-  <h2>Side Bar Component</h2>
+  <h2>IATI Filters</h2>
 </template>
 
 <script>
