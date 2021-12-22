@@ -1,5 +1,4 @@
 <template>
-  <SearchBar />
   <div class="h-full split">
       <div id="split-0"><SideBar /></div>
       <div id="split-1"><Results /></div>
@@ -8,7 +7,6 @@
 
 <script>
 import Split from 'split.js'
-import SearchBar from '../components/SearchBar.vue'
 import SideBar from '../components/SideBar.vue'
 import Results from '../components/Results.vue'
 
@@ -23,7 +21,6 @@ export default {
     })
   },
   components: {
-    SearchBar,
     SideBar,
     Results
   }
