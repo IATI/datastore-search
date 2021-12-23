@@ -5,12 +5,12 @@ const state = reactive({
   nextFilterId: 0,
   filters: [],
   fieldOptions: [
-  {'field': 'description_narrative', 'label':'Description Narrative', 'type':'text'},
-  {'field': 'reporting_org', 'label':'Reporting Org', 'type':'select', 'options':
+  {'field': 'description_narrative', 'label':'Description Narrative', 'type':'text', 'desc':'A natural language description.'},
+  {'field': 'reporting_org', 'label':'Reporting Org', 'type':'select', 'desc':'The organisation that reported the Activity.', 'options':
     [{'value':'org_1', label:'Org One'},
     {'value':'org_2', label:'Org Two'},
     {'value':'org_3', label:'Org Three'}]},
-  {'field': 'activity_date', 'label':'Activity Date', 'type':'date'}],
+  {'field': 'activity_date', 'label':'Activity Date', 'type':'date', 'desc':'The date of the activity'}],
   request: null, //A HTTP GET request compiled from the filters
   response: null //The response received from the DS API after making state.request
 });
@@ -27,10 +27,26 @@ const removeFilter = (id) => {
   });
 }
 
+const changeFilterField = (id, value) => {
+  for (let i=0; i<state.filters.length; i++) {
+    if (state.filters[i].id === id) {
+      state.filters[i]['key'] = value;
+    }
+  }
+}
+
 const changeFilter = (id, key, value) => {
   for (let i=0; i<state.filters.length; i++) {
     if (state.filters[i].id === id) {
       state.filters[i][key] = value;
+
+      if (key === 'field') {
+        for (let n=0; n<state.fieldOptions.length; n++) {
+          if (state.fieldOptions[n].label === value) {
+            state.filters[i]['desc'] = state.fieldOptions[n].desc;
+          }
+        }
+      }
     }
   }
 }

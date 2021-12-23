@@ -1,6 +1,7 @@
 <script setup>
   import Datepicker from 'vue3-datepicker'
   import { TrashIcon } from '@heroicons/vue/solid'
+  import { QuestionMarkCircleIcon } from '@heroicons/vue/solid'
   import { ref } from 'vue'
   const picked = ref(new Date())
 </script>
@@ -9,7 +10,7 @@
     <div class="grid grid-cols-7 gap-4">
       <div class="col-span-3">
         <select @change="global.changeFilter(filter.id, 'field', $event.target.value);" class="h-10 float-left shadow bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
-          <option disabled value="" selected>Please select a field</option>
+          <option disabled value="" selected>Select field</option>
           <option :selected="global.isFieldOptionSelected(filter.id, filterOption.label)" v-for="filterOption in global.state.fieldOptions" :key="filterOption.field">{{ filterOption.label }}</option>
         </select>
       </div>
@@ -38,7 +39,10 @@
       
       </div>
       <div class="col-span-1">
+        <div class="grid grid-cols-2 gap-1">
         <button class="float-left" v-on:click="global.removeFilter(filter.id)"><TrashIcon class="h-10 w-10 text-grey-300"/></button>
+        <button class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-10 w-10 text-grey-300 mx-1"/><span class='tooltip ml-9 -mt-8'>{{ filter.desc }}</span></button>
+        </div>
       </div>
     </div>
 </template>
