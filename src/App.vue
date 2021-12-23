@@ -1,15 +1,16 @@
 
 <template>
   <div class="flex flex-col h-screen">
-    <div class="bg-red-500">
+    <div class="border-solid border-b">
       <div id="nav">
+        <div class="float-left mx-5">IATI Datastore Search</div>
         <router-link to="/">Landing</router-link> |
         <router-link to="/Simple">Simple</router-link> |
         <router-link to="/Advanced">Advanced</router-link>
       </div>
     </div>
-    <div class="bg-green-500 flex-grow"><router-view /></div>  
-    <div class="bg-blue-500">footer</div>
+    <div class="flex-grow"><router-view /></div>  
+    <div class="border-solid border-t">footer</div>
   </div>
 </template>
 

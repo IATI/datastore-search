@@ -7,9 +7,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@heroicons/vue": "^1.0.5",
+    "feather-icons": "^4.28.0",
     "split.js": "^1.6.4",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.12"
+    "vue-feather-icons": "^5.1.0",
+    "vue-router": "^4.0.12",
+    "vue3-datepicker": "^0.3.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",

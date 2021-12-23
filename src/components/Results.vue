@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-orange-500 h-full">
+  <div class="h-full border-solid border-t">
     <h2>Results</h2>
   </div>  
 </template>

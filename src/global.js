@@ -44,10 +44,9 @@ const isFieldOptionSelected = (id, value) => {
   return false;
 }
 
-const fieldType = (field) => {
-  console.log(field);
+const fieldType = (value) => {
   for (let i=0; i<state.fieldOptions.length; i++) {
-    if (state.fieldOptions[i].field === field) {
+    if (state.fieldOptions[i].label === value) {
       return state.fieldOptions[i].type
     }
   }

@@ -1,14 +1,16 @@
+<script setup>
+  import Datepicker from 'vue3-datepicker'
+  import { TrashIcon } from '@heroicons/vue/solid'
+  import { ref } from 'vue'
+  const picked = ref(new Date())
+</script>
+
 <template>
-<div class="bg-yellow-500 h-full">
-  <ul id="filters">
-  <li v-for="filter in global.state.filters" :key="filter.field">
-    <!--NEXT make the filter register input type as well as field -->
-    <select @change="global.changeFilter(filter.id, 'field', $event.target.value);">
-      <option disabled value="">Please select a field</option>
-      <option :selected="global.isFieldOptionSelected(filter.id, filterOption.label)" v-for="filterOption in global.state.fieldOptions" :key="filterOption.field">{{ filterOption.label }}</option>
-    </select>
-    <input v-if="global.fieldType(filter.field) === 'text'" placeholder="Solr search term" v-on:change="global.changeFilter(filter.id, 'value', $event.target.value)">
-    <button v-on:click="global.removeFilter(filter.id)">Delete</button>
+<div class="h-auto">
+
+  <ul id="filters" class="mt-5 mx-5">
+  <li v-for="filter in global.state.filters" :key="filter.field" class="mb-5">
+    <Filter :filter="filter" />
   </li>
 </ul>
 <button v-on:click="global.addFilter()">Add Filter</button>
@@ -16,8 +18,13 @@
 </template>
 
 <script>
+  import Filter from './Filter.vue';
   export default {
     name: 'SideBar',
-    inject: ["global"],   
+    inject: ["global"],
+    components: {
+      Filter,
+    }  
   }
+  
 </script>
