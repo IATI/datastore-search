@@ -2,6 +2,8 @@
   import Datepicker from 'vue3-datepicker'
   import { TrashIcon } from '@heroicons/vue/solid'
   import { QuestionMarkCircleIcon } from '@heroicons/vue/solid'
+  import { ChevronLeftIcon } from '@heroicons/vue/solid'
+  import { ChevronRightIcon } from '@heroicons/vue/solid'
   import { ref } from 'vue'
   const picked = ref(new Date())
 </script>
@@ -27,10 +29,12 @@
         <!-- Date inputs -->
         <div class="grid grid-cols-8 gap-2" v-if="global.fieldType(filter.field) === 'date'">
           <div class="col-span-2">
-            <select class="h-10 float-left shadow bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
-              <option>After</option>
-              <option>Before</option>
-            </select>
+<div class="flex items-center justify-center">
+  <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="toolbar">
+    <button type="button" class="h-10 border rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-300 focus:bg-blue-200 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">&#60;</button>
+    <button type="button" class="h-10 border rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-300 focus:bg-blue-200 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">&#62;</button>
+  </div>
+</div>
           </div>
           <div class="col-span-6">
             <datepicker v-model="picked" class="h-10 float-left shadow bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>

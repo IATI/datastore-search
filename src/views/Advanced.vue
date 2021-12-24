@@ -16,7 +16,7 @@ export default {
   mounted: function () {
     Split(['#split-0', '#split-1'], {
         sizes: [25, 75],
-        minSize: 100,
+        minSize: 500,
         gutterAlign: 'start',
     })
   },

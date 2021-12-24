@@ -23,6 +23,7 @@
   </div>
   <div v-if="global.state.filters.length === 0" >
   <button v-on:click="global.addFilter()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"><PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1  float-left"/><span class="float-left">Add Filter</span></button>
+  <button v-on:click="global.importFilters()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"><ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left"/><span class="float-left">Import Filters</span></button>
   </div>
   
 </div>
