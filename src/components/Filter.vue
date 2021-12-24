@@ -40,8 +40,8 @@
       </div>
       <div class="col-span-1">
         <div class="grid grid-cols-2 gap-1">
-        <button class="float-left" v-on:click="global.removeFilter(filter.id)"><TrashIcon class="h-10 w-10 text-grey-300"/></button>
-        <button class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-10 w-10 text-grey-300 mx-1"/><span class='tooltip ml-9 -mt-8'>{{ filter.desc }}</span></button>
+        <button class="float-left" v-on:click="global.removeFilter(filter.id)"><TrashIcon class="h-7 w-7 text-grey-300"/></button>
+        <button class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/><span class='tooltip ml-9 -mt-8'>{{ filter.desc }}</span></button>
         </div>
       </div>
     </div>

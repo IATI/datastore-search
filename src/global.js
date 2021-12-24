@@ -27,12 +27,16 @@ const removeFilter = (id) => {
   });
 }
 
-const changeFilterField = (id, value) => {
-  for (let i=0; i<state.filters.length; i++) {
-    if (state.filters[i].id === id) {
-      state.filters[i]['key'] = value;
-    }
-  }
+const importFilters = () => {
+  alert('Yet to be implemented');
+}
+
+const exportFilters = () => {
+  alert('Yet to be implemented');
+}
+
+const run = () => {
+  alert('Yet to be implemented');
 }
 
 const changeFilter = (id, key, value) => {
@@ -85,5 +89,8 @@ export default { state: readonly(state),
   changeFilter,
   makeRequest,
   fieldType,
-  isFieldOptionSelected
+  isFieldOptionSelected,
+  importFilters,
+  exportFilters,
+  run
   };
