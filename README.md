@@ -1,8 +1,8 @@
 # IATI Datastore Search Web Application
 To install:
 
-  npm install
+    npm install
   
 To run a development server:
 
-  npm run dev
+    npm run dev
