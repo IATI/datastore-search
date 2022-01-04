@@ -17,7 +17,7 @@ const state = reactive({
 
 //API implementation, and then exported:
 const addFilter = () => {
-  state.filters.push({id: 'filter-' + state.nextFilterId, field: null})
+  state.filters.push({id: 'filter-' + state.nextFilterId, field: null, value: null, operator: 'equals'})
   state.nextFilterId = state.nextFilterId + 1;
 }
 

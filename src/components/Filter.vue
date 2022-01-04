@@ -11,7 +11,7 @@
 <template>
     <div class="grid grid-cols-7 gap-4">
       <div class="col-span-3">
-        <select @change="global.changeFilter(filter.id, 'field', $event.target.value);" class="h-10 float-left shadow bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
+        <select @change="global.changeFilter(filter.id, 'field', $event.target.value);" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
           <option disabled value="" selected>Select field</option>
           <option :selected="global.isFieldOptionSelected(filter.id, filterOption.label)" v-for="filterOption in global.state.fieldOptions" :key="filterOption.field">{{ filterOption.label }}</option>
         </select>
@@ -19,25 +19,47 @@
 
       <div class="col-span-3">
         <!-- Text inputs -->
-        <input class="h-10 float-left shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.fieldType(filter.field) === 'text'" placeholder="Solr search term" v-on:change="global.changeFilter(filter.id, 'value', $event.target.value)">
+        <input class="h-10 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.fieldType(filter.field) === 'text'" placeholder="Solr search term" v-on:change="global.changeFilter(filter.id, 'value', $event.target.value)">
         <!-- Select inputs -->
-        <select class="h-10 float-left shadow bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.fieldType(filter.field) === 'select'" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
+        <select class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.fieldType(filter.field) === 'select'" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
           <option>Fake One</option>
           <option>Fake Two</option>
           <option>Fake Three</option>
         </select>
         <!-- Date inputs -->
         <div class="grid grid-cols-8 gap-2" v-if="global.fieldType(filter.field) === 'date'">
-          <div class="col-span-2">
-<div class="flex items-center justify-center">
-  <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="toolbar">
-    <button type="button" class="h-10 border rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-300 focus:bg-blue-200 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">&#60;</button>
-    <button type="button" class="h-10 border rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-300 focus:bg-blue-200 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">&#62;</button>
-  </div>
-</div>
+          <div class="col-span-3">
+            <div class="flex items-center justify-center">
+              <div class="inline-flex" role="toolbar">
+                <button
+                  :class="{'bg-blue-300': (filter.operator === 'lessThan')}"
+                  @click="global.changeFilter(filter.id, 'operator', 'lessThan')"
+                  type="button" 
+                  class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                >
+                  &#60;
+                </button>
+                <button
+                  :class="{'bg-blue-300': (filter.operator === 'equals')}"
+                  @click="global.changeFilter(filter.id, 'operator', 'equals')"
+                  type="button" 
+                  class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                >
+                  =
+                </button>
+                <button
+                  :class="{'bg-blue-300': (filter.operator === 'greaterThan')}"
+                  @click="global.changeFilter(filter.id, 'operator', 'greaterThan')"
+                  type="button" 
+                  class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                >
+                  &#62;
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="col-span-6">
-            <datepicker v-model="picked" class="h-10 float-left shadow bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
+          <div class="col-span-5">
+            <datepicker v-model="picked" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
           </div>
         </div>
       
