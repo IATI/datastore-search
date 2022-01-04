@@ -12,7 +12,8 @@ const state = reactive({
     {'value':'org_3', label:'Org Three'}]},
   {'field': 'activity_date', 'label':'Activity Date', 'type':'date', 'desc':'The date of the activity'}],
   request: null, //A HTTP GET request compiled from the filters
-  response: null //The response received from the DS API after making state.request
+  response: null, //The response received from the DS API after making state.request,
+  page: null
 });
 
 //API implementation, and then exported:
@@ -72,6 +73,22 @@ const fieldType = (value) => {
   }
 }
 
+const downloadXML = () => {
+  alert('Yet to be implemented');
+}
+
+const downloadJSON = () => {
+  alert('Yet to be implemented');
+}
+
+const downloadCSV = () => {
+  alert('Yet to be implemented');
+}
+
+const paginationUpdate = (page) => {
+  state.page = page;
+}
+
 const makeRequest = () => {
   generateRequest()
   //@todo
@@ -92,5 +109,9 @@ export default { state: readonly(state),
   isFieldOptionSelected,
   importFilters,
   exportFilters,
-  run
+  run,
+  downloadCSV,
+  downloadJSON,
+  downloadXML,
+  paginationUpdate
   };

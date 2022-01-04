@@ -1,6 +1,8 @@
 <template>
-  <SearchBar />
-  <Results />
+  <div class="flex flex-col h-full">
+    <SearchBar />
+    <Results />
+  </div>
 </template>
 
 <script>
