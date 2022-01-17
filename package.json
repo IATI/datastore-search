@@ -12,7 +12,7 @@
     "@hennge/vue3-pagination": "^1.0.17",
     "@heroicons/vue": "^1.0.5",
     "feather-icons": "^4.28.0",
-    "split.js": "^1.6.4",
+    "split.js": "^1.6.5",
     "vue": "^3.2.25",
     "vue-feather-icons": "^5.1.0",
     "vue-router": "^4.0.12",
