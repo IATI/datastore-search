@@ -1,0 +1,50 @@
+name: Deploy_To_Azure_Blobs_Dev
+
+on:
+  push:
+    paths-ignore: # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+      - "**/README.md" # don't run on README.md file updates anywhere in repo
+      - "**/dependabot.yml"
+    branches:
+      - develop
+
+env:
+  DEV_AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Run build
+        run: |
+          npm run build
+
+      - name: Create 404
+        run: cp dist/index.html dist/404.html
+
+      - name: Login to Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ env.DEV_AZURE_CREDENTIALS }}
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        env: 
+          STORAGE_NAME: sadatastoresearchdev
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} --auth-mode key -d '$web' -s dist/
