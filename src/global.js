@@ -1,6 +1,6 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
-const axios = require('axios');
+import { axios } from "axios";
 
 const state = reactive({
   nextFilterId: 0,
