@@ -1,5 +1,6 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
+const axios = require('axios');
 
 const state = reactive({
   nextFilterId: 0,
@@ -18,7 +19,7 @@ const state = reactive({
 
 //API implementation, and then exported:
 const addFilter = () => {
-  state.filters.push({id: 'filter-' + state.nextFilterId, field: null, value: null, operator: 'equals'})
+  state.filters.push({id: 'filter-' + state.nextFilterId, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
   state.nextFilterId = state.nextFilterId + 1;
 }
 
@@ -90,13 +91,55 @@ const paginationUpdate = (page) => {
 }
 
 const makeRequest = () => {
-  generateRequest()
-  //@todo
+  compileRequest()
+  let result = await axios(compileRequest());
+  state.response = result.response;
 }
 
 // Helper functions, not exported:
 const compileRequest = () => {
-  //@todo - use the filters to compile a GET request and write that to state.request
+  let url = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&q=";  
+  
+  firstFilter = true;
+
+  for (filter in filters) {
+    if (firstFilter) {
+      joinOperator = ''
+    } else {
+      joinOperator = ' ' + filter.joinOperator + ' ';
+    }
+
+    url = url + joinOperator;
+
+    if (filter['type'] === 'date') {
+      switch(filter['operator']) {
+        case 'equals':
+          url = url + filter['field'] + ':' + filter['value']
+        break;
+        case 'lessThan':
+          url = url + '&' + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + filter['value']
+        break
+        case 'greaterThan':
+          url = url + '&' + filter['field'] + ':[' + filter['value'] + ' TO NOW]'
+        break
+        default:
+        break;
+      }
+    } else {
+      switch(filter['operator']) {
+        case 'equals':
+          url = url + '&' + filter['field'] + ':' + filter['value']
+        break;
+        case 'notEquals':
+          url = url + '&-' + filter['field'] + ':' + filter['value']
+        break
+        default:
+        break;
+      }
+    }
+  }
+
+  return url;
 }
 
 // And export the state and API implementation:
