@@ -90,7 +90,7 @@ const paginationUpdate = (page) => {
   state.page = page;
 }
 
-const makeRequest = () => {
+const makeRequest = async () => {
   compileRequest()
   let result = await axios(compileRequest());
   state.response = result.response;
