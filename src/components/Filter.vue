@@ -10,6 +10,34 @@
 
 <template>
     <div class="grid grid-cols-7 gap-4">
+              <div class="inline-flex" role="toolbar">
+                <button
+                  :class="{'bg-blue-300': (filter.joinOperator === 'AND')}"
+                  @click="global.changeFilter(filter.id, 'joinOperator', 'AND')"
+                  type="button" 
+                  class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                >
+                  AND
+                </button>
+                <button
+                  :class="{'bg-blue-300': (filter.joinOperator === 'OR')}"
+                  @click="global.changeFilter(filter.id, 'joinOperator', 'OR')"
+                  type="button" 
+                  class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                >
+                  OR
+                </button>
+                <button
+                  :class="{'bg-blue-300': (filter.joinOperator === 'XOR')}"
+                  @click="global.changeFilter(filter.id, 'joinOperator', 'XOR')"
+                  type="button" 
+                  class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+                >
+                  XOR               
+                </button>
+              </div>
+    </div>
+    <div class="grid grid-cols-7 gap-4 my-3">
       <div class="col-span-3">
         <select @change="global.changeFilter(filter.id, 'field', $event.target.value);" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
           <option disabled value="" selected>Select field</option>
@@ -86,7 +114,7 @@
             </div>
           </div>
           <div class="col-span-5">
-            <datepicker v-model="picked" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
+            <datepicker :modelValue="picked" @update:modelValue="global.changeFilter(filter.id, 'value', picked)" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
           </div>
         </div>
       
@@ -106,6 +134,11 @@
       filter: Object
     },
     name: 'Filter',
-    inject: ["global"],   
+    inject: ["global"],
+    watch: {
+        picked: function(val, oldVal) {
+          console.log(val);
+        }
+      } 
   }
 </script>

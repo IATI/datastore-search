@@ -38,7 +38,7 @@ const exportFilters = () => {
 }
 
 const run = () => {
-  alert('Yet to be implemented');
+  alert(compileRequest());  
 }
 
 const changeFilter = (id, key, value) => {
@@ -49,6 +49,7 @@ const changeFilter = (id, key, value) => {
       if (key === 'field') {
         for (let n=0; n<state.fieldOptions.length; n++) {
           if (state.fieldOptions[n].label === value) {
+            state.filters[i][key] = state.fieldOptions[n].field;
             state.filters[i]['desc'] = state.fieldOptions[n].desc;
           }
         }
@@ -68,7 +69,7 @@ const isFieldOptionSelected = (id, value) => {
 
 const fieldType = (value) => {
   for (let i=0; i<state.fieldOptions.length; i++) {
-    if (state.fieldOptions[i].label === value) {
+    if (state.fieldOptions[i].field === value) {
       return state.fieldOptions[i].type
     }
   }
@@ -100,11 +101,14 @@ const makeRequest = async () => {
 const compileRequest = () => {
   let url = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&q=";  
   
-  firstFilter = true;
+  let firstFilter = true;
+  let joinOperator = '';
 
-  for (filter in filters) {
+  for (const filterIndex in state.filters) {
+    const filter = state.filters[filterIndex];
+
     if (firstFilter) {
-      joinOperator = ''
+      firstFilter = false;
     } else {
       joinOperator = ' ' + filter.joinOperator + ' ';
     }
@@ -117,10 +121,10 @@ const compileRequest = () => {
           url = url + filter['field'] + ':' + filter['value']
         break;
         case 'lessThan':
-          url = url + '&' + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + filter['value']
+          url = url + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + filter['value']
         break
         case 'greaterThan':
-          url = url + '&' + filter['field'] + ':[' + filter['value'] + ' TO NOW]'
+          url = url + filter['field'] + ':[' + filter['value'] + ' TO NOW]'
         break
         default:
         break;
@@ -128,10 +132,10 @@ const compileRequest = () => {
     } else {
       switch(filter['operator']) {
         case 'equals':
-          url = url + '&' + filter['field'] + ':' + filter['value']
+          url = url + filter['field'] + ':"' + filter['value'] + '"'
         break;
         case 'notEquals':
-          url = url + '&-' + filter['field'] + ':' + filter['value']
+          url = url + '-' + filter['field'] + ':"' + filter['value'] + '"'
         break
         default:
         break;
