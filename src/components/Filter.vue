@@ -10,7 +10,7 @@
 
 <template>
     <div class="grid grid-cols-7 gap-4">
-              <div class="inline-flex" role="toolbar">
+              <div class="inline-flex" role="toolbar" v-if="!global.isFilterFirstInChain(filter.id)">
                 <button
                   :class="{'bg-blue-300': (filter.joinOperator === 'AND')}"
                   @click="global.changeFilter(filter.id, 'joinOperator', 'AND')"

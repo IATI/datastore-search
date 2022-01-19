@@ -67,6 +67,14 @@ const isFieldOptionSelected = (id, value) => {
   return false;
 }
 
+const isFilterFirstInChain = (id) => {
+    if (state.filters[0].id === id) {
+      return true;
+    } else {
+      return false;
+    }
+}
+
 const fieldType = (value) => {
   for (let i=0; i<state.fieldOptions.length; i++) {
     if (state.fieldOptions[i].field === value) {
@@ -154,6 +162,7 @@ export default { state: readonly(state),
   makeRequest,
   fieldType,
   isFieldOptionSelected,
+  isFilterFirstInChain,
   importFilters,
   exportFilters,
   run,
