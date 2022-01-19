@@ -19,7 +19,7 @@ const state = reactive({
 
 //API implementation, and then exported:
 const addFilter = () => {
-  state.filters.push({id: 'filter-' + state.nextFilterId, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
+  state.filters.push({id: 'filter-' + state.nextFilterId, type: null, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
   state.nextFilterId = state.nextFilterId + 1;
 }
 
@@ -51,6 +51,7 @@ const changeFilter = (id, key, value) => {
           if (state.fieldOptions[n].label === value) {
             state.filters[i][key] = state.fieldOptions[n].field;
             state.filters[i]['desc'] = state.fieldOptions[n].desc;
+            state.filters[i]['type'] = state.fieldOptions[n].type;
           }
         }
       }
@@ -124,16 +125,18 @@ const compileRequest = () => {
     url = url + joinOperator;
 
     if (filter['type'] === 'date') {
+      let value = filter['value'].toISOString();
+
       switch(filter['operator']) {
         case 'equals':
-          url = url + filter['field'] + ':' + filter['value']
+          url = url + filter['field'] + ':' + value
         break;
         case 'lessThan':
-          url = url + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + filter['value']
-        break
+          url = url + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + value
+        break;
         case 'greaterThan':
-          url = url + filter['field'] + ':[' + filter['value'] + ' TO NOW]'
-        break
+          url = url + filter['field'] + ':[' + value + ' TO NOW]'
+        break;
         default:
         break;
       }
