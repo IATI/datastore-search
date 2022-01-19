@@ -19,7 +19,7 @@
     "vue": "^3.2.27",
     "vue-feather-icons": "^5.1.0",
     "vue-router": "^4.0.12",
-    "vue3-datepicker": "^0.3.1"
+    "vue3-datepicker": "^0.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",
