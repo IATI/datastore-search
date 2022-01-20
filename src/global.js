@@ -1,6 +1,15 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
-import { axios } from "axios";
+import axios from 'axios'
+
+
+const axiosConfig = {
+  headers: {
+    'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
+  }
+}
+
+const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&q=";
 
 const state = reactive({
   nextFilterId: 0,
@@ -12,8 +21,8 @@ const state = reactive({
     {'value':'org_2', label:'Org Two'},
     {'value':'org_3', label:'Org Three'}]},
   {'field': 'activity_date', 'label':'Activity Date', 'type':'date', 'desc':'The date of the activity'}],
-  request: null, //A HTTP GET request compiled from the filters
-  response: null, //The response received from the DS API after making state.request,
+  query: null, //A Solr query string compiled from the filters
+  response: null, //The response received from the DS API after making query,
   page: null
 });
 
@@ -37,8 +46,11 @@ const exportFilters = () => {
   alert('Yet to be implemented');
 }
 
-const run = () => {
-  alert(compileRequest());  
+const run = async () => {
+  await compileQuery();
+  let url = baseUrl + state.query
+  let result = await axios.get(url, axiosConfig);
+  state.response = result.response;  
 }
 
 const changeFilter = (id, key, value) => {
@@ -52,6 +64,10 @@ const changeFilter = (id, key, value) => {
             state.filters[i][key] = state.fieldOptions[n].field;
             state.filters[i]['desc'] = state.fieldOptions[n].desc;
             state.filters[i]['type'] = state.fieldOptions[n].type;
+
+            if (state.fieldOptions[n].type === 'date') {
+              state.filters[i]['value'] = new Date();
+            }
           }
         }
       }
@@ -101,14 +117,12 @@ const paginationUpdate = (page) => {
 }
 
 const makeRequest = async () => {
-  compileRequest()
-  let result = await axios(compileRequest());
-  state.response = result.response;
+
 }
 
 // Helper functions, not exported:
-const compileRequest = () => {
-  let url = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&q=";  
+const compileQuery = () => {
+  let query = '';  
   
   let firstFilter = true;
   let joinOperator = '';
@@ -122,20 +136,20 @@ const compileRequest = () => {
       joinOperator = ' ' + filter.joinOperator + ' ';
     }
 
-    url = url + joinOperator;
+    query = query + joinOperator;
 
     if (filter['type'] === 'date') {
       let value = filter['value'].toISOString();
 
       switch(filter['operator']) {
         case 'equals':
-          url = url + filter['field'] + ':' + value
+          query = query + filter['field'] + ':' + value
         break;
         case 'lessThan':
-          url = url + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + value
+          query = query + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + value
         break;
         case 'greaterThan':
-          url = url + filter['field'] + ':[' + value + ' TO NOW]'
+          query = query + filter['field'] + ':[' + value + ' TO NOW]'
         break;
         default:
         break;
@@ -143,10 +157,10 @@ const compileRequest = () => {
     } else {
       switch(filter['operator']) {
         case 'equals':
-          url = url + filter['field'] + ':"' + filter['value'] + '"'
+          query = query + filter['field'] + ':"' + filter['value'] + '"'
         break;
         case 'notEquals':
-          url = url + '-' + filter['field'] + ':"' + filter['value'] + '"'
+          query = query + '-' + filter['field'] + ':"' + filter['value'] + '"'
         break
         default:
         break;
@@ -154,7 +168,7 @@ const compileRequest = () => {
     }
   }
 
-  return url;
+  state.query = query;
 }
 
 // And export the state and API implementation:

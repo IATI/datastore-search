@@ -17,6 +17,7 @@
     "split.js": "^1.6.5",
     "v-calendar": "^3.0.0-alpha.6",
     "vue": "^3.2.27",
+    "vue-axios": "^3.4.0",
     "vue-feather-icons": "^5.1.0",
     "vue-router": "^4.0.12",
     "vue3-datepicker": "^0.3.1"

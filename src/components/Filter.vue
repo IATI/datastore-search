@@ -114,7 +114,7 @@
             </div>
           </div>
           <div class="col-span-5">
-            <datepicker :modelValue="picked" @update:modelValue="global.changeFilter(filter.id, 'value', picked)" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
+            <datepicker :modelValue="picked" @update:modelValue="picked = $event; global.changeFilter(filter.id, 'value', picked)" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
           </div>
         </div>
       
@@ -129,16 +129,12 @@
 </template>
 
 <script>
+
   export default {
     props: {
       filter: Object
     },
     name: 'Filter',
     inject: ["global"],
-    watch: {
-        picked: function(val, oldVal) {
-          console.log(val);
-        }
-      } 
   }
 </script>
