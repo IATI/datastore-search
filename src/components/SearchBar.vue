@@ -1,8 +1,8 @@
 <template>
 <div class="flex items-center justify-center">
     <div class="flex border-2 rounded my-3">
-        <input type="text" class="px-4 py-2 w-80" placeholder="Search...">
-        <button class="flex items-center justify-center px-4 border-l">
+        <input v-model="searchterm" type="text" class="px-4 py-2 w-80 placeholder-gray-600" placeholder="Search IATI Activities...">
+        <button class="flex items-center justify-center px-4 border-l" @click="global.runSimple(this.searchterm); this.$router.push('simple')">
             <svg class="w-6 h-6 text-gray-600" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
                 <path
@@ -15,6 +15,11 @@
 
 <script>
 export default {
+  data: function() {
+      return {
+        searchterm: null
+      }
+    },  
   name: 'SearchBar',
   inject: ["global"]
 }

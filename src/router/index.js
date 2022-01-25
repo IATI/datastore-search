@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Landing from "../views/Landing.vue";
 import Simple from "../views/Simple.vue";
 import Advanced from "../views/Advanced.vue";
+import Activity from "../views/Activity.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/advanced",
     name: "advanced",
     component: Advanced,
+  },
+  {
+    path: "/activity/:iati_identifier",
+    name: "activity",
+    component: Activity,
   },
 ];
 

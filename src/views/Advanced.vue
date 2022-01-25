@@ -10,7 +10,6 @@ import Split from 'split.js'
 import SideBar from '../components/SideBar.vue'
 import Results from '../components/Results.vue'
 
-
 export default {
   name: 'Landing',
   mounted: function () {
@@ -22,7 +21,7 @@ export default {
   },
   components: {
     SideBar,
-    Results
+    Results,  
   }
 }
 </script>

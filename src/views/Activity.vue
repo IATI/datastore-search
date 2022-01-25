@@ -7,13 +7,13 @@
 
 <script>
 import SearchBar from '../components/SearchBar.vue'
-import Results from '../components/Results.vue'
+import ActivityResult from '../components/ActivityResult.vue'
 
 export default {
-  name: 'Simple',
+  name: 'Activity',
   components: {
     SearchBar,
-    Results,
+    ActivityResult,
   }
 }
 </script>

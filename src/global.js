@@ -2,14 +2,15 @@
 import { reactive, readonly } from "vue";
 import axios from 'axios'
 
-
 const axiosConfig = {
   headers: {
     'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
   }
 }
 
-const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&q=";
+const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
+const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q="
+const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 
 const state = reactive({
   nextFilterId: 0,
@@ -22,14 +23,21 @@ const state = reactive({
     {'value':'org_3', label:'Org Three'}]},
   {'field': 'activity_date', 'label':'Activity Date', 'type':'date', 'desc':'The date of the activity'}],
   query: null, //A Solr query string compiled from the filters
-  response: null, //The response received from the DS API after making query,
-  page: null
+  responseDocs: null, //The array of Solr docs received from the DS API after making query,
+  responseTotal: null, //Total number of docs in response
+  responseStart: null, //The start offset of the response, which should be in multiples of resultsPerPage
+  resultsPerPage: 10, //results shown per page of UI
+  page: null,
+  simpleSearch: null,
+  activity: null
 });
 
 //API implementation, and then exported:
 const addFilter = () => {
-  state.filters.push({id: 'filter-' + state.nextFilterId, type: null, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
+  const filterId = 'filter-' + state.nextFilterId
+  state.filters.push({id: filterId, type: null, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
   state.nextFilterId = state.nextFilterId + 1;
+  return filterId;
 }
 
 const removeFilter = (id) => {
@@ -48,9 +56,43 @@ const exportFilters = () => {
 
 const run = async () => {
   await compileQuery();
-  let url = baseUrl + state.query
+  let url = baseUrl + state.query;
   let result = await axios.get(url, axiosConfig);
-  state.response = result.response;  
+  state.simpleSearch = false;
+  setResponseState(result);  
+}
+
+const runSimple = async (searchterm) => {
+  let url = baseUrlSimple + searchterm;
+  let result = await axios.get(url, axiosConfig);
+  state.simpleSearch = true;
+  state.query = searchterm;
+  setResponseState(result);
+}
+
+const setResponseState = (result) => {
+  state.responseDocs = result.data.response.docs;
+
+  let index = 0;
+
+  for (const keyA in result.data.highlighting) {
+    for (const keyB in result.data.highlighting[keyA]) {
+      if (result.data.highlighting[keyA][keyB].length < 1) {
+        delete result.data.highlighting[keyA][keyB];
+      }
+    }
+
+    state.responseDocs[index]['highlighting'] = '';
+
+    for (const prop in result.data.highlighting[keyA]) {
+      state.responseDocs[index]['highlighting'] = state.responseDocs[index]['highlighting'] + result.data.highlighting[keyA][prop] 
+    }
+
+    index = index + 1;
+  }
+
+  state.responseTotal = result.data.response.numFound;
+  state.responseStart = result.data.response.start;
 }
 
 const changeFilter = (id, key, value) => {
@@ -100,6 +142,12 @@ const fieldType = (value) => {
   }
 }
 
+const loadActivity = async (iatiIdentifier) => {
+  let url = baseUrlActivity + 'iati_identifier:' + iatiIdentifier;
+  let result = await axios.get(url, axiosConfig);
+  state.activity = result.data.response.docs[0];
+}
+
 const downloadXML = () => {
   alert('Yet to be implemented');
 }
@@ -114,10 +162,6 @@ const downloadCSV = () => {
 
 const paginationUpdate = (page) => {
   state.page = page;
-}
-
-const makeRequest = async () => {
-
 }
 
 // Helper functions, not exported:
@@ -176,13 +220,14 @@ export default { state: readonly(state),
   addFilter,
   removeFilter,
   changeFilter,
-  makeRequest,
+  loadActivity,
   fieldType,
   isFieldOptionSelected,
   isFilterFirstInChain,
   importFilters,
   exportFilters,
   run,
+  runSimple,
   downloadCSV,
   downloadJSON,
   downloadXML,
