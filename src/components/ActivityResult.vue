@@ -12,7 +12,7 @@
 <template>
   <div class="flex flex-col h-full">
     <div class="flex-grow"><router-view />
-        <div v-if="this.go" class="grid grid-cols-10 gap-4 text-left mb-5">
+        <div v-if="typeof this.activity !== undefinged && this.activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
           <div class="col-span-1"></div>
               <div class="col-span-8 mt-10 text-2xl border-b pb-3">{{ activity.title_narrative[0] }}</div>
           <div class="col-span-1"></div>
@@ -101,27 +101,30 @@ export default {
   inject: ["global"],
   data: function() {
       return {
-        go: false,
         activity: null
       }
     },
 
-  
-  created() {
-    const axiosConfig = {
-        headers: {
-          'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
+  methods: {
+      requestData: function() {
+        
+        const axiosConfig = {
+            headers: {
+              'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
+            }
         }
-    }
-    const route = useRoute();
-    const id = encodeURIComponent(route.params.iati_identifier);
-    const baseUrl = 'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&q='
-    
-    axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then((res) => {
-      this.activity = res.data.response.docs[0]
 
-      this.go = true;
-    });    
+        const route = useRoute();
+        const id = encodeURIComponent(route.params.iati_identifier);
+        const baseUrl = 'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&q='
+        
+        axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then((response) => {
+          this.activity = response.data.response.docs[0];        
+        })           
+      }
+  },  
+  created() {
+    this.requestData();
   }
 }
 </script>
