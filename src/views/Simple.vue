@@ -14,6 +14,9 @@ export default {
   components: {
     SearchBar,
     Results,
+  },
+  beforeUnmount() {
+    sessionStorage.removeItem('searchterm');
   }
 }
 </script>
