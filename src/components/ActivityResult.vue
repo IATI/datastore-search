@@ -12,7 +12,7 @@
 <template>
   <div class="flex flex-col h-full">
     <div class="flex-grow"><router-view />
-        <div v-if="this.activity && this.activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
+        <div v-if="typeof this.activity !== undefinged && this.activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
           <div class="col-span-1"></div>
               <div class="col-span-8 mt-10 text-2xl border-b pb-3">{{ activity.title_narrative[0] }}</div>
           <div class="col-span-1"></div>
@@ -104,7 +104,9 @@ export default {
         activity: null
       }
     },
-  beforeMount() {
+
+  
+  created() {
     const axiosConfig = {
         headers: {
           'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
@@ -117,7 +119,7 @@ export default {
     axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then((res) => {
       this.activity = res.data.response.docs[0]
 
-      console.log(this.activity)
+      console.log(this.activity);
     });    
   }
 }
