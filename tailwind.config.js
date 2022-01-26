@@ -9,6 +9,9 @@ module.exports = {
         'iati-grey': '#155366',
         'iati-blue': '#81c3d6'
       },
+      fontFamily: {
+        'sans': ["Avenir", "Helvetica", "Arial", "sans-serif"],
+      }
     },
   },
   plugins: [],
