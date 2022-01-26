@@ -31,7 +31,12 @@ const state = reactive({
   page: null,
   simpleSearch: null,
   activity: null,
-  downloadOptions: [{ format: 'XML', isLoading: false },{ format: 'JSON', isLoading: false },{ format: 'CSV', isLoading: false }]
+  download: {
+    formats: ['XML', 'JSON', 'CSV'],
+    fileLoading: false,
+    showModal: false,
+    selectedFormat: null
+  }
 });
 
 //API implementation, and then exported:
@@ -150,23 +155,33 @@ const loadActivity = async (iatiIdentifier) => {
   state.activity = result.data.response.docs[0];
 }
 
-const isFileLoading = (format) => {
-  return state.downloadOptions.find(val => val.format === format).isLoading
+const isFileLoading = () => {
+  return state.download.fileLoading
+}
+
+const toggleModal = (format) => {
+  state.download.showModal = !state.download.showModal
+  if (format !== null) {
+    state.download.selectedFormat = format
+  } else {
+    state.download.selectedFormat = null
+  }
 }
 
 const downloadFile = async (format) => {
   try {
-    state.downloadOptions.find(val => val.format === format).isLoading = true
+    state.download.fileLoading = true
     const response = await axios.post(baseUrlDownload, {
       query: `activity/search?sort=iati_identifier asc&q=${state.query}`,
       format,
     }, axiosConfig);
     await downloadItem({ url: response.data.url, label: response.data.fileName})
-    state.downloadOptions.find(val => val.format === format).isLoading = false
+    state.download.fileLoading = false
+    toggleModal(null)
   } catch (error) {
     console.error(error)
     alert(`Download Failed: ${error.message}`)
-    state.downloadOptions.find(val => val.format === format).isLoading = false
+    state.download.fileLoading = false
   }
 }
 
@@ -248,5 +263,6 @@ export default { state: readonly(state),
   runSimple,
   isFileLoading,
   downloadFile,
+  toggleModal,
   paginationUpdate
   };
