@@ -22,11 +22,11 @@ export default {
   },
   watch: {
     searchterm(newValue, oldValue) {
-      localStorage.setItem("searchterm", JSON.stringify(newValue));
+      sessionStorage.setItem("searchterm", JSON.stringify(newValue));
     }
   },
   mounted() {
-    this.searchterm = JSON.parse(localStorage.getItem("searchterm")) || "";
+    this.searchterm = JSON.parse(sessionStorage.getItem("searchterm")) || "";
   },
   name: 'SearchBar',
   inject: ["global"]
