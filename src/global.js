@@ -11,6 +11,7 @@ const axiosConfig = {
 const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q="
 const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
+const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
 
 const state = reactive({
   nextFilterId: 0,
@@ -29,7 +30,8 @@ const state = reactive({
   resultsPerPage: 10, //results shown per page of UI
   page: null,
   simpleSearch: null,
-  activity: null
+  activity: null,
+  downloadOptions: [{ format: 'XML', isLoading: false },{ format: 'JSON', isLoading: false },{ format: 'CSV', isLoading: false }]
 });
 
 //API implementation, and then exported:
@@ -148,16 +150,32 @@ const loadActivity = async (iatiIdentifier) => {
   state.activity = result.data.response.docs[0];
 }
 
-const downloadXML = () => {
-  alert('Yet to be implemented');
+const isFileLoading = (format) => {
+  return state.downloadOptions.find(val => val.format === format).isLoading
 }
 
-const downloadJSON = () => {
-  alert('Yet to be implemented');
+const downloadFile = async (format) => {
+  try {
+    state.downloadOptions.find(val => val.format === format).isLoading = true
+    const response = await axios.post(baseUrlDownload, {
+      query: `activity/search?sort=iati_identifier asc&q=${state.query}`,
+      format,
+    }, axiosConfig);
+    await downloadItem({ url: response.data.url, label: response.data.fileName})
+    state.downloadOptions.find(val => val.format === format).isLoading = false
+  } catch (error) {
+    console.error(error)
+    alert(`Download Failed: ${error.message}`)
+    state.downloadOptions.find(val => val.format === format).isLoading = false
+  }
 }
 
-const downloadCSV = () => {
-  alert('Yet to be implemented');
+const downloadItem= async ({ url, label }) => {
+  const link = document.createElement("a");
+  link.download = label; 
+  link.href = new URL(url);
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 const paginationUpdate = (page) => {
@@ -228,8 +246,7 @@ export default { state: readonly(state),
   exportFilters,
   run,
   runSimple,
-  downloadCSV,
-  downloadJSON,
-  downloadXML,
+  isFileLoading,
+  downloadFile,
   paginationUpdate
   };
