@@ -16,10 +16,18 @@
 <script>
 export default {
   data: function() {
-      return {
-        searchterm: null
-      }
-    },  
+    return {
+      searchterm: null
+    }
+  },
+  watch: {
+    searchterm(newValue, oldValue) {
+      localStorage.setItem("searchterm", JSON.stringify(newValue));
+    }
+  },
+  mounted() {
+    this.searchterm = JSON.parse(localStorage.getItem("searchterm")) || "";
+  },
   name: 'SearchBar',
   inject: ["global"]
 }
