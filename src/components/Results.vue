@@ -1,6 +1,5 @@
 <script setup>
   import { PlusCircleIcon } from '@heroicons/vue/solid'
-  import { ArrowDownIcon } from '@heroicons/vue/solid'
   import { ArrowUpIcon } from '@heroicons/vue/solid'
   import { PlayIcon } from '@heroicons/vue/solid'
   import { ref } from 'vue'
@@ -10,10 +9,7 @@
 
 <template>
   <div class="flex flex-col h-full">
-    <div id="result-download-buttons" class="pt-5 float-left mx-5">    
-      <button v-on:click="global.downloadXML()" class="bg-iati-blue hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"><ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1  float-left"/><span class="float-left">XML</span></button>
-      <button v-on:click="global.downloadJSON()" class="bg-iati-blue hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"><ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1 float-left"/><span class="float-left">JSON</span></button>
-      <button v-on:click="global.downloadJSON()" class="bg-iati-blue hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"><ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1 float-left"/><span class="float-left">CSV</span></button>    </div>
+    <DownloadButtons v-if="global.state.responseDocs" />
     <div class="flex-grow"><router-view />
           <ul id="results" class="mx-5 my-5">
           <li v-for="doc in global.state.responseDocs" :key="doc.iati_identifier">
@@ -79,10 +75,12 @@
 
 <script>
 import Result from './Result.vue';
+import DownloadButtons from './DownloadButtons.vue';
 export default {
   name: 'Results',
   inject: ["global"],
   components: {
+      DownloadButtons,
       Result,
       VPagination,
   },
