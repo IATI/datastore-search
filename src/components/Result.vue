@@ -15,7 +15,7 @@
           <div class="col-span-4">IATI Identifer: {{ doc.iati_identifier }}</div>
         <div class="col-span-1"></div>
         <div class="col-span-1"></div>
-        <div class="col-span-8 hover:underline text-sky-700"><router-link to="/activity/{{doc.iati_identifier}}">{{ doc.title_narrative[0] }}</router-link><a href=""></a></div>
+        <div class="col-span-8 hover:underline text-sky-700"><router-link :to="{ name: 'activity', params: { iati_identifier: doc.iati_identifier }}">{{ doc.title_narrative[0] }}</router-link><a href=""></a></div>
         <div class="col-span-1"></div>
         <div class="col-span-1"></div>
         <div class="col-span-8 border-b"><span v-html="doc.highlighting"></span></div>
