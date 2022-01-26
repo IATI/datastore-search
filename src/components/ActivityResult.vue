@@ -103,9 +103,9 @@ export default {
       return {
         activity: null
       }
-    }, 
-  mounted() {
-      const axiosConfig = {
+    },
+  beforeMount() {
+    const axiosConfig = {
         headers: {
           'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
         }
