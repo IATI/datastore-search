@@ -11,6 +11,9 @@ import SearchBar from '../components/SearchBar.vue'
 
 export default {
   name: 'Landing',
+  beforeMount() {
+    sessionStorage.removeItem('searchterm');
+  },
   components: {
     SearchBar
   }
