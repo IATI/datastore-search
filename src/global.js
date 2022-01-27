@@ -1,6 +1,6 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
-import axios from 'axios'
+import axios from 'axios';
 
 const axiosConfig = {
   headers: {
@@ -168,24 +168,42 @@ const toggleModal = (format) => {
   }
 }
 
+const sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const statusRequest = async (url) => {
+  const statusResp = await axios.get(url)
+  if (statusResp.status === 200) {
+    return statusResp.data.output
+  } else if (statusResp.status === 202) {
+    // const retryMs = Number(statusResp.headers['retry-after']) * 1000
+    // console.log(statusResp.headers)
+    await sleep(5000)
+    return await statusRequest(url)
+
+  }
+}
+
 const downloadFile = async (format, iid=null) => {
-  console.log(iid);
   let query = null;
 
   if (iid === null) {
     query = `activity/search?sort=iati_identifier asc&q=${state.query}`;
   } else {
     query = `activity/search?q=iati_identifier:"${iid}"`;
-    console.log(query);
   }
 
   try {
     state.download.fileLoading = true
-    const response = await axios.post(baseUrlDownload, {
+
+    const startDownloadRes = await axios.post(baseUrlDownload, {
       query: query,
       format,
     }, axiosConfig);
-    await downloadItem({ url: response.data.url, label: response.data.fileName})
+    await sleep(500)
+    const response = await statusRequest(startDownloadRes.data.statusQueryGetUri)
+    await downloadItem({ url: response.url, label: response.fileName})
     state.download.fileLoading = false
     toggleModal(null)
   } catch (error) {
@@ -195,7 +213,7 @@ const downloadFile = async (format, iid=null) => {
   }
 }
 
-const downloadItem= async ({ url, label }) => {
+const downloadItem = async ({ url, label }) => {
   const link = document.createElement("a");
   link.download = label; 
   link.href = new URL(url);
