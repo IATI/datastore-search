@@ -1,5 +1,5 @@
 <template>
-<div class="flex items-center justify-center">
+<div class="flex justify-left">
     <div class="flex border-2 rounded my-3">
         <input v-model="searchterm" type="text" class="px-4 py-2 w-80 placeholder-gray-600" v-on:keyup.enter="global.runSimple(this.searchterm); this.$router.push('simple')" placeholder="Search IATI Activities...">
         <button class="flex items-center justify-center px-4 border-l" @click="global.runSimple(this.searchterm); this.$router.push('simple')">
