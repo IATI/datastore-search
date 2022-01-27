@@ -1,9 +1,4 @@
 <script setup>
-  import { PlusCircleIcon } from '@heroicons/vue/solid'
-  import { ArrowDownIcon } from '@heroicons/vue/solid'
-  import { ArrowUpIcon } from '@heroicons/vue/solid'
-  import { PlayIcon } from '@heroicons/vue/solid'
-  import { ref } from 'vue'
   import axios from 'axios'
   import { useRoute } from 'vue-router';
 </script>
@@ -11,7 +6,7 @@
 <template>
   <div class="flex flex-col h-full">
     <div class="flex-grow"><router-view />
-        <div v-if="typeof this.activity !== undefined && this.activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
+        <div v-if="typeof this !== undefined && this.activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
           <div class="col-span-1"></div>
               <div class="col-span-8 mt-10 text-2xl border-b pb-3">{{ activity.title_narrative[0] }}</div>
           <div class="col-span-1"></div>
