@@ -12,9 +12,9 @@
             <b>Datastore Search</b><span style="color:red"> alpha </span>
           </div>
           <div class="pt-6 ml-10">
-            <router-link to="/"> Landing</router-link> |
-            <router-link to="/Simple">Simple</router-link> |
-            <router-link to="/Advanced">Advanced</router-link>
+            <router-link v-if="$route.matched[0].path === '/advanced' && ! global.state.responseDocs" to="/" class="hover:underline">Switch to Simple Search</router-link>
+            <router-link v-if="$route.matched[0].path === '/advanced' && global.state.responseDocs" to="/simple" class="hover:underline">Switch to Simple Search</router-link>
+            <router-link v-if="$route.matched[0].path != '/advanced'" to="/advanced" class="hover:underline">Switch to Advanced Search</router-link>
           </div>
         </div>
       </div>

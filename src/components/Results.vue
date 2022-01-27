@@ -9,14 +9,19 @@
 
 <template>
   <div class="flex flex-col h-full">
-    <DownloadButtons v-if="global.state.responseDocs" :iati_identifier="null" />
+    <div v-if="global.state.responseDocs && $route.matched[0].path === '/advanced'" class="grid grid-cols-2 gap-4 text-left py-3 border">
+        <div class="col-span-1"></div>
+        <div class="col-span-1"><div class="float-left mr-3 mt-1">Download all Activities in search result by</div><DownloadButtons v-if="global.state.responseDocs" :iati_identifier="null" /></div>
+    </div>
+    
     <div class="flex-grow"><router-view />
           <ul id="results" class="mx-5 my-5">
           <li v-for="doc in global.state.responseDocs" :key="doc.iati_identifier">
             <Result :doc="doc" />
           </li>
         </ul>
-    </div>  
+    </div>
+    
     <div class="border-solid border-t grid grid-cols-3 gap-4 content-between">
 
   <div><v-pagination
