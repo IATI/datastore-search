@@ -9,7 +9,7 @@
 
 <template>
   <div class="flex flex-col h-full">
-    <DownloadButtons v-if="global.state.responseDocs" />
+    <DownloadButtons v-if="global.state.responseDocs" :iati_identifier="null" />
     <div class="flex-grow"><router-view />
           <ul id="results" class="mx-5 my-5">
           <li v-for="doc in global.state.responseDocs" :key="doc.iati_identifier">

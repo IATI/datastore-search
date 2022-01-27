@@ -168,11 +168,21 @@ const toggleModal = (format) => {
   }
 }
 
-const downloadFile = async (format) => {
+const downloadFile = async (format, iid=null) => {
+  console.log(iid);
+  let query = null;
+
+  if (iid === null) {
+    query = `activity/search?sort=iati_identifier asc&q=${state.query}`;
+  } else {
+    query = `activity/search?q=iati_identifier:"${iid}"`;
+    console.log(query);
+  }
+
   try {
     state.download.fileLoading = true
     const response = await axios.post(baseUrlDownload, {
-      query: `activity/search?sort=iati_identifier asc&q=${state.query}`,
+      query: query,
       format,
     }, axiosConfig);
     await downloadItem({ url: response.data.url, label: response.data.fileName})
