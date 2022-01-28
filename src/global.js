@@ -1,7 +1,6 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
 import axios from 'axios';
-import { SitemapIndexStream, SitemapStream, streamToPromise } from 'sitemap';
 
 const axiosConfig = {
   headers: {
@@ -243,30 +242,30 @@ const getAllActivities = async () => {
 const sitemapLimit = 50000;
 
 const getSitemapIndex = async () => {
-  const smis = new SitemapIndexStream();
+  let sitemapIndexString = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
   const activities = await getAllActivities();
   const activityCount = activities.length;
   const sitemapExtent = Math.ceil(activityCount / sitemapLimit);
-  Array
+  sitemapIndexString += Array
     .from(Array(sitemapExtent)
     .keys())
-    .map((i) => { return siteUrl + 'sitemap-' + i + '.xml' })
-    .forEach((d) => { smis.write(d) });
-  smis.end();
-  return await streamToPromise(smis)
-    .then((sm) => {return sm.toString()});
+    .map((i) => {
+      return '<sitemap><loc>' + siteUrl + 'sitemap-' + i + '.xml</loc></sitemap>'
+    }).join('');
+  sitemapIndexString += '</sitemapindex>';
+  return sitemapIndexString;
 };
 
 const getSingleSitemap = async (sitemapNumber) => {
-  const sms = new SitemapStream({ hostname: siteUrl, limit: sitemapLimit });
+  let sitemapString = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">';
   const activities = await getAllActivities();
-  const activitySlice = activities
+  sitemapString += activities
     .slice(sitemapNumber * sitemapLimit, sitemapLimit)
-    .map((d) => "/activity/" + d)
-    .forEach((d) => { sms.write(d) });
-  sms.end();
-  return await streamToPromise(sms)
-    .then((sm) => {return sm.toString()});
+    .map((d) => {
+      '<url><loc>' + siteUrl + '/activity/' + encodeURI(d) + '</loc></url>'
+    }).join('');
+  sitemapString += '</urlset>';
+  return sitemapString;
 }
 
 // Helper functions, not exported:
