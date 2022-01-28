@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="flex-grow"><router-view /></div>  
-    <div class="border-solid border-t py-2 bg-iati-grey text-white"><span>Copyright IATI 2022. All rights reserved</span></div>
+    <div class="border-solid border-t py-2 bg-iati-grey text-white"><span>Copyright Development Initiatives 2022. All rights reserved</span></div>
   </div>
 </template>
 
