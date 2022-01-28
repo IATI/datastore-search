@@ -250,7 +250,7 @@ const getSitemapIndex = async () => {
     .from(Array(sitemapExtent)
     .keys())
     .map((i) => {
-      return '<sitemap><loc>' + siteUrl + 'sitemap-' + i + '.xml</loc></sitemap>'
+      return '<sitemap><loc>' + siteUrl + 'sitemap-xml-' + i + '</loc></sitemap>'
     }).join('');
   sitemapIndexString += '</sitemapindex>';
   return sitemapIndexString;
@@ -260,9 +260,9 @@ const getSingleSitemap = async (sitemapNumber) => {
   let sitemapString = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">';
   const activities = await getAllActivities();
   sitemapString += activities
-    .slice(sitemapNumber * sitemapLimit, sitemapLimit)
+    .slice(sitemapNumber * sitemapLimit, (sitemapNumber + 1 ) * sitemapLimit)
     .map((d) => {
-      '<url><loc>' + siteUrl + '/activity/' + encodeURI(d) + '</loc></url>'
+      return '<url><loc>' + siteUrl + 'activity/' + encodeURI(d) + '</loc></url>'
     }).join('');
   sitemapString += '</urlset>';
   return sitemapString;
