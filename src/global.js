@@ -1,16 +1,15 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
 import axios from 'axios';
-import { createWriteStream } from 'fs';
-import { resolve } from 'path';
-import { SitemapAndIndexStream, SitemapStream, streamToPromise } from 'sitemap';
-import { Readable } from 'stream';
+import { SitemapIndexStream, SitemapStream, streamToPromise } from 'sitemap';
 
 const axiosConfig = {
   headers: {
     'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
   }
 }
+
+const siteUrl = "https://dev-ds-search.iatistandard.org/";
 
 const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q="
@@ -230,35 +229,44 @@ const paginationUpdate = (page) => {
   state.page = page;
 }
 
+const getAllActivities = async () => {
+  return await axios.get(baseUrlSitemap, axiosConfig).then((result) => {
+    return result
+    .data
+    .facet_counts
+    .facet_fields
+    .iati_identifier
+    .filter((d, i) => i % 2 === 0)
+  });
+};
 
-const sms = new SitemapAndIndexStream({
-  limit: 50000,
-  getSitemapStream: (i) => {
-    const sitemapStream = new SitemapStream({ hostname: 'https://dev-ds-search.iatistandard.org/' });
-    const path = `sitemap-${i}.xml`;
+const sitemapLimit = 50000;
 
-    const ws = sitemapStream
-      .pipe(createWriteStream(resolve('../public/' + path)));
+const getSitemapIndex = async () => {
+  const smis = new SitemapIndexStream();
+  const activities = await getAllActivities();
+  const activityCount = activities.length;
+  const sitemapExtent = Math.ceil(activityCount / sitemapLimit);
+  Array
+    .from(Array(sitemapExtent)
+    .keys())
+    .map((i) => { return siteUrl + 'sitemap-' + i + '.xml' })
+    .forEach((d) => { smis.write(d) });
+  smis.end();
+  return await streamToPromise(smis)
+    .then((sm) => {return sm.toString()});
+};
 
-    return [new URL(path, 'https://dev-ds-search.iatistandard.org/').toString(), sitemapStream, ws];
-  },
-});
-
-const createSitemaps = async () => {
-  await axios.get(baseUrlSitemap, axiosConfig).then((result) => {
-    const readableStream = Readable.from(
-      result
-      .data
-      .facet_counts
-      .facet_fields
-      .iati_identifier
-      .filter((d, i) => i % 2 === 0)
-      .map((d) => "/activity/" + d)
-    );
-    readableStream
-      .pipe(sms)
-      .pipe(createWriteStream(resolve('../public/sitemap-index.xml')));
-  })
+const getSingleSitemap = async (sitemapNumber) => {
+  const sms = new SitemapStream({ hostname: siteUrl, limit: sitemapLimit });
+  const activities = await getAllActivities();
+  const activitySlice = activities
+    .slice(sitemapNumber * sitemapLimit, sitemapLimit)
+    .map((d) => "/activity/" + d)
+    .forEach((d) => { sms.write(d) });
+  sms.end();
+  return await streamToPromise(sms)
+    .then((sm) => {return sm.toString()});
 }
 
 // Helper functions, not exported:
@@ -329,5 +337,6 @@ export default { state: readonly(state),
   downloadFile,
   toggleModal,
   paginationUpdate,
-  createSitemaps
+  getSitemapIndex,
+  getSingleSitemap
   };
