@@ -1,6 +1,10 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
 import axios from 'axios';
+import { createWriteStream } from 'fs';
+import { resolve } from 'path';
+import { SitemapAndIndexStream, SitemapStream, streamToPromise } from 'sitemap';
+import { Readable } from 'stream';
 
 const axiosConfig = {
   headers: {
@@ -12,6 +16,7 @@ const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&so
 const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q="
 const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
+const baseUrlSitemap = "https://dev-api.iatistandard.org/dss/activity/select?q=*:*&facet=true&facet.field=iati_identifier&facet.sort=index&facet.limit=-1";
 
 const state = reactive({
   nextFilterId: 0,
@@ -225,6 +230,37 @@ const paginationUpdate = (page) => {
   state.page = page;
 }
 
+
+const sms = new SitemapAndIndexStream({
+  limit: 50000,
+  getSitemapStream: (i) => {
+    const sitemapStream = new SitemapStream({ hostname: 'https://dev-ds-search.iatistandard.org/' });
+    const path = `sitemap-${i}.xml`;
+
+    const ws = sitemapStream
+      .pipe(createWriteStream(resolve('../public/' + path)));
+
+    return [new URL(path, 'https://dev-ds-search.iatistandard.org/').toString(), sitemapStream, ws];
+  },
+});
+
+const createSitemaps = async () => {
+  await axios.get(baseUrlSitemap, axiosConfig).then((result) => {
+    const readableStream = Readable.from(
+      result
+      .data
+      .facet_counts
+      .facet_fields
+      .iati_identifier
+      .filter((d, i) => i % 2 === 0)
+      .map((d) => "/activity/" + d)
+    );
+    readableStream
+      .pipe(sms)
+      .pipe(createWriteStream(resolve('../public/sitemap-index.xml')));
+  })
+}
+
 // Helper functions, not exported:
 const compileQuery = () => {
   let query = '';  
@@ -292,5 +328,6 @@ export default { state: readonly(state),
   isFileLoading,
   downloadFile,
   toggleModal,
-  paginationUpdate
+  paginationUpdate,
+  createSitemaps
   };
