@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    {{ xml }}
+    <a :href="xml" ref="download" download="sitemap.xml">Sitemap</a>
 </template>
 <script>
 import global from '../global.js';
@@ -20,12 +20,15 @@ export default {
             const route = useRoute();
             const index = parseInt(route.params.index);
             global.getSingleSitemap(index).then((sitemapString) => {
-                this.xml = sitemapString;
+                this.xml = "data:application/xml;charset=utf-8," + escape(sitemapString);
             })
         }
     },  
     created() {
         this.requestData();
     },
+    updated() {
+        this.$refs.download.click();
+    }
 }
 </script>
