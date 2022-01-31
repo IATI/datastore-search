@@ -180,8 +180,6 @@ const statusRequest = async (url) => {
   if (statusResp.status === 200) {
     return statusResp.data.output
   } else if (statusResp.status === 202) {
-    // const retryMs = Number(statusResp.headers['retry-after']) * 1000
-    // console.log(statusResp.headers)
     await sleep(5000)
     return await statusRequest(url)
 
