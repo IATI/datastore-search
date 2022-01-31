@@ -8,13 +8,10 @@ const axiosConfig = {
   }
 }
 
-const siteUrl = "https://dev-ds-search.iatistandard.org/";
-
 const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q="
 const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
-const baseUrlSitemap = "https://dev-api.iatistandard.org/dss/activity/select?q=*:*&facet=true&facet.field=iati_identifier&facet.sort=index&facet.limit=-1";
 
 const state = reactive({
   nextFilterId: 0,
@@ -226,46 +223,6 @@ const paginationUpdate = (page) => {
   state.page = page;
 }
 
-const getAllActivities = async () => {
-  return await axios.get(baseUrlSitemap, axiosConfig).then((result) => {
-    return result
-    .data
-    .facet_counts
-    .facet_fields
-    .iati_identifier
-    .filter((d, i) => i % 2 === 0)
-  });
-};
-
-const sitemapLimit = 50000;
-
-const getSitemapIndex = async () => {
-  let sitemapIndexString = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-  const activities = await getAllActivities();
-  const activityCount = activities.length;
-  const sitemapExtent = Math.ceil(activityCount / sitemapLimit);
-  sitemapIndexString += Array
-    .from(Array(sitemapExtent)
-    .keys())
-    .map((i) => {
-      return '<sitemap><loc>' + siteUrl + 'sitemap-xml-' + i + '</loc></sitemap>'
-    }).join('');
-  sitemapIndexString += '</sitemapindex>';
-  return sitemapIndexString;
-};
-
-const getSingleSitemap = async (sitemapNumber) => {
-  let sitemapString = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">';
-  const activities = await getAllActivities();
-  sitemapString += activities
-    .slice(sitemapNumber * sitemapLimit, (sitemapNumber + 1 ) * sitemapLimit)
-    .map((d) => {
-      return '<url><loc>' + siteUrl + 'activity/' + encodeURI(d) + '</loc></url>'
-    }).join('');
-  sitemapString += '</urlset>';
-  return sitemapString;
-}
-
 // Helper functions, not exported:
 const compileQuery = () => {
   let query = '';  
@@ -333,7 +290,5 @@ export default { state: readonly(state),
   isFileLoading,
   downloadFile,
   toggleModal,
-  paginationUpdate,
-  getSitemapIndex,
-  getSingleSitemap
+  paginationUpdate
   };
