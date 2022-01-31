@@ -3,12 +3,15 @@ import Landing from "../views/Landing.vue";
 import Simple from "../views/Simple.vue";
 import Advanced from "../views/Advanced.vue";
 import Activity from "../views/Activity.vue";
+import SitemapIndex from "../views/SitemapIndex.vue";
+import SitemapSingle from "../views/SitemapSingle.vue";
+
 
 const routes = [
   {
     path: "/",
     name: "landing",
-    component: Landing,
+    component: Landing
   },
   {
     path: "/simple",
@@ -25,6 +28,16 @@ const routes = [
     name: "activity",
     component: Activity,
   },
+  {
+    path: "/sitemap-xml-index",
+    name: "sitemapIndex",
+    component: SitemapIndex,
+  },
+  {
+    path: "/sitemap-xml-:index",
+    name: "sitemapSingle",
+    component: SitemapSingle,
+  }
 ];
 
 const router = createRouter({
