@@ -21,7 +21,7 @@
           </li>
         </ul>
     </div>
-    <div class="border-solid border-t border-b flex">
+    <div class="border-solid border-t p-2 flex">
     <v-pagination
           class="flex flex-auto justify-center"
           v-model="page"
