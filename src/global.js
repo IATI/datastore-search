@@ -38,6 +38,12 @@ const state = reactive({
     fileLoading: false,
     showModal: false,
     selectedFormat: null
+  },
+  export: {
+    showModal: false,
+    fileName: null,
+    fileLoading: false,
+    errors: []
   }
 });
 
@@ -55,12 +61,30 @@ const removeFilter = (id) => {
   });
 }
 
+export const toggleExportModal = () => {
+  state.export.errors = [];
+  state.export.showModal = !state.export.showModal
+}
+
 const importFilters = () => {
   alert('Yet to be implemented');
 }
 
-const exportFilters = () => {
-  alert('Yet to be implemented');
+export const exportFilters = (name) => {
+  state.export.errors = [];
+  if (name === null || name === '') {
+    state.export.errors.push('File name is required')
+  } else {
+    state.export.fileLoading = true
+    const blob = new Blob([JSON.stringify(state.filters)], { type: 'application/json' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = name + `.json`
+    link.click()
+    URL.revokeObjectURL(link.href)
+    state.export.fileLoading = false
+    state.export.showModal = false
+  }
 }
 
 const run = async (start = 0, rows = 10) => {
@@ -169,7 +193,7 @@ const isFileLoading = () => {
   return state.download.fileLoading
 }
 
-const toggleModal = (format) => {
+const toggleDownloadModal = (format) => {
   state.download.showModal = !state.download.showModal
   if (format !== null) {
     state.download.selectedFormat = format
@@ -213,7 +237,7 @@ const downloadFile = async (format, iid=null) => {
     const response = await statusRequest(startDownloadRes.data.statusQueryGetUri)
     await downloadItem({ url: response.url, label: response.fileName})
     state.download.fileLoading = false
-    toggleModal(null)
+    toggleDownloadModal(null)
   } catch (error) {
     console.error(error)
     alert(`Download Failed: ${error.message}`)
@@ -304,6 +328,7 @@ export default { state: readonly(state),
   runSimple,
   isFileLoading,
   downloadFile,
-  toggleModal,
+  toggleDownloadModal,
+  toggleExportModal,
   paginationUpdate
   };
