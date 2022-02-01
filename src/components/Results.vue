@@ -16,7 +16,7 @@
     
     <div class="flex-grow"><router-view />
           <ul id="results" class="mx-5 my-5">
-          <li v-for="doc in global.state.responseDocs" :key="doc.iati_identifier">
+          <li v-for="doc in global.state.responseDocs" :key="doc.id">
             <Result :doc="doc" />
           </li>
         </ul>

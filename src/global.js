@@ -8,8 +8,8 @@ const axiosConfig = {
   }
 }
 
-const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
-const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
 
@@ -63,9 +63,12 @@ const exportFilters = () => {
   alert('Yet to be implemented');
 }
 
-const run = async () => {
-  await compileQuery();
-  let url = baseUrl + state.query;
+const run = async (start = 0, rows = 10) => {
+  await compileQuery(); 
+  let url = new URL(baseUrl);
+  url.searchParams.set('q',  state.query)
+  url.searchParams.set('start', start);
+  url.searchParams.set('rows', rows);
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = false;
   setResponseState(result);  
@@ -228,7 +231,11 @@ const downloadItem = async ({ url, label }) => {
 
 const paginationUpdate = async (page) => {
   state.page = page
-  await runSimple(state.simpleSearchTerm, (page - 1) * state.resultsPerPage, state.resultsPerPage)
+  if (state.simpleSearch) {
+    await runSimple(state.simpleSearchTerm, (page - 1) * state.resultsPerPage, state.resultsPerPage)
+  } else {
+    await run((page - 1) * state.resultsPerPage, state.resultsPerPage)
+  }
 }
 
 // Helper functions, not exported:
