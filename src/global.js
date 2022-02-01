@@ -38,6 +38,19 @@ const state = reactive({
     fileLoading: false,
     showModal: false,
     selectedFormat: null
+  },
+  export: {
+    showModal: false,
+    fileName: null,
+    fileLoading: false,
+    errors: []
+  },
+  import: {
+    disabled: true,
+    showModal: false,
+    fileLoading: false,
+    errors: [],
+    file: null
   }
 });
 
@@ -55,12 +68,55 @@ const removeFilter = (id) => {
   });
 }
 
-const importFilters = () => {
-  alert('Yet to be implemented');
+export const toggleExportModal = () => {
+  state.export.errors = [];
+  state.export.showModal = !state.export.showModal
 }
 
-const exportFilters = () => {
-  alert('Yet to be implemented');
+export const toggleImportModal = () => {
+  state.import.errors = [];
+  state.import.showModal = !state.import.showModal
+}
+
+const importFilters = () => {
+  state.import.fileLoading = true
+  state.filters = [...state.import.file]
+  state.import.fileLoading = true
+  state.import.disabled = true
+  toggleImportModal()
+}
+
+const stageFilter = (event) => {  
+  // TODO - add validation here 
+	state.import.file = JSON.parse(event.target.result);
+  state.import.disabled = false;
+}
+
+export const onFilePicked = (event) => {
+  const files = event.target.files
+  const reader = new FileReader()
+  // Setup the callback event to run when the file is read
+	reader.onload = stageFilter;
+
+	// Read the file
+	reader.readAsText(files[0]);
+}
+
+export const exportFilters = (name) => {
+  state.export.errors = [];
+  if (name === null || name === '') {
+    state.export.errors.push('File name is required')
+  } else {
+    state.export.fileLoading = true
+    const blob = new Blob([JSON.stringify(state.filters)], { type: 'application/json' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = name + `.json`
+    link.click()
+    URL.revokeObjectURL(link.href)
+    state.export.fileLoading = false
+    state.export.showModal = false
+  }
 }
 
 const run = async (start = 0, rows = 10) => {
@@ -169,7 +225,7 @@ const isFileLoading = () => {
   return state.download.fileLoading
 }
 
-const toggleModal = (format) => {
+const toggleDownloadModal = (format) => {
   state.download.showModal = !state.download.showModal
   if (format !== null) {
     state.download.selectedFormat = format
@@ -213,7 +269,7 @@ const downloadFile = async (format, iid=null) => {
     const response = await statusRequest(startDownloadRes.data.statusQueryGetUri)
     await downloadItem({ url: response.url, label: response.fileName})
     state.download.fileLoading = false
-    toggleModal(null)
+    toggleDownloadModal(null)
   } catch (error) {
     console.error(error)
     alert(`Download Failed: ${error.message}`)
@@ -304,6 +360,9 @@ export default { state: readonly(state),
   runSimple,
   isFileLoading,
   downloadFile,
-  toggleModal,
-  paginationUpdate
+  toggleDownloadModal,
+  toggleExportModal,
+  toggleImportModal,
+  paginationUpdate,
+  onFilePicked
   };
