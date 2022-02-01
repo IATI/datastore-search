@@ -44,6 +44,13 @@ const state = reactive({
     fileName: null,
     fileLoading: false,
     errors: []
+  },
+  import: {
+    disabled: true,
+    showModal: false,
+    fileLoading: false,
+    errors: [],
+    file: null
   }
 });
 
@@ -66,8 +73,33 @@ export const toggleExportModal = () => {
   state.export.showModal = !state.export.showModal
 }
 
+export const toggleImportModal = () => {
+  state.import.errors = [];
+  state.import.showModal = !state.import.showModal
+}
+
 const importFilters = () => {
-  alert('Yet to be implemented');
+  state.import.fileLoading = true
+  state.filters = [...state.import.file]
+  state.import.fileLoading = true
+  state.import.disabled = true
+  toggleImportModal()
+}
+
+const stageFilter = (event) => {  
+  // TODO - add validation here 
+	state.import.file = JSON.parse(event.target.result);
+  state.import.disabled = false;
+}
+
+export const onFilePicked = (event) => {
+  const files = event.target.files
+  const reader = new FileReader()
+  // Setup the callback event to run when the file is read
+	reader.onload = stageFilter;
+
+	// Read the file
+	reader.readAsText(files[0]);
 }
 
 export const exportFilters = (name) => {
@@ -330,5 +362,7 @@ export default { state: readonly(state),
   downloadFile,
   toggleDownloadModal,
   toggleExportModal,
-  paginationUpdate
+  toggleImportModal,
+  paginationUpdate,
+  onFilePicked
   };
