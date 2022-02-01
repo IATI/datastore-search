@@ -38,7 +38,8 @@ const state = reactive({
     fileLoading: false,
     showModal: false,
     selectedFormat: null
-  }
+  },
+  validationErrors: []
 });
 
 //API implementation, and then exported:
@@ -63,15 +64,27 @@ const exportFilters = () => {
   alert('Yet to be implemented');
 }
 
+const validateFilters = () => {
+  state.validationErrors = [];
+  state.filters.forEach(({value, field}) => {
+    if (value === null || value === '') {
+      state.validationErrors.push(`${field} text is required`)
+    }
+  })
+  return state.validationErrors.length === 0
+}
+
 const run = async (start = 0, rows = 10) => {
-  await compileQuery(); 
-  let url = new URL(baseUrl);
-  url.searchParams.set('q',  state.query)
-  url.searchParams.set('start', start);
-  url.searchParams.set('rows', rows);
-  let result = await axios.get(url, axiosConfig);
-  state.simpleSearch = false;
-  setResponseState(result);  
+  if (validateFilters()) {
+    await compileQuery(); 
+    let url = new URL(baseUrl);
+    url.searchParams.set('q',  state.query)
+    url.searchParams.set('start', start);
+    url.searchParams.set('rows', rows);
+    let result = await axios.get(url, axiosConfig);
+    state.simpleSearch = false;
+    setResponseState(result);  
+  };
 }
 
 const runSimple = async (searchterm, start = 0, rows = 10) => {
