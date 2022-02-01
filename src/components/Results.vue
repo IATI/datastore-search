@@ -26,9 +26,9 @@
 
   <div><v-pagination
         class="content-center w-auto"
-        v-model="global.state.page"
-        :pages="20"
-        :range-size="4"
+        v-model="page"
+        :pages="global.state.numberPages"
+        :range-size="global.state.resultsPerPage"
         active-color="#81c3d6"
         @update:modelValue="global.paginationUpdate"
       />
@@ -89,5 +89,8 @@ export default {
       Result,
       VPagination,
   },
+  data() {
+      return {page: 1} 
+    }
 }
 </script>
