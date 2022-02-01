@@ -8,8 +8,8 @@ const axiosConfig = {
   }
 }
 
-const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
-const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q="
+const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
 
@@ -28,8 +28,10 @@ const state = reactive({
   responseTotal: null, //Total number of docs in response
   responseStart: null, //The start offset of the response, which should be in multiples of resultsPerPage
   resultsPerPage: 10, //results shown per page of UI
-  page: null,
+  numberPages: null, // Total number of pages responseTotal/resultsPerPage
+  page: 1,
   simpleSearch: null,
+  simpleSearchTerm: null,
   activity: null,
   download: {
     formats: ['XML', 'JSON', 'CSV'],
@@ -61,16 +63,23 @@ const exportFilters = () => {
   alert('Yet to be implemented');
 }
 
-const run = async () => {
-  await compileQuery();
-  let url = baseUrl + state.query;
+const run = async (start = 0, rows = 10) => {
+  await compileQuery(); 
+  let url = new URL(baseUrl);
+  url.searchParams.set('q',  state.query)
+  url.searchParams.set('start', start);
+  url.searchParams.set('rows', rows);
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = false;
   setResponseState(result);  
 }
 
-const runSimple = async (searchterm) => {
-  let url = baseUrlSimple + searchterm;
+const runSimple = async (searchterm, start = 0, rows = 10) => {
+  state.simpleSearchTerm = searchterm;
+  let url = new URL(baseUrlSimple);
+  url.searchParams.set('q', searchterm);
+  url.searchParams.set('start', start);
+  url.searchParams.set('rows', rows);
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = true;
   state.query = searchterm;
@@ -100,6 +109,7 @@ const setResponseState = (result) => {
 
   state.responseTotal = result.data.response.numFound;
   state.responseStart = result.data.response.start;
+  state.numberPages = Math.ceil(state.responseTotal / state.resultsPerPage)
 }
 
 const changeFilter = (id, key, value) => {
@@ -219,8 +229,13 @@ const downloadItem = async ({ url, label }) => {
   URL.revokeObjectURL(link.href);
 }
 
-const paginationUpdate = (page) => {
-  state.page = page;
+const paginationUpdate = async (page) => {
+  state.page = page
+  if (state.simpleSearch) {
+    await runSimple(state.simpleSearchTerm, (page - 1) * state.resultsPerPage, state.resultsPerPage)
+  } else {
+    await run((page - 1) * state.resultsPerPage, state.resultsPerPage)
+  }
 }
 
 // Helper functions, not exported:
