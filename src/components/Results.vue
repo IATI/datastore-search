@@ -21,20 +21,16 @@
           </li>
         </ul>
     </div>
-    
-    <div class="border-solid border-t grid grid-cols-3 gap-4 content-between">
-
-  <div><v-pagination
-        class="content-center w-auto"
-        v-model="page"
-        :pages="global.state.numberPages"
-        :range-size="global.state.resultsPerPage"
-        active-color="#81c3d6"
-        @update:modelValue="global.paginationUpdate"
-      />
-    </div></div>
-  <div></div>
-      
+    <div class="border-solid border-t border-b flex">
+    <v-pagination
+          class="flex flex-auto justify-center"
+          v-model="page"
+          :pages="global.state.numberPages"
+          :range-size="global.state.resultsPerPage"
+          active-color="#81c3d6"
+          @update:modelValue="global.paginationUpdate"
+        />
+    </div>        
   </div>
 </template>
 
