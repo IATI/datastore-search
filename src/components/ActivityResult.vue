@@ -64,8 +64,12 @@ export default {
         const id = encodeURIComponent(route.params.iati_identifier);
         const baseUrl = 'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&q='
         
-        axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then((response) => {
-          this.activity = response.data.response.docs[0];        
+        axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then(({data}) => {
+          if (data.response.numFound === 0) {
+            this.$router.push({ name: 'NotFound'})
+          } else {
+            this.activity = data.response.docs[0];        
+          }
         })           
       }
   },  
