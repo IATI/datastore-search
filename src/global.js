@@ -42,7 +42,6 @@ const state = reactive({
   export: {
     showModal: false,
     fileLoading: false,
-    errors: []
   },
   import: {
     disabled: true,
@@ -101,23 +100,17 @@ export const onFilePicked = (event) => {
 	reader.readAsText(files[0]);
 }
 
-export const exportFilters = (name) => {
-  console.log(name)
-  state.export.errors = [];
-  if (name === null || name === '') {
-    console.log('File name is required')
-    state.export.errors.push('File name is required')
-  } else {
-    state.export.fileLoading = true
-    const blob = new Blob([JSON.stringify(state.filters)], { type: 'application/json' })
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(blob)
-    link.download = name + `.json`
-    link.click()
-    URL.revokeObjectURL(link.href)
-    state.export.fileLoading = false
-    state.export.showModal = false
-  }
+export const exportFilters = () => {
+  const date = new Date()
+  state.export.fileLoading = true
+  const blob = new Blob([JSON.stringify(state.filters)], { type: 'application/json' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = `IATI_Datastore_Search_Filters_${date.toISOString()}.json`
+  link.click()
+  URL.revokeObjectURL(link.href)
+  state.export.fileLoading = false
+  state.export.showModal = false
 }
 
 const run = async (start = 0, rows = 10) => {
