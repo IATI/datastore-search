@@ -16,13 +16,7 @@ const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
 const state = reactive({
   nextFilterId: 0,
   filters: [],
-  fieldOptions: [
-  {'field': 'description_narrative', 'label':'Description Narrative', 'type':'text', 'desc':'A natural language description.'},
-  {'field': 'reporting_org', 'label':'Reporting Org', 'type':'select', 'desc':'The organisation that reported the Activity.', 'options':
-    [{'value':'org_1', label:'Org One'},
-    {'value':'org_2', label:'Org Two'},
-    {'value':'org_3', label:'Org Three'}]},
-  {'field': 'activity_date', 'label':'Activity Date', 'type':'date', 'desc':'The date of the activity'}],
+  fieldOptions: null,
   query: null, //A Solr query string compiled from the filters
   responseDocs: null, //The array of Solr docs received from the DS API after making query,
   responseTotal: null, //Total number of docs in response
@@ -52,8 +46,35 @@ const state = reactive({
   }
 });
 
+const populateOptions = async () => {
+  const filtersUrl = 'https://raw.githubusercontent.com/IATI/dss-filters/develop/filters.json'
+  const codelistsUrl = 'https://raw.githubusercontent.com/IATI/dss-filters/develop/codelists.json';
+  
+  let filterOptions = null;
+  
+  let response = await axios.get(filtersUrl);
+  
+  filterOptions = response.data;
+  
+  response = await axios.get(codelistsUrl);
+  
+  const codelists = response.data;
+
+  for (const index in filterOptions) {
+    if (filterOptions[index].type === "select") {
+      filterOptions[index]['options'] = codelists[filterOptions[index].codelist_name].data;
+    }
+  }
+
+  state.fieldOptions = filterOptions;          
+}
+
 //API implementation, and then exported:
-const addFilter = () => {
+const addFilter = async () => {
+  if (state.fieldOptions === null) {
+    await populateOptions();
+  }
+
   const filterId = 'filter-' + state.nextFilterId
   state.filters.push({id: filterId, type: null, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
   state.nextFilterId = state.nextFilterId + 1;
@@ -170,14 +191,18 @@ const changeFilter = (id, key, value) => {
       if (key === 'field') {
         for (let n=0; n<state.fieldOptions.length; n++) {
           if (state.fieldOptions[n].label === value) {
+            state.filters[i]['selectedOption'] = state.fieldOptions[n];
+
             state.filters[i][key] = state.fieldOptions[n].field;
-            state.filters[i]['desc'] = state.fieldOptions[n].desc;
+            state.filters[i]['desc'] = state.fieldOptions[n].description;
             state.filters[i]['type'] = state.fieldOptions[n].type;
 
             if (state.fieldOptions[n].type === 'date') {
               state.filters[i]['value'] = new Date();
             }
-          }
+
+            return;
+          }          
         }
       }
     }
@@ -201,10 +226,14 @@ const isFilterFirstInChain = (id) => {
     }
 }
 
-const fieldType = (value) => {
+const isFieldType = (value, ft) => {
   for (let i=0; i<state.fieldOptions.length; i++) {
     if (state.fieldOptions[i].field === value) {
-      return state.fieldOptions[i].type
+      if (state.fieldOptions[i].type === ft) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 }
@@ -314,7 +343,7 @@ const compileQuery = () => {
           query = query + filter['field'] + ':' + value
         break;
         case 'lessThan':
-          query = query + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + value
+          query = query + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + value + ']'
         break;
         case 'greaterThan':
           query = query + filter['field'] + ':[' + value + ' TO NOW]'
@@ -345,7 +374,7 @@ export default { state: readonly(state),
   removeFilter,
   changeFilter,
   loadActivity,
-  fieldType,
+  isFieldType,
   isFieldOptionSelected,
   isFilterFirstInChain,
   importFilters,
