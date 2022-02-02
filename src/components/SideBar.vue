@@ -39,9 +39,10 @@
                 <div class="mt-1">
                     <p class="mb-4 mt-2 text-md">Export currently selected filters?</p>
                     <div class="flex justify-between items-center">
-                        <label for="filename" class="">File name:</label>
-                        <input id="filename" class="border rounded py-2 px-3 m-2 mb-4 text-gray-700 focus:outline-none focus:shadow-outline" type="text" v-model="filename" placeholder="myfilters">
+                        <label for="filename-in" class="px-2">File Name</label>
+                        <input id="filename-in" class="border rounded py-2 px-3 m-2 mb-4 text-gray-700 focus:outline-none focus:shadow-outline" type="text" v-model="fileName" placeholder="myfilters">
                     </div>
+                        <p>{{ fileName }}.json</p>
                         <p class="text-sm text-red-800 mb-4" v-if="global.state.export.errors.length">
                           <ul>
                             <li v-for="error in global.state.export.errors" :key="error">{{ error }}</li>
@@ -49,9 +50,9 @@
                         </p>
                     <div class="flex justify-between">
                         <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700 rounded" v-on:click="global.toggleExportModal()">Cancel</button>
-                        <button class="px-4 py-2 text-white bg-iati-blue hover:bg-iati-grey rounded flex justify-between" v-on:click="global.exportFilters(filename)">
+                        <button class="px-4 py-2 text-white bg-yellow-500 hover:bg-yellow-700 rounded flex justify-between" v-on:click="global.exportFilters(fileName)">
                             <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1"/>  
-                            <span v-if="!global.state.export.fileLoading">Download</span>
+                            <span v-if="!global.state.export.fileLoading">Export</span>
                             <div v-if="global.state.export.fileLoading" style="border-top-color:transparent"
                                 class="w-6 h-6 p-2 border-4 border-white border-dotted rounded-full animate-spin">
                             </div>
@@ -102,7 +103,7 @@
     },
     data() {
     return {
-      filename: null
+      fileName: ''
     }
   }
   }

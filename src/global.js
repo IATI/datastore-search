@@ -41,7 +41,6 @@ const state = reactive({
   },
   export: {
     showModal: false,
-    fileName: null,
     fileLoading: false,
     errors: []
   },
@@ -103,8 +102,10 @@ export const onFilePicked = (event) => {
 }
 
 export const exportFilters = (name) => {
+  console.log(name)
   state.export.errors = [];
   if (name === null || name === '') {
+    console.log('File name is required')
     state.export.errors.push('File name is required')
   } else {
     state.export.fileLoading = true
