@@ -8,20 +8,20 @@ import { ArrowDownIcon } from "@heroicons/vue/solid";
     class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
   >
     <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
-      <div class="flex items-center justify-between">
         <h3 class="text-2xl">Export Filters</h3>
-      </div>
+
       <div class="mt-1">
-        <p class="mb-4 mt-2 text-md">Export currently selected filters?</p>
+        <p class="mb-4 mt-2 text-left text-md">Export currently selected filters to file?</p>
+        <p class="mb-4 mt-2 text-left text-sm">This will allow you to import them later to run the same query or share with someone else.</p>
         <div class="flex justify-between">
           <button
-            class="px-4 py-2 text-white bg-red-500 hover:bg-red-700 rounded"
+            class="px-4 py-2 text-white font-bold bg-red-500 hover:bg-red-700 rounded"
             v-on:click="global.toggleExportModal()"
           >
             Cancel
           </button>
           <button
-            class="px-4 py-2 text-white bg-yellow-500 hover:bg-yellow-700 rounded flex justify-between"
+            class="px-4 py-2 text-white font-bold bg-yellow-500 hover:bg-yellow-700 rounded flex justify-between"
             v-on:click="global.exportFilters()"
           >
             <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1" />
