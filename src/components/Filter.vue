@@ -41,15 +41,15 @@
       <div class="col-span-3">
         <select @change="global.changeFilter(filter.id, 'field', $event.target.value);" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
           <option disabled value="" selected>Select field</option>
-          <option :selected="global.isFieldOptionSelected(filter.id, filterOption.label)" v-for="filterOption in global.state.fieldOptions" :key="filterOption.field">{{ filterOption.label }}</option>
+          <option :selected="global.isFieldOptionSelected(filter.id, filterOption.field)" v-for="filterOption in global.state.fieldOptions" :key="filterOption.field">{{ filterOption.label }}</option>
         </select>
       </div>
 
       <div class="col-span-3">
         <!-- Text inputs -->
-        <input class="h-10 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.fieldType(filter.field) === 'text'" placeholder="Solr search term" v-on:change="global.changeFilter(filter.id, 'value', $event.target.value)">
+        <input class="h-10 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'text')" placeholder="Solr search term" v-on:change="global.changeFilter(filter.id, 'value', $event.target.value)">
         <!-- Select inputs -->
-        <div class="grid grid-cols-8 gap-2" v-if="global.fieldType(filter.field) === 'select'">
+        <div class="grid grid-cols-8 gap-2" v-if="global.isFieldType(filter.field, 'select')">
           <div class="col-span-3">
             <div class="flex items-center justify-center">
               <div class="inline-flex" role="toolbar">
@@ -73,16 +73,14 @@
             </div>
           </div>
           <div class="col-span-5">
-            <select class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.fieldType(filter.field) === 'select'" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
-              <option>Fake One</option>
-              <option>Fake Two</option>
-              <option>Fake Three</option>
+            <select class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'select')" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
+                <option v-for="valueOption in filter.selectedOption.options" :key="valueOption.code">{{ valueOption.code }}</option>
             </select>
           </div>
         </div>
 
         <!-- Date inputs -->
-        <div class="grid grid-cols-8 gap-2" v-if="global.fieldType(filter.field) === 'date'">
+        <div class="grid grid-cols-8 gap-2" v-if="global.isFieldType(filter.field, 'date')">
           <div class="col-span-3">
             <div class="flex items-center justify-center">
               <div class="inline-flex" role="toolbar">
