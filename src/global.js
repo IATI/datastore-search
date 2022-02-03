@@ -134,15 +134,30 @@ export const exportFilters = () => {
   state.export.showModal = false
 }
 
+const validateFilters = () => {
+  let count = 0;
+  state.filters = state.filters.map((filter) => {
+    // require input value
+    if (filter.value === null || filter.value === '') {
+      count += 1;
+      return {...filter, valid: false, validationMessage: "Search term is required"}
+    }
+    return {...filter}
+  })
+  return count === 0
+}
+
 const run = async (start = 0, rows = 10) => {
-  await compileQuery(); 
-  let url = new URL(baseUrl);
-  url.searchParams.set('q',  state.query)
-  url.searchParams.set('start', start);
-  url.searchParams.set('rows', rows);
-  let result = await axios.get(url, axiosConfig);
-  state.simpleSearch = false;
-  setResponseState(result);  
+  if (validateFilters()) {
+    await compileQuery(); 
+    let url = new URL(baseUrl);
+    url.searchParams.set('q',  state.query)
+    url.searchParams.set('start', start);
+    url.searchParams.set('rows', rows);
+    let result = await axios.get(url, axiosConfig);
+    state.simpleSearch = false;
+    setResponseState(result);  
+  }
 }
 
 const runSimple = async (searchterm, start = 0, rows = 10) => {
@@ -187,6 +202,11 @@ const changeFilter = (id, key, value) => {
   for (let i=0; i<state.filters.length; i++) {
     if (state.filters[i].id === id) {
       state.filters[i][key] = value;
+      // clear validation if value is present
+      if (key === 'value' && value !== '') {
+        delete state.filters[i].valid
+        delete state.filters[i].validationMessage
+      }
 
       if (key === 'field') {
         for (let n=0; n<state.fieldOptions.length; n++) {
