@@ -73,7 +73,7 @@
           </div>
           <div class="col-span-5">
             <select class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'select')" :value="filter.value" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
-                <option v-for="valueOption in filter.selectedOption.options" :key="valueOption.code">{{ valueOption.code }}</option>
+                <option v-for="(valueOption, index) in filter.selectedOption.options" :key="valueOption.code" :selected="global.selectOptionIfNew(filter.id, index, valueOption.code, filter.selectedOption.options)">{{ valueOption.code }}</option>
             </select>
           </div>
         </div>
