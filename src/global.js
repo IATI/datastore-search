@@ -360,7 +360,8 @@ const compileQuery = () => {
 
       switch(filter['operator']) {
         case 'equals':
-          query = query + filter['field'] + ':' + value
+          // needs to be encasulated in "" for equals
+          query = query  + filter['field'] + ':"' + value + `"`
         break;
         case 'lessThan':
           query = query + filter['field'] + ':[1970-01-01T00:00:00Z TO ' + value + ']'
