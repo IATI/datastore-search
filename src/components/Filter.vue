@@ -47,7 +47,8 @@
 
       <div class="col-span-3">
         <!-- Text inputs -->
-        <input class="h-10 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'text')" placeholder="Solr search term" v-on:change="global.changeFilter(filter.id, 'value', $event.target.value)">
+        <input :class="{ 'border-red-400': filter.valid === false }" class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'text')" placeholder="Search term" v-on:input="global.changeFilter(filter.id, 'value', $event.target.value)">
+        <p v-if="filter.valid === false" class="text-sm text-red-600">{{ filter.validationMessage }}</p>
         <!-- Select inputs -->
         <div class="grid grid-cols-8 gap-2" v-if="global.isFieldType(filter.field, 'select')">
           <div class="col-span-3">
