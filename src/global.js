@@ -98,7 +98,7 @@ const importFilters = async () => {
   state.import.fileLoading = true
   await populateOptions()
   state.filters = [...state.import.file]
-  state.import.fileLoading = true
+  state.import.fileLoading = false
   state.import.disabled = true
   toggleImportModal()
 }
