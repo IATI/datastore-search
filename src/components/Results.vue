@@ -9,17 +9,18 @@
 
 <template>
   <div class="flex flex-col h-full">
-    <div v-if="global.state.responseDocs && $route.matched[0].path === '/advanced'" class="grid grid-cols-2 gap-4 text-left py-3 border">
+    <div v-if="global.state.responseTotal > 0 && $route.matched[0].path === '/advanced'" class="grid grid-cols-2 gap-4 text-left py-3 border">
         <div class="col-span-1"></div>
-        <div class="col-span-1"><div class="float-left mr-3 mt-1">Download all Activities in search result by</div><DownloadButtons v-if="global.state.responseDocs" :iati_identifier="null" /></div>
+        <div class="col-span-1"><div class="float-left mr-3 mt-1">Found {{ global.state.responseTotal }} matching IATI Activities</div><DownloadButtons v-if="global.state.responseDocs" :iati_identifier="null" /></div>
     </div>
     
     <div class="flex-grow"><router-view />
-          <ul id="results" class="mx-5 my-5">
+          <ul v-if="global.state.responseTotal > 0" id="results" class="mx-5 my-5">
           <li v-for="doc in global.state.responseDocs" :key="doc.id">
             <Result :doc="doc" />
           </li>
         </ul>
+        <p v-if="global.state.responseTotal === 0" class="mt-10">No matching IATI Activities - please try a different search</p>
     </div>
     <div class="border-solid border-t p-2 flex">
     <v-pagination

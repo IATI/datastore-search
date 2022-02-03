@@ -9,7 +9,7 @@
         <div class="mx-5 py-2 columns-3">
           <IatiLogo colour="#fff" class="h-12" />
           <div class="text-3xl pt-5">
-            <b>Datastore Search</b><span style="color:red"> alpha </span>
+            <b>Datastore Search</b><span style="color:green"> beta </span>
           </div>
           <div class="pt-6 ml-10">
             <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Switch to Simple Search</router-link>
