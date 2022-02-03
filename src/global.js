@@ -97,8 +97,9 @@ export const toggleImportModal = () => {
   state.import.showModal = !state.import.showModal
 }
 
-const importFilters = () => {
+const importFilters = async () => {
   state.import.fileLoading = true
+  await populateOptions()
   state.filters = [...state.import.file]
   state.import.fileLoading = true
   state.import.disabled = true
