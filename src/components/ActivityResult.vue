@@ -49,7 +49,8 @@ export default {
   data: function() {
       return {
         activity: null,
-        metaTitle: 'Activity result'
+        metaTitle: 'Activity result',
+        metaDescription: 'A detailed description of a single IATI activity.'
       }
     },
   components: {
@@ -80,7 +81,15 @@ export default {
   created() {
     this.requestData();
     useMeta(computed(() => (
-      {title: this.activity ? this.activity.title_narrative[0] : this.metaTitle}
+      {
+        title: this.activity ? this.activity.title_narrative[0] : this.metaTitle,
+        description: this.activity ? (
+          `IATI identifier: ${this.activity.iati_identifier}, ` +
+          `Publisher: ${this.activity.reporting_org_narrative[0]}, ` +
+          `Description: ${this.activity.description_narrative[0]}, ` +
+          `Participating organisations: ${this.activity.participating_org_narrative}`
+        ) : this.metaDescription
+      }
     )));
   }
 }

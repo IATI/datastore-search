@@ -5,7 +5,8 @@
 
 <template>
   <metainfo>
-    <template v-slot:title="{ content }">{{ content ? `${content} | Datastore Search` : `Datastore Search` }}</template>
+    <template v-slot:title="{ content }">{{ content ? `${content} - Datastore Search` : `Datastore Search` }}</template>
+    <template v-slot:description="{ content }">{{ content }}</template>
   </metainfo>
   <div class="flex flex-col h-screen">
     <div class="border-solid border-b back">
@@ -40,6 +41,7 @@ export default {
   created () {
     useMeta({
       title: '',
+      description: '',
       htmlAttrs: { lang: 'en', amp: true }
     })
   }
