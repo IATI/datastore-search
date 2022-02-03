@@ -1,8 +1,12 @@
 <script setup>
   import IatiLogo from './components/IatiLogo.vue'
+  import { useMeta } from 'vue-meta'
 </script>
 
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{ content ? `${content} | Datastore Search` : `Datastore Search` }}</template>
+  </metainfo>
   <div class="flex flex-col h-screen">
     <div class="border-solid border-b back">
       <div id="nav" class="bg-iati-grey text-white">
@@ -32,7 +36,13 @@
 import global from './global'
 
 export default {
-  provide: {global}
+  provide: {global},
+  created () {
+    useMeta({
+      title: '',
+      htmlAttrs: { lang: 'en', amp: true }
+    })
+  }
 }
 </script>
 

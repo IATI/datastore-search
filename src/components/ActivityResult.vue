@@ -1,6 +1,9 @@
 <script setup>
   import axios from 'axios'
   import { useRoute } from 'vue-router';
+  import { useMeta } from 'vue-meta';
+  import { computed } from '@vue/runtime-core';
+
 </script>
 
 <template>
@@ -45,7 +48,8 @@ export default {
   inject: ["global"],
   data: function() {
       return {
-        activity: null
+        activity: null,
+        metaTitle: 'Activity result'
       }
     },
   components: {
@@ -68,13 +72,16 @@ export default {
           if (data.response.numFound === 0) {
             this.$router.push({ name: 'NotFound'})
           } else {
-            this.activity = data.response.docs[0];        
+            this.activity = data.response.docs[0];
           }
-        })           
+        })
       }
-  },  
+  },
   created() {
     this.requestData();
+    useMeta(computed(() => (
+      {title: this.activity ? this.activity.title_narrative[0] : this.metaTitle}
+    )));
   }
 }
 </script>
