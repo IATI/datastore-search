@@ -256,6 +256,22 @@ const isFieldType = (value, ft) => {
   }
 }
 
+const selectOptionIfNew = (id, index, value, options) => {
+  for (let i=0; i<state.filters.length; i++) {
+    if (state.filters[i].id === id) {
+      const currentValue = state.filters[i].value;
+      // If the current field value is null, blank, or not in the list of valid options, select it
+      if((currentValue === null || currentValue === '' || !options.map((d) => d.code).includes(currentValue)) && index === 0){
+        delete state.filters[i].valid
+        delete state.filters[i].validationMessage
+        state.filters[i].value = value;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 const loadActivity = async (iatiIdentifier) => {
   let url = baseUrlActivity + 'iati_identifier:' + iatiIdentifier;
   let result = await axios.get(url, axiosConfig);
@@ -406,5 +422,6 @@ export default { state: readonly(state),
   toggleExportModal,
   toggleImportModal,
   paginationUpdate,
-  onFilePicked
+  onFilePicked,
+  selectOptionIfNew
   };
