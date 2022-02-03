@@ -14,7 +14,6 @@ const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt
 const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
 
 const state = reactive({
-  nextFilterId: 0,
   filters: [],
   fieldOptions: null,
   query: null, //A Solr query string compiled from the filters
@@ -74,10 +73,8 @@ const addFilter = async () => {
   if (state.fieldOptions === null) {
     await populateOptions();
   }
-
-  const filterId = 'filter-' + state.nextFilterId
+  const filterId = 'filter-' + state.filters.length
   state.filters.push({id: filterId, type: null, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
-  state.nextFilterId = state.nextFilterId + 1;
   return filterId;
 }
 
