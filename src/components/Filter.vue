@@ -4,8 +4,6 @@
   import { QuestionMarkCircleIcon } from '@heroicons/vue/solid'
   import { ChevronLeftIcon } from '@heroicons/vue/solid'
   import { ChevronRightIcon } from '@heroicons/vue/solid'
-  import { ref } from 'vue'
-  const picked = ref(new Date())
 </script>
 
 <template>
@@ -74,7 +72,7 @@
             </div>
           </div>
           <div class="col-span-5">
-            <select class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'select')" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
+            <select class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'select')" :value="filter.value" @change="global.changeFilter(filter.id, 'value', $event.target.value)">
                 <option v-for="valueOption in filter.selectedOption.options" :key="valueOption.code">{{ valueOption.code }}</option>
             </select>
           </div>
@@ -113,7 +111,7 @@
             </div>
           </div>
           <div class="col-span-5">
-            <datepicker :modelValue="picked" @update:modelValue="picked = $event; global.changeFilter(filter.id, 'value', picked)" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
+            <datepicker :modelValue="new Date(filter.value)" @update:modelValue="global.changeFilter(filter.id, 'value', $event)" class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"/>
           </div>
         </div>
       
