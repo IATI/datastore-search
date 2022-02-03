@@ -9,7 +9,7 @@ import { ref } from "vue";
 <template>
   <div class="h-auto">
     <ul id="filters" class="mx-5 my-5">
-      <li v-for="filter in global.state.filters" :key="filter.field">
+      <li v-for="filter in global.state.filters" :key="filter.id">
         <Filter :filter="filter" />
       </li>
     </ul>
