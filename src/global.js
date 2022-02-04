@@ -68,11 +68,12 @@ const populateOptions = async () => {
   state.fieldOptions = filterOptions;          
 }
 
+if (state.fieldOptions === null) {
+  await populateOptions();
+}
+
 //API implementation, and then exported:
 const addFilter = async () => {
-  if (state.fieldOptions === null) {
-    await populateOptions();
-  }
   const filterId = 'filter-' + state.filters.length
   state.filters.push({id: filterId, type: null, field: null, value: null, operator: 'equals', joinOperator: 'AND'})
   return filterId;
