@@ -12,9 +12,6 @@
     "axios": "^0.25.0",
     "split.js": "^1.6.5",
     "vue": "^3.2.29",
-    "vue-axios": "^3.4.0",
-    "vue-feather-icons": "^5.1.0",
-    "vue-meta": "^3.0.0-alpha.9",
     "vue-router": "^4.0.12",
     "vue3-datepicker": "^0.3.2"
   },
