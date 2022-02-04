@@ -2,7 +2,6 @@
   import { PlusCircleIcon } from '@heroicons/vue/solid'
   import { ArrowUpIcon } from '@heroicons/vue/solid'
   import { PlayIcon } from '@heroicons/vue/solid'
-  import { ref } from 'vue'
   import VPagination from "@hennge/vue3-pagination"
   import "@hennge/vue3-pagination/dist/vue3-pagination.css"
 </script>
@@ -28,7 +27,7 @@
           v-model="page"
           :pages="global.state.numberPages"
           :range-size="global.state.resultsPerPage"
-          active-color="#81c3d6"
+          active-color="#155366"
           @update:modelValue="global.paginationUpdate"
         />
     </div>        
@@ -36,16 +35,16 @@
 </template>
 
 <style>
-/* ovveride the pagination component CSS */
+/* override the pagination component CSS */
 .Control {
   position: relative;
   display: block;
   width: 25px;
   height: 25px;
-  margin: 0 2px;
-  fill: #BBBBBB; }
+  margin: 0 3px;
+  fill: #0369A1; }
   .Control-active {
-    fill: #333333;
+    fill: #0369A1;
     cursor: pointer;
     transition: fill 0.2s ease-in-out; }
     .Control-active:hover {
@@ -58,10 +57,12 @@
   justify-content: center;
   width: 22px;
   height: 22px;
-  margin: 0 2px;
-  color: #666666;
+  padding: 15px;
+  margin: 0 3px;
+  color: #0369A1;
   background-color: transparent;
   font-size: 20px;
+  border: 1px solid #DEDEDE;
   border-radius: 3px;
   box-sizing: border-box;
   border-color: transparent;

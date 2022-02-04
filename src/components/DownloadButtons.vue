@@ -1,6 +1,6 @@
 <template>
     <div id="result-download-buttons">    
-        <button v-for="format in global.state.download.formats" :key="format" v-on:click="global.toggleDownloadModal(format)" class="float-left bg-iati-blue hover:bg-iati-grey text-white font-bold py-1 px-1 rounded flex mr-5 w-2/24 pr-2">
+        <button v-for="format in global.state.download.formats" :key="format" v-on:click="global.toggleDownloadModal(format)" class="float-left bg-iati-grey hover:bg-iati-grey text-white font-bold py-1 px-1 rounded flex mr-5 w-2/24 pr-2">
             <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1"/>   
             <span>{{ format }}</span>
             <div>
