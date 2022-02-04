@@ -136,6 +136,7 @@ const validateFilters = () => {
   let count = 0;
   state.filters = state.filters.map((filter) => {
     // require input value
+    console.log
     if (filter.value === null || filter.value === '') {
       switch (filter.type) {
         case 'text':
@@ -144,10 +145,16 @@ const validateFilters = () => {
         case 'boolean':
           count += 1;
           return {...filter, valid: false, validationMessage: "Selection is required"}
+        case 'number':
+          count += 1;
+          return {...filter, valid: false, validationMessage: "A value is required"}
         default:
           break;
       }
-      
+    }
+    if (filter.type === 'number' && filter.field.includes('_percentage') && (filter.value < 0 || filter.value > 100)) {
+      count += 1;
+      return {...filter, valid: false, validationMessage: "Percentage must be between 0 and 100"}
     }
     return {...filter}
   })

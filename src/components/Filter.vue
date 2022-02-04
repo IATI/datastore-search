@@ -44,7 +44,7 @@
       </div>
 
       <div class="col-span-3">
-        <!-- Boolean Checkbox -->
+        <!-- Boolean inputs -->
         <div class="inline-flex" role="toolbar" v-if="global.isFieldType(filter.field, 'boolean')">
         <button
             :class="{'bg-blue-300': (filter.value === 'true')}"
@@ -61,6 +61,8 @@
             class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
           >FALSE</button>
         </div>
+        <!-- Number inputs -->
+        <input type="number" :min="minNumber" :max="maxNumber" :class="{ 'border-red-400': filter.valid === false }" class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'number')" :value="filter.value" v-on:input="global.changeFilter(filter.id, 'value', Number($event.target.value))">
         <!-- Text inputs -->
         <input type="text" :class="{ 'border-red-400': filter.valid === false }" class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'text')" placeholder="Search term" :value="filter.value" v-on:input="global.changeFilter(filter.id, 'value', $event.target.value)">
         <p v-if="filter.valid === false" class="text-sm text-red-600">{{ filter.validationMessage }}</p>
@@ -149,5 +151,20 @@
     },
     name: 'Filter',
     inject: ["global"],
+    computed: {
+      minNumber() {
+        if (this.$props.filter.field.includes('_percentage')){
+          return 0
+        }
+        return null
+      },
+      maxNumber() {
+        if (this.$props.filter.field.includes('_percentage')){
+          return 100
+        }
+        return null
+      }
+
+    }
   }
 </script>
