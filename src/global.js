@@ -281,6 +281,29 @@ const isFieldType = (value, ft) => {
   }
 }
 
+const dropdownStateBlank = (id) => {
+  for (let i=0; i<state.filters.length; i++) {
+    if (state.filters[i].id === id) {
+      return state.filters[i].value === '';
+    }
+  }
+}
+
+const validateDropdownOptions = (id, index, options) => {
+  for (let i=0; i<state.filters.length; i++) {
+    if (state.filters[i].id === id) {
+      const currentValue = state.filters[i].value;
+      // If the current field value is null or not in the list of valid options, set blank so "Select code" can be reselected
+      if((currentValue === null || !options.map((d) => d.code).includes(currentValue)) && index === 0){
+        delete state.filters[i].valid;
+        delete state.filters[i].validationMessage;
+        state.filters[i].value = '';
+      }
+    }
+  }
+  return false;
+}
+
 const loadActivity = async (iatiIdentifier) => {
   let url = baseUrlActivity + 'iati_identifier:' + iatiIdentifier;
   let result = await axios.get(url, axiosConfig);
@@ -434,5 +457,7 @@ export default { state: readonly(state),
   toggleExportModal,
   toggleImportModal,
   paginationUpdate,
-  onFilePicked
+  onFilePicked,
+  dropdownStateBlank,
+  validateDropdownOptions
   };
