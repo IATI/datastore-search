@@ -433,6 +433,5 @@ export default { state: readonly(state),
   toggleExportModal,
   toggleImportModal,
   paginationUpdate,
-  onFilePicked,
-  selectOptionIfNew
+  onFilePicked
   };
