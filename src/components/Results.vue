@@ -1,7 +1,4 @@
 <script setup>
-  import { PlusCircleIcon } from '@heroicons/vue/solid'
-  import { ArrowUpIcon } from '@heroicons/vue/solid'
-  import { PlayIcon } from '@heroicons/vue/solid'
   import VPagination from "@hennge/vue3-pagination"
   import "@hennge/vue3-pagination/dist/vue3-pagination.css"
 </script>
