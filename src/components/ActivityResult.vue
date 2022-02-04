@@ -81,7 +81,7 @@ export default {
           } else {
             this.activity = data.response.docs[0];
             const titleEl = document.querySelector('head title');
-            titleEl.textContent = this.activity.title_narrative[0];
+            titleEl.textContent = `${this.activity.title_narrative[0]} - IATI Datastore Search`;
 
             const descEl = document.querySelector('head meta[name="description"]');
             descEl.setAttribute('content',
