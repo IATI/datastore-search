@@ -12,10 +12,11 @@
         <div v-if="global.state.download.showModal" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
             <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-2xl">Download Results File</h3>
+                    <h3 class="text-2xl">Download {{ iati_identifier ? "Activity" : "Results" }} File</h3>
                 </div>
                 <div class="mt-1">
-                    <p class="mb-4 mt-2 text-md">Download {{ global.state.responseTotal }} results in {{ global.state.download.selectedFormat }} format?</p>
+                    <p v-if="!iati_identifier" class="mb-4 mt-2 text-md">Download {{ global.state.responseTotal }} results in {{ global.state.download.selectedFormat }} format?</p>
+                    <p v-if="iati_identifier" class="mb-4 mt-2 text-md">Download Activity file in {{ global.state.download.selectedFormat }} format?</p>
                     <div class="flex justify-between">
                         <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700 rounded" v-on:click="global.toggleDownloadModal(null)">Cancel</button>
                         <button class="px-4 py-2 text-white bg-iati-blue hover:bg-iati-grey rounded flex justify-between" v-on:click="global.downloadFile(global.state.download.selectedFormat, iati_identifier)">
