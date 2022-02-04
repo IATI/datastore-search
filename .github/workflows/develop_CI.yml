@@ -34,6 +34,14 @@ jobs:
         run: |
           npm run build
 
+      - name: Test end-to-end
+        run: |
+          npm install -g serve &&
+          serve ./dist -l 8080 -s &
+          sleep 10 &&
+          curl http://localhost:8080 &&
+          npm run cy:run-ci
+
   automerge:
       needs: build
       runs-on: ubuntu-latest
