@@ -3,7 +3,6 @@ import { PlusCircleIcon } from "@heroicons/vue/solid";
 import { ArrowDownIcon } from "@heroicons/vue/solid";
 import { ArrowUpIcon } from "@heroicons/vue/solid";
 import { PlayIcon } from "@heroicons/vue/solid";
-import { ref } from "vue";
 </script>
 
 <template>
@@ -19,8 +18,9 @@ import { ref } from "vue";
         class="border-solid border-t border-b py-5"
       >
         <button
+          aria-label="Run search query with selected filters"
           v-on:click="global.run()"
-          class="bg-iati-blue hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-right ml-5 mr-8 pr-2 w-2/24"
+          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-1 rounded float-right ml-5 mr-8 pr-2 w-2/24"
         >
           <PlayIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -28,8 +28,9 @@ import { ref } from "vue";
           >
         </button>
         <button
+          aria-label="Export filters to file"
           v-on:click="global.toggleExportModal()"
-          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
+          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
         >
           <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -37,8 +38,9 @@ import { ref } from "vue";
           >
         </button>
         <button
+          aria-label="Import filters from file"
           v-on:click="global.toggleImportModal()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
+          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
         >
           <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -46,8 +48,9 @@ import { ref } from "vue";
           >
         </button>
         <button
+          aria-label="Add an additional filter"
           v-on:click="global.addFilter()"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
+          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
         >
           <PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -57,8 +60,9 @@ import { ref } from "vue";
       </div>
       <div v-if="global.state.filters.length === 0">
         <button
+          aria-label="Add an additional filter"
           v-on:click="global.addFilter()"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
+          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
         >
           <PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -66,8 +70,9 @@ import { ref } from "vue";
           >
         </button>
         <button
+          aria-label="Import filters from file"
           v-on:click="global.toggleImportModal()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"
+          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"
         >
           <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"

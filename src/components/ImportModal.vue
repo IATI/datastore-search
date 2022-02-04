@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <div v-if="global.state.import.showModal" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+  <div role="dialog" v-if="global.state.import.showModal" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
             <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
-                <h3 class="text-2xl">Import Filters</h3>
+                <h2 class="text-2xl">Import Filters</h2>
                 <div class="mt-1">
                     <p class="my-4 text-left text-md">Import filters from file?</p>
                     <p class="my-4 text-left text-sm">Select a .json file previously exported from the Datastore Advanced Search.</p>
@@ -19,8 +19,8 @@
                           </ul>
                         </p>
                     <div class="flex justify-between">
-                        <button class="px-4 py-2 text-white font-bold bg-red-500 hover:bg-red-700 rounded" v-on:click="global.toggleImportModal()">Cancel</button>
-                        <button :disabled="global.state.import.disabled" :class="{ 'opacity-25 cursor-not-allowed': global.state.import.disabled }" class="px-4 py-2 text-white font-bold bg-green-500 hover:bg-green-700 rounded flex justify-between" v-on:click="global.importFilters()">
+                        <button class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded" v-on:click="global.toggleImportModal()">Cancel</button>
+                        <button :disabled="global.state.import.disabled" :class="{ 'opacity-25 cursor-not-allowed': global.state.import.disabled }" class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded flex justify-between" v-on:click="global.importFilters()">
                             <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1"/>  
                             <span v-if="!global.state.import.fileLoading">Import</span>
                             <div v-if="global.state.import.fileLoading" style="border-top-color:transparent"
