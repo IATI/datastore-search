@@ -10,9 +10,17 @@
   <div class="flex flex-col h-full">
     <div class="flex-grow"><router-view />
         <div v-if="activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
-
           <div class="col-span-1"></div>
-              <h1 class="col-span-8 mt-10 text-2xl border-b pb-3">{{ activity.title_narrative[0] }}</h1>
+              <h1 class="col-span-6 mt-10 pb-2">Description of IATI Activity </h1>
+              <div class="col-span-2 mt-10 pb-2 hover:underline text-sky-700 " v-if="global.state.responseDocs">
+                <router-link v-if="global.state.simpleSearch" to="/simple"> Back to results</router-link>
+                <router-link v-if="!global.state.simpleSearch" to="/advanced"> Back to results</router-link>
+              </div>
+              <div class="col-span-2 mt-10 pb-2" v-if="!global.state.responseDocs"></div>
+          <div class="col-span-1"></div>
+          
+          <div class="col-span-1"></div>
+              <h1 class="col-span-8 text-2xl border-b pb-2"><b>{{ activity.title_narrative[0] }}</b></h1>
           <div class="col-span-1"></div>
 
           <div class="col-span-1"></div>        
@@ -46,6 +54,9 @@ import DownloadButtons from './DownloadButtons.vue';
 export default {
   name: 'ActivityResult',
   inject: ["global"],
+  props: {
+    searchType: String
+  },
   data: function() {
       return {
         activity: null,

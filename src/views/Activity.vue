@@ -10,6 +10,10 @@ import ActivityResult from '../components/ActivityResult.vue'
 
 export default {
   name: 'Activity',
+  props: {
+    searchType: String
+  },
+  inject: ["global"],
   components: {
     SearchBar,
     ActivityResult,
