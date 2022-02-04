@@ -137,8 +137,17 @@ const validateFilters = () => {
   state.filters = state.filters.map((filter) => {
     // require input value
     if (filter.value === null || filter.value === '') {
-      count += 1;
-      return {...filter, valid: false, validationMessage: "Search term is required"}
+      switch (filter.type) {
+        case 'text':
+          count += 1;
+          return {...filter, valid: false, validationMessage: "Search term is required"}
+        case 'boolean':
+          count += 1;
+          return {...filter, valid: false, validationMessage: "Selection is required"}
+        default:
+          break;
+      }
+      
     }
     return {...filter}
   })
@@ -386,13 +395,16 @@ const compileQuery = () => {
         default:
         break;
       }
-    } else {
+    } else 
+    {
+      // don't wrap value in "" for boolean
+      const queryValue = filter['type'] === 'boolean' ? filter['value'] : `"${filter['value']}"`
       switch(filter['operator']) {
         case 'equals':
-          query = query + filter['field'] + ':"' + filter['value'] + '"'
+          query = query + filter['field'] + ':' + queryValue
         break;
         case 'notEquals':
-          query = query + '-' + filter['field'] + ':"' + filter['value'] + '"'
+          query = query + '-' + filter['field'] + ':' + queryValue
         break
         default:
         break;
