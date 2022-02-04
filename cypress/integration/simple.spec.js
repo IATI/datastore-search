@@ -10,6 +10,7 @@ describe('The simple view', () => {
   });
 
   describe('search bar', () => {
+
     it('remains on the simple view after search', () => {
       cy.fixture('simple_q_test').then((simple_q_test) => {
         cy.intercept(
@@ -21,6 +22,9 @@ describe('The simple view', () => {
       cy.get('button[aria-label=Submit]').click();
       cy.url().should('includes', '/simple');
     });
+
+    // TODO: Modify fixture to test pagination behavior
+
   });
 
 });
