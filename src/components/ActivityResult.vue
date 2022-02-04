@@ -79,9 +79,21 @@ export default {
           if (data.response.numFound === 0) {
             this.$router.push({ name: 'NotFound'})
           } else {
-            this.activity = data.response.docs[0];        
+            this.activity = data.response.docs[0];
+            const titleEl = document.querySelector('head title');
+            titleEl.textContent = this.activity.title_narrative[0];
+
+            const descEl = document.querySelector('head meta[name="description"]');
+            descEl.setAttribute('content',
+              (
+                `IATI identifier: ${this.activity.iati_identifier}, ` +
+                `Publisher: ${this.activity.reporting_org_narrative[0]}, ` +
+                `Description: ${this.activity.description_narrative[0]}, ` +
+                `Participating organisations: ${this.activity.participating_org_narrative}`
+              )
+            );
           }
-        })           
+        })
       }
   },  
   created() {
