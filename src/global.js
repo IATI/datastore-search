@@ -135,8 +135,7 @@ export const exportFilters = () => {
 const validateFilters = () => {
   let count = 0;
   state.filters = state.filters.map((filter) => {
-    // require input value
-    console.log
+    // require input value check
     if (filter.value === null || filter.value === '') {
       switch (filter.type) {
         case 'text':
@@ -148,13 +147,22 @@ const validateFilters = () => {
         case 'number':
           count += 1;
           return {...filter, valid: false, validationMessage: "A value is required"}
+        case 'integer':
+          count += 1;
+          return {...filter, valid: false, validationMessage: "A value is required"}
         default:
           break;
       }
     }
+    // percentages 0 to 100 check
     if (filter.type === 'number' && filter.field.includes('_percentage') && (filter.value < 0 || filter.value > 100)) {
       count += 1;
       return {...filter, valid: false, validationMessage: "Percentage must be between 0 and 100"}
+    }
+    // integer check
+    if (filter.type === 'integer' && !Number.isInteger(filter.value)) {
+      count += 1;
+      return {...filter, valid: false, validationMessage: "Value must be a whole number"}
     }
     return {...filter}
   })

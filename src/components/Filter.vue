@@ -62,7 +62,7 @@
           >FALSE</button>
         </div>
         <!-- Number inputs -->
-        <input type="number" :min="minNumber" :max="maxNumber" :class="{ 'border-red-400': filter.valid === false }" class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'number')" :value="filter.value" v-on:input="global.changeFilter(filter.id, 'value', Number($event.target.value))">
+        <input type="number" :min="minNumber" :max="maxNumber" :class="{ 'border-red-400': filter.valid === false }" class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'number') || global.isFieldType(filter.field, 'integer') " :value="filter.value" v-on:input="global.changeFilter(filter.id, 'value', Number($event.target.value))">
         <!-- Text inputs -->
         <input type="text" :class="{ 'border-red-400': filter.valid === false }" class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" v-if="global.isFieldType(filter.field, 'text')" placeholder="Search term" :value="filter.value" v-on:input="global.changeFilter(filter.id, 'value', $event.target.value)">
         <p v-if="filter.valid === false" class="text-sm text-red-600">{{ filter.validationMessage }}</p>
