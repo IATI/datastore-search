@@ -8,32 +8,32 @@
 
 <template>
     <div class="grid grid-cols-7 gap-4">
-              <div class="inline-flex" role="toolbar" v-if="!global.isFilterFirstInChain(filter.id)">
-                <button
-                  :class="{'bg-blue-300': (filter.joinOperator === 'AND')}"
-                  @click="global.changeFilter(filter.id, 'joinOperator', 'AND')"
-                  type="button" 
-                  class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                >
-                  AND
-                </button>
-                <button
-                  :class="{'bg-blue-300': (filter.joinOperator === 'OR')}"
-                  @click="global.changeFilter(filter.id, 'joinOperator', 'OR')"
-                  type="button" 
-                  class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                >
-                  OR
-                </button>
-                <button
-                  :class="{'bg-blue-300': (filter.joinOperator === 'XOR')}"
-                  @click="global.changeFilter(filter.id, 'joinOperator', 'XOR')"
-                  type="button" 
-                  class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                >
-                  XOR               
-                </button>
-              </div>
+      <div class="inline-flex" role="toolbar" v-if="!global.isFilterFirstInChain(filter.id)">
+        <button
+          :class="{'bg-blue-300': (filter.joinOperator === 'AND')}"
+          @click="global.changeFilter(filter.id, 'joinOperator', 'AND')"
+          type="button" 
+          class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+        >
+          AND
+        </button>
+        <button
+          :class="{'bg-blue-300': (filter.joinOperator === 'OR')}"
+          @click="global.changeFilter(filter.id, 'joinOperator', 'OR')"
+          type="button" 
+          class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+        >
+          OR
+        </button>
+        <button
+          :class="{'bg-blue-300': (filter.joinOperator === 'XOR')}"
+          @click="global.changeFilter(filter.id, 'joinOperator', 'XOR')"
+          type="button" 
+          class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+        >
+          XOR               
+        </button>
+      </div>
     </div>
     <div class="grid grid-cols-7 gap-4 my-3">
       <div class="col-span-3">
@@ -142,8 +142,8 @@
       </div>
       <div class="col-span-1">
         <div class="grid grid-cols-2 gap-1">
-        <button class="float-left" v-on:click="global.removeFilter(filter.id)"><TrashIcon class="h-7 w-7 text-grey-300"/></button>
-        <button class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/><span class='tooltip ml-9 -mt-8'>{{ filter.desc }}</span></button>
+        <button type="button" aria-label="Remove filter" class="float-left" v-on:click="global.removeFilter(filter.id)"><TrashIcon class="h-7 w-7 text-grey-300"/></button>
+        <button type="button" aria-label="Hover for description" class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/><span role="definition" class='tooltip ml-9 -mt-8'>{{ filter.desc }}</span></button>
         </div>
       </div>
     </div>
