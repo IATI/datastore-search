@@ -34,4 +34,3 @@ describe('The landing view', () => {
   });
 
 });
-  

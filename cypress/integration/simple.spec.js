@@ -23,9 +23,6 @@ describe('The simple view', () => {
       cy.url().should('includes', '/simple');
     });
 
-    // TODO: Modify fixture to test pagination behavior
-
   });
 
 });
-  
