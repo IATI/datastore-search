@@ -5,10 +5,10 @@
       <div class="col-span-3 ">
         <SearchBar />
       </div>
-      <div class="col-span-3 mt-5">        
-        <DownloadButtons v-if="global.state.responseTotal > 0" :iati_identifier="null" />
+      <div v-if="global.state.responseTotal > 0" class="col-span-3 mt-5">
+        <DownloadButtons :iati_identifier="null" />
       </div>
-      <div class="col-span-2 mt-6"><span v-if="global.state.responseTotal > 0">Found {{ global.state.responseTotal }} IATI  Activities</span></div>
+      <div v-if="global.state.responseTotal > 0" class="col-span-2 mt-6"><span>Found {{ global.state.responseTotal }} IATI  Activities</span></div>
     </div>
     <Results />
   </div>
