@@ -69,7 +69,7 @@ const populateOptions = async () => {
 }
 
 if (state.fieldOptions === null) {
-  await populateOptions();
+  populateOptions();
 }
 
 //API implementation, and then exported:
