@@ -1,6 +1,9 @@
 <script setup>
   import axios from 'axios'
   import { useRoute } from 'vue-router';
+  import { useMeta } from 'vue-meta';
+  import { computed } from '@vue/runtime-core';
+
 </script>
 
 <template>
@@ -56,7 +59,9 @@ export default {
   },
   data: function() {
       return {
-        activity: null
+        activity: null,
+        metaTitle: 'Activity result',
+        metaDescription: 'A detailed description of a single IATI activity.'
       }
     },
   components: {
@@ -79,13 +84,24 @@ export default {
           if (data.response.numFound === 0) {
             this.$router.push({ name: 'NotFound'})
           } else {
-            this.activity = data.response.docs[0];        
+            this.activity = data.response.docs[0];
           }
-        })           
+        })
       }
-  },  
+  },
   created() {
     this.requestData();
+    useMeta(computed(() => (
+      {
+        title: this.activity ? this.activity.title_narrative[0] : this.metaTitle,
+        description: this.activity ? (
+          `IATI identifier: ${this.activity.iati_identifier}, ` +
+          `Publisher: ${this.activity.reporting_org_narrative[0]}, ` +
+          `Description: ${this.activity.description_narrative[0]}, ` +
+          `Participating organisations: ${this.activity.participating_org_narrative}`
+        ) : this.metaDescription
+      }
+    )));
   }
 }
 </script>
