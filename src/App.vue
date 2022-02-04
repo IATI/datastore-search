@@ -5,7 +5,7 @@
 
 <template>
   <metainfo>
-    <template v-slot:title="{ content }">{{ content ? `${content} - Datastore Search` : `Datastore Search` }}</template>
+    <template v-slot:title="{ content }">{{ content ? `${content} - IATI Datastore Search` : `IATI Datastore Search` }}</template>
     <template v-slot:description="{ content }">{{ content }}</template>
   </metainfo>
   <div class="flex flex-col h-screen">
