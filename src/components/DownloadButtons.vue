@@ -7,6 +7,14 @@
                 
             </div>
         </button>
+        from
+        <select class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline">
+            <option>Activity</option>
+            <option>Transaction</option>
+            <option>Budget</option>
+        </select>
+        core.
+
     </div> 
     <teleport to="#modals" >
         <div role="dialog" v-if="global.state.download.showModal" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
