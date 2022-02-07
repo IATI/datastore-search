@@ -26,6 +26,7 @@ const state = reactive({
   simpleSearch: null,
   simpleSearchTerm: null,
   activity: null,
+  query: null,
   download: {
     formats: ['XML', 'JSON', 'CSV'],
     fileLoading: false,
@@ -171,6 +172,9 @@ const validateFilters = () => {
 }
 
 const run = async (start = 0, rows = 10) => {
+  state.responseTotal = null;
+  state.query = null;
+  
   if (validateFilters()) {
     await compileQuery(); 
     let url = new URL(baseUrl);
@@ -179,11 +183,15 @@ const run = async (start = 0, rows = 10) => {
     url.searchParams.set('rows', rows);
     let result = await axios.get(url, axiosConfig);
     state.simpleSearch = false;
+    
     setResponseState(result);  
   }
 }
 
 const runSimple = async (searchterm, start = 0, rows = 10) => {
+  state.responseTotal = null;
+  state.query = null;
+  
   state.simpleSearchTerm = searchterm;
   let url = new URL(baseUrlSimple);
   url.searchParams.set('q', searchterm);
@@ -192,6 +200,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = true;
   state.query = searchterm;
+  state.responseTotal = null;
   setResponseState(result);
 }
 
