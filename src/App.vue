@@ -14,7 +14,7 @@
           <nav aria-label="Navigation" class="pt-6 ml-10 hidden md:block">
             <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Switch to Simple Search</router-link>
             <router-link v-if="$route.path === '/advanced' && global.state.responseDocs" to="/simple" class="hover:underline">Switch to Simple Search</router-link>
-            <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline hidden md:block">Switch to Advanced Search</router-link>
+            <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline">Switch to Advanced Search</router-link>
           </nav>
         </div>
       </div>
