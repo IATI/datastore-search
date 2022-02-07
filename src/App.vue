@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex flex-col h-screen min-w-fit">
+  <div class="flex flex-col h-screen min-w-fit sm:min-w-0">
     <header aria-label="Main header" class="border-solid border-b back">
       <div class="bg-iati-grey text-white">
         <div class="mx-5 py-2 columns-1 sm:columns-2 md:columns-3">
