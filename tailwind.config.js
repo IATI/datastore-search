@@ -7,7 +7,10 @@ module.exports = {
     extend: {
       colors: {
         'iati-grey': '#155366',
-        'iati-blue': '#81c3d6'
+        'iati-blue': '#81c3d6',
+        'btn-red': '#860404',
+        'btn-green': 'green',
+        'btn-yellow': '#5e5e00',
       },
       fontFamily: {
         'sans': ["Avenir", "Helvetica", "Arial", "sans-serif"],

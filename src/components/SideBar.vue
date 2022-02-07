@@ -20,7 +20,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
         <button
           aria-label="Run search query with selected filters"
           v-on:click="global.run()"
-          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-1 rounded float-right ml-5 mr-8 pr-2 w-2/24"
+          class="bg-btn-green hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-right ml-5 mr-8 pr-2 w-2/24"
         >
           <PlayIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -30,7 +30,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
         <button
           aria-label="Export filters to file"
           v-on:click="global.toggleExportModal()"
-          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
+          class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
         >
           <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -40,7 +40,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
         <button
           aria-label="Import filters from file"
           v-on:click="global.toggleImportModal()"
-          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
+          class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
         >
           <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -50,7 +50,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
         <button
           aria-label="Add an additional filter"
           v-on:click="global.addFilter()"
-          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
+          class="bg-btn-yellow hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
         >
           <PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -62,7 +62,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
         <button
           aria-label="Add an additional filter"
           v-on:click="global.addFilter()"
-          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
+          class="bg-btn-yellow hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
         >
           <PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -72,7 +72,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
         <button
           aria-label="Import filters from file"
           v-on:click="global.toggleImportModal()"
-          class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"
+          class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"
         >
           <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
