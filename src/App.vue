@@ -6,15 +6,15 @@
   <div class="flex flex-col h-screen">
     <header aria-label="Main header" class="border-solid border-b back">
       <div class="bg-iati-grey text-white">
-        <div class="mx-5 py-2 columns-3">
+        <div class="mx-5 py-2 sm:columns-2 md:columns-3">
           <a href="https://iatistandard.org" title="IATI Standard Website"><IatiLogo colour="#fff" /></a>
           <h1 class="text-3xl mt-5">
             <a href="/"><b>Datastore Search</b></a><span style="color:green"> beta </span>
           </h1>
-          <nav aria-label="Navigation" class="pt-6 ml-10">
+          <nav aria-label="Navigation" class="pt-6 ml-10 hidden md:block">
             <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Switch to Simple Search</router-link>
             <router-link v-if="$route.path === '/advanced' && global.state.responseDocs" to="/simple" class="hover:underline">Switch to Simple Search</router-link>
-            <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline">Switch to Advanced Search</router-link>
+            <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline hidden md:block">Switch to Advanced Search</router-link>
           </nav>
         </div>
       </div>
