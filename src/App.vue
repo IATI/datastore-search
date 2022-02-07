@@ -7,7 +7,7 @@
     <header aria-label="Main header" class="border-solid border-b back">
       <div class="bg-iati-grey text-white">
         <div class="mx-5 py-2 columns-3">
-          <a href="https://iatistandard.org" title="IATI Standard Website"><IatiLogo colour="#fff" class="h-12" /></a>
+          <a href="https://iatistandard.org" title="IATI Standard Website"><IatiLogo colour="#fff" /></a>
           <h1 class="text-3xl mt-5">
             <a href="/"><b>Datastore Search</b></a><span style="color:green"> beta </span>
           </h1>
