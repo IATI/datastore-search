@@ -18,6 +18,7 @@ describe('The simple view', () => {
           simple_q_test
         );
       });
+      cy.get('input[title=Search]').clear();
       cy.get('input[title=Search]').type('test');
       cy.get('button[aria-label=Submit]').click();
       cy.url().should('includes', '/simple');
