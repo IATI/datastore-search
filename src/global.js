@@ -8,10 +8,12 @@ const axiosConfig = {
   }
 }
 
-const baseUrl = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
-const baseUrlSimple = "https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
-const baseUrlActivity = "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
-const baseUrlDownload = "https://dev-api.iatistandard.org/dss/download"
+const domain = "https://dev-api.iatistandard.org"
+
+const baseUrl = domain + "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+const baseUrlSimple = domain + "/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+const baseUrlActivity = domain + "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
+const baseUrlDownload = domain + "/dss/download"
 
 const state = reactive({
   filters: [],
@@ -347,13 +349,13 @@ const statusRequest = async (url) => {
   }
 }
 
-const downloadFile = async (format, iid=null) => {
+const downloadFile = async (format, iid=null, core="activity") => {
   let query = null;
 
   if (iid === null) {
-    query = `activity/search?sort=iati_identifier asc&q=${state.query}`;
+    query = core + `/search?sort=iati_identifier asc&q=${state.query}`;
   } else {
-    query = `activity/search?q=iati_identifier:"${iid}"`;
+    query = core + `/search?q=iati_identifier:"${iid}"`;
   }
 
   try {
