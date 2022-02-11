@@ -4,11 +4,11 @@
 
 <template>
   <div class="flex flex-col h-screen min-w-fit sm:min-w-0">
-    <header aria-label="Main header" class="border-solid border-b back">
+    <header aria-label="Main header">
       <div class="bg-iati-grey text-white">
         <div class="mx-5 py-2 columns-1 sm:columns-2 md:columns-3">
           <a href="https://iatistandard.org" title="IATI Standard Website"><IatiLogo colour="#fff" class="h-12 mx-auto" /></a>
-          <h1 class="text-3xl mt-5">
+          <h1 class="text-3xl pt-7">
             <a href="/"><b>Datastore Search</b></a><span style="color:green"> beta </span>
           </h1>
           <nav aria-label="Navigation" class="pt-6 ml-10 hidden md:block">
@@ -20,7 +20,7 @@
       </div>
     </header>
     <div class="flex-grow"><router-view /></div>  
-    <footer class="border-solid border-t py-2 bg-iati-grey text-white"><span>Copyright Development Initiatives 2022. All rights reserved</span></footer>
+    <footer class="py-2 bg-iati-grey text-white"><span>Copyright Development Initiatives 2022. All rights reserved</span></footer>
   </div>
 </template>
 
