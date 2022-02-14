@@ -12,7 +12,7 @@
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",
     "@heroicons/vue": "^1.0.5",
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "split.js": "^1.6.5",
     "vue": "^3.2.30",
     "vue-router": "^4.0.12",
