@@ -7,14 +7,6 @@
                 
             </div>
         </button>
-        from
-        <select v-model="core" class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline">
-            <option value="activity">Activity</option>
-            <option value="transaction">Transaction</option>
-            <option value="budget">Budget</option>
-        </select>
-        core.
-
     </div> 
     <teleport to="#modals" >
         <div role="dialog" v-if="global.state.download.showModal" class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
@@ -23,8 +15,22 @@
                     <h2 class="text-2xl">Download {{ iati_identifier ? "Activity" : "Results" }} File</h2>
                 </div>
                 <div class="mt-1">
-                    <p v-if="!iati_identifier" class="mb-4 mt-2 text-md">Download {{ global.state.responseTotal }} results in {{ global.state.download.selectedFormat }} format?</p>
+                    <p v-if="!iati_identifier && global.state.download.selectedFormat != 'XML'" class="mb-4 mt-2 text-md">Download {{ global.state.responseTotal }} results from the
+                        <select v-model="core" class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline">
+                            <option value="activity" :selected="true">Activity</option>
+                            <option value="transaction">Transaction</option>
+                            <option value="budget">Budget</option>
+                        </select>
+                          core in {{ global.state.download.selectedFormat }} format?
+                    </p>
+
+                    <p v-if="!iati_identifier && global.state.download.selectedFormat === 'XML'" class="mb-4 mt-2 text-md">Download {{ global.state.responseTotal }}
+
+                          activities in an IATI Activities XML document?
+                    </p>
+
                     <p v-if="iati_identifier" class="mb-4 mt-2 text-md">Download Activity file in {{ global.state.download.selectedFormat }} format?</p>
+
                     <div class="flex justify-between">
                         <button class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded" v-on:click="global.toggleDownloadModal(null)">Cancel</button>
                         <button class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between" v-on:click="global.downloadFile(global.state.download.selectedFormat, iati_identifier, core)">
@@ -50,7 +56,7 @@ export default {
     props: ['iati_identifier'],
     components: {ArrowDownIcon},
     data() {
-      return {core: String} 
+      return {core: 'activity'} 
     }
 }
 </script>

@@ -350,6 +350,11 @@ const statusRequest = async (url) => {
 }
 
 const downloadFile = async (format, iid=null, core="activity") => {
+
+  if (core != "activity" && core != "transaction" && core != "budget") {
+    core="activity";
+  }
+
   let query = null;
 
   if (iid === null) {
