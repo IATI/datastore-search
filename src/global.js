@@ -391,11 +391,12 @@ const downloadItem = async ({ url, label }) => {
 }
 
 const paginationUpdate = async (page) => {
-  state.page = page
+  state.page = page;
+  
   if (state.simpleSearch) {
-    await runSimple(state.simpleSearchTerm, (page - 1) * state.resultsPerPage, state.resultsPerPage)
+    await runSimple(state.simpleSearchTerm, (state.page - 1) * state.resultsPerPage, state.resultsPerPage)
   } else {
-    await run((page - 1) * state.resultsPerPage, state.resultsPerPage)
+    await run((state.page - 1) * state.resultsPerPage, state.resultsPerPage)
   }
 }
 
