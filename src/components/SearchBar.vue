@@ -1,7 +1,7 @@
 <template>
 <div class="flex justify-left">
     <div class="flex border-2 rounded my-3">
-        <input title="Search" aria-label="Search iati data" v-model="searchterm" type="text" class="px-4 py-2 w-80 placeholder-gray-600" v-on:keyup.enter="global.runSimple(this.searchterm); this.$router.push('simple')" placeholder="Search IATI Activities...">
+        <input title="Search" aria-label="Search iati data" v-model="searchterm" type="text" class="px-4 py-2 placeholder-gray-600 w-auto sm:w-20 md:w-40 lg:w-50 xl:w-80" v-on:keyup.enter="global.runSimple(this.searchterm); this.$router.push('simple')" placeholder="Search IATI Activities...">
         <button role="button" aria-label="Submit" class="flex items-center justify-center px-4 border-l" @click="global.runSimple(this.searchterm); this.$router.push('simple')">
             <svg class="w-6 h-6 text-gray-600" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24">
