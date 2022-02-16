@@ -20,7 +20,7 @@
       </div>
     </header>
     <div class="flex-grow"><router-view /></div>  
-    <footer class="py-2 bg-iati-grey text-white"><span>Copyright Development Initiatives 2022. All rights reserved</span></footer>
+    <footer class="py-2 bg-iati-grey text-white"><span>IATI Datastore Search</span></footer>
   </div>
 </template>
 

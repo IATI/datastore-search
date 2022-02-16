@@ -32,7 +32,7 @@
           :pages="global.state.numberPages"
           :range-size="global.state.resultsPerPage"
           active-color="#155366"
-          @update:modelValue="global.paginationUpdate"
+          @update:modelValue="global.paginationUpdate(page)"
         />
     </div>        
   </div>
