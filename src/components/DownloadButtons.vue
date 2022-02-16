@@ -8,10 +8,10 @@
             </div>
         </button>
         from
-        <select class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline">
-            <option>Activity</option>
-            <option>Transaction</option>
-            <option>Budget</option>
+        <select v-model="core" class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline">
+            <option value="activity">Activity</option>
+            <option value="transaction">Transaction</option>
+            <option value="budget">Budget</option>
         </select>
         core.
 
@@ -27,7 +27,7 @@
                     <p v-if="iati_identifier" class="mb-4 mt-2 text-md">Download Activity file in {{ global.state.download.selectedFormat }} format?</p>
                     <div class="flex justify-between">
                         <button class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded" v-on:click="global.toggleDownloadModal(null)">Cancel</button>
-                        <button class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between" v-on:click="global.downloadFile(global.state.download.selectedFormat, iati_identifier)">
+                        <button class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between" v-on:click="global.downloadFile(global.state.download.selectedFormat, iati_identifier, core)">
                             <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1"/>  
                             <span v-if="!global.state.download.fileLoading">Download</span>
                             <div v-if="global.state.download.fileLoading" style="border-top-color:transparent"
@@ -48,7 +48,10 @@ export default {
     name: 'DownloadButtons',
     inject: ["global"],
     props: ['iati_identifier'],
-    components: {ArrowDownIcon}
+    components: {ArrowDownIcon},
+    data() {
+      return {core: String} 
+    }
 }
 </script>
 
