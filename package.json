@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",
-    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-router": "~5.0.1",
     "autoprefixer": "^10.4.2",
     "cypress": "^9.4.1",
     "postcss": "^8.4.6",
