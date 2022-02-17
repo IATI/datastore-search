@@ -16,7 +16,7 @@ describe('The landing view', () => {
 
   it('has a footer', () => {
     cy.visit('/');
-    cy.contains('Copyright');
+    cy.contains('IATI Datastore Search');
   });
 
   describe('search bar', () => {
