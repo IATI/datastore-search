@@ -64,7 +64,12 @@ const populateOptions = async () => {
 
   for (const index in filterOptions) {
     if (filterOptions[index].type === "select") {
-      filterOptions[index]['options'] = codelists[filterOptions[index].codelist_name].data;
+      // remove versions 1.X from dataset_version field
+      if (filterOptions[index].field === 'dataset_version') {
+        filterOptions[index]['options'] = codelists[filterOptions[index].codelist_name].data.filter((codeObj) => !codeObj.code.includes('1.'));
+      } else {
+        filterOptions[index]['options'] = codelists[filterOptions[index].codelist_name].data;
+      }
     }
   }
 
