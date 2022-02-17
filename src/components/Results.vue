@@ -1,6 +1,8 @@
 <script setup>
   import VPagination from "@hennge/vue3-pagination"
   import "@hennge/vue3-pagination/dist/vue3-pagination.css"
+
+  let page = 1;
 </script>
 
 <template>
@@ -91,8 +93,5 @@ export default {
       Result,
       VPagination,
   },
-  data() {
-      return {page: 1} 
-    }
 }
 </script>
