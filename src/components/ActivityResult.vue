@@ -67,13 +67,14 @@ export default {
         
         const axiosConfig = {
             headers: {
-              'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
+              'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
             }
         }
 
         const route = useRoute();
         const id = encodeURIComponent(route.params.iati_identifier);
-        const baseUrl = 'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&q='
+        const domain = import.meta.env.VUE_ENV_APIM_DOMAIN
+        const baseUrl = domain + '/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&q='
         
         axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then(({data}) => {
           if (data.response.numFound === 0) {
