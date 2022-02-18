@@ -1,25 +1,14 @@
-name: Deploy_To_Azure_Blobs_Dev
+name: Deploy_To_Azure_Blobs_Prod
 
 on:
-  push:
-    paths-ignore: # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
-      - "**/README.md" # don't run on README.md file updates anywhere in repo
-      - "**/dependabot.yml"
-    branches:
-      - develop
-  schedule:
-    - cron: '24 04 * * *' # 0424am daily
+  release:
+    types: [published]
 
 env:
-  AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
+  AZURE_CREDENTIALS: ${{ secrets.PROD_AZURE_CREDENTIALS }}
 
 jobs:
-  should_run:
-    uses: IATI/.github/.github/workflows/should_run.yaml@main
-
   deploy:
-    needs: should_run
-    if: ${{ needs.should_run.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.4.0
@@ -36,7 +25,7 @@ jobs:
 
       - name: Run build
         run: |
-          npm run build:development
+          npm run build:production
 
       - name: Login to Azure CLI
         uses: azure/login@v1
@@ -46,7 +35,7 @@ jobs:
       - name: Upload to blob storage
         uses: azure/CLI@v1
         env: 
-          STORAGE_NAME: sadatastoresearchdev
+          STORAGE_NAME: sadatastoresearchprod
         with:
           azcliversion: latest
           inlineScript: |
