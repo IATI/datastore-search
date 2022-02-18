@@ -60,7 +60,7 @@
             </p>
             <br/>
             <p>
-              <a class="underline" href="https://github.com/IATI/IATI-Validator-Web/releases/tag/v2.3.3">Web v2.3.3</a> | <a class="underline" href="https://github.com/IATI/validator-services/releases/tag/v2.2.2">Services v2.2.2</a> | <a class="underline" href="https://github.com/IATI/js-validator-api/releases/tag/v2.0.12">API v2.0.12</a>
+              <a class="underline" href="https://github.com/IATI/datastore-search">Web</a> | <a class="underline" href="https://github.com/IATI/datastore-services">Services</a>
             </p>
           </div>
         </div>
