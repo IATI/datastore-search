@@ -2,10 +2,10 @@
   "name": "datastore-search",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
     "dev:production": "vite --mode production",
-    "build:development": "vite build",
-    "build:production": "vite build",
+    "build:development": "vite build --mode development",
+    "build:production": "vite build --mode production",
     "preview": "vite preview",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
