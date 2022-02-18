@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         'iati-grey': '#155366',
         'iati-blue': '#81c3d6',
+        'iati-accent': '#1e7590',
         'btn-red': '#860404',
         'btn-green': 'green',
         'btn-yellow': '#5e5e00',
