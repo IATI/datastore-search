@@ -143,7 +143,7 @@
       <div class="col-span-1">
         <div class="grid grid-cols-2 gap-1">
         <button type="button" aria-label="Remove filter" class="float-left" v-on:click="global.removeFilter(filter.id)"><TrashIcon class="h-7 w-7 text-grey-300"/></button>
-        <button type="button" aria-label="Hover for description" class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/><span role="definition" class='tooltip ml-9 -mt-8'>{{ filter.desc }}</span></button>
+        <button type="button" v-if="global.isFieldSelected(filter.id)" aria-label="Hover for description" class="float-left has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/><span role="definition" class='tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey'>{{ filter.desc }}</span></button>
         </div>
       </div>
     </div>

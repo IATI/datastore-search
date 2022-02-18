@@ -36,7 +36,7 @@
           active-color="#155366"
           @update:modelValue="global.paginationUpdate"
         />
-    </div>        
+    </div>
   </div>
 </template>
 

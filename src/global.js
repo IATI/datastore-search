@@ -292,6 +292,14 @@ const isFieldType = (value, ft) => {
   }
 }
 
+const isFieldSelected = (id) => {
+  for (let i=0; i<state.filters.length; i++) {
+    if (state.filters[i].id === id && state.filters[i].field != null) {
+      return true;
+    }
+  }
+}
+
 const dropdownStateBlank = (id) => {
   for (let i=0; i<state.filters.length; i++) {
     if (state.filters[i].id === id) {
@@ -462,6 +470,7 @@ export default { state: readonly(state),
   changeFilter,
   loadActivity,
   isFieldType,
+  isFieldSelected,
   isFieldOptionSelected,
   isFilterFirstInChain,
   importFilters,
