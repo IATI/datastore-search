@@ -32,7 +32,7 @@ jobs:
 
       - name: Run build
         run: |
-          npm run build
+          npm run build:development
 
       - name: Test end-to-end
         run: |

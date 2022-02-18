@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "dev:production": "vite --mode production",
+    "build:development": "vite build",
+    "build:production": "vite build",
     "preview": "vite preview",
     "cy:open": "cypress open",
     "cy:run": "cypress run",

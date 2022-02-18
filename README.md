@@ -1,16 +1,34 @@
 # IATI Datastore Search Web Application
+
+## Package install
 To install:
 
 `npm install`
   
-To run a development server:
+## Running local dev server
+
+To run a development server using (`./envs/.env.development` vars):
 
 `npm run dev`
 
-To make production build:
+To run a development server using (`./envs/.env.production` vars):
 
-`npm run build`
+`npm run dev:production`
 
-To serve it locally for testing:
+## Building for Deployment
+
+To make a production build using (`./envs/.env.development` vars):
+
+`npm run build:development`
+
+To make a production build using (`./envs/.env.production` vars):
+
+`npm run build:production`
+
+To serve a production build locally for testing:
 
 `npx serve dist`
+
+## Testing
+
+Cypress
