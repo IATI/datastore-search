@@ -17,7 +17,7 @@ const baseUrlDownload = domain + "/dss/download"
 
 const state = reactive({
   filters: [],
-  fieldOptions: null,
+  fieldOptions: [],
   query: null, //A Solr query string compiled from the filters
   responseDocs: null, //The array of Solr docs received from the DS API after making query,
   responseTotal: null, //Total number of docs in response
@@ -76,7 +76,7 @@ const populateOptions = async () => {
   state.fieldOptions = filterOptions;          
 }
 
-if (state.fieldOptions === null) {
+if (state.fieldOptions.length === 0) {
   populateOptions();
 }
 
