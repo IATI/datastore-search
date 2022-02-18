@@ -1,5 +1,8 @@
 <script setup>
   import IatiLogo from './components/IatiLogo.vue'
+  import TwitterLogo from './components/TwitterLogo.vue'
+  import YoutubeLogo from './components/YoutubeLogo.vue'
+  import LinkedInLogo from './components/LinkedInLogo.vue'
 </script>
 
 <template>
@@ -25,8 +28,62 @@
         </div>
       </div>
     </header>
-    <div class="flex-grow"><router-view /></div>  
-    <footer class="py-2 bg-iati-grey text-white"><span>IATI Datastore Search</span></footer>
+    <div class="flex-grow min-h-[12rem]"><router-view /></div>  
+    <footer class="bg-iati-grey text-white text-left text-sm">
+      <div class="flex flex-col md:flex-row justify-between py-4 px-12 xl:max-w-[75%] mx-auto">
+        <div class="flex flex-col p-2">
+          <a href="https://iatistandard.org">
+            <IatiLogo colour="#fff" class="h-20" />
+          </a>
+        </div>
+        <div class="flex flex-col p-2">
+          <h2 class="mb-1 uppercase tracking-wide font-extrabold">Useful links</h2>
+          <ul>
+            <li>
+              <a class="underline" href="https://iatistandard.org/en/contact/">Contact</a>
+            </li>
+            <li>
+              <a class="underline" href="https://iatistandard.org/en/privacy-policy/">Privacy policy</a>
+            </li>
+          </ul>
+        </div>
+        <div class="flex flex-col p-2">
+          <div>
+            <p>
+              Part of the <b>IATI Unified Platform</b>
+            </p>
+            <p>
+              Code licensed under the <a class="underline" href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU AGPL</a>.
+            </p>
+            <p>
+              Documentation licensed under <a class="underline" href="https://creativecommons.org/licenses/by/4.0/">CC BY 3.0</a>.
+            </p>
+            <br/>
+            <p>
+              <a class="underline" href="https://github.com/IATI/IATI-Validator-Web/releases/tag/v2.3.3">Web v2.3.3</a> | <a class="underline" href="https://github.com/IATI/validator-services/releases/tag/v2.2.2">Services v2.2.2</a> | <a class="underline" href="https://github.com/IATI/js-validator-api/releases/tag/v2.0.12">API v2.0.12</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-iati-accent mx-auto">
+        <div class="py-4 px-12 xl:max-w-[75%] mx-auto">
+          <p class="inline-block float-left">
+            Copyright IATI 2021. All rights reserved
+          </p>
+          <div class="float-right">
+            <a class="inline-block ml-2" href="https://twitter.com/IATI_aid">
+              <TwitterLogo class="w-8 h-8" />
+            </a>
+            <a class="inline-block ml-2" href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ">
+              <YoutubeLogo class="w-8 h-8" />
+            </a>
+            <a class="inline-block ml-2" href="https://www.linkedin.com/company/international-aid-transparency-initiative/">
+            <LinkedInLogo class="w-8 h-8" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
