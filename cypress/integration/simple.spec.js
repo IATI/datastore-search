@@ -17,6 +17,10 @@ describe('The simple view', () => {
           'https://dev-api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier+asc&fl=id%2Ctitle_narrative%2Cdescription_narrative%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=test',
           simple_q_test
         );
+        cy.intercept(
+          'https://api.iatistandard.org/dss/activity/search?wt=json&sort=iati_identifier+asc&fl=id%2Ctitle_narrative%2Cdescription_narrative%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=test',
+          simple_q_test
+        );
       });
       cy.get('input[title=Search]').clear();
       cy.get('input[title=Search]').type('test');
