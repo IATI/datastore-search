@@ -4,11 +4,11 @@ import axios from 'axios';
 
 const axiosConfig = {
   headers: {
-    'Ocp-Apim-Subscription-Key': 'fbaac107c5754bd1a5d67448bc52ce47',
+    'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
   }
 }
 
-const domain = "https://dev-api.iatistandard.org"
+const domain = import.meta.env.VUE_ENV_APIM_DOMAIN
 
 const baseUrl = domain + "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlSimple = domain + "/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
