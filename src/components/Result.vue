@@ -22,3 +22,9 @@
     inject: ["global"],
   }
 </script>
+
+<style>
+  em {
+    font-style: bold !important;
+  }
+</style>
