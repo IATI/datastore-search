@@ -28,12 +28,12 @@
         </div>
       </div>
     </header>
-    <div class="flex-grow min-h-[12rem]"><router-view /></div>  
+    <div class="flex-grow"><router-view /></div>  
     <footer class="bg-iati-grey text-white text-left text-sm">
       <div class="mx-auto">
         <div class="py-4 px-12 xl:max-w-[75%] mx-auto">
           <p class="inline-block float-left mt-1">
-            Part of the IATI Unified Platform
+            Datastore Search is part of the IATI Unified Platform
           </p>
           
           <div class="float-right">
