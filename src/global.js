@@ -226,8 +226,12 @@ const setResponseState = (result) => {
     state.responseDocs[index]['highlighting'] = '';
 
     for (const prop in result.data.highlighting[keyA]) {
-      state.responseDocs[index]['highlighting'] = state.responseDocs[index]['highlighting'] + result.data.highlighting[keyA][prop] 
+      state.responseDocs[index]['highlighting'] = state.responseDocs[index]['highlighting'] + '"' + result.data.highlighting[keyA][prop] + '" ... ' 
     }
+
+    state.responseDocs[index]['highlighting'] = state.responseDocs[index]['highlighting'].substring(0, state.responseDocs[index]['highlighting'].length - 5);
+
+    state.responseDocs[index]['highlighting'] = state.responseDocs[index]['highlighting'].replaceAll('",', '"')
 
     index = index + 1;
   }
