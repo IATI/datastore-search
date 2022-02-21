@@ -15,7 +15,7 @@
             </svg>
         </button>
     </div>
-      <button type="button" aria-label="Hover for description" class="flex items-center justify-center px-4 has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/>
+      <button v-if="$route.path === '/'" type="button" aria-label="Hover for description" class="flex items-center justify-center px-4 has-tooltip"><QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1"/>
         <span role="definition" class='tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey'>
           A <i>very</i> succinct amount of help text <br/>99.99% of all people who have been on the World Wide Web knows what a search engine is, so don't tell them that.
           <br/>Link to a <span class="underline hover:bold"><a href="/">separate page</a></span> if absolutely necessary.
