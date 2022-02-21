@@ -49,16 +49,13 @@ const state = reactive({
 });
 
 const populateOptions = async () => {
-  const filtersUrl = 'https://raw.githubusercontent.com/IATI/dss-filters/develop/filters.json'
-  const codelistsUrl = 'https://raw.githubusercontent.com/IATI/dss-filters/develop/codelists.json';
-  
   let filterOptions = null;
   
-  let response = await axios.get(filtersUrl);
+  let response = await axios.get(`${domain}/dss/resources/filters`, axiosConfig);
   
   filterOptions = response.data;
   
-  response = await axios.get(codelistsUrl);
+  response = await axios.get(`${domain}/dss/resources/codelists`, axiosConfig);
   
   const codelists = response.data;
 
