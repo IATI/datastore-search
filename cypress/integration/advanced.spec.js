@@ -3,7 +3,7 @@
 describe('The advanced view', () => {
 
   it('has a button to add filters', () => {
-    cy.intercept('https://raw.githubusercontent.com/IATI/dss-filters/develop/filters.json').as('getFilters')
+    cy.intercept('https://dev-api.iatistandard.org/dss/resources/filters').as('getFilters')
     cy.visit('/advanced');
     cy.wait('@getFilters');
     cy.contains('Add Filter');
