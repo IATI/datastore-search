@@ -30,54 +30,23 @@
     </header>
     <div class="flex-grow min-h-[12rem]"><router-view /></div>  
     <footer class="bg-iati-grey text-white text-left text-sm">
-      <div class="flex flex-col md:flex-row justify-between py-4 px-12 xl:max-w-[75%] mx-auto">
-        <div class="flex flex-col p-2">
-          <a href="https://iatistandard.org">
-            <IatiLogo colour="#fff" class="h-20" />
-          </a>
-        </div>
-        <div class="flex flex-col p-2">
-          <h2 class="mb-1 uppercase tracking-wide font-extrabold">Useful links</h2>
-          <ul>
-            <li>
-              <a class="underline" href="https://iatistandard.org/en/contact/">Contact</a>
-            </li>
-            <li>
-              <a class="underline" href="https://iatistandard.org/en/privacy-policy/">Privacy policy</a>
-            </li>
-          </ul>
-        </div>
-        <div class="flex flex-col p-2">
-          <div>
-            <p>
-              Part of the <b>IATI Unified Platform</b>
-            </p>
-            <p>
-              Code licensed under the <a class="underline" href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU AGPL</a>.
-            </p>
-            <p>
-              Documentation licensed under <a class="underline" href="https://creativecommons.org/licenses/by/4.0/">CC BY 3.0</a>.
-            </p>
-            <br/>
-            <p>
-              <a class="underline" href="https://github.com/IATI/datastore-search">Web</a> | <a class="underline" href="https://github.com/IATI/datastore-services">Services</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="border-t border-iati-accent mx-auto">
+      <div class="mx-auto">
         <div class="py-4 px-12 xl:max-w-[75%] mx-auto">
-          <p class="inline-block float-left">
-            Copyright IATI 2021. All rights reserved
+          <p class="inline-block float-left mt-1">
+            Part of the IATI Unified Platform
           </p>
+          
           <div class="float-right">
+            <p class="inline-block float-left mt-1 mr-5">
+            <a class="hover:underline" href="https://iatistandard.org/en/privacy-policy/">Privacy</a>
+            </p>
+            <p class="inline-block float-left mt-1 mr-5">
+            <a class="hover:underline" href="https://iatistandard.org/en/contact/">Contact</a>
+            </p>
             <a class="inline-block ml-2" href="https://twitter.com/IATI_aid">
               <TwitterLogo class="w-8 h-8" />
             </a>
-            <a class="inline-block ml-2" href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ">
-              <YoutubeLogo class="w-8 h-8" />
-            </a>
-            <a class="inline-block ml-2" href="https://www.linkedin.com/company/international-aid-transparency-initiative/">
+            <a class="inline-block ml-5" href="https://www.linkedin.com/company/international-aid-transparency-initiative/">
             <LinkedInLogo class="w-8 h-8" />
             </a>
           </div>
