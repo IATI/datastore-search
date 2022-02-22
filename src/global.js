@@ -95,19 +95,11 @@ const removeFilter = (id) => {
 export const toggleExportModal = () => {
   state.export.errors = [];
   state.export.showModal = !state.export.showModal
-  event('Exported Filters', {
-    method: 'Google',
-    event_category: 'Advanced'
-  })
 }
 
 export const toggleImportModal = () => {
   state.import.errors = [];
   state.import.showModal = !state.import.showModal
-  event('Imported Filters', {
-    method: 'Google',
-    event_category: 'Advanced'
-  })
 }
 
 const importFilters = async () => {
@@ -117,6 +109,10 @@ const importFilters = async () => {
   state.import.fileLoading = false
   state.import.disabled = true
   toggleImportModal()
+  event('Imported Filters', {
+    method: 'Google',
+    event_category: 'Advanced'
+  })
 }
 
 const stageFilter = (event) => {  
@@ -146,6 +142,10 @@ export const exportFilters = () => {
   URL.revokeObjectURL(link.href)
   state.export.fileLoading = false
   state.export.showModal = false
+  event('Exported Filters', {
+    method: 'Google',
+    event_category: 'Advanced'
+  })
 }
 
 const validateFilters = () => {
