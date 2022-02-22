@@ -14,15 +14,21 @@
           <a href="https://iatistandard.org" title="IATI Standard Website"><IatiLogo colour="#fff" class="h-12 mx-auto" /></a>
           </div>
           <div class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
+          
             <h1 class="text-3xl">
               <a href="/"><b>Datastore Search</b><span style="color:green"> beta </span></a>
             </h1>
           </div>
+
           <div class="hidden md:inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
             <nav aria-label="Navigation" class="ml-10">
-              <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Switch to Simple Search</router-link>
-              <router-link v-if="$route.path === '/advanced' && global.state.responseDocs" to="/simple" class="hover:underline">Switch to Simple Search</router-link>
-              <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline">Switch to Advanced Search</router-link>
+
+              
+              <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Simple Search</router-link>
+              <router-link v-if="$route.path === '/advanced' && global.state.responseDocs" to="/simple" class="hover:underline">Simple Search</router-link>
+              <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline">Advanced Search</router-link>
+              <a class="hover:underline border-l pl-2 ml-2" href="https://developer.iatistandard.org/api-details#api=datastore">API</a>
+              <a class="hover:underline border-l pl-2 ml-2" href="/about">About</a>
             </nav>
           </div>
         </div>

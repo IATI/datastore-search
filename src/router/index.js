@@ -3,6 +3,7 @@ import Landing from "../views/Landing.vue";
 import Simple from "../views/Simple.vue";
 import Advanced from "../views/Advanced.vue";
 import Activity from "../views/Activity.vue";
+import About from "../views/About.vue";
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: "/advanced",
     name: "advanced",
     component: Advanced,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: About,
   },
   {
     path: "/activity/:iati_identifier",
