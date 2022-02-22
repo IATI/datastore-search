@@ -37,9 +37,9 @@ jobs:
       - name: Test end-to-end
         run: |
           npm install -g serve &&
-          serve ./dist -l 8080 -s &
+          serve ./dist -l 3000 -s &
           sleep 10 &&
-          curl http://localhost:8080 &&
+          curl http://localhost:3000 &&
           npm run cy:run-ci
 
   automerge:
