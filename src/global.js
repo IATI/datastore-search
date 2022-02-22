@@ -393,6 +393,12 @@ const downloadFile = async (format, iid=null, core="activity") => {
     event_label = iid;
   }
 
+  event(`Initiated download ${core} ${format}`, {
+    method: 'Google',
+    event_category: 'Download buttons',
+    event_label: event_label
+  })
+
   try {
     state.download.fileLoading = true
 
@@ -411,7 +417,7 @@ const downloadFile = async (format, iid=null, core="activity") => {
     state.download.fileLoading = false
   }
 
-  event(`Downloaded ${core} file`, {
+  event(`Succeeded download ${core} ${format}`, {
     method: 'Google',
     event_category: 'Download buttons',
     event_label: event_label
