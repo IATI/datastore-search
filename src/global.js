@@ -1,6 +1,7 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
 import axios from 'axios';
+import { event } from 'vue-gtag';
 
 const axiosConfig = {
   headers: {
@@ -94,11 +95,19 @@ const removeFilter = (id) => {
 export const toggleExportModal = () => {
   state.export.errors = [];
   state.export.showModal = !state.export.showModal
+  event('Exported Filters', {
+    method: 'Google',
+    event_category: 'Advanced'
+  })
 }
 
 export const toggleImportModal = () => {
   state.import.errors = [];
   state.import.showModal = !state.import.showModal
+  event('Imported Filters', {
+    method: 'Google',
+    event_category: 'Advanced'
+  })
 }
 
 const importFilters = async () => {
@@ -374,11 +383,14 @@ const downloadFile = async (format, iid=null, core="activity") => {
   }
 
   let query = null;
+  let event_label = '';
 
   if (iid === null) {
     query = core + `/search?sort=iati_identifier asc&q=${state.query}`;
+    event_label = state.query;
   } else {
     query = core + `/search?q=iati_identifier:"${iid}"`;
+    event_label = iid;
   }
 
   try {
@@ -398,6 +410,12 @@ const downloadFile = async (format, iid=null, core="activity") => {
     alert(`Download Failed: ${error.message}`)
     state.download.fileLoading = false
   }
+
+  event(`Downloaded ${core} file`, {
+    method: 'Google',
+    event_category: 'Download buttons',
+    event_label: event_label
+  })
 }
 
 const downloadItem = async ({ url, label }) => {
