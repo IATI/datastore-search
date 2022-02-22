@@ -176,12 +176,12 @@ const validateFilters = () => {
   return count === 0
 }
 
-const run = async (start = 0, rows = 10) => {
-  state.queryInProgress = true;
+const run = async (start = 0, rows = 10) => {  
   state.responseTotal = null;
   state.query = null;
   
   if (validateFilters()) {
+    state.queryInProgress = true;
     await compileQuery(); 
     let url = new URL(baseUrl);
     url.searchParams.set('q',  state.query)
