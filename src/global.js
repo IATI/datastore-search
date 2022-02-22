@@ -16,6 +16,7 @@ const baseUrlActivity = domain + "/dss/activity/select?wt=json&sort=iati_identif
 const baseUrlDownload = domain + "/dss/download"
 
 const state = reactive({
+  queryInProgress: false,
   filters: [],
   fieldOptions: [],
   query: null, //A Solr query string compiled from the filters
@@ -176,6 +177,7 @@ const validateFilters = () => {
 }
 
 const run = async (start = 0, rows = 10) => {
+  state.queryInProgress = true;
   state.responseTotal = null;
   state.query = null;
   
@@ -193,6 +195,7 @@ const run = async (start = 0, rows = 10) => {
 }
 
 const runSimple = async (searchterm, start = 0, rows = 10) => {
+  state.queryInProgress = true;
   state.responseTotal = null;
   state.query = null;
   
@@ -236,6 +239,7 @@ const setResponseState = (result) => {
   state.responseTotal = result.data.response.numFound;
   state.responseStart = result.data.response.start;
   state.numberPages = Math.ceil(state.responseTotal / state.resultsPerPage)
+  state.queryInProgress = false;
 }
 
 const changeFilter = (id, key, value) => {

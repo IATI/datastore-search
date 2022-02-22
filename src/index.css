@@ -13,11 +13,23 @@
 
       @media (min-width:960px) {
         .search-bar {
-          width: 500px; 
+          width: 450px; 
         }          
       }
 
       @media (max-width:960px) {
+        .search-bar {
+          width: 300px; 
+        }          
+      }
+
+      @media (max-width:960px) {
+        .search-bar {
+          width: 300px; 
+        }          
+      }
+
+      @media (max-width:880px) {
         .search-bar {
           width: auto; 
         }          
