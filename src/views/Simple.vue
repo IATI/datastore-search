@@ -18,6 +18,7 @@
 import SearchBar from '../components/SearchBar.vue'
 import Results from '../components/Results.vue'
 import DownloadButtons from '../components/DownloadButtons.vue'
+import { pageview } from 'vue-gtag';
 
 export default {
   name: 'Simple',
@@ -28,6 +29,12 @@ export default {
   },
   beforeUnmount() {
     sessionStorage.removeItem('searchterm');
+  },
+  mounted(){
+    pageview({
+      page_path: this.$route.fullPath,
+      page_title: this.$route.name
+    })
   },
   inject: ["global"],
 }

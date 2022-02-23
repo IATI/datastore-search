@@ -17,8 +17,15 @@
 </template>
 
 <script>
+import { pageview } from 'vue-gtag';
 
 export default {
   name: 'About',
+  mounted(){
+    pageview({
+      page_path: this.$route.fullPath,
+      page_title: this.$route.name
+    })
+  },
 }
 </script>

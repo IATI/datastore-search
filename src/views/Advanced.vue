@@ -15,6 +15,7 @@
 import Split from 'split.js'
 import SideBar from '../components/SideBar.vue'
 import Results from '../components/Results.vue'
+import { pageview } from 'vue-gtag';
 
 export default {
   name: 'Landing',
@@ -24,6 +25,10 @@ export default {
         minSize: 384,
         expandToMin: true,
         gutterAlign: 'start',
+    })
+    pageview({
+      page_path: this.$route.fullPath,
+      page_title: this.$route.name
     })
   },
   components: {
