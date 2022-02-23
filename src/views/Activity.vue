@@ -18,5 +18,6 @@ export default {
     SearchBar,
     ActivityResult,
   }
+  // pageview in ActivityResult component to pass title
 }
 </script>

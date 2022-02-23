@@ -47,6 +47,7 @@
 
 <script>
 import DownloadButtons from './DownloadButtons.vue';
+import { pageview } from 'vue-gtag';
 
 export default {
   name: 'ActivityResult',
@@ -93,6 +94,10 @@ export default {
                 `Participating organisations: ${this.activity.participating_org_narrative}`
               )
             );
+            pageview({
+              page_path: this.$route.fullPath,
+              page_title: this.activity.title_narrative[0]
+            })
           }
         })
       }
