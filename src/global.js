@@ -1,6 +1,7 @@
 //Simple global state and API management
 import { reactive, readonly } from "vue";
 import axios from 'axios';
+import { event } from 'vue-gtag';
 
 const axiosConfig = {
   headers: {
@@ -108,6 +109,10 @@ const importFilters = async () => {
   state.import.fileLoading = false
   state.import.disabled = true
   toggleImportModal()
+  event('Imported Filters', {
+    method: 'Google',
+    event_category: 'Advanced'
+  })
 }
 
 const stageFilter = (event) => {  
@@ -137,6 +142,10 @@ export const exportFilters = () => {
   URL.revokeObjectURL(link.href)
   state.export.fileLoading = false
   state.export.showModal = false
+  event('Exported Filters', {
+    method: 'Google',
+    event_category: 'Advanced'
+  })
 }
 
 const validateFilters = () => {
@@ -374,12 +383,21 @@ const downloadFile = async (format, iid=null, core="activity") => {
   }
 
   let query = null;
+  let event_label = '';
 
   if (iid === null) {
     query = core + `/search?sort=iati_identifier asc&q=${state.query}`;
+    event_label = state.query;
   } else {
     query = core + `/search?q=iati_identifier:"${iid}"`;
+    event_label = iid;
   }
+
+  event(`Initiated download ${core} ${format}`, {
+    method: 'Google',
+    event_category: 'Download buttons',
+    event_label: event_label
+  })
 
   try {
     state.download.fileLoading = true
@@ -398,6 +416,12 @@ const downloadFile = async (format, iid=null, core="activity") => {
     alert(`Download Failed: ${error.message}`)
     state.download.fileLoading = false
   }
+
+  event(`Succeeded download ${core} ${format}`, {
+    method: 'Google',
+    event_category: 'Download buttons',
+    event_label: event_label
+  })
 }
 
 const downloadItem = async ({ url, label }) => {
