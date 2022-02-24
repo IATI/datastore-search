@@ -26,8 +26,9 @@
               
               <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Simple Search</router-link>
               <router-link v-if="$route.path === '/advanced' && global.state.responseDocs" to="/simple" class="hover:underline">Simple Search</router-link>
-              <router-link v-if="$route.path !== '/advanced'" to="/advanced" class="hover:underline">Advanced Search</router-link>
-              <a class="hover:underline border-l pl-2 ml-2" href="https://developer.iatistandard.org/api-details#api=datastore">API</a>
+              <router-link v-if="$route.path !== '/advanced' && $route.path !== '/'" to="/advanced" class="hover:underline">Advanced Search</router-link>
+              <a v-if="$route.path === '/'" class="hover:underline pl-2 ml-2" href="https://developer.iatistandard.org/api-details#api=datastore">API</a>
+              <a v-if="$route.path !== '/'" class="hover:underline border-l pl-2 ml-2" href="https://developer.iatistandard.org/api-details#api=datastore">API</a>
               <a class="hover:underline border-l pl-2 ml-2" href="/about">About</a>
             </nav>
           </div>
