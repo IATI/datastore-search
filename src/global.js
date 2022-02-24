@@ -382,6 +382,10 @@ const downloadFile = async (format, iid=null, core="activity") => {
     core="activity";
   }
 
+  if (format === 'XML') {
+    core="activity";
+  }
+
   let query = null;
   let event_label = '';
 
