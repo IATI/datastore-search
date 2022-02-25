@@ -15,6 +15,9 @@ module.exports = {
       },
       fontFamily: {
         'sans': ["Avenir", "Helvetica", "Arial", "sans-serif"],
+      },
+      screens: {
+        'advanced': '1000px'
       }
     },
   },
