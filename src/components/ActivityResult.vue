@@ -8,7 +8,7 @@
     <div class="flex-grow"><router-view />
         <div v-if="activity != null" class="grid grid-cols-10 gap-4 text-left mb-5">
           <div class="col-span-1"></div>
-              <h1 class="col-span-6 mt-10 pb-2">Description of IATI Activity </h1>
+              <h1 class="col-span-6 mt-10 pb-2">Overview of IATI Activity </h1>
               <div class="col-span-2 mt-10 pb-2 hover:underline text-sky-700 " v-if="global.state.responseDocs">
                 <router-link v-if="global.state.simpleSearch" to="/simple"> Back to results</router-link>
                 <router-link v-if="!global.state.simpleSearch" to="/advanced"> Back to results</router-link>
@@ -22,21 +22,21 @@
 
           <div class="col-span-1"></div>        
             <div class="col-span-8 border-b pb-3">
-              <b>Download this IATI Activity in full:</b><DownloadButtons :iati_identifier="activity.iati_identifier" />
+              <DownloadButtons :iati_identifier="activity.iati_identifier" />
             </div>
           <div class="col-span-1"></div>
 
           <div class="col-span-1"></div>
-            <div class="col-span-2 border-b pb-2">Publisher: <b>{{ activity.reporting_org_narrative[0] }}</b></div>
-            <div class="col-span-2 border-b pb-2">IATI Identifier <b>{{ activity.iati_identifier }}</b></div>
-            <div class="col-span-2 border-b pb-2">Last updated: <b>{{ activity.last_updated_datetime }}</b></div>
+            <div class="col-span-2 pb-2">Publisher: <b>{{ activity.reporting_org_narrative[0] }}</b></div>
+            <div class="col-span-2 pb-2">IATI Identifier <b>{{ activity.iati_identifier }}</b></div>
+            <div class="col-span-2 pb-2">Last updated: <b>{{ prettyDate(activity.last_updated_datetime) }}</b></div>
           <div class="col-span-3"></div>
           
           <div class="col-span-1"></div>
-            <p class="col-span-8 border-b pb-3">{{ activity.description_narrative[0] }}</p>
+            <p class="col-span-8 border-b border-t pt-3 pb-3">{{ activity.description_narrative[0] }}</p>
           <div class="col-span-1"></div>
           <div class="col-span-1"></div>
-            <div class="col-span-8 border-b pb-3">Participating organisations: <b>{{ activity.participating_org_narrative}}</b></div>
+          <div class="col-span-9 pb-3">Participating organisations: <span class="font-semibold" v-for="(org, index) in activity.participating_org_narrative" :key="index">{{org}}<span class="font-normal" v-if="index != activity.participating_org_narrative.length - 1"> | </span></span></div>
           <div class="col-span-1"></div>
            
         </div>   
@@ -48,6 +48,7 @@
 <script>
 import DownloadButtons from './DownloadButtons.vue';
 import { pageview } from 'vue-gtag';
+import moment from 'moment';
 
 export default {
   name: 'ActivityResult',
@@ -64,8 +65,11 @@ export default {
       DownloadButtons,
   },
   methods: {
-      requestData: function() {
-        
+      prettyDate: function(dt) {
+        return moment(dt).format('Do MMMM YYYY, hh:mm UTC');
+      },
+
+      requestData: function() {        
         const axiosConfig = {
             headers: {
               'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
