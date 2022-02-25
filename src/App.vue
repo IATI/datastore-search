@@ -9,19 +9,19 @@
   <div class="flex flex-col h-screen min-w-fit sm:min-w-0">
     <header aria-label="Main header">
       <div class="bg-iati-grey text-white">
-        <div class="mx-5 py-2">
+        <div class="mx-5">
           <div class="inline-block h-12 my-2 align-middle w-full sm:w-1/2 md:w-1/3">
           <a href="https://iatistandard.org" title="IATI Standard Website"><IatiLogo colour="#fff" class="h-12 mx-auto" /></a>
           </div>
           <div class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
           
-            <h1 class="text-3xl">
+            <h1 class="text-4xl mt-5">
               <a href="/"><b>Datastore Search</b><span style="color:green"> beta </span></a>
             </h1>
           </div>
 
           <div class="hidden md:inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
-            <nav aria-label="Navigation" class="ml-10">
+            <nav aria-label="Navigation" class="ml-10 mt-8 text-xl">
 
               
               <router-link v-if="$route.path === '/advanced' && !global.state.responseDocs" to="/" class="hover:underline">Simple Search</router-link>
