@@ -21,7 +21,7 @@ export default {
   name: 'Landing',
   mounted: function () {
     Split(['#split-0', '#split-1'], {
-        sizes: [25, 75],
+        sizes: [40, 60],
         minSize: 450,
         expandToMin: true,
         gutterAlign: 'start',
