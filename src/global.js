@@ -201,6 +201,13 @@ const run = async (start = 0, rows = 10) => {
     
     setResponseState(result);  
   }
+  if(start === 0){
+    event('Run query', {
+      method: 'Google',
+      event_category: 'Advanced',
+      event_label: state.query
+    })
+  }
 }
 
 const runSimple = async (searchterm, start = 0, rows = 10) => {
@@ -218,6 +225,14 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   state.query = searchterm;
   state.responseTotal = null;
   setResponseState(result);
+
+  if(start === 0){
+    event('Run query', {
+      method: 'Google',
+      event_category: 'Simple',
+      event_label: state.query
+    })
+  }
 }
 
 const setResponseState = (result) => {
@@ -441,8 +456,22 @@ const paginationUpdate = async (page) => {
   
   if (state.simpleSearch) {
     await runSimple(state.simpleSearchTerm, (state.page - 1) * state.resultsPerPage, state.resultsPerPage)
+
+    event('Pagination', {
+      method: 'Google',
+      event_category: 'Simple',
+      event_label: `${state.simpleSearchTerm} - ${state.page}`
+    })
+
   } else {
     await run((state.page - 1) * state.resultsPerPage, state.resultsPerPage)
+
+    event('Pagination', {
+      method: 'Google',
+      event_category: 'Advanced',
+      event_label: `${state.query} - ${state.page}`
+    })
+
   }
 }
 
