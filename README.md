@@ -27,8 +27,18 @@ To make a production build using (`./envs/.env.production` vars):
 
 To serve a production build locally for testing:
 
-`npx serve dist`
+`npm run serve`
 
-## Testing
+## Testing w/ Cypress
 
-Cypress
+### Open Cypress UI
+
+`npm run cy:open`
+
+### Run Cypress Tests against local environment from Command Line
+
+`npm run cy:run-ci`
+
+### Run Cypress Tests against deployed development environment from Command Line
+
+`npm run cy:run`
