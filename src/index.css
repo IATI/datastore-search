@@ -11,25 +11,25 @@
         @apply visible z-50
       }
 
-      @media (min-width:960px) {
+      @media screen and (min-width:1700px) {
         .search-bar {
-          width: 450px; 
+          width: 500px; 
         }          
       }
 
-      @media (max-width:960px) {
+      @media screen and (min-width:1200px) and (max-width:1699px) {
         .search-bar {
-          width: 300px; 
+          width: 330px; 
         }          
       }
 
-      @media (max-width:960px) {
+      @media screen and (min-width:960px) and (max-width:1199px){
         .search-bar {
-          width: 300px; 
+          width: 250px; 
         }          
       }
 
-      @media (max-width:880px) {
+      @media screen and (max-width:959px){
         .search-bar {
           width: auto; 
         }          
