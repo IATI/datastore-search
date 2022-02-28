@@ -45,15 +45,15 @@
           
           <div class="float-right">
             <p class="inline-block float-left mt-1 mr-5">
-            <a class="hover:underline" href="https://iatistandard.org/en/privacy-policy/">Privacy</a>
+            <a class="hover:underline" role="link" href="https://iatistandard.org/en/privacy-policy/">Privacy</a>
             </p>
             <p class="inline-block float-left mt-1 mr-5">
-            <a class="hover:underline" href="https://iatistandard.org/en/contact/">Contact</a>
+            <a class="hover:underline" role="link" href="https://iatistandard.org/en/contact/">Contact</a>
             </p>
-            <a class="inline-block ml-2" href="https://twitter.com/IATI_aid">
+            <a class="inline-block ml-2" role="link" aria-label="iati twitter profile link" href="https://twitter.com/IATI_aid">
               <TwitterLogo class="w-8 h-8" />
             </a>
-            <a class="inline-block ml-5" href="https://www.linkedin.com/company/international-aid-transparency-initiative/">
+            <a class="inline-block ml-5" role="link" aria-label="iati linkedin profile link" href="https://www.linkedin.com/company/international-aid-transparency-initiative/">
             <LinkedInLogo class="w-8 h-8" />
             </a>
           </div>
