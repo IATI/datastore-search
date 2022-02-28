@@ -14,7 +14,7 @@ concurrency: develop_CI
 
 jobs:
   build-ci:
-    name: "Build"
+    name: "Build and CI Test"
     runs-on: ubuntu-latest
 
     steps:
