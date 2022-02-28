@@ -18,10 +18,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v3.0.0
+        with:
+          node-version-file: '.nvmrc'
+
       - uses: actions/checkout@v2.4.0
+
       - name: Cypress CI Run
         uses: cypress-io/github-action@v2
         with:
+          command-prefix: "--"
           build: npm run build:development
           start: npm run serve
           wait-on: "http://localhost:3000"
