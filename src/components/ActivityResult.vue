@@ -48,7 +48,6 @@
 <script>
 import DownloadButtons from './DownloadButtons.vue';
 import { pageview } from 'vue-gtag';
-import moment from 'moment';
 
 export default {
   name: 'ActivityResult',
