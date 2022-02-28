@@ -6,7 +6,7 @@
     "dev:production": "vite --mode production",
     "build:development": "vite build --mode development",
     "build:production": "vite build --mode production",
-    "serve": "serve dist",
+    "serve": "serve -s dist",
     "preview": "vite preview",
     "cy:open": "cypress open --config-file cypress/envs/cypress.json",
     "cy:run": "cypress run --config-file cypress/envs/cypress.json",
