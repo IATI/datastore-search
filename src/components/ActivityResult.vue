@@ -29,7 +29,7 @@
           <div class="col-span-1"></div>
             <div class="col-span-2 pb-2">Publisher: <b>{{ activity.reporting_org_narrative[0] }}</b></div>
             <div class="col-span-2 pb-2">IATI Identifier <b>{{ activity.iati_identifier }}</b></div>
-            <div class="col-span-2 pb-2">Last updated: <b>{{ activity.last_updated_datetime }}</b></div>
+            <div class="col-span-2 pb-2">Last updated: <b>{{ prettyDate(activity.last_updated_datetime) }}</b></div>
           <div class="col-span-3"></div>
           
           <div class="col-span-1"></div>
@@ -65,9 +65,18 @@ export default {
       DownloadButtons,
   },
   methods: {
-      //prettyDate: function(dt) {
-        //return moment(dt).format('Do MMMM YYYY, hh:mm UTC');
-      //},
+      prettyDate: function(dt) {
+        return new Date('2019-02-19T06:00:00Z').toLocaleDateString(
+          'en-gb',
+      {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      }
+);
+      },
 
       requestData: function() {        
         const axiosConfig = {
