@@ -48,7 +48,7 @@
 <script>
 import DownloadButtons from './DownloadButtons.vue';
 import { pageview } from 'vue-gtag';
-//import moment from 'moment';
+import moment from 'moment';
 
 export default {
   name: 'ActivityResult',
@@ -68,14 +68,14 @@ export default {
       prettyDate: function(dt) {
         return new Date('2019-02-19T06:00:00Z').toLocaleDateString(
           'en-gb',
-      {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      }
-);
+          {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+          }
+        );
       },
 
       requestData: function() {        
