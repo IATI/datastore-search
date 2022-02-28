@@ -55,3 +55,15 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} --auth-mode key -d '$web' -s dist/
+
+  integration-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - name: Cypress CI Run
+        uses: cypress-io/github-action@v2
+        with:
+          wait-on: "https://dev-datastore.iatistandard.org"
+          config-file: cypress/envs/cypress.int.development.json

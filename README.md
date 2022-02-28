@@ -27,7 +27,7 @@ To make a production build using (`./envs/.env.production` vars):
 
 To serve a production build locally for testing:
 
-`npx serve dist`
+`npm run serve`
 
 ## Testing
 

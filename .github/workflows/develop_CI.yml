@@ -1,4 +1,4 @@
-name: Build_Vue_Dev
+name: Build_CI_Vue_Dev
 
 on:
   pull_request:
@@ -13,34 +13,19 @@ on:
 concurrency: develop_CI
 
 jobs:
-  build:
+  build-ci:
     name: "Build"
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2.4.0
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3.0.0
+      - name: Cypress CI Run
+        uses: cypress-io/github-action@v2
         with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          npm install
-
-      - name: Run build
-        run: |
-          npm run build:development
-
-      - name: Test end-to-end
-        run: |
-          npm install -g serve &&
-          serve ./dist -l 3000 -s &
-          sleep 10 &&
-          curl http://localhost:3000 &&
-          npm run cy:run-ci
+          build: npm run build:development
+          start: npm run serve
+          wait-on: "http://localhost:3000"
+          config-file: cypress/envs/cypress.ci.json
 
   automerge:
       needs: build
