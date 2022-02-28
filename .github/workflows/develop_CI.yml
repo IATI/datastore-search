@@ -28,7 +28,7 @@ jobs:
           config-file: cypress/envs/cypress.ci.json
 
   automerge:
-      needs: build
+      needs: build-ci
       runs-on: ubuntu-latest
       permissions:
         pull-requests: write
