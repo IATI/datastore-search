@@ -9,8 +9,12 @@
     "serve": "serve -s dist",
     "preview": "vite preview",
     "cy:open": "cypress open --config-file cypress/envs/cypress.json",
+    "cy:open:ci": "cypress open --config-file cypress/envs/cypress.ci.json",
     "cy:run": "cypress run --config-file cypress/envs/cypress.json",
-    "cy:run-ci": "cypress run --config-file cypress/envs/cypress.ci.json"
+    "cy:run-ci": "cypress run --config-file cypress/envs/cypress.ci.json",
+    "lint": "eslint --ext .js,.vue --fix src",
+    "format": "prettier . --write",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@hennge/vue3-pagination": "^1.0.17",
@@ -28,9 +32,23 @@
     "@vue/cli-plugin-router": "~5.0.1",
     "autoprefixer": "^10.4.2",
     "cypress": "^9.5.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.3.4",
     "postcss": "^8.4.7",
+    "prettier": "2.5.1",
     "serve": "^13.0.2",
     "tailwindcss": "^3.0.23",
     "vite": "^2.8.4"
+  },
+  "lint-staged": {
+    "*.{js,vue}": "eslint --cache --fix",
+    "*.{js,css,md,vue}": "prettier --write"
+  },
+  "engines": {
+    "node": ">=16 <17",
+    "npm": ">=8"
   }
 }
