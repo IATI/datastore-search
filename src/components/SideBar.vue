@@ -9,7 +9,7 @@ import { PlayIcon } from "@heroicons/vue/solid";
   <div class="h-auto">
     <ul id="filters" class="mx-5 my-5">
       <li v-for="filter in global.state.filters" :key="filter.id">
-        <Filter :filter="filter" />
+        <FilterInputs :filter="filter" />
       </li>
     </ul>
     <div id="buttons">
@@ -19,8 +19,8 @@ import { PlayIcon } from "@heroicons/vue/solid";
       >
         <button
           aria-label="Run search query with selected filters"
-          v-on:click="global.run()"
           class="bg-btn-green hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-right ml-5 mr-8 pr-2 w-2/24"
+          @click="global.run()"
         >
           <PlayIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -29,8 +29,8 @@ import { PlayIcon } from "@heroicons/vue/solid";
         </button>
         <button
           aria-label="Export filters to file"
-          v-on:click="global.toggleExportModal()"
           class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
+          @click="global.toggleExportModal()"
         >
           <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -39,8 +39,8 @@ import { PlayIcon } from "@heroicons/vue/solid";
         </button>
         <button
           aria-label="Import filters from file"
-          v-on:click="global.toggleImportModal()"
           class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-5 w-3/24"
+          @click="global.toggleImportModal()"
         >
           <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -49,8 +49,8 @@ import { PlayIcon } from "@heroicons/vue/solid";
         </button>
         <button
           aria-label="Add an additional filter"
-          v-on:click="global.addFilter()"
           class="bg-btn-yellow hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
+          @click="global.addFilter()"
         >
           <PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -61,8 +61,8 @@ import { PlayIcon } from "@heroicons/vue/solid";
       <div v-if="global.state.filters.length === 0">
         <button
           aria-label="Add an additional filter"
-          v-on:click="global.addFilter()"
           class="bg-btn-yellow hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-left ml-8 w-2/24 pr-2"
+          @click="global.addFilter()"
         >
           <PlusCircleIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -71,8 +71,8 @@ import { PlayIcon } from "@heroicons/vue/solid";
         </button>
         <button
           aria-label="Import filters from file"
-          v-on:click="global.toggleImportModal()"
           class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-4 float-left w-3/24"
+          @click="global.toggleImportModal()"
         >
           <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span
             class="float-left"
@@ -89,16 +89,16 @@ import { PlayIcon } from "@heroicons/vue/solid";
 </template>
 
 <script>
-import Filter from "./Filter.vue";
+import FilterInputs from "./FilterInputs.vue";
 import ExportModal from "./ExportModal.vue";
 import ImportModal from "./ImportModal.vue";
 export default {
   name: "SideBar",
-  inject: ["global"],
   components: {
-    Filter,
+    FilterInputs,
     ExportModal,
     ImportModal,
   },
+  inject: ["global"],
 };
 </script>
