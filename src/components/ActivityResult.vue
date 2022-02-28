@@ -65,7 +65,7 @@ export default {
   },
   methods: {
       prettyDate: function(dt) {
-        return new Date('2019-02-19T06:00:00Z').toLocaleDateString(
+        return new Date(dt).toLocaleDateString(
           'en-gb',
           {
             year: 'numeric',
