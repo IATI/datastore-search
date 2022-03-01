@@ -23,6 +23,7 @@ const baseUrlActivity =
 const baseUrlDownload = domain + "/dss/download";
 
 const state = reactive({
+  nextFilterId: 0,
   queryInProgress: false,
   filters: [],
   fieldOptions: [],
@@ -92,7 +93,8 @@ if (state.fieldOptions.length === 0) {
 
 //API implementation, and then exported:
 const addFilter = async () => {
-  const filterId = "filter-" + state.filters.length;
+  const filterId = "filter-" + state.nextFilterId;
+  state.nextFilterId = state.nextFilterId + 1;
   state.filters.push({
     id: filterId,
     type: null,
