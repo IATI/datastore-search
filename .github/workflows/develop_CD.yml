@@ -53,7 +53,7 @@ jobs:
         env:
           STORAGE_NAME: sadatastoresearchdev
         with:
-          azcliversion: latest
+          azcliversion: 2.33.1
           inlineScript: |
             az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} -d '$web' -s dist/
 
