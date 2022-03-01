@@ -3,10 +3,10 @@ name: Build_CI_Vue_Dev
 on:
   pull_request:
     paths-ignore: # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
-      - '**/README.md'
-      - '**/dependabot.yml'
-      - '.github/workflows/develop_CD.yml'
-      - '.github/workflows/main_CD.yml'
+      - "**/README.md"
+      - "**/dependabot.yml"
+      - ".github/workflows/develop_CD.yml"
+      - ".github/workflows/main_CD.yml"
     branches:
       - develop
 
@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3.0.0
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
 
       - name: Cypress CI Run
         uses: cypress-io/github-action@v2
@@ -35,12 +35,12 @@ jobs:
           config-file: cypress/envs/cypress.ci.json
 
   automerge:
-      needs: build-ci
-      runs-on: ubuntu-latest
-      permissions:
-        pull-requests: write
-        contents: write
-      steps:
-        - uses: fastify/github-action-merge-dependabot@v3.0.2
-          with:
-            github-token: ${{secrets.GITHUB_TOKEN}}
+    needs: build-ci
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3.0.2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
