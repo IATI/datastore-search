@@ -54,7 +54,7 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az storage blob upload-batch --overwrite --account-name ${{ env.STORAGE_NAME }} --auth-mode key -d '$web' -s dist/
+            az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} --auth-mode key -d '$web' -s dist/
 
   integration-test:
     needs: deploy
