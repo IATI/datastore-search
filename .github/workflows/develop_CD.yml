@@ -12,6 +12,7 @@ on:
 
 env:
   AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
+  STORAGE_KEY: ${{ secrets.DEV_STORAGE_KEY }}
 
 jobs:
   should_run:
@@ -52,9 +53,9 @@ jobs:
         env:
           STORAGE_NAME: sadatastoresearchdev
         with:
-          azcliversion: latest
+          azcliversion: 2.32.0
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} --auth-mode key -d '$web' -s dist/
+            az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} -d '$web' -s dist/
 
   integration-test:
     needs: deploy
