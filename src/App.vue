@@ -16,7 +16,7 @@
           <div class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
           
             <h1 class="text-4xl mt-5">
-              <a href="/"><b>Datastore Search</b><span style="color:green"> beta </span></a>
+              <a href="/"><b>Datastore Search</b></a>
             </h1>
           </div>
 
