@@ -3,24 +3,35 @@
 @tailwind utilities;
 
 @layer components {
-    .tooltip {
-        @apply invisible absolute;
-      }
-      
-      .has-tooltip:hover .tooltip {
-        @apply visible z-50
-      }
+  .tooltip {
+    @apply invisible absolute;
+  }
 
-      @media (min-width:960px) {
-        .search-bar {
-          width: 500px; 
-        }          
-      }
+  .has-tooltip:hover .tooltip {
+    @apply visible z-50;
+  }
 
-      @media (max-width:960px) {
-        .search-bar {
-          width: auto; 
-        }          
-      }
+  @media screen and (min-width: 1700px) {
+    .search-bar {
+      width: 500px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) and (max-width: 1699px) {
+    .search-bar {
+      width: 330px;
+    }
+  }
+
+  @media screen and (min-width: 960px) and (max-width: 1199px) {
+    .search-bar {
+      width: 250px;
+    }
+  }
+
+  @media screen and (max-width: 959px) {
+    .search-bar {
+      width: auto;
+    }
+  }
 }
-

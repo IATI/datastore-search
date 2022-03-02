@@ -1,35 +1,41 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Landing from "../views/Landing.vue";
-import Simple from "../views/Simple.vue";
-import Advanced from "../views/Advanced.vue";
-import Activity from "../views/Activity.vue";
+import LandingView from "../views/LandingView.vue";
+import SimpleView from "../views/SimpleView.vue";
+import AdvancedView from "../views/AdvancedView.vue";
+import ActivityView from "../views/ActivityView.vue";
+import AboutPage from "../views/AboutPage.vue";
 
 const routes = [
   {
     path: "/",
     name: "landing",
-    component: Landing,
+    component: LandingView,
   },
   {
     path: "/simple",
     name: "simple",
-    component: Simple
+    component: SimpleView,
   },
   {
     path: "/advanced",
     name: "advanced",
-    component: Advanced,
+    component: AdvancedView,
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: AboutPage,
   },
   {
     path: "/activity/:iati_identifier",
     name: "activity",
-    component: Activity,
+    component: ActivityView,
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import('../views/NotFound.vue')
-  }
+    component: () => import("../views/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({

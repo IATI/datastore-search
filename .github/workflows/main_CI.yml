@@ -1,54 +1,35 @@
-name: Build_Vue_Prod
+name: Build_CI_Vue_Prod
 
 on:
   pull_request:
     paths-ignore: # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
-      - '**/README.md'
-      - '**/dependabot.yml'
-      - '.github/workflows/develop_CD.yml'
-      - '.github/workflows/main_CD.yml'
+      - "**/README.md"
+      - "**/dependabot.yml"
+      - ".github/workflows/develop_CD.yml"
+      - ".github/workflows/main_CD.yml"
     branches:
       - main
 
 concurrency: main_CI
 
 jobs:
-  build:
-    name: "Build"
+  build-ci:
+    name: "Build and CI Test"
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2.4.0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3.0.0
         with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
+          node-version-file: ".nvmrc"
 
-      - name: Install dependencies
-        run: |
-          npm install
-
-      - name: Run build
-        run: |
-          npm run build:production
-
-      - name: Test end-to-end
-        run: |
-          npm install -g serve &&
-          serve ./dist -l 8080 -s &
-          sleep 10 &&
-          curl http://localhost:8080 &&
-          npm run cy:run-ci
-
-  automerge:
-      needs: build
-      runs-on: ubuntu-latest
-      permissions:
-        pull-requests: write
-        contents: write
-      steps:
-        - uses: fastify/github-action-merge-dependabot@v3.0.2
-          with:
-            github-token: ${{secrets.GITHUB_TOKEN}}
+      - name: Cypress CI Run
+        uses: cypress-io/github-action@v2
+        with:
+          command-prefix: "--"
+          build: npm run build:development
+          start: npm run serve
+          wait-on: "http://localhost:3000"
+          config-file: cypress/envs/cypress.ci.json
