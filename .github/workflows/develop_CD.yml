@@ -11,8 +11,8 @@ on:
     - cron: "24 04 * * *" # 0424am daily
 
 env:
-  AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
-  STORAGE_KEY: ${{ secrets.DEV_STORAGE_KEY }}
+  STORAGE_ACCOUNT_NAME: sadatastoresearchdev
+  STORAGE_ACCOUNT_KEY: ${{ secrets.DEV_STORAGE_KEY }}
 
 jobs:
   should_run:
@@ -43,19 +43,17 @@ jobs:
         run: |
           echo -e 'User-agent: *\nDisallow: /\n' > dist/robots.txt
 
-      - name: Login to Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
-
       - name: Upload to blob storage
         uses: azure/CLI@v1
-        env:
-          STORAGE_NAME: sadatastoresearchdev
         with:
-          azcliversion: 2.33.1
+          azcliversion: 2.34.0
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} -d '$web' -s dist/
+            az storage blob upload-batch \
+            --overwrite true \
+            --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ env.STORAGE_ACCOUNT_KEY }} \
+            -d '$web' \
+            -s dist/
 
   integration-test:
     needs: deploy

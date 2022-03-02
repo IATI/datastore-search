@@ -5,7 +5,8 @@ on:
     types: [published]
 
 env:
-  AZURE_CREDENTIALS: ${{ secrets.PROD_AZURE_CREDENTIALS }}
+  STORAGE_ACCOUNT_NAME: sadatastoresearchprod
+  STORAGE_ACCOUNT_KEY: ${{ secrets.PROD_STORAGE_KEY }}
 
 jobs:
   deploy:
@@ -31,16 +32,14 @@ jobs:
         run: |
           echo -e 'User-agent: *\nDisallow:\n' > dist/robots.txt
 
-      - name: Login to Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
-
       - name: Upload to blob storage
         uses: azure/CLI@v1
-        env:
-          STORAGE_NAME: sadatastoresearchprod
         with:
-          azcliversion: latest
+          azcliversion: 2.34.0
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ env.STORAGE_NAME }} --auth-mode key -d '$web' -s dist/
+            az storage blob upload-batch \
+            --overwrite true \
+            --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ env.STORAGE_ACCOUNT_KEY }} \
+            -d '$web' \
+            -s dist/
