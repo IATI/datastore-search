@@ -22,18 +22,10 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
       <button
         :class="{ 'bg-blue-300': filter.joinOperator === 'OR' }"
         type="button"
-        class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+        class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
         @click="global.changeFilter(filter.id, 'joinOperator', 'OR')"
       >
         OR
-      </button>
-      <button
-        :class="{ 'bg-blue-300': filter.joinOperator === 'XOR' }"
-        type="button"
-        class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-        @click="global.changeFilter(filter.id, 'joinOperator', 'XOR')"
-      >
-        XOR
       </button>
     </div>
   </div>
