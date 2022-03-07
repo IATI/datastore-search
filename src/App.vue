@@ -116,8 +116,19 @@ import LinkedInLogo from "./components/LinkedInLogo.vue";
 
 <script>
 import global from "./global";
+import { time } from "vue-gtag";
 
 export default {
   provide: { global },
+  mounted() {
+    const perfEntries = performance.getEntriesByType("navigation");
+    perfEntries.forEach((entry) => {
+      time({
+        name: "load",
+        value: entry.duration,
+        event_category: "Initial application load",
+      });
+    });
+  },
 };
 </script>
