@@ -121,13 +121,11 @@ import { time } from "vue-gtag";
 export default {
   provide: { global },
   mounted() {
-    const perfEntries = performance.getEntriesByType("navigation");
-    perfEntries.forEach((entry) => {
-      time({
-        name: "load",
-        value: entry.duration,
-        event_category: "Initial application load",
-      });
+    performance.mark("end");
+    time({
+      name: "load",
+      value: performance.measure("end", "start").duration,
+      event_category: "Initial application load",
     });
   },
 };
