@@ -121,10 +121,10 @@ import { time } from "vue-gtag";
 export default {
   provide: { global },
   mounted() {
-    performance.mark("end");
+    const timeSincePageLoad = Math.round(performance.now());
     time({
       name: "load",
-      value: performance.measure("end", "start").duration,
+      value: timeSincePageLoad,
       event_category: "Initial application load",
     });
   },
