@@ -30,7 +30,7 @@ jobs:
 
       - name: Create robots.txt
         run: |
-          echo -e 'User-agent: *\nDisallow:\n' > dist/robots.txt
+          echo -e 'User-agent: *\nDisallow:\nSitemap: https://datastore.iatistandard.org/sitemap-index.xml\n' > dist/robots.txt
 
       - name: Upload to blob storage
         uses: azure/CLI@v1
