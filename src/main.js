@@ -7,7 +7,7 @@ import "./index.css";
 createApp(App)
   .use(VueGtag, {
     config: {
-      id: "UA-110230511-10", // Placeholder, TODO: Replace with UA when live
+      id: import.meta.env.VUE_ENV_GA_ID,
       params: {
         anonymize_ip: true,
       },
