@@ -33,5 +33,9 @@
     .search-bar {
       width: auto;
     }
+
+    .hide-on-mobile {
+      visibility: hidden;
+    }
   }
 }
