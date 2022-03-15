@@ -2,6 +2,7 @@
 import IatiLogo from "./components/IatiLogo.vue";
 import TwitterLogo from "./components/TwitterLogo.vue";
 import LinkedInLogo from "./components/LinkedInLogo.vue";
+import NotificationBanner from "./components/NotificationBanner.vue";
 </script>
 
 <template>
@@ -64,6 +65,7 @@ import LinkedInLogo from "./components/LinkedInLogo.vue";
             </nav>
           </div>
         </div>
+        <NotificationBanner />
       </div>
     </header>
     <div class="flex-grow"><router-view /></div>
@@ -119,6 +121,9 @@ import global from "./global";
 import { time } from "vue-gtag";
 
 export default {
+  components: {
+    NotificationBanner,
+  },
   provide: { global },
   mounted() {
     const timeSincePageLoad = Math.round(performance.now());
