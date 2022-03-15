@@ -9,17 +9,24 @@ const axiosConfig = {
   },
 };
 
+const activityDateTypes = {
+  'planned_start': '1',
+  'actual_start': '2',
+  'planned_end': '3',
+  'actual_end': '4'
+}
+
 const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
 
 const baseUrl =
   domain +
-  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlSimple =
   domain +
-  "/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+  "/dss/activity/search?wt=json&sort=iati_identifier asc&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlActivity =
   domain +
-  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
+  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = domain + "/dss/download";
 
 const state = reactive({
@@ -287,6 +294,23 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
 
 const setResponseState = (result) => {
   state.responseDocs = result.data.response.docs;
+
+  for (const keyA in state.responseDocs) {
+    for (const keyB in state.responseDocs[keyA]['activity_date_type']) {
+      const dt = state.responseDocs[keyA]['activity_date_iso_date'][keyB];
+
+      switch (state.responseDocs[keyA]['activity_date_type'][keyB]) {
+        case activityDateTypes.planned_start:
+          state.responseDocs[keyA]['plannedStart'] = dt;
+        case activityDateTypes.actual_start:
+          state.responseDocs[keyA]['actualStart'] = dt;
+        case activityDateTypes.planned_end:
+          state.responseDocs[keyA]['plannedEnd'] = dt;
+        case activityDateTypes.actual_end:
+          state.responseDocs[keyA]['actualEnd'] = dt;
+      }
+    }
+  }
 
   let index = 0;
 
