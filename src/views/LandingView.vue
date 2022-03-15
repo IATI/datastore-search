@@ -13,7 +13,6 @@
 
 <script>
 import SearchBar from "../components/SearchBar.vue";
-import { pageview } from "vue-gtag";
 
 export default {
   name: "LandingView",
@@ -22,12 +21,6 @@ export default {
   },
   beforeMount() {
     sessionStorage.removeItem("searchterm");
-  },
-  mounted() {
-    pageview({
-      page_path: this.$route.fullPath,
-      page_title: this.$route.name,
-    });
   },
 };
 </script>
