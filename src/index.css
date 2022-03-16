@@ -7,6 +7,10 @@
     @apply invisible absolute;
   }
 
+  .meta {
+    font-size: 0.8em;
+  }
+
   .has-tooltip:hover .tooltip {
     @apply visible z-50;
   }
@@ -32,6 +36,10 @@
   @media screen and (max-width: 959px) {
     .search-bar {
       width: auto;
+    }
+
+    .hide-on-mobile {
+      visibility: hidden;
     }
   }
 }
