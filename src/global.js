@@ -10,11 +10,20 @@ const axiosConfig = {
 };
 
 const activityDateTypes = {
-  'planned_start': '1',
-  'actual_start': '2',
-  'planned_end': '3',
-  'actual_end': '4'
-}
+  planned_start: "1",
+  actual_start: "2",
+  planned_end: "3",
+  actual_end: "4",
+};
+
+const simpleSortFields = [
+  { verbose: "Relevance", field: "score", label: "Sort results by relevance" },
+  {
+    verbose: "Activity date",
+    field: "activity_date_iso_date",
+    label: "Sort results by activity date",
+  },
+];
 
 const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
 
@@ -43,6 +52,8 @@ const state = reactive({
   page: 1,
   simpleSearch: null,
   simpleSearchTerm: null,
+  simpleSearchOrderField: "score",
+  simpleSearchOrderDirection: "desc",
   activity: null,
   download: {
     formats: ["XML", "JSON", "CSV"],
@@ -277,6 +288,10 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   url.searchParams.set("q", searchterm);
   url.searchParams.set("start", start);
   url.searchParams.set("rows", rows);
+  url.searchParams.set(
+    "sort",
+    `${state.simpleSearchOrderField} ${state.simpleSearchOrderDirection}`
+  );
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = true;
   state.query = searchterm;
@@ -296,18 +311,22 @@ const setResponseState = (result) => {
   state.responseDocs = result.data.response.docs;
 
   for (const keyA in state.responseDocs) {
-    for (const keyB in state.responseDocs[keyA]['activity_date_type']) {
-      const dt = state.responseDocs[keyA]['activity_date_iso_date'][keyB];
+    for (const keyB in state.responseDocs[keyA]["activity_date_type"]) {
+      const dt = state.responseDocs[keyA]["activity_date_iso_date"][keyB];
 
-      switch (state.responseDocs[keyA]['activity_date_type'][keyB]) {
+      switch (state.responseDocs[keyA]["activity_date_type"][keyB]) {
         case activityDateTypes.planned_start:
-          state.responseDocs[keyA]['plannedStart'] = dt;
+          state.responseDocs[keyA]["plannedStart"] = dt;
+          break;
         case activityDateTypes.actual_start:
-          state.responseDocs[keyA]['actualStart'] = dt;
+          state.responseDocs[keyA]["actualStart"] = dt;
+          break;
         case activityDateTypes.planned_end:
-          state.responseDocs[keyA]['plannedEnd'] = dt;
+          state.responseDocs[keyA]["plannedEnd"] = dt;
+          break;
         case activityDateTypes.actual_end:
-          state.responseDocs[keyA]['actualEnd'] = dt;
+          state.responseDocs[keyA]["actualEnd"] = dt;
+          break;
       }
     }
   }
@@ -567,6 +586,19 @@ const paginationUpdate = async (page) => {
   }
 };
 
+const sortSimple = async (field) => {
+  if (field == state.simpleSearchOrderField) {
+    state.simpleSearchOrderDirection =
+      state.simpleSearchOrderDirection == "desc" ? "asc" : "desc";
+  } else {
+    state.simpleSearchOrderField = field;
+    state.simpleSearchOrderDirection = "desc";
+  }
+
+  const searchterm = state.simpleSearchTerm;
+  await runSimple(searchterm);
+};
+
 // Helper functions, not exported:
 const compileQuery = () => {
   let query = "";
@@ -651,4 +683,6 @@ export default {
   onFilePicked,
   dropdownStateBlank,
   validateDropdownOptions,
+  simpleSortFields,
+  sortSimple,
 };
