@@ -13,12 +13,17 @@
     <div v-if="!doc.actualStart && doc.plannedStart" class="col-span-1 meta">
       Planned Start Date: <b v-html="prettyDate(doc.plannedStart)"></b>
     </div>
+    <div
+      v-if="!doc.actualStart && !doc.plannedStart"
+      class="col-span-1 meta"
+    ></div>
     <div v-if="doc.actualEnd" class="col-span-1 meta">
       End Date: <b v-html="prettyDate(doc.actualEnd)"></b>
     </div>
     <div v-if="!doc.actualEnd && doc.plannedEnd" class="col-span-1 meta">
       Planned End Date: <b v-html="prettyDate(doc.plannedEnd)"></b>
     </div>
+    <div v-if="!doc.actualEnd && !doc.plannedEnd" class="col-span-1 meta"></div>
     <div class="col-span-1"></div>
     <div class="col-span-1"></div>
     <div class="col-span-8 hover:underline text-sky-700">
