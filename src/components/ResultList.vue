@@ -116,7 +116,6 @@ export default {
   margin: 0 3px;
   color: #0369a1;
   background-color: transparent;
-  font-size: 20px;
   border: 1px solid #dedede;
   border-radius: 3px;
   box-sizing: border-box;
