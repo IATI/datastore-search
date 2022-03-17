@@ -181,12 +181,16 @@ export default {
               switch (this.activity['activity_date_type'][key]) {
                 case activityDateTypes.planned_start:
                   this.dates['plannedStart'] = dt;
+                  break;
                 case activityDateTypes.actual_start:
                   this.dates['actualStart'] = dt;
+                  break;
                 case activityDateTypes.planned_end:
                   this.dates['plannedEnd'] = dt;
+                  break;
                 case activityDateTypes.actual_end:
                   this.dates['actualEnd'] = dt;
+                  break;
               }
             }
 

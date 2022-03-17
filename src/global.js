@@ -302,12 +302,16 @@ const setResponseState = (result) => {
       switch (state.responseDocs[keyA]['activity_date_type'][keyB]) {
         case activityDateTypes.planned_start:
           state.responseDocs[keyA]['plannedStart'] = dt;
+          break;
         case activityDateTypes.actual_start:
           state.responseDocs[keyA]['actualStart'] = dt;
+          break;
         case activityDateTypes.planned_end:
           state.responseDocs[keyA]['plannedEnd'] = dt;
+          break;
         case activityDateTypes.actual_end:
           state.responseDocs[keyA]['actualEnd'] = dt;
+          break;
       }
     }
   }
