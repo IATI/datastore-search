@@ -17,11 +17,17 @@ const activityDateTypes = {
 };
 
 const simpleSortFields = [
-  { verbose: "Relevance", field: "score", label: "Sort results by relevance" },
   {
-    verbose: "Activity date",
-    field: "activity_date_iso_date",
-    label: "Sort results by activity date",
+    verbose: "Relevance",
+    field: "score",
+    label: "Sort results by relevance",
+    default: "desc",
+  },
+  {
+    verbose: "Identifier",
+    field: "iati_identifier",
+    label: "Sort results by IATI identifier",
+    default: "asc",
   },
 ];
 
@@ -592,7 +598,8 @@ const sortSimple = async (field) => {
       state.simpleSearchOrderDirection == "desc" ? "asc" : "desc";
   } else {
     state.simpleSearchOrderField = field;
-    state.simpleSearchOrderDirection = "desc";
+    const fieldObj = simpleSortFields.filter((d) => d.field == field)[0];
+    state.simpleSearchOrderDirection = fieldObj.default;
   }
 
   const searchterm = state.simpleSearchTerm;

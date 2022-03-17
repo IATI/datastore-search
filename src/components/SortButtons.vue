@@ -7,7 +7,11 @@
         v-for="fieldObj in global.simpleSortFields"
         :key="fieldObj"
         :aria-label="
-          fieldObj.label + ' ' + global.state.simpleSearchOrderDirection
+          fieldObj.label +
+          ' ' +
+          (global.state.simpleSearchOrderField == fieldObj.field
+            ? global.state.simpleSearchOrderDirection
+            : '')
         "
         class="bg-btn-red hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block sm:inline mb-1 sm:mb-0"
         @click="global.sortSimple(fieldObj.field)"
