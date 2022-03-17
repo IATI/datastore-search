@@ -32,7 +32,7 @@ import { useRoute } from "vue-router";
 
         <div class="col-span-1"></div>
         <h1 class="col-span-8 text-2xl border-b pb-2">
-          <b>{{ activity.title_narrative[0] }}</b>
+          <b>{{ activity.title_narrative }}</b>
         </h1>
         <div class="col-span-1"></div>
 
@@ -44,19 +44,21 @@ import { useRoute } from "vue-router";
 
         <div class="col-span-1"></div>
         <div class="col-span-2">
-          Publisher: <b>{{ activity.reporting_org_narrative[0] }}</b>
+          Publisher:
+          <b>{{ activity.reporting_org_narrative }}</b>
         </div>
         <div class="col-span-2">
           IATI Identifier <b>{{ activity.iati_identifier }}</b>
         </div>
         <div class="col-span-2">
-          Last updated: <b>{{ prettyDateTime(activity.last_updated_datetime) }}</b>
+          Last updated:
+          <b>{{ prettyDateTime(activity.last_updated_datetime) }}</b>
         </div>
         <div class="col-span-3"></div>
-        
+
         <div class="col-span-1"></div>
         <p class="col-span-8 border-b border-t pt-3 pb-3">
-          {{ activity.description_narrative[0] }}
+          {{ activity.description_narrative }}
         </p>
         <div class="col-span-1"></div>
         <div class="col-span-1"></div>
@@ -111,7 +113,7 @@ export default {
   data: function () {
     return {
       activity: null,
-      dates: null
+      dates: null,
     };
   },
   created() {
@@ -120,7 +122,7 @@ export default {
   methods: {
     prettyDate: function (dt) {
       if (dt === null) {
-        return "Not Present"
+        return "Not Present";
       }
       return new Date(dt).toLocaleDateString("en-gb", {
         year: "numeric",
@@ -161,24 +163,42 @@ export default {
           } else {
             this.activity = data.response.docs[0];
 
-            this.dates = {
-              'plannedStart': null,
-              'actualStart': null,
-              'plannedEnd': null,
-              'actualEnd': null
+            if ("description_narrative" in this.activity) {
+              this.activity.description_narrative =
+                this.activity.description_narrative[0];
+            } else {
+              this.activity.description_narrative = "No Description";
             }
+            if ("title_narrative" in this.activity) {
+              this.activity.title_narrative = this.activity.title_narrative[0];
+            } else {
+              this.activity.title_narrative = "No Title";
+            }
+            if ("reporting_org_narrative" in this.activity) {
+              this.activity.reporting_org_narrative =
+                this.activity.reporting_org_narrative[0];
+            } else {
+              this.activity.reporting_org_narrative = "No Name Provided";
+            }
+
+            this.dates = {
+              plannedStart: null,
+              actualStart: null,
+              plannedEnd: null,
+              actualEnd: null,
+            };
 
             const activityDateTypes = {
-              'planned_start': '1',
-              'actual_start': '2',
-              'planned_end': '3',
-              'actual_end': '4'
-            }
+              planned_start: "1",
+              actual_start: "2",
+              planned_end: "3",
+              actual_end: "4",
+            };
 
-            for (const key in this.activity['activity_date_type']) {
-              const dt = this.activity['activity_date_iso_date'][key];
+            for (const key in this.activity["activity_date_type"]) {
+              const dt = this.activity["activity_date_iso_date"][key];
 
-              switch (this.activity['activity_date_type'][key]) {
+              switch (this.activity["activity_date_type"][key]) {
                 case activityDateTypes.planned_start:
                   this.dates['plannedStart'] = dt;
                   break;
@@ -195,7 +215,7 @@ export default {
             }
 
             const titleEl = document.querySelector("head title");
-            titleEl.textContent = `${this.activity.title_narrative[0]} - IATI Datastore Search`;
+            titleEl.textContent = `${this.activity.title_narrative} - IATI Datastore Search`;
 
             const descEl = document.querySelector(
               'head meta[name="description"]'
@@ -203,13 +223,13 @@ export default {
             descEl.setAttribute(
               "content",
               `IATI identifier: ${this.activity.iati_identifier}, ` +
-                `Publisher: ${this.activity.reporting_org_narrative[0]}, ` +
-                `Description: ${this.activity.description_narrative[0]}, ` +
+                `Publisher: ${this.activity.reporting_org_narrative}, ` +
+                `Description: ${this.activity.description_narrative}, ` +
                 `Participating organisations: ${this.activity.participating_org_narrative}`
             );
             pageview({
               page_path: this.$route.fullPath,
-              page_title: this.activity.title_narrative[0],
+              page_title: this.activity.title_narrative,
             });
           }
         });
