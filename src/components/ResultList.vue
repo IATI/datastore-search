@@ -43,11 +43,6 @@ let page = 1;
 
     <div class="flex-grow">
       <router-view />
-      <SortButtons
-        v-if="
-          global.state.responseTotal != null && global.state.responseTotal > 0
-        "
-      />
       <ul
         v-if="
           global.state.responseTotal != null && global.state.responseTotal > 0
@@ -80,14 +75,12 @@ let page = 1;
 <script>
 import ResultItem from "./ResultItem.vue";
 import DownloadButtons from "./DownloadButtons.vue";
-import SortButtons from "./SortButtons.vue";
 export default {
   name: "ResultList",
   components: {
     DownloadButtons,
     ResultItem,
     VPagination,
-    SortButtons,
   },
   inject: ["global"],
 };

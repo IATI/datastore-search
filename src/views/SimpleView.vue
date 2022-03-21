@@ -21,6 +21,14 @@
           >Found {{ global.state.responseTotal }} IATI Activities</span
         >
       </div>
+      <div class="col-span-2"></div>
+      <div class="col-span-1 hidden xl:block"></div>
+      <SortButtons
+        v-if="
+          global.state.responseTotal != null && global.state.responseTotal > 0
+        "
+        class="pl-2 sm:pl-4 md:pl-6 lg:pl-8 md:col-span-9 lg:col-span-10"
+      />
     </div>
     <ResultList />
   </div>
@@ -30,6 +38,7 @@
 import SearchBar from "../components/SearchBar.vue";
 import ResultList from "../components/ResultList.vue";
 import DownloadButtons from "../components/DownloadButtons.vue";
+import SortButtons from "../components/SortButtons.vue";
 import { pageview } from "vue-gtag";
 
 export default {
@@ -38,6 +47,7 @@ export default {
     SearchBar,
     ResultList,
     DownloadButtons,
+    SortButtons,
   },
   inject: ["global"],
   beforeUnmount() {
