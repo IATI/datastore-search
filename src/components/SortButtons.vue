@@ -2,30 +2,30 @@
   <div>
     <b>Sort by:</b>
     <button
-      v-for="fieldObj in global.simpleSortFields"
+      v-for="fieldObj in global.sortFields"
       :key="fieldObj"
       :aria-label="
         fieldObj.label +
         ' ' +
-        (global.state.simpleSearchOrderField == fieldObj.field
-          ? global.state.simpleSearchOrderDirection
+        (global.state.searchOrderField == fieldObj.field
+          ? global.state.searchOrderDirection
           : '')
       "
       class="bg-iati-blue hover:bg-iati-grey text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline mb-1"
-      @click="global.sortSimple(fieldObj.field)"
+      @click="global.sortResults(fieldObj.field)"
     >
       <span>{{ fieldObj.verbose }}</span>
-      <span v-if="global.state.simpleSearchOrderField == fieldObj.field">
+      <span v-if="global.state.searchOrderField == fieldObj.field">
         <ChevronDownIcon
-          v-if="global.state.simpleSearchOrderDirection == 'desc'"
+          v-if="global.state.searchOrderDirection == 'desc'"
           class="h-5 w-5 text-grey-300 ml-1 inline"
         />
         <ChevronUpIcon
-          v-if="global.state.simpleSearchOrderDirection == 'asc'"
+          v-if="global.state.searchOrderDirection == 'asc'"
           class="h-5 w-5 text-grey-300 ml-1 inline"
         />
       </span>
-      <span v-if="global.state.simpleSearchOrderField != fieldObj.field">
+      <span v-if="global.state.searchOrderField != fieldObj.field">
         <MinusSmIcon class="h-5 w-5 text-grey-300 ml-1 inline" />
       </span>
     </button>

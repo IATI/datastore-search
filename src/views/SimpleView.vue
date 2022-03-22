@@ -9,19 +9,12 @@
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-3 justify-center items-center ml-10"
-      >
-        <DownloadButtons />
-      </div>
-      <div
-        v-if="global.state.responseTotal > 0"
-        class="flex col-span-1 justify-center items-center"
+        class="flex col-span-2 justify-center items-center ml-10"
       >
         <span class="my-2"
           >Found <b>{{ global.state.responseTotal }}</b> Activities</span
         >
       </div>
-
 
       <SortButtons
         v-if="
@@ -29,6 +22,12 @@
         "
         class="col-span-2 mt-5"
       />
+      <div
+        v-if="global.state.responseTotal > 0"
+        class="flex col-span-2 justify-center items-center"
+      >
+        <DownloadButtons />
+      </div>
     </div>
     <ResultList />
   </div>

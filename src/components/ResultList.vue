@@ -39,6 +39,10 @@ let page = 1;
         </div>
         <DownloadButtons v-if="global.state.responseDocs" />
       </div>
+      <SortButtons
+        v-if="!global.state.simpleSearch"
+        class="flex items-center justify-center col-span-4"
+      />
     </div>
 
     <div class="flex-grow">
@@ -75,12 +79,14 @@ let page = 1;
 <script>
 import ResultItem from "./ResultItem.vue";
 import DownloadButtons from "./DownloadButtons.vue";
+import SortButtons from "./SortButtons.vue";
 export default {
   name: "ResultList",
   components: {
     DownloadButtons,
     ResultItem,
     VPagination,
+    SortButtons,
   },
   inject: ["global"],
 };
