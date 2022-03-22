@@ -9,25 +9,25 @@
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-3 justify-center items-center"
+        class="flex col-span-3 justify-center items-center ml-10"
       >
         <DownloadButtons />
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-2 justify-center items-center"
+        class="flex col-span-1 justify-center items-center"
       >
         <span class="my-2"
-          >Found {{ global.state.responseTotal }} IATI Activities</span
+          >Found <b>{{ global.state.responseTotal }}</b> Activities</span
         >
       </div>
-      <div class="col-span-2"></div>
-      <div class="col-span-1 hidden xl:block"></div>
+
+
       <SortButtons
         v-if="
           global.state.responseTotal != null && global.state.responseTotal > 0
         "
-        class="pl-2 sm:pl-4 md:pl-6 lg:pl-8 md:col-span-9 lg:col-span-10"
+        class="col-span-2 mt-5"
       />
     </div>
     <ResultList />
