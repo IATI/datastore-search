@@ -36,7 +36,7 @@ let page = 1;
         <div class="flex items-center justify-center mt-1">
           <span class="my-2"
             >Found <b>{{ global.state.responseTotal }}</b> matching IATI
-            Activities</span
+            activities</span
           >
         </div>
       </div>

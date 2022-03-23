@@ -1,23 +1,23 @@
 <template>
   <div class="flex flex-col h-full min-w-fit sm:min-w-0">
     <div
-      class="md:grid md:grid-cols-10 lg:grid-cols-11 md:gap-4 text-left border-b"
+      class="md:grid md:grid-cols-11 lg:grid-cols-12 md:gap-4 text-left border-b"
     >
-      <div class="col-span-1 hidden xl:block"></div>
-      <div class="m-auto col-span-4 xl:col-span-3 pl-2 lg:pl-0">
-        <SearchBar />
+      <div class="col-span-1 hidden 2xl:block"></div>
+      <div class="my-auto col-span-3 2xl:col-span-2 ml-2 2xl:ml-0">
+        <SearchBar class="simple" />
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-2 justify-center items-center ml-20"
+        class="flex col-span-1 2xl:col-span-2 justify-center items-center"
       >
         <span class="my-2"
-          >Found <b>{{ global.state.responseTotal }}</b> Activities</span
+          >Found <b>{{ global.state.responseTotal }}</b> activities</span
         >
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-2 m-1 justify-left items-center"
+        class="flex col-span-3 m-1 justify-left items-center"
       >
         <SortButtons
           v-if="
@@ -27,7 +27,7 @@
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-2 lg:col-span-3 justify-left items-center m-1"
+        class="flex col-span-3 justify-left items-center m-1"
       >
         <DownloadButtons />
       </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b>Sort by:</b>
+    <b class="block 2xl:inline">Sort:</b>
     <button
       v-for="fieldObj in global.sortFields"
       :key="fieldObj"
