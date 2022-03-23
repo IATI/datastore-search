@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="result-download-buttons">
-      <b>Download in:</b>
+      <b class="block 2xl:inline">Download:</b>
       <button
         v-for="format in global.state.download.formats"
         :key="format"
