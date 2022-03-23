@@ -167,18 +167,21 @@ export default {
               this.activity.description_narrative =
                 this.activity.description_narrative[0];
             } else {
-              this.activity.description_narrative = "No Description";
+              this.activity.description_narrative = "Description not provided";
             }
             if ("title_narrative" in this.activity) {
               this.activity.title_narrative = this.activity.title_narrative[0];
             } else {
-              this.activity.title_narrative = "No Title";
+              this.activity.title_narrative = "Title not provided";
             }
             if ("reporting_org_narrative" in this.activity) {
               this.activity.reporting_org_narrative =
                 this.activity.reporting_org_narrative[0];
             } else {
-              this.activity.reporting_org_narrative = "No Name Provided";
+              this.activity.reporting_org_narrative = "Name not provided";
+            }
+            if (!("participating_org_narrative" in this.activity)) {
+              this.activity.participating_org_narrative = ["Not provided"];
             }
 
             this.dates = {
@@ -200,16 +203,16 @@ export default {
 
               switch (this.activity["activity_date_type"][key]) {
                 case activityDateTypes.planned_start:
-                  this.dates['plannedStart'] = dt;
+                  this.dates["plannedStart"] = dt;
                   break;
                 case activityDateTypes.actual_start:
-                  this.dates['actualStart'] = dt;
+                  this.dates["actualStart"] = dt;
                   break;
                 case activityDateTypes.planned_end:
-                  this.dates['plannedEnd'] = dt;
+                  this.dates["plannedEnd"] = dt;
                   break;
                 case activityDateTypes.actual_end:
-                  this.dates['actualEnd'] = dt;
+                  this.dates["actualEnd"] = dt;
                   break;
               }
             }
