@@ -3,7 +3,7 @@
     <button
       v-for="format in global.state.download.formats"
       :key="format"
-      class="float-left bg-iati-grey hover:bg-iati-grey text-white font-bold py-1 px-2 my-1 mx-2 rounded flex w-2/24"
+      class="float-left bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 my-1 mx-2 rounded flex w-2/24"
       @click="global.toggleDownloadModal(format)"
     >
       <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1" />
