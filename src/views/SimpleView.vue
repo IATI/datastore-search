@@ -17,16 +17,17 @@
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-2 mt-1 justify-left items-center"
+        class="flex col-span-2 m-1 justify-left items-center"
       >
-      <SortButtons
-        v-if="
-          global.state.responseTotal != null && global.state.responseTotal > 0
-        "      />
+        <SortButtons
+          v-if="
+            global.state.responseTotal != null && global.state.responseTotal > 0
+          "
+        />
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-3 justify-left items-center"
+        class="flex col-span-2 lg:col-span-3 justify-left items-center m-1"
       >
         <DownloadButtons />
       </div>
