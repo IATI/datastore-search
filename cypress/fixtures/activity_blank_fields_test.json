@@ -4,7 +4,7 @@
     "status": 0,
     "QTime": 0,
     "params": {
-      "q": "iati_identifier:\"XM-IATI-1\"",
+      "q": "iati_identifier:\"XM-IATI-2\"",
       "fl": "title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*",
       "sort": "iati_identifier asc",
       "rows": "1",
@@ -17,7 +17,7 @@
     "numFoundExact": true,
     "docs": [
       {
-        "iati_identifier": "XM-IATI-1",
+        "iati_identifier": "XM-IATI-2",
         "activity_date_type": ["1"],
         "last_updated_datetime": "2022-03-22T06:04:32Z",
         "activity_date_iso_date": ["1900-01-01T00:00:00Z"]
