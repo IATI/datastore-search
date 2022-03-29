@@ -30,13 +30,18 @@ let page = 1;
       v-if="
         global.state.responseTotal > 0 && $route.matched[0].path === '/advanced'
       "
-      class="grid grid-cols-4 gap-4 text-left py-3 border"
+      class="grid grid-cols-4 gap-2 text-left py-3 border"
     >
-      <div class="col-span-1"></div>
-      <div class="col-span-3">
-        <div class="float-left mr-3 mt-1">
-          Found {{ global.state.responseTotal }} matching IATI Activities
+      <div class="col-span-4">
+        <div class="flex items-center justify-center mt-1">
+          <span class="my-2"
+            >Found <b>{{ global.state.responseTotal }}</b> matching IATI
+            activities</span
+          >
         </div>
+      </div>
+      <div class="flex items-center justify-center col-span-4">
+        <SortButtons class="mr-4" />
         <DownloadButtons v-if="global.state.responseDocs" />
       </div>
     </div>
@@ -75,12 +80,14 @@ let page = 1;
 <script>
 import ResultItem from "./ResultItem.vue";
 import DownloadButtons from "./DownloadButtons.vue";
+import SortButtons from "./SortButtons.vue";
 export default {
   name: "ResultList",
   components: {
     DownloadButtons,
     ResultItem,
     VPagination,
+    SortButtons,
   },
   inject: ["global"],
 };
