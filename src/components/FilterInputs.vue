@@ -156,8 +156,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
                 )
               "
             >
-              <span v-if="valueOption.name"> {{ valueOption.name }} </span>
-              <span v-if="!valueOption.name">{{ valueOption.code }} </span>
+              <span> {{ valueOption.code }} - {{ valueOption.name }} </span>
             </option>
           </select>
         </div>
