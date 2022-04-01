@@ -2,6 +2,7 @@
 import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
+import { startOfToday } from "date-fns";
 
 const axiosConfig = {
   headers: {
@@ -397,7 +398,7 @@ const changeFilter = (id, key, value) => {
             state.filters[i]["type"] = state.fieldOptions[n].type;
 
             if (state.fieldOptions[n].type === "date") {
-              state.filters[i]["value"] = new Date();
+              state.filters[i]["value"] = startOfToday();
             }
 
             return;
@@ -641,15 +642,10 @@ const compileQuery = () => {
           query = query + filter["field"] + ':"' + value + `"`;
           break;
         case "lessThan":
-          query =
-            query +
-            filter["field"] +
-            ":[1970-01-01T00:00:00Z TO " +
-            value +
-            "]";
+          query = query + filter["field"] + ":[ * TO " + value + "]";
           break;
         case "greaterThan":
-          query = query + filter["field"] + ":[" + value + " TO NOW]";
+          query = query + filter["field"] + ":[" + value + " TO * ]";
           break;
         default:
           break;
