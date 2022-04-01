@@ -2,6 +2,7 @@
 import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
+import { startOfToday } from "date-fns";
 
 const axiosConfig = {
   headers: {
@@ -397,7 +398,7 @@ const changeFilter = (id, key, value) => {
             state.filters[i]["type"] = state.fieldOptions[n].type;
 
             if (state.fieldOptions[n].type === "date") {
-              state.filters[i]["value"] = new Date();
+              state.filters[i]["value"] = startOfToday();
             }
 
             return;
