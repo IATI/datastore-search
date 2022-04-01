@@ -2,7 +2,7 @@
 import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
-import { startOfToday } from "date-fns";
+import { startOfToday, format } from "date-fns";
 
 const axiosConfig = {
   headers: {
@@ -634,7 +634,7 @@ const compileQuery = () => {
     query = query + joinOperator;
 
     if (filter["type"] === "date") {
-      let value = filter["value"].toISOString();
+      let value = `${format(filter["value"], "yyyy-MM-dd")}T00:00:00Z`;
 
       switch (filter["operator"]) {
         case "equals":
