@@ -21,7 +21,7 @@
     "@heroicons/vue": "^1.0.6",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "split.js": "^1.6.5",
     "vue": "^3.2.31",
     "vue-gtag": "^2.0.1",
