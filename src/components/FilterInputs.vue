@@ -1,7 +1,7 @@
 <script setup>
 import Datepicker from "vue3-datepicker";
 import { TrashIcon } from "@heroicons/vue/solid";
-import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
+import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
 </script>
 
 <template>
@@ -142,7 +142,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
               value=""
               :selected="global.dropdownStateBlank(filter.id)"
             >
-              Select code
+              Select from {{ filter.selectedOption.codelistMeta.name }} codes
             </option>
             <option
               v-for="(valueOption, index) in filter.selectedOption.options"
@@ -156,8 +156,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
                 )
               "
             >
-              <span v-if="valueOption.name"> {{ valueOption.name }} </span>
-              <span v-if="!valueOption.name">{{ valueOption.code }} </span>
+              <span> {{ valueOption.code }} - {{ valueOption.name }} </span>
             </option>
           </select>
         </div>
@@ -211,8 +210,18 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
         </div>
       </div>
     </div>
-    <div class="col-span-1">
-      <div class="grid grid-cols-2 gap-1">
+    <div class="col-span-1 self-center">
+      <div class="grid grid-cols-3 gap-1">
+        <a
+          v-if="global.isFieldType(filter.field, 'select')"
+          type="link"
+          target="_blank"
+          aria-label="Link to codelist describe on iati website"
+          class="float-left has-tooltip"
+          :href="global.state.codelistURL + filter.selectedOption.codelist_name"
+        >
+          <ExternalLinkIcon class="h-7 w-7 text-grey-500" />
+        </a>
         <button
           type="button"
           aria-label="Remove filter"

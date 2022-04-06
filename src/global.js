@@ -79,6 +79,7 @@ const state = reactive({
     errors: [],
     file: null,
   },
+  codelistURL: import.meta.env.VUE_ENV_CODELIST_URL,
 });
 
 const populateOptions = async () => {
@@ -106,6 +107,8 @@ const populateOptions = async () => {
         filterOptions[index]["options"] =
           codelists[filterOptions[index].codelist_name].data;
       }
+      filterOptions[index].codelistMeta =
+        codelists[filterOptions[index].codelist_name].metadata;
     }
   }
 
