@@ -142,7 +142,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
               value=""
               :selected="global.dropdownStateBlank(filter.id)"
             >
-              Select code
+              Select from {{ filter.selectedOption.codelistMeta.name }} codes
             </option>
             <option
               v-for="(valueOption, index) in filter.selectedOption.options"
@@ -211,7 +211,7 @@ import { QuestionMarkCircleIcon } from "@heroicons/vue/solid";
       </div>
     </div>
     <div class="col-span-1">
-      <div class="grid grid-cols-2 gap-1">
+      <div class="grid grid-cols-3 gap-1">
         <button
           type="button"
           aria-label="Remove filter"

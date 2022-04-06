@@ -106,6 +106,8 @@ const populateOptions = async () => {
         filterOptions[index]["options"] =
           codelists[filterOptions[index].codelist_name].data;
       }
+      filterOptions[index].codelistMeta =
+        codelists[filterOptions[index].codelist_name].metadata;
     }
   }
 
