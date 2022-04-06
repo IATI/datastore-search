@@ -156,7 +156,10 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
                 )
               "
             >
-              <span> {{ valueOption.code }} - {{ valueOption.name }} </span>
+              <span
+                >{{ valueOption.code
+                }}{{ valueOption.name ? " - " + valueOption.name : null }}</span
+              >
             </option>
           </select>
         </div>
