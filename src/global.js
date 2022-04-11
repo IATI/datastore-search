@@ -82,6 +82,18 @@ const state = reactive({
   codelistURL: import.meta.env.VUE_ENV_CODELIST_URL,
 });
 
+const allNarrativesOption = {
+  field: "iati_text",
+  label: "All Narratives",
+  type: "text",
+  description: "Searches all IATI narrative fields, used by simple search",
+  name: "narrative",
+  path: "iati-activities/iati-activity//narrative",
+  xsd_type: "",
+  solr_required: "false",
+  solr_multivalued: "true",
+};
+
 const populateOptions = async () => {
   let filterOptions = null;
 
@@ -118,17 +130,7 @@ const populateOptions = async () => {
       label: "Special fields:",
       disabled: true,
     },
-    {
-      field: "iati_text",
-      label: "All Narratives",
-      type: "text",
-      description: "Searches all IATI narrative fields, used by simple search",
-      name: "narrative",
-      path: "iati-activities/iati-activity//narrative",
-      xsd_type: "",
-      solr_required: "false",
-      solr_multivalued: "true",
-    },
+    { ...allNarrativesOption },
     {
       field: "",
       label: "Standard fields:",
@@ -168,24 +170,15 @@ export const importSimpleSearchToAdv = async () => {
   state.filters = [
     {
       id: "filter-0",
-      type: "text",
-      field: "iati_text",
+      type: allNarrativesOption.type,
+      field: allNarrativesOption.field,
       value: state.query,
       operator: "equals",
       joinOperator: "AND",
       selectedOption: {
-        field: "iati_text",
-        label: "All Narratives",
-        type: "text",
-        description:
-          "Searches all IATI narrative fields, used by simple search",
-        name: "narrative",
-        path: "iati-activities/iati-activity//narrative",
-        xsd_type: "",
-        solr_required: "false",
-        solr_multivalued: "true",
+        ...allNarrativesOption,
       },
-      desc: "Searches all IATI narrative fields, used by simple search",
+      desc: allNarrativesOption.description,
     },
   ];
   state.nextFilterId = 1;
