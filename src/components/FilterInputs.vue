@@ -42,6 +42,7 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
           :selected="
             global.isFieldOptionSelected(filter.id, filterOption.field)
           "
+          :disabled="filterOption.disabled === true"
         >
           {{ filterOption.label }}
         </option>

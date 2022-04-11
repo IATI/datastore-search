@@ -112,7 +112,31 @@ const populateOptions = async () => {
     }
   }
 
-  state.fieldOptions = filterOptions;
+  const specialOptions = [
+    {
+      field: "",
+      label: "Special fields:",
+      disabled: true,
+    },
+    {
+      field: "iati_text",
+      label: "All Narratives",
+      type: "text",
+      description: "Searches all IATI narrative fields, used by simple search",
+      name: "narrative",
+      path: "iati-activities/iati-activity//narrative",
+      xsd_type: "",
+      solr_required: "false",
+      solr_multivalued: "true",
+    },
+    {
+      field: "",
+      label: "Standard fields:",
+      disabled: true,
+    },
+  ];
+
+  state.fieldOptions = specialOptions.concat(filterOptions);
 };
 
 if (state.fieldOptions.length === 0) {
