@@ -34,7 +34,23 @@ import axios from "axios";
 
         <div class="col-span-1"></div>
         <div class="col-span-8 border-b pb-3">
-          <DownloadButtons :iati-identifier="activity.iati_identifier" />
+          <div class="grid grid-cols-2">
+            <DownloadButtons
+              :iati-identifier="activity.iati_identifier"
+              class="col-span-1"
+            />
+
+            <div v-if="dPortalLink" class="col-span-1">
+              <b class="block 2xl:inline">View:</b>
+              <a
+                class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline mb-1"
+                :href="dPortalLink"
+                target="_blank"
+              >
+                <span>d-portal</span>
+              </a>
+            </div>
+          </div>
         </div>
         <div class="col-span-1"></div>
 
@@ -111,6 +127,15 @@ export default {
       activity: null,
       dates: null,
     };
+  },
+  computed: {
+    dPortalLink() {
+      const baseUrl = "http://d-portal.org/ctrack.html";
+      return (
+        this.activity &&
+        `${baseUrl}?publisher=${this.activity.reporting_org_ref}#view=act&aid=${this.activity.iati_identifier}`
+      );
+    },
   },
   created() {
     this.requestData();
