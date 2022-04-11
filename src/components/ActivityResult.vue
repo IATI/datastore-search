@@ -1,16 +1,12 @@
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
 </script>
 
 <template>
   <div class="flex flex-col h-full">
     <div class="flex-grow">
       <router-view />
-      <div
-        v-if="activity != null"
-        class="grid grid-cols-10 gap-4 text-left mb-5"
-      >
+      <div v-if="activity" class="grid grid-cols-10 gap-4 text-left mb-5">
         <div class="col-span-1"></div>
         <h1 class="col-span-6 mt-10">Overview of IATI Activity</h1>
         <div
@@ -18,11 +14,11 @@ import { useRoute } from "vue-router";
           class="col-span-2 mt-10 pb-2 hover:underline text-sky-700"
         >
           <router-link v-if="global.state.simpleSearch" to="/simple">
-            Back to results</router-link
-          >
+            Back to results
+          </router-link>
           <router-link v-if="!global.state.simpleSearch" to="/advanced">
-            Back to results</router-link
-          >
+            Back to results
+          </router-link>
         </div>
         <div
           v-if="!global.state.responseDocs"
@@ -148,12 +144,20 @@ export default {
         },
       };
 
-      const route = useRoute();
-      const id = encodeURIComponent(route.params.iati_identifier);
+      const route = this.$route;
+      const id = window.encodeURIComponent(route.params.iati_identifier);
       const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
-      const baseUrl =
-        domain +
-        "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&q=";
+      const fields = [
+        "title_narrative",
+        "description_narrative",
+        "participating_org_narrative",
+        "iati_identifier",
+        "last_updated_datetime",
+        "reporting_org_ref",
+        "reporting_org_narrative",
+        "activity_date",
+      ].join(",");
+      const baseUrl = `${domain}/dss/activity/select?wt=json&sort=iati_identifier asc&fl=${fields}*&rows=1&q=`;
 
       axios
         .get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig)
