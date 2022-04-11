@@ -7,6 +7,13 @@
       <div class="my-auto col-span-3 2xl:col-span-2 ml-2 2xl:ml-0">
         <SearchBar class="simple" />
       </div>
+      <button
+        v-if="global.state.responseTotal > 0"
+        class="col-span-2 justify-self-start mx-4 px-2 my-8 lg:my-8 2xl:my-5 bg-iati-blue hover:bg-iati-grey text-white font-bold rounded hide-on-mobile"
+        @click="goToAdvanced"
+      >
+        Advanced
+      </button>
       <div
         v-if="global.state.responseTotal > 0"
         class="flex col-span-1 2xl:col-span-2 justify-center items-center"
@@ -17,7 +24,7 @@
       </div>
       <div
         v-if="global.state.responseTotal > 0"
-        class="flex col-span-3 m-1 justify-left items-center"
+        class="flex col-span-2 m-1 justify-left items-center"
       >
         <SortButtons
           v-if="
@@ -60,6 +67,12 @@ export default {
       page_path: this.$route.fullPath,
       page_title: this.$route.name,
     });
+  },
+  methods: {
+    goToAdvanced() {
+      this.global.importSimpleSearchToAdv();
+      this.$router.push({ path: "/advanced" });
+    },
   },
 };
 </script>
