@@ -164,6 +164,33 @@ const removeFilter = (id) => {
   });
 };
 
+export const importSimpleSearchToAdv = async () => {
+  state.filters = [
+    {
+      id: "filter-0",
+      type: "text",
+      field: "iati_text",
+      value: state.query,
+      operator: "equals",
+      joinOperator: "AND",
+      selectedOption: {
+        field: "iati_text",
+        label: "All Narratives",
+        type: "text",
+        description:
+          "Searches all IATI narrative fields, used by simple search",
+        name: "narrative",
+        path: "iati-activities/iati-activity//narrative",
+        xsd_type: "",
+        solr_required: "false",
+        solr_multivalued: "true",
+      },
+      desc: "Searches all IATI narrative fields, used by simple search",
+    },
+  ];
+  state.nextFilterId = 1;
+};
+
 export const toggleExportModal = () => {
   state.export.errors = [];
   state.export.showModal = !state.export.showModal;
@@ -723,4 +750,5 @@ export default {
   validateDropdownOptions,
   sortFields,
   sortResults,
+  importSimpleSearchToAdv,
 };
