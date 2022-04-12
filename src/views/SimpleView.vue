@@ -5,13 +5,13 @@
     >
       <div class="col-span-1 hidden 2xl:block"></div>
       <div
-        class="my-auto col-span-3 md:col-span-4 lg:col-span-3 2xl:col-span-2 ml-2 2xl:ml-0"
+        class="my-auto col-span-3 md:col-span-4 lg:col-span-3 2xl:col-span-2 ml-2"
       >
         <SearchBar class="simple" />
       </div>
       <button
         v-if="global.state.responseTotal > 0"
-        class="hidden lg:block col-span-2 xl:col-span-1 p-2 justify-self-start my-auto bg-iati-blue hover:bg-iati-grey text-white font-bold rounded"
+        class="hidden lg:block col-span-2 xl:col-span-1 p-2 justify-self-start 2xl:ml-6 my-auto bg-iati-blue hover:bg-iati-grey text-white font-bold rounded"
         @click="goToAdvanced"
       >
         Advanced
