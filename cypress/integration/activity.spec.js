@@ -4,11 +4,11 @@ describe("The single activity view", () => {
   it("Normal activity page renders with expected data", () => {
     cy.fixture("activity_test").then((activity_test) => {
       cy.intercept(
-        "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,%20description_narrative,%20participating_org_narrative,%20iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-1%22",
+        "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,description_narrative,participating_org_narrative,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-1%22",
         activity_test
       );
       cy.intercept(
-        "https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,%20description_narrative,%20participating_org_narrative,%20iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-1%22",
+        "https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,description_narrative,participating_org_narrative,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-1%22",
         activity_test
       );
     });
@@ -24,11 +24,11 @@ describe("The single activity view", () => {
     cy.fixture("activity_blank_fields_test").then(
       (activity_blank_fields_test) => {
         cy.intercept(
-          "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,%20description_narrative,%20participating_org_narrative,%20iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22",
+          "https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,description_narrative,participating_org_narrative,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22",
           activity_blank_fields_test
         );
         cy.intercept(
-          "https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,%20description_narrative,%20participating_org_narrative,%20iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22",
+          "https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,description_narrative,participating_org_narrative,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22",
           activity_blank_fields_test
         );
       }
