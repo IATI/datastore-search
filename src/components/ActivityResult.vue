@@ -43,7 +43,7 @@ import axios from "axios";
             <div v-if="dPortalLink" class="col-span-1">
               <b class="block 2xl:inline">View:</b>
               <a
-                class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline mb-1"
+                class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline-block mb-1"
                 :href="dPortalLink"
                 target="_blank"
               >
