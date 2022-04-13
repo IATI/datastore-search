@@ -1,16 +1,12 @@
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
 </script>
 
 <template>
   <div class="flex flex-col h-full">
     <div class="flex-grow">
       <router-view />
-      <div
-        v-if="activity != null"
-        class="grid grid-cols-10 gap-4 text-left mb-5"
-      >
+      <div v-if="activity" class="grid grid-cols-10 gap-4 text-left mb-5">
         <div class="col-span-1"></div>
         <h1 class="col-span-6 mt-10">Overview of IATI Activity</h1>
         <div
@@ -18,11 +14,11 @@ import { useRoute } from "vue-router";
           class="col-span-2 mt-10 pb-2 hover:underline text-sky-700"
         >
           <router-link v-if="global.state.simpleSearch" to="/simple">
-            Back to results</router-link
-          >
+            Back to results
+          </router-link>
           <router-link v-if="!global.state.simpleSearch" to="/advanced">
-            Back to results</router-link
-          >
+            Back to results
+          </router-link>
         </div>
         <div
           v-if="!global.state.responseDocs"
@@ -38,7 +34,23 @@ import { useRoute } from "vue-router";
 
         <div class="col-span-1"></div>
         <div class="col-span-8 border-b pb-3">
-          <DownloadButtons :iati-identifier="activity.iati_identifier" />
+          <div class="grid grid-cols-2">
+            <DownloadButtons
+              :iati-identifier="activity.iati_identifier"
+              class="col-span-1"
+            />
+
+            <div v-if="dPortalLink" class="col-span-1">
+              <b class="block 2xl:inline">View:</b>
+              <a
+                class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline-block mb-1"
+                :href="dPortalLink"
+                target="_blank"
+              >
+                <span>d-portal</span>
+              </a>
+            </div>
+          </div>
         </div>
         <div class="col-span-1"></div>
 
@@ -116,6 +128,15 @@ export default {
       dates: null,
     };
   },
+  computed: {
+    dPortalLink() {
+      const baseUrl = "http://d-portal.org/ctrack.html";
+      return (
+        this.activity &&
+        `${baseUrl}?publisher=${this.activity.reporting_org_ref}#view=act&aid=${this.activity.iati_identifier}`
+      );
+    },
+  },
   created() {
     this.requestData();
   },
@@ -148,12 +169,20 @@ export default {
         },
       };
 
-      const route = useRoute();
-      const id = encodeURIComponent(route.params.iati_identifier);
+      const route = this.$route;
+      const id = window.encodeURIComponent(route.params.iati_identifier);
       const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
-      const baseUrl =
-        domain +
-        "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative, description_narrative, participating_org_narrative, iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&q=";
+      const fields = [
+        "title_narrative",
+        "description_narrative",
+        "participating_org_narrative",
+        "iati_identifier",
+        "last_updated_datetime",
+        "reporting_org_ref",
+        "reporting_org_narrative",
+        "activity_date",
+      ].join(",");
+      const baseUrl = `${domain}/dss/activity/select?wt=json&sort=iati_identifier asc&fl=${fields}*&rows=1&q=`;
 
       axios
         .get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig)
