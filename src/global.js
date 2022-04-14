@@ -243,6 +243,9 @@ export const exportFilters = () => {
   });
 };
 
+// don't allow use of Functions in DSS
+const disallowedStrings = ["{!func}", "_val_"];
+
 const validateFilters = () => {
   let count = 0;
   state.filters = state.filters.map((filter) => {
@@ -281,6 +284,26 @@ const validateFilters = () => {
           break;
       }
     }
+
+    // Disallowed strings to prevent Solr Function queries
+    if (filter.type === "text") {
+      const badStrs = disallowedStrings.reduce((acc, str) => {
+        if (filter.value.includes(str)) {
+          acc.push(str);
+        }
+        return acc;
+      }, []);
+
+      if (badStrs.length > 0) {
+        count += 1;
+        return {
+          ...filter,
+          valid: false,
+          validationMessage: `${badStrs.join()} is not allowed for datastore search queries`,
+        };
+      }
+    }
+
     // percentages 0 to 100 check
     if (
       filter.type === "number" &&
@@ -342,9 +365,12 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   state.responseTotal = null;
   state.query = null;
 
-  state.simpleSearchTerm = searchterm;
+  // Clean search term to prevent Solr Function Queries
+  const cleanSearchTerm = cleanSolrQueryString(searchterm);
+
+  state.simpleSearchTerm = cleanSearchTerm;
   let url = new URL(baseUrlSimple);
-  url.searchParams.set("q", searchterm);
+  url.searchParams.set("q", cleanSearchTerm);
   url.searchParams.set("start", start);
   url.searchParams.set("rows", rows);
   url.searchParams.set(
@@ -353,7 +379,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   );
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = true;
-  state.query = searchterm;
+  state.query = cleanSearchTerm;
   state.responseTotal = null;
   setResponseState(result);
 
@@ -664,6 +690,15 @@ const sortResults = async (field) => {
 };
 
 // Helper functions, not exported:
+
+const cleanSolrQueryString = (qString) => {
+  disallowedStrings.forEach((str) => {
+    const reg = new RegExp(str, "g");
+    qString = qString.replace(reg, "");
+  });
+  return qString;
+};
+
 const compileQuery = () => {
   let query = "";
 
@@ -701,7 +736,9 @@ const compileQuery = () => {
     } else {
       // don't wrap value in "" for boolean
       const queryValue =
-        filter["type"] === "boolean" ? filter["value"] : `"${filter["value"]}"`;
+        filter["type"] === "boolean"
+          ? filter["value"]
+          : `(${cleanSolrQueryString(filter["value"])})`;
       switch (filter["operator"]) {
         case "equals":
           query = query + filter["field"] + ":" + queryValue;
