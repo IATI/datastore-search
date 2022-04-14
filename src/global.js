@@ -243,6 +243,9 @@ export const exportFilters = () => {
   });
 };
 
+// don't allow use of Functions in DSS
+const disallowedStrings = ["{!func}", "_val_"];
+
 const validateFilters = () => {
   let count = 0;
   state.filters = state.filters.map((filter) => {
@@ -281,6 +284,27 @@ const validateFilters = () => {
           break;
       }
     }
+
+    // Disallowed strings
+    if (filter.type === "text") {
+      const badStrs = disallowedStrings.reduce((acc, str) => {
+        if (filter.value.includes(str)) {
+          acc.push(str);
+        }
+        return acc;
+      }, []);
+      console.log(badStrs);
+
+      if (badStrs.length > 0) {
+        count += 1;
+        return {
+          ...filter,
+          valid: false,
+          validationMessage: `${badStrs.join()} is not allowed for datastore search queries`,
+        };
+      }
+    }
+
     // percentages 0 to 100 check
     if (
       filter.type === "number" &&
@@ -305,6 +329,7 @@ const validateFilters = () => {
     }
     return { ...filter };
   });
+  console.log(state.filters);
   return count === 0;
 };
 
@@ -664,6 +689,15 @@ const sortResults = async (field) => {
 };
 
 // Helper functions, not exported:
+
+const cleanSolrQueryString = (qString) => {
+  disallowedStrings.forEach((str) => {
+    const reg = new RegExp(str, "g");
+    qString = qString.replace(reg, "");
+  });
+  return qString;
+};
+
 const compileQuery = () => {
   let query = "";
 
@@ -701,7 +735,9 @@ const compileQuery = () => {
     } else {
       // don't wrap value in "" for boolean
       const queryValue =
-        filter["type"] === "boolean" ? filter["value"] : `"${filter["value"]}"`;
+        filter["type"] === "boolean"
+          ? filter["value"]
+          : `(${cleanSolrQueryString(filter["value"])})`;
       switch (filter["operator"]) {
         case "equals":
           query = query + filter["field"] + ":" + queryValue;
