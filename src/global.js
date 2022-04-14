@@ -285,7 +285,7 @@ const validateFilters = () => {
       }
     }
 
-    // Disallowed strings
+    // Disallowed strings to prevent Solr Function queries
     if (filter.type === "text") {
       const badStrs = disallowedStrings.reduce((acc, str) => {
         if (filter.value.includes(str)) {
@@ -293,7 +293,6 @@ const validateFilters = () => {
         }
         return acc;
       }, []);
-      console.log(badStrs);
 
       if (badStrs.length > 0) {
         count += 1;
@@ -329,7 +328,6 @@ const validateFilters = () => {
     }
     return { ...filter };
   });
-  console.log(state.filters);
   return count === 0;
 };
 
@@ -367,9 +365,12 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   state.responseTotal = null;
   state.query = null;
 
-  state.simpleSearchTerm = searchterm;
+  // Clean search term to prevent Solr Function Queries
+  const cleanSearchTerm = cleanSolrQueryString(searchterm);
+
+  state.simpleSearchTerm = cleanSearchTerm;
   let url = new URL(baseUrlSimple);
-  url.searchParams.set("q", searchterm);
+  url.searchParams.set("q", cleanSearchTerm);
   url.searchParams.set("start", start);
   url.searchParams.set("rows", rows);
   url.searchParams.set(
@@ -378,7 +379,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   );
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = true;
-  state.query = searchterm;
+  state.query = cleanSearchTerm;
   state.responseTotal = null;
   setResponseState(result);
 
