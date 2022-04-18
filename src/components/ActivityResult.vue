@@ -174,12 +174,16 @@ export default {
       const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
       const fields = [
         "title_narrative",
+        "title_narrative_xml_lang",
         "description_narrative",
+        "description_narrative_xml_lang",
         "participating_org_narrative",
+        "participating_org_narrative_xml_lang",
         "iati_identifier",
         "last_updated_datetime",
         "reporting_org_ref",
         "reporting_org_narrative",
+        "reporting_org_narrative_xml_lang",
         "activity_date",
       ].join(",");
       const baseUrl = `${domain}/dss/activity/select?wt=json&sort=iati_identifier asc&fl=${fields}*&rows=1&q=`;
@@ -193,23 +197,107 @@ export default {
             this.activity = data.response.docs[0];
 
             if ("description_narrative" in this.activity) {
+              if ("description_narrative_xml_lang" in this.activity) {
+                for (const narrativeKey in this.activity
+                  .description_narrative_xml_lang) {
+                  if (
+                    this.activity.description_narrative_xml_lang[
+                      narrativeKey
+                    ] === this.global.state.language
+                  ) {
+                    const langDescriptionNarrative =
+                      this.activity.description_narrative[narrativeKey];
+                    this.activity.description_narrative.splice(narrativeKey, 1);
+                    this.activity.description_narrative.unshift(
+                      langDescriptionNarrative
+                    );
+                    break;
+                  }
+                }
+              }
               this.activity.description_narrative =
                 this.activity.description_narrative[0];
             } else {
               this.activity.description_narrative = "Description not provided";
             }
             if ("title_narrative" in this.activity) {
+              if ("title_narrative_xml_lang" in this.activity) {
+                for (const narrativeKey in this.activity
+                  .title_narrative_xml_lang) {
+                  if (
+                    this.activity.title_narrative_xml_lang[narrativeKey] ===
+                    this.global.state.language
+                  ) {
+                    const langTitleNarrative =
+                      this.activity.title_narrative[narrativeKey];
+                    this.activity.title_narrative.splice(narrativeKey, 1);
+                    this.activity.title_narrative.unshift(langTitleNarrative);
+                    break;
+                  }
+                }
+              }
               this.activity.title_narrative = this.activity.title_narrative[0];
             } else {
               this.activity.title_narrative = "Title not provided";
             }
             if ("reporting_org_narrative" in this.activity) {
+              if ("reporting_org_narrative_xml_lang" in this.activity) {
+                for (const narrativeKey in this.activity
+                  .reporting_org_narrative_xml_lang) {
+                  if (
+                    this.activity.reporting_org_narrative_xml_lang[
+                      narrativeKey
+                    ] === this.global.state.language
+                  ) {
+                    const langReportingOrgNarrative =
+                      this.activity.reporting_org_narrative[narrativeKey];
+                    this.activity.reporting_org_narrative.splice(
+                      narrativeKey,
+                      1
+                    );
+                    this.activity.reporting_org_narrative.unshift(
+                      langReportingOrgNarrative
+                    );
+                    break;
+                  }
+                }
+              }
               this.activity.reporting_org_narrative =
                 this.activity.reporting_org_narrative[0];
             } else {
               this.activity.reporting_org_narrative = "Name not provided";
             }
-            if (!("participating_org_narrative" in this.activity)) {
+            if ("participating_org_narrative" in this.activity) {
+              if ("participating_org_narrative_xml_lang" in this.activity) {
+                let orderedParticipatingOrgs = [];
+                for (const narrativeKey in this.activity
+                  .participating_org_narrative_xml_lang) {
+                  if (
+                    this.activity.participating_org_narrative_xml_lang[
+                      narrativeKey
+                    ] === this.global.state.language
+                  ) {
+                    orderedParticipatingOrgs.push(
+                      this.activity.participating_org_narrative[narrativeKey]
+                    );
+                  }
+                }
+                for (const narrativeKey in this.activity
+                  .participating_org_narrative_xml_lang) {
+                  if (
+                    this.activity.participating_org_narrative_xml_lang[
+                      narrativeKey
+                    ] !== this.global.state.language
+                  ) {
+                    orderedParticipatingOrgs.push(
+                      this.activity.participating_org_narrative[narrativeKey]
+                    );
+                  }
+                }
+                this.activity.participating_org_narrative =
+                  orderedParticipatingOrgs;
+              }
+            } else {
               this.activity.participating_org_narrative = ["Not provided"];
             }
 
