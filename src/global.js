@@ -474,13 +474,20 @@ const setResponseState = (result) => {
                 narrativeKey
               ] === state.language
             ) {
-              const langDescriptionNarrative =
+              let langDescriptionNarrative =
                 state.responseDocs[index].description_narrative[narrativeKey];
               if ("title_narrative" in state.responseDocs[index]) {
                 if (
                   langDescriptionNarrative !==
                   state.responseDocs[index].title_narrative[0]
                 ) {
+                  if (langDescriptionNarrative.split(" ").length > 30) {
+                    langDescriptionNarrative =
+                      langDescriptionNarrative
+                        .split(" ")
+                        .splice(0, 30)
+                        .join(" ") + " ...";
+                  }
                   state.responseDocs[index]["highlighting"] =
                     langDescriptionNarrative;
                 }
@@ -489,8 +496,13 @@ const setResponseState = (result) => {
             }
           }
         } else {
-          state.responseDocs[index]["highlighting"] =
+          let descriptionNarrative =
             state.responseDocs[index].description_narrative[0];
+          if (descriptionNarrative.split(" ").length > 30) {
+            descriptionNarrative =
+              descriptionNarrative.split(" ").splice(0, 30).join(" ") + " ...";
+          }
+          state.responseDocs[index]["highlighting"] = descriptionNarrative;
         }
       }
     }
