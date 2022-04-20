@@ -63,7 +63,7 @@ const state = reactive({
   searchOrderDirection: "desc",
   activity: null,
   download: {
-    formats: ["XML", "JSON", "CSV"],
+    formats: ["XML", "JSON", "CSV", "XLSX"],
     fileLoading: false,
     showModal: false,
     selectedFormat: null,
