@@ -2,6 +2,7 @@
 import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
+import { startOfToday, format } from "date-fns";
 
 const axiosConfig = {
   headers: {
@@ -78,7 +79,20 @@ const state = reactive({
     errors: [],
     file: null,
   },
+  codelistURL: import.meta.env.VUE_ENV_CODELIST_URL,
 });
+
+const allNarrativesOption = {
+  field: "iati_text",
+  label: "All Narratives",
+  type: "text",
+  description: "Searches all IATI narrative fields, used by simple search",
+  name: "narrative",
+  path: "iati-activities/iati-activity//narrative",
+  xsd_type: "",
+  solr_required: "false",
+  solr_multivalued: "true",
+};
 
 const populateOptions = async () => {
   let filterOptions = null;
@@ -105,10 +119,26 @@ const populateOptions = async () => {
         filterOptions[index]["options"] =
           codelists[filterOptions[index].codelist_name].data;
       }
+      filterOptions[index].codelistMeta =
+        codelists[filterOptions[index].codelist_name].metadata;
     }
   }
 
-  state.fieldOptions = filterOptions;
+  const specialOptions = [
+    {
+      field: "",
+      label: "Special fields:",
+      disabled: true,
+    },
+    { ...allNarrativesOption },
+    {
+      field: "",
+      label: "Standard fields:",
+      disabled: true,
+    },
+  ];
+
+  state.fieldOptions = specialOptions.concat(filterOptions);
 };
 
 if (state.fieldOptions.length === 0) {
@@ -136,6 +166,24 @@ const removeFilter = (id) => {
   });
 };
 
+export const importSimpleSearchToAdv = async () => {
+  state.filters = [
+    {
+      id: "filter-0",
+      type: allNarrativesOption.type,
+      field: allNarrativesOption.field,
+      value: state.query,
+      operator: "equals",
+      joinOperator: "AND",
+      selectedOption: {
+        ...allNarrativesOption,
+      },
+      desc: allNarrativesOption.description,
+    },
+  ];
+  state.nextFilterId = 1;
+};
+
 export const toggleExportModal = () => {
   state.export.errors = [];
   state.export.showModal = !state.export.showModal;
@@ -150,6 +198,7 @@ const importFilters = async () => {
   state.import.fileLoading = true;
   await populateOptions();
   state.filters = [...state.import.file];
+  state.nextFilterId = state.filters.length;
   state.import.fileLoading = false;
   state.import.disabled = true;
   toggleImportModal();
@@ -194,6 +243,9 @@ export const exportFilters = () => {
   });
 };
 
+// don't allow use of Functions in DSS
+const disallowedStrings = ["{!func}", "_val_"];
+
 const validateFilters = () => {
   let count = 0;
   state.filters = state.filters.map((filter) => {
@@ -232,6 +284,26 @@ const validateFilters = () => {
           break;
       }
     }
+
+    // Disallowed strings to prevent Solr Function queries
+    if (filter.type === "text") {
+      const badStrs = disallowedStrings.reduce((acc, str) => {
+        if (filter.value.includes(str)) {
+          acc.push(str);
+        }
+        return acc;
+      }, []);
+
+      if (badStrs.length > 0) {
+        count += 1;
+        return {
+          ...filter,
+          valid: false,
+          validationMessage: `${badStrs.join()} is not allowed for datastore search queries`,
+        };
+      }
+    }
+
     // percentages 0 to 100 check
     if (
       filter.type === "number" &&
@@ -293,9 +365,12 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   state.responseTotal = null;
   state.query = null;
 
-  state.simpleSearchTerm = searchterm;
+  // Clean search term to prevent Solr Function Queries
+  const cleanSearchTerm = cleanSolrQueryString(searchterm);
+
+  state.simpleSearchTerm = cleanSearchTerm;
   let url = new URL(baseUrlSimple);
-  url.searchParams.set("q", searchterm);
+  url.searchParams.set("q", cleanSearchTerm);
   url.searchParams.set("start", start);
   url.searchParams.set("rows", rows);
   url.searchParams.set(
@@ -304,7 +379,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   );
   let result = await axios.get(url, axiosConfig);
   state.simpleSearch = true;
-  state.query = searchterm;
+  state.query = cleanSearchTerm;
   state.responseTotal = null;
   setResponseState(result);
 
@@ -397,7 +472,7 @@ const changeFilter = (id, key, value) => {
             state.filters[i]["type"] = state.fieldOptions[n].type;
 
             if (state.fieldOptions[n].type === "date") {
-              state.filters[i]["value"] = new Date();
+              state.filters[i]["value"] = startOfToday();
             }
 
             return;
@@ -615,6 +690,15 @@ const sortResults = async (field) => {
 };
 
 // Helper functions, not exported:
+
+const cleanSolrQueryString = (qString) => {
+  disallowedStrings.forEach((str) => {
+    const reg = new RegExp(str, "g");
+    qString = qString.replace(reg, "");
+  });
+  return qString;
+};
+
 const compileQuery = () => {
   let query = "";
 
@@ -633,7 +717,7 @@ const compileQuery = () => {
     query = query + joinOperator;
 
     if (filter["type"] === "date") {
-      let value = filter["value"].toISOString();
+      let value = `${format(filter["value"], "yyyy-MM-dd")}T00:00:00Z`;
 
       switch (filter["operator"]) {
         case "equals":
@@ -641,15 +725,10 @@ const compileQuery = () => {
           query = query + filter["field"] + ':"' + value + `"`;
           break;
         case "lessThan":
-          query =
-            query +
-            filter["field"] +
-            ":[1970-01-01T00:00:00Z TO " +
-            value +
-            "]";
+          query = query + filter["field"] + ":[ * TO " + value + "]";
           break;
         case "greaterThan":
-          query = query + filter["field"] + ":[" + value + " TO NOW]";
+          query = query + filter["field"] + ":[" + value + " TO * ]";
           break;
         default:
           break;
@@ -657,7 +736,9 @@ const compileQuery = () => {
     } else {
       // don't wrap value in "" for boolean
       const queryValue =
-        filter["type"] === "boolean" ? filter["value"] : `"${filter["value"]}"`;
+        filter["type"] === "boolean"
+          ? filter["value"]
+          : `(${cleanSolrQueryString(filter["value"])})`;
       switch (filter["operator"]) {
         case "equals":
           query = query + filter["field"] + ":" + queryValue;
@@ -700,4 +781,5 @@ export default {
   validateDropdownOptions,
   sortFields,
   sortResults,
+  importSimpleSearchToAdv,
 };
