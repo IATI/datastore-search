@@ -753,6 +753,16 @@ const sortResults = async (field) => {
   }
 };
 
+const resetResults = () => {
+  (state.query = null),
+    (state.responseDocs = null),
+    (state.responseTotal = null),
+    (state.responseStart = null),
+    (state.numberPages = null),
+    (state.simpleSearch = null),
+    (state.simpleSearchTerm = null);
+};
+
 // Helper functions, not exported:
 
 const cleanSolrQueryString = (qString) => {
@@ -846,4 +856,5 @@ export default {
   sortFields,
   sortResults,
   importSimpleSearchToAdv,
+  resetResults,
 };

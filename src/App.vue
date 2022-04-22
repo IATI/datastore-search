@@ -30,14 +30,8 @@ import NotificationBanner from "./components/NotificationBanner.vue";
           >
             <nav aria-label="Navigation" class="ml-10 mt-8 text-xl">
               <router-link
-                v-if="$route.path === '/advanced' && !global.state.responseDocs"
+                v-if="$route.path === '/advanced'"
                 to="/"
-                class="hover:underline"
-                >Simple Search</router-link
-              >
-              <router-link
-                v-if="$route.path === '/advanced' && global.state.responseDocs"
-                to="/simple"
                 class="hover:underline"
                 >Simple Search</router-link
               >
