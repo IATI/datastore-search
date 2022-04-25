@@ -809,10 +809,11 @@ const compileQuery = () => {
       }
     } else {
       // don't wrap value in "" for boolean
-      const queryValue =
-        filter["type"] === "boolean"
-          ? filter["value"]
-          : `(${cleanSolrQueryString(filter["value"])})`;
+      const queryValue = ["boolean", "integer", "number"].includes(
+        filter["type"]
+      )
+        ? filter["value"]
+        : `(${cleanSolrQueryString(filter["value"])})`;
       switch (filter["operator"]) {
         case "equals":
           query = query + filter["field"] + ":" + queryValue;
