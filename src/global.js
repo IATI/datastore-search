@@ -779,6 +779,17 @@ const cleanSolrQueryString = (qString) => {
   return qString;
 };
 
+const getFilterValue = (filter) => {
+  switch (filter["type"]) {
+    case "text":
+      return `(${cleanSolrQueryString(filter["value"])})`;
+    case "date":
+      return `${format(filter["value"], "yyyy-MM-dd")}T00:00:00Z`;
+    default:
+      return filter["value"];
+  }
+};
+
 const compileQuery = () => {
   let query = "";
 
@@ -796,30 +807,24 @@ const compileQuery = () => {
 
     query = query + joinOperator;
 
-    if (filter["type"] === "date") {
-      let value = `${format(filter["value"], "yyyy-MM-dd")}T00:00:00Z`;
+    const queryValue = getFilterValue(filter);
 
+    if (filter["type"] === "date") {
       switch (filter["operator"]) {
         case "equals":
           // needs to be encasulated in "" for equals
-          query = query + filter["field"] + ':"' + value + `"`;
+          query = query + filter["field"] + ':"' + queryValue + `"`;
           break;
         case "lessThan":
-          query = query + filter["field"] + ":[ * TO " + value + "]";
+          query = query + filter["field"] + ":[ * TO " + queryValue + "]";
           break;
         case "greaterThan":
-          query = query + filter["field"] + ":[" + value + " TO * ]";
+          query = query + filter["field"] + ":[" + queryValue + " TO * ]";
           break;
         default:
           break;
       }
     } else {
-      // don't wrap value in "" for boolean
-      const queryValue = ["boolean", "integer", "number"].includes(
-        filter["type"]
-      )
-        ? filter["value"]
-        : `(${cleanSolrQueryString(filter["value"])})`;
       switch (filter["operator"]) {
         case "equals":
           query = query + filter["field"] + ":" + queryValue;
