@@ -140,10 +140,11 @@ describe("The advanced view", () => {
             "+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D" +
             "+AND+hierarchy%3A1" +
             "+AND+sector_percentage%3A99.9" +
-            "+AND+budget_type%3A%282%29" +
+            "+AND+budget_type%3A2" +
             urlSuffix,
           advanced_q_test
         ).as("selectQuery");
+        //
         cy.get(
           'button[aria-label="Run search query with selected filters"]'
         ).click();
@@ -165,7 +166,7 @@ describe("The advanced view", () => {
             "+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D" +
             "+AND+hierarchy%3A1" +
             "+AND+sector_percentage%3A99.9" +
-            "+AND+budget_type%3A%282%29" +
+            "+AND+budget_type%3A2" +
             "+AND+title_narrative%3A%28Hello+world%29" +
             urlSuffix,
           advanced_q_test
@@ -201,7 +202,7 @@ describe("The advanced view", () => {
                 "+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D" +
                 "+AND+hierarchy%3A1" +
                 "+AND+sector_percentage%3A99.9" +
-                "+AND+budget_type%3A%282%29" +
+                "+AND+budget_type%3A2" +
                 "+AND+title_narrative%3A%28Hello+world%29" +
                 urlSuffix,
               advanced_q_test
