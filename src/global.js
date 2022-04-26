@@ -36,16 +36,17 @@ const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
 
 const baseUrl =
   domain +
-  "/dss/activity/select?wt=json&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+  "/dss/activity/select?wt=json&fl=id,title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlSimple =
   domain +
-  "/dss/activity/search?wt=json&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+  "/dss/activity/search?wt=json&fl=id,title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlActivity =
   domain +
-  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
+  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = domain + "/dss/download";
 
 const state = reactive({
+  language: "en",
   nextFilterId: 0,
   queryInProgress: false,
   filters: [],
@@ -198,6 +199,12 @@ const importFilters = async () => {
   state.import.fileLoading = true;
   await populateOptions();
   state.filters = [...state.import.file];
+
+  for (let i = 0; i < state.filters.length; i++) {
+    if (state.filters[i].type === 'date') {
+      state.filters[i].value = new Date(state.filters[i].value);
+    }
+  }
   state.nextFilterId = state.filters.length;
   state.import.fileLoading = false;
   state.import.disabled = true;
@@ -442,6 +449,69 @@ const setResponseState = (result) => {
     state.responseDocs[index]["highlighting"] = state.responseDocs[index][
       "highlighting"
     ].replaceAll('",', '"');
+
+    if ("title_narrative" in state.responseDocs[index]) {
+      if ("title_narrative_xml_lang" in state.responseDocs[index]) {
+        for (const narrativeKey in state.responseDocs[index]
+          .title_narrative_xml_lang) {
+          if (
+            state.responseDocs[index].title_narrative_xml_lang[narrativeKey] ===
+            state.language
+          ) {
+            const langTitleNarrative =
+              state.responseDocs[index].title_narrative[narrativeKey];
+            state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
+            state.responseDocs[index].title_narrative.unshift(
+              langTitleNarrative
+            );
+            break;
+          }
+        }
+      }
+    }
+
+    if (state.responseDocs[index]["highlighting"] === "") {
+      if ("description_narrative" in state.responseDocs[index]) {
+        if ("description_narrative_xml_lang" in state.responseDocs[index]) {
+          for (const narrativeKey in state.responseDocs[index]
+            .description_narrative_xml_lang) {
+            if (
+              state.responseDocs[index].description_narrative_xml_lang[
+                narrativeKey
+              ] === state.language
+            ) {
+              let langDescriptionNarrative =
+                state.responseDocs[index].description_narrative[narrativeKey];
+              if ("title_narrative" in state.responseDocs[index]) {
+                if (
+                  langDescriptionNarrative !==
+                  state.responseDocs[index].title_narrative[0]
+                ) {
+                  if (langDescriptionNarrative.split(" ").length > 30) {
+                    langDescriptionNarrative =
+                      langDescriptionNarrative
+                        .split(" ")
+                        .splice(0, 30)
+                        .join(" ") + " ...";
+                  }
+                  state.responseDocs[index]["highlighting"] =
+                    langDescriptionNarrative;
+                }
+              }
+              break;
+            }
+          }
+        } else {
+          let descriptionNarrative =
+            state.responseDocs[index].description_narrative[0];
+          if (descriptionNarrative.split(" ").length > 30) {
+            descriptionNarrative =
+              descriptionNarrative.split(" ").splice(0, 30).join(" ") + " ...";
+          }
+          state.responseDocs[index]["highlighting"] = descriptionNarrative;
+        }
+      }
+    }
 
     index = index + 1;
   }
@@ -689,6 +759,16 @@ const sortResults = async (field) => {
   }
 };
 
+const resetResults = () => {
+  (state.query = null),
+    (state.responseDocs = null),
+    (state.responseTotal = null),
+    (state.responseStart = null),
+    (state.numberPages = null),
+    (state.simpleSearch = null),
+    (state.simpleSearchTerm = null);
+};
+
 // Helper functions, not exported:
 
 const cleanSolrQueryString = (qString) => {
@@ -788,4 +868,5 @@ export default {
   sortFields,
   sortResults,
   importSimpleSearchToAdv,
+  resetResults,
 };
