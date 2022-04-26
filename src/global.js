@@ -199,6 +199,12 @@ const importFilters = async () => {
   state.import.fileLoading = true;
   await populateOptions();
   state.filters = [...state.import.file];
+
+  for (let i = 0; i < state.filters.length; i++) {
+    if (state.filters[i].type === 'date') {
+      state.filters[i].value = new Date(state.filters[i].value);
+    }
+  }
   state.nextFilterId = state.filters.length;
   state.import.fileLoading = false;
   state.import.disabled = true;
