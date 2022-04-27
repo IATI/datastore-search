@@ -201,7 +201,7 @@ const importFilters = async () => {
   state.filters = [...state.import.file];
 
   for (let i = 0; i < state.filters.length; i++) {
-    if (state.filters[i].type === 'date') {
+    if (state.filters[i].type === "date") {
       state.filters[i].value = new Date(state.filters[i].value);
     }
   }
@@ -640,13 +640,16 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-const statusRequest = async (url) => {
-  const statusResp = await axios.get(url);
+const statusRequest = async (statusUrl, terminateUrl = null) => {
+  if (terminateUrl !== null && state.download.fileLoading === false) {
+    return await axios.post(terminateUrl);
+  }
+  const statusResp = await axios.get(statusUrl);
   if (statusResp.status === 200) {
     return statusResp.data.output;
   } else if (statusResp.status === 202) {
     await sleep(5000);
-    return await statusRequest(url);
+    return await statusRequest(statusUrl, terminateUrl);
   }
 };
 
@@ -689,11 +692,21 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     );
     await sleep(500);
     const response = await statusRequest(
-      startDownloadRes.data.statusQueryGetUri
+      startDownloadRes.data.statusQueryGetUri,
+      startDownloadRes.data.terminatePostUri
     );
-    await downloadItem({ url: response.url, label: response.fileName });
-    state.download.fileLoading = false;
-    toggleDownloadModal(null);
+    if ("config" in response && response.config.method === "post") {
+      event("Cancelled download", {
+        method: "Google",
+        event_category: "Download buttons",
+        event_label: event_label,
+      });
+      return;
+    } else {
+      await downloadItem({ url: response.url, label: response.fileName });
+      state.download.fileLoading = false;
+      toggleDownloadModal(null);
+    }
   } catch (error) {
     console.error(error);
     alert(`Download Failed: ${error.message}`);
@@ -705,6 +718,11 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     event_category: "Download buttons",
     event_label: event_label,
   });
+};
+
+const cancelDownloadFile = async () => {
+  state.download.fileLoading = false;
+  toggleDownloadModal(null);
 };
 
 const downloadItem = async ({ url, label }) => {
@@ -858,6 +876,7 @@ export default {
   runSimple,
   isFileLoading,
   downloadFile,
+  cancelDownloadFile,
   toggleDownloadModal,
   toggleExportModal,
   toggleImportModal,
