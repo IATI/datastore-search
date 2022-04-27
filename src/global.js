@@ -708,9 +708,12 @@ const downloadFile = async (format, iid = null, core = "activity") => {
       toggleDownloadModal(null);
     }
   } catch (error) {
-    console.error(error);
-    alert(`Download Failed: ${error.message}`);
-    state.download.fileLoading = false;
+    // If a user cancels right before download finishes, POST returns error 410 GONE. Don't alert user in this case.
+    if (state.download.fileLoading === true) {
+      console.error(error);
+      alert(`Download Failed: ${error.message}`);
+      state.download.fileLoading = false;
+    }
   }
 
   event(`Succeeded download ${core} ${format}`, {
