@@ -6,7 +6,7 @@ import { ArrowDownIcon } from "@heroicons/vue/solid";
   <div
     v-if="global.state.export.showModal"
     role="dialog"
-    class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
+    class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
   >
     <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
       <h2 class="text-2xl">Export Filters</h2>
