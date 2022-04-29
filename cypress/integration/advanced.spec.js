@@ -43,6 +43,10 @@ describe("The advanced view", () => {
       cy.get('button[aria-label="Remove filter"]').click();
       cy.get('button[aria-label="Add an additional filter"]').click();
       cy.get("select").select("Humanitarian");
+      cy.get(
+        'button[aria-label="Run search query with selected filters"]'
+      ).click();
+      cy.contains("Selection is required");
       cy.get('button:contains("TRUE")').click();
       cy.fixture("advanced_q_test").then((advanced_q_test) => {
         cy.intercept(
@@ -86,6 +90,10 @@ describe("The advanced view", () => {
     it("can select integer filters", () => {
       cy.get('button[aria-label="Add an additional filter"]').click();
       cy.get("select").eq(2).select("Hierarchy");
+      cy.get(
+        'button[aria-label="Run search query with selected filters"]'
+      ).click();
+      cy.contains("A value is required");
       cy.get('input[type="number"]').type(1);
       cy.fixture("advanced_q_test").then((advanced_q_test) => {
         cy.intercept(
@@ -108,6 +116,10 @@ describe("The advanced view", () => {
     it("can select number filters", () => {
       cy.get('button[aria-label="Add an additional filter"]').click();
       cy.get("select").eq(3).select("Sector Percentage");
+      cy.get(
+        'button[aria-label="Run search query with selected filters"]'
+      ).click();
+      cy.contains("A value is required");
       cy.get('input[min="0"]').type(99.9);
       cy.fixture("advanced_q_test").then((advanced_q_test) => {
         cy.intercept(
@@ -131,6 +143,10 @@ describe("The advanced view", () => {
     it("can select select filters", () => {
       cy.get('button[aria-label="Add an additional filter"]').click();
       cy.get("select").eq(4).select("Budget Type");
+      cy.get(
+        'button[aria-label="Run search query with selected filters"]'
+      ).click();
+      cy.contains("A selection is required");
       cy.wait(1000);
       cy.get("select").eq(5).select("2 - Revised");
       cy.fixture("advanced_q_test").then((advanced_q_test) => {

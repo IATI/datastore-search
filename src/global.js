@@ -287,6 +287,20 @@ const validateFilters = () => {
             valid: false,
             validationMessage: "A value is required",
           };
+        case "date":
+          count += 1;
+          return {
+            ...filter,
+            valid: false,
+            validationMessage: "A date is required",
+          };
+        case "select":
+          count += 1;
+          return {
+            ...filter,
+            valid: false,
+            validationMessage: "A selection is required",
+          };
         default:
           break;
       }
@@ -526,11 +540,9 @@ const changeFilter = (id, key, value) => {
   for (let i = 0; i < state.filters.length; i++) {
     if (state.filters[i].id === id) {
       state.filters[i][key] = value;
-      // clear validation if value is present
-      if (key === "value" && value !== "") {
-        delete state.filters[i].valid;
-        delete state.filters[i].validationMessage;
-      }
+      // clear validation on all filter changes
+      delete state.filters[i].valid;
+      delete state.filters[i].validationMessage;
 
       if (key === "field") {
         for (let n = 0; n < state.fieldOptions.length; n++) {
@@ -603,13 +615,7 @@ const validateDropdownOptions = (id, index, options) => {
     if (state.filters[i].id === id) {
       const currentValue = state.filters[i].value;
       // If the current field value is null or not in the list of valid options, set blank so "Select code" can be reselected
-      if (
-        (currentValue === null ||
-          !options.map((d) => d.code).includes(currentValue)) &&
-        index === 0
-      ) {
-        delete state.filters[i].valid;
-        delete state.filters[i].validationMessage;
+      if (!options.map((d) => d.code).includes(currentValue) && index === 0) {
         state.filters[i].value = "";
       }
     }
