@@ -3,6 +3,7 @@ import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
 import { startOfToday, format } from "date-fns";
+import MD5 from "crypto-js/md5";
 
 const axiosConfig = {
   headers: {
@@ -196,23 +197,32 @@ export const toggleImportModal = () => {
 };
 
 const importFilters = async () => {
+  state.import.errors = [];
   state.import.fileLoading = true;
   await populateOptions();
-  state.filters = [...state.import.file];
+  const filterHash = state.import.file.hash;
+  const filterData = state.import.file.data;
+  if (MD5(JSON.stringify(filterData)).toString() === filterHash) {
+    state.filters = [...filterData];
 
-  for (let i = 0; i < state.filters.length; i++) {
-    if (state.filters[i].type === "date") {
-      state.filters[i].value = new Date(state.filters[i].value);
+    for (let i = 0; i < state.filters.length; i++) {
+      if (state.filters[i].type === "date") {
+        state.filters[i].value = new Date(state.filters[i].value);
+      }
     }
+    state.nextFilterId = state.filters.length;
+    state.import.disabled = true;
+    toggleImportModal();
+    event("Imported Filters", {
+      method: "Google",
+      event_category: "Advanced",
+    });
+  } else {
+    state.import.errors.push(
+      "Incompatible file detected. Please try importing a different file."
+    );
   }
-  state.nextFilterId = state.filters.length;
   state.import.fileLoading = false;
-  state.import.disabled = true;
-  toggleImportModal();
-  event("Imported Filters", {
-    method: "Google",
-    event_category: "Advanced",
-  });
 };
 
 const stageFilter = (event) => {
@@ -234,7 +244,12 @@ export const onFilePicked = (event) => {
 export const exportFilters = () => {
   const date = new Date();
   state.export.fileLoading = true;
-  const blob = new Blob([JSON.stringify(state.filters)], {
+  const filterHash = MD5(JSON.stringify(state.filters)).toString();
+  const exportObj = {
+    hash: filterHash,
+    data: state.filters,
+  };
+  const blob = new Blob([JSON.stringify(exportObj)], {
     type: "application/json",
   });
   const link = document.createElement("a");
