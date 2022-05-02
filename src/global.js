@@ -226,9 +226,17 @@ const importFilters = async () => {
 };
 
 const stageFilter = (event) => {
-  // TODO - add validation here
-  state.import.file = JSON.parse(event.target.result);
-  state.import.disabled = false;
+  state.import.errors = [];
+  state.import.disabled = true;
+  try {
+    state.import.file = JSON.parse(event.target.result);
+    state.import.disabled = false;
+  } catch (error) {
+    state.import.errors.push(
+      "Incompatible file detected. Please try choosing a different file."
+    );
+    state.import.file = {};
+  }
 };
 
 export const onFilePicked = (event) => {
