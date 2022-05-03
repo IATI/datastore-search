@@ -32,7 +32,6 @@ export default {
     SideBar,
     ResultList,
   },
-  inject: ["global"],
   mounted: function () {
     Split(["#split-0", "#split-1"], {
       sizes: [40, 60],
@@ -44,9 +43,6 @@ export default {
       page_path: this.$route.fullPath,
       page_title: this.$route.name,
     });
-  },
-  unmounted: function () {
-    this.global.resetResults();
   },
 };
 </script>

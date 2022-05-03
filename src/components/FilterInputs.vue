@@ -35,9 +35,7 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
         class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
         @change="global.changeFilter(filter.id, 'field', $event.target.value)"
       >
-        <option ref="default-option" disabled value="" selected>
-          Select field
-        </option>
+        <option disabled value="" selected>Select field</option>
         <option
           v-for="filterOption in global.state.fieldOptions"
           :key="filterOption.field"
@@ -278,10 +276,6 @@ export default {
       }
       return null;
     },
-  },
-  mounted() {
-    // force default select after mount for field selector due to Vue weirdness
-    this.$refs["default-option"].setAttribute("selected", true);
   },
 };
 </script>
