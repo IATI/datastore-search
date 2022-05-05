@@ -1,6 +1,6 @@
 {
   "name": "datastore-search",
-  "version": "1.2.5",
+  "version": "1.2.1",
   "scripts": {
     "dev": "vite --mode development",
     "dev:production": "vite --mode production",
@@ -37,7 +37,7 @@
     "cypress-file-upload": "^5.0.8",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-vue": "^8.6.0",
+    "eslint-plugin-vue": "^8.7.1",
     "husky": "^7.0.0",
     "lint-staged": "^12.4.1",
     "postcss": "^8.4.12",

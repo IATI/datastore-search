@@ -33,6 +33,7 @@ describe("The advanced view", () => {
       cy.contains("Search term is required").should("not.exist");
     });
   });
+
   describe("filters", () => {
     const baseUrl =
       "https://dev-api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&";
