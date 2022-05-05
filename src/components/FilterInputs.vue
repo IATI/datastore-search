@@ -99,9 +99,6 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
         :value="filter.value"
         @input="global.changeFilter(filter.id, 'value', $event.target.value)"
       />
-      <p v-if="filter.valid === false" class="text-sm text-red-600">
-        {{ filter.validationMessage }}
-      </p>
       <!-- Select inputs -->
       <div
         v-if="global.isFieldType(filter.field, 'select')"
@@ -133,6 +130,7 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
           <select
             v-if="global.isFieldType(filter.field, 'select')"
             class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+            :class="{ 'border-red-400': filter.valid === false }"
             :value="filter.value"
             @change="
               global.changeFilter(filter.id, 'value', $event.target.value)
@@ -213,6 +211,13 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
           />
         </div>
       </div>
+      <p
+        v-if="filter.valid === false"
+        id="validation"
+        class="text-sm text-red-600"
+      >
+        {{ filter.validationMessage }}
+      </p>
     </div>
     <div class="col-span-1 self-center">
       <div class="grid grid-cols-3 gap-1">
