@@ -3,7 +3,6 @@ import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
 import { startOfToday, format } from "date-fns";
-import MD5 from "crypto-js/md5";
 
 const axiosConfig = {
   headers: {
@@ -197,46 +196,23 @@ export const toggleImportModal = () => {
 };
 
 const importFilters = async () => {
-  state.import.errors = [];
   state.import.fileLoading = true;
   await populateOptions();
-  const filterHash = state.import.file.hash;
-  const filterData = state.import.file.data;
-  if (MD5(JSON.stringify(filterData)).toString() === filterHash) {
-    state.filters = [...filterData];
-
-    for (let i = 0; i < state.filters.length; i++) {
-      if (state.filters[i].type === "date") {
-        state.filters[i].value = new Date(state.filters[i].value);
-      }
-    }
-    state.nextFilterId = state.filters.length;
-    state.import.disabled = true;
-    toggleImportModal();
-    event("Imported Filters", {
-      method: "Google",
-      event_category: "Advanced",
-    });
-  } else {
-    state.import.errors.push(
-      "Incompatible file detected. Please try importing a different file."
-    );
-  }
+  state.filters = [...state.import.file];
+  state.nextFilterId = state.filters.length;
   state.import.fileLoading = false;
+  state.import.disabled = true;
+  toggleImportModal();
+  event("Imported Filters", {
+    method: "Google",
+    event_category: "Advanced",
+  });
 };
 
 const stageFilter = (event) => {
-  state.import.errors = [];
-  state.import.disabled = true;
-  try {
-    state.import.file = JSON.parse(event.target.result);
-    state.import.disabled = false;
-  } catch (error) {
-    state.import.errors.push(
-      "Incompatible file detected. Please try choosing a different file."
-    );
-    state.import.file = {};
-  }
+  // TODO - add validation here
+  state.import.file = JSON.parse(event.target.result);
+  state.import.disabled = false;
 };
 
 export const onFilePicked = (event) => {
@@ -252,12 +228,7 @@ export const onFilePicked = (event) => {
 export const exportFilters = () => {
   const date = new Date();
   state.export.fileLoading = true;
-  const filterHash = MD5(JSON.stringify(state.filters)).toString();
-  const exportObj = {
-    hash: filterHash,
-    data: state.filters,
-  };
-  const blob = new Blob([JSON.stringify(exportObj)], {
+  const blob = new Blob([JSON.stringify(state.filters)], {
     type: "application/json",
   });
   const link = document.createElement("a");
@@ -309,20 +280,6 @@ const validateFilters = () => {
             ...filter,
             valid: false,
             validationMessage: "A value is required",
-          };
-        case "date":
-          count += 1;
-          return {
-            ...filter,
-            valid: false,
-            validationMessage: "A date is required",
-          };
-        case "select":
-          count += 1;
-          return {
-            ...filter,
-            valid: false,
-            validationMessage: "A selection is required",
           };
         default:
           break;
@@ -563,9 +520,11 @@ const changeFilter = (id, key, value) => {
   for (let i = 0; i < state.filters.length; i++) {
     if (state.filters[i].id === id) {
       state.filters[i][key] = value;
-      // clear validation on all filter changes
-      delete state.filters[i].valid;
-      delete state.filters[i].validationMessage;
+      // clear validation if value is present
+      if (key === "value" && value !== "") {
+        delete state.filters[i].valid;
+        delete state.filters[i].validationMessage;
+      }
 
       if (key === "field") {
         for (let n = 0; n < state.fieldOptions.length; n++) {
@@ -638,7 +597,13 @@ const validateDropdownOptions = (id, index, options) => {
     if (state.filters[i].id === id) {
       const currentValue = state.filters[i].value;
       // If the current field value is null or not in the list of valid options, set blank so "Select code" can be reselected
-      if (!options.map((d) => d.code).includes(currentValue) && index === 0) {
+      if (
+        (currentValue === null ||
+          !options.map((d) => d.code).includes(currentValue)) &&
+        index === 0
+      ) {
+        delete state.filters[i].valid;
+        delete state.filters[i].validationMessage;
         state.filters[i].value = "";
       }
     }
@@ -669,16 +634,13 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-const statusRequest = async (statusUrl, terminateUrl = null) => {
-  if (terminateUrl !== null && state.download.fileLoading === false) {
-    return await axios.post(terminateUrl);
-  }
-  const statusResp = await axios.get(statusUrl);
+const statusRequest = async (url) => {
+  const statusResp = await axios.get(url);
   if (statusResp.status === 200) {
     return statusResp.data.output;
   } else if (statusResp.status === 202) {
     await sleep(5000);
-    return await statusRequest(statusUrl, terminateUrl);
+    return await statusRequest(url);
   }
 };
 
@@ -721,28 +683,15 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     );
     await sleep(500);
     const response = await statusRequest(
-      startDownloadRes.data.statusQueryGetUri,
-      startDownloadRes.data.terminatePostUri
+      startDownloadRes.data.statusQueryGetUri
     );
-    if ("config" in response && response.config.method === "post") {
-      event("Cancelled download", {
-        method: "Google",
-        event_category: "Download buttons",
-        event_label: event_label,
-      });
-      return;
-    } else {
-      await downloadItem({ url: response.url, label: response.fileName });
-      state.download.fileLoading = false;
-      toggleDownloadModal(null);
-    }
+    await downloadItem({ url: response.url, label: response.fileName });
+    state.download.fileLoading = false;
+    toggleDownloadModal(null);
   } catch (error) {
-    // If a user cancels right before download finishes, POST returns error 410 GONE. Don't alert user in this case.
-    if (state.download.fileLoading === true) {
-      console.error(error);
-      alert(`Download Failed: ${error.message}`);
-      state.download.fileLoading = false;
-    }
+    console.error(error);
+    alert(`Download Failed: ${error.message}`);
+    state.download.fileLoading = false;
   }
 
   event(`Succeeded download ${core} ${format}`, {
@@ -750,11 +699,6 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     event_category: "Download buttons",
     event_label: event_label,
   });
-};
-
-const cancelDownloadFile = async () => {
-  state.download.fileLoading = false;
-  toggleDownloadModal(null);
 };
 
 const downloadItem = async ({ url, label }) => {
@@ -908,7 +852,6 @@ export default {
   runSimple,
   isFileLoading,
   downloadFile,
-  cancelDownloadFile,
   toggleDownloadModal,
   toggleExportModal,
   toggleImportModal,

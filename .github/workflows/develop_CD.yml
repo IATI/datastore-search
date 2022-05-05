@@ -35,14 +35,9 @@ jobs:
         run: |
           npm install
 
-      - name: Copy dev environment variables to production file
-        run: |
-          rm ./envs/.env.production
-          cp ./envs/.env.development ./envs/.env.production
-
       - name: Run build
         run: |
-          npm run build:production
+          npm run build:development
 
       - name: Create robots.txt
         run: |
