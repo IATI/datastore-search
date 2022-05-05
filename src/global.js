@@ -3,6 +3,7 @@ import { reactive, readonly } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
 import { startOfToday, format } from "date-fns";
+import MD5 from "crypto-js/md5";
 
 const axiosConfig = {
   headers: {
@@ -36,16 +37,17 @@ const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
 
 const baseUrl =
   domain +
-  "/dss/activity/select?wt=json&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+  "/dss/activity/select?wt=json&fl=id,title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlSimple =
   domain +
-  "/dss/activity/search?wt=json&fl=id,title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
+  "/dss/activity/search?wt=json&fl=id,title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative";
 const baseUrlActivity =
   domain +
-  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,description_narrative,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
+  "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = domain + "/dss/download";
 
 const state = reactive({
+  language: "en",
   nextFilterId: 0,
   queryInProgress: false,
   filters: [],
@@ -195,23 +197,46 @@ export const toggleImportModal = () => {
 };
 
 const importFilters = async () => {
+  state.import.errors = [];
   state.import.fileLoading = true;
   await populateOptions();
-  state.filters = [...state.import.file];
-  state.nextFilterId = state.filters.length;
+  const filterHash = state.import.file.hash;
+  const filterData = state.import.file.data;
+  if (MD5(JSON.stringify(filterData)).toString() === filterHash) {
+    state.filters = [...filterData];
+
+    for (let i = 0; i < state.filters.length; i++) {
+      if (state.filters[i].type === "date") {
+        state.filters[i].value = new Date(state.filters[i].value);
+      }
+    }
+    state.nextFilterId = state.filters.length;
+    state.import.disabled = true;
+    toggleImportModal();
+    event("Imported Filters", {
+      method: "Google",
+      event_category: "Advanced",
+    });
+  } else {
+    state.import.errors.push(
+      "Incompatible file detected. Please try importing a different file."
+    );
+  }
   state.import.fileLoading = false;
-  state.import.disabled = true;
-  toggleImportModal();
-  event("Imported Filters", {
-    method: "Google",
-    event_category: "Advanced",
-  });
 };
 
 const stageFilter = (event) => {
-  // TODO - add validation here
-  state.import.file = JSON.parse(event.target.result);
-  state.import.disabled = false;
+  state.import.errors = [];
+  state.import.disabled = true;
+  try {
+    state.import.file = JSON.parse(event.target.result);
+    state.import.disabled = false;
+  } catch (error) {
+    state.import.errors.push(
+      "Incompatible file detected. Please try choosing a different file."
+    );
+    state.import.file = {};
+  }
 };
 
 export const onFilePicked = (event) => {
@@ -227,7 +252,12 @@ export const onFilePicked = (event) => {
 export const exportFilters = () => {
   const date = new Date();
   state.export.fileLoading = true;
-  const blob = new Blob([JSON.stringify(state.filters)], {
+  const filterHash = MD5(JSON.stringify(state.filters)).toString();
+  const exportObj = {
+    hash: filterHash,
+    data: state.filters,
+  };
+  const blob = new Blob([JSON.stringify(exportObj)], {
     type: "application/json",
   });
   const link = document.createElement("a");
@@ -279,6 +309,20 @@ const validateFilters = () => {
             ...filter,
             valid: false,
             validationMessage: "A value is required",
+          };
+        case "date":
+          count += 1;
+          return {
+            ...filter,
+            valid: false,
+            validationMessage: "A date is required",
+          };
+        case "select":
+          count += 1;
+          return {
+            ...filter,
+            valid: false,
+            validationMessage: "A selection is required",
           };
         default:
           break;
@@ -443,6 +487,69 @@ const setResponseState = (result) => {
       "highlighting"
     ].replaceAll('",', '"');
 
+    if ("title_narrative" in state.responseDocs[index]) {
+      if ("title_narrative_xml_lang" in state.responseDocs[index]) {
+        for (const narrativeKey in state.responseDocs[index]
+          .title_narrative_xml_lang) {
+          if (
+            state.responseDocs[index].title_narrative_xml_lang[narrativeKey] ===
+            state.language
+          ) {
+            const langTitleNarrative =
+              state.responseDocs[index].title_narrative[narrativeKey];
+            state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
+            state.responseDocs[index].title_narrative.unshift(
+              langTitleNarrative
+            );
+            break;
+          }
+        }
+      }
+    }
+
+    if (state.responseDocs[index]["highlighting"] === "") {
+      if ("description_narrative" in state.responseDocs[index]) {
+        if ("description_narrative_xml_lang" in state.responseDocs[index]) {
+          for (const narrativeKey in state.responseDocs[index]
+            .description_narrative_xml_lang) {
+            if (
+              state.responseDocs[index].description_narrative_xml_lang[
+                narrativeKey
+              ] === state.language
+            ) {
+              let langDescriptionNarrative =
+                state.responseDocs[index].description_narrative[narrativeKey];
+              if ("title_narrative" in state.responseDocs[index]) {
+                if (
+                  langDescriptionNarrative !==
+                  state.responseDocs[index].title_narrative[0]
+                ) {
+                  if (langDescriptionNarrative.split(" ").length > 30) {
+                    langDescriptionNarrative =
+                      langDescriptionNarrative
+                        .split(" ")
+                        .splice(0, 30)
+                        .join(" ") + " ...";
+                  }
+                  state.responseDocs[index]["highlighting"] =
+                    langDescriptionNarrative;
+                }
+              }
+              break;
+            }
+          }
+        } else {
+          let descriptionNarrative =
+            state.responseDocs[index].description_narrative[0];
+          if (descriptionNarrative.split(" ").length > 30) {
+            descriptionNarrative =
+              descriptionNarrative.split(" ").splice(0, 30).join(" ") + " ...";
+          }
+          state.responseDocs[index]["highlighting"] = descriptionNarrative;
+        }
+      }
+    }
+
     index = index + 1;
   }
 
@@ -456,11 +563,9 @@ const changeFilter = (id, key, value) => {
   for (let i = 0; i < state.filters.length; i++) {
     if (state.filters[i].id === id) {
       state.filters[i][key] = value;
-      // clear validation if value is present
-      if (key === "value" && value !== "") {
-        delete state.filters[i].valid;
-        delete state.filters[i].validationMessage;
-      }
+      // clear validation on all filter changes
+      delete state.filters[i].valid;
+      delete state.filters[i].validationMessage;
 
       if (key === "field") {
         for (let n = 0; n < state.fieldOptions.length; n++) {
@@ -533,13 +638,7 @@ const validateDropdownOptions = (id, index, options) => {
     if (state.filters[i].id === id) {
       const currentValue = state.filters[i].value;
       // If the current field value is null or not in the list of valid options, set blank so "Select code" can be reselected
-      if (
-        (currentValue === null ||
-          !options.map((d) => d.code).includes(currentValue)) &&
-        index === 0
-      ) {
-        delete state.filters[i].valid;
-        delete state.filters[i].validationMessage;
+      if (!options.map((d) => d.code).includes(currentValue) && index === 0) {
         state.filters[i].value = "";
       }
     }
@@ -570,13 +669,16 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-const statusRequest = async (url) => {
-  const statusResp = await axios.get(url);
+const statusRequest = async (statusUrl, terminateUrl = null) => {
+  if (terminateUrl !== null && state.download.fileLoading === false) {
+    return await axios.post(terminateUrl);
+  }
+  const statusResp = await axios.get(statusUrl);
   if (statusResp.status === 200) {
     return statusResp.data.output;
   } else if (statusResp.status === 202) {
     await sleep(5000);
-    return await statusRequest(url);
+    return await statusRequest(statusUrl, terminateUrl);
   }
 };
 
@@ -619,15 +721,28 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     );
     await sleep(500);
     const response = await statusRequest(
-      startDownloadRes.data.statusQueryGetUri
+      startDownloadRes.data.statusQueryGetUri,
+      startDownloadRes.data.terminatePostUri
     );
-    await downloadItem({ url: response.url, label: response.fileName });
-    state.download.fileLoading = false;
-    toggleDownloadModal(null);
+    if ("config" in response && response.config.method === "post") {
+      event("Cancelled download", {
+        method: "Google",
+        event_category: "Download buttons",
+        event_label: event_label,
+      });
+      return;
+    } else {
+      await downloadItem({ url: response.url, label: response.fileName });
+      state.download.fileLoading = false;
+      toggleDownloadModal(null);
+    }
   } catch (error) {
-    console.error(error);
-    alert(`Download Failed: ${error.message}`);
-    state.download.fileLoading = false;
+    // If a user cancels right before download finishes, POST returns error 410 GONE. Don't alert user in this case.
+    if (state.download.fileLoading === true) {
+      console.error(error);
+      alert(`Download Failed: ${error.message}`);
+      state.download.fileLoading = false;
+    }
   }
 
   event(`Succeeded download ${core} ${format}`, {
@@ -635,6 +750,11 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     event_category: "Download buttons",
     event_label: event_label,
   });
+};
+
+const cancelDownloadFile = async () => {
+  state.download.fileLoading = false;
+  toggleDownloadModal(null);
 };
 
 const downloadItem = async ({ url, label }) => {
@@ -687,6 +807,16 @@ const sortResults = async (field) => {
   } else {
     await run();
   }
+};
+
+const resetResults = () => {
+  (state.query = null),
+    (state.responseDocs = null),
+    (state.responseTotal = null),
+    (state.responseStart = null),
+    (state.numberPages = null),
+    (state.simpleSearch = null),
+    (state.simpleSearchTerm = null);
 };
 
 // Helper functions, not exported:
@@ -778,6 +908,7 @@ export default {
   runSimple,
   isFileLoading,
   downloadFile,
+  cancelDownloadFile,
   toggleDownloadModal,
   toggleExportModal,
   toggleImportModal,
@@ -788,4 +919,5 @@ export default {
   sortFields,
   sortResults,
   importSimpleSearchToAdv,
+  resetResults,
 };
