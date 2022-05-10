@@ -2,6 +2,7 @@
   "name": "datastore-search",
   "version": "1.3.0",
   "scripts": {
+    "start": "npm run dev",
     "dev": "vite --mode development",
     "dev:production": "vite --mode production",
     "build:development": "vite build --mode development",
