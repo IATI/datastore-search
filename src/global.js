@@ -65,7 +65,7 @@ const state = reactive({
   searchOrderDirection: "desc",
   activity: null,
   download: {
-    formats: ["XML", "JSON", "CSV"],
+    formats: ["XML", "JSON", "CSV", "XL-CSV"],
     fileLoading: false,
     showModal: false,
     selectedFormat: null,
@@ -656,10 +656,16 @@ const isFileLoading = () => {
   return state.download.fileLoading;
 };
 
-const toggleDownloadModal = (format) => {
+const toggleDownloadModal = (format, context = null) => {
   state.download.showModal = !state.download.showModal;
   if (format !== null) {
     state.download.selectedFormat = format;
+    if (
+      state.download.selectedFormat === "XL-CSV" &&
+      context.core === "activity"
+    ) {
+      context.core = "transaction";
+    }
   } else {
     state.download.selectedFormat = null;
   }
@@ -689,6 +695,10 @@ const downloadFile = async (format, iid = null, core = "activity") => {
 
   if (format === "XML") {
     core = "activity";
+  }
+
+  if (format === "XL-CSV" && core === "activity") {
+    core = "transaction";
   }
 
   let query = null;

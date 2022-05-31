@@ -1,12 +1,12 @@
 <template>
   <div>
     <div id="result-download-buttons">
-      <b class="block 2xl:inline">Download:</b>
+      <b class="block">Download:</b>
       <button
         v-for="format in global.state.download.formats"
         :key="format"
         class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline mb-1"
-        @click="global.toggleDownloadModal(format)"
+        @click="global.toggleDownloadModal(format, this)"
       >
         <ArrowDownIcon class="inline h-5 w-5 text-grey-300 mr-1" />
         <span>{{ format }}</span>
@@ -27,7 +27,10 @@
           </div>
           <div class="mt-1">
             <p
-              v-if="global.state.download.selectedFormat != 'XML'"
+              v-if="
+                global.state.download.selectedFormat != 'XML' &&
+                global.state.download.selectedFormat != 'XL-CSV'
+              "
               class="mb-4 mt-2 text-md"
             >
               Download
@@ -45,6 +48,33 @@
                 <option value="budget">Budget</option>
               </select>
               core in {{ global.state.download.selectedFormat }} format?
+            </p>
+
+            <p
+              v-if="global.state.download.selectedFormat === 'XL-CSV'"
+              class="mb-4 mt-2 text-md"
+            >
+              Download
+              <span v-if="iatiIdentifier"> this IATI Activity </span>
+              <span v-if="!iatiIdentifier">
+                {{ global.state.responseTotal }} results
+              </span>
+              from the
+              <select
+                v-model="core"
+                class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline"
+              >
+                <option value="transaction" :selected="true">
+                  Transaction
+                </option>
+                <option value="budget">Budget</option>
+              </select>
+              core in Excel-optimised* CSV format?<br /><br /><span
+                class="text-sm"
+                >*This ensures Excel will open with correct encoding and
+                formatting, but will truncate cells longer than 32,700
+                characters.</span
+              >
             </p>
 
             <p
