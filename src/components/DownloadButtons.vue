@@ -29,7 +29,7 @@
             <p
               v-if="
                 global.state.download.selectedFormat != 'XML' &&
-                global.state.download.selectedFormat != 'XL-CSV'
+                global.state.download.selectedFormat != 'EXCEL'
               "
               class="mb-4 mt-2 text-md"
             >
@@ -51,7 +51,7 @@
             </p>
 
             <p
-              v-if="global.state.download.selectedFormat === 'XL-CSV'"
+              v-if="global.state.download.selectedFormat === 'EXCEL'"
               class="mb-4 mt-2 text-md"
             >
               Download
