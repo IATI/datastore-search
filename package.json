@@ -25,7 +25,7 @@
     "date-fns": "^2.28.0",
     "moment": "^2.29.3",
     "split.js": "^1.6.5",
-    "vue": "^3.2.36",
+    "vue": "^3.2.37",
     "vue-gtag": "^2.0.1",
     "vue-router": "^4.0.15",
     "vue3-datepicker": "^0.3.4"
