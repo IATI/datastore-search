@@ -34,7 +34,7 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/cli-plugin-router": "~5.0.4",
     "autoprefixer": "^10.4.7",
-    "cypress": "^9.7.0",
+    "cypress": "^10.0.2",
     "cypress-file-upload": "^5.0.8",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
