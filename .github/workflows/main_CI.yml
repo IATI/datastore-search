@@ -25,6 +25,11 @@ jobs:
         with:
           node-version-file: ".nvmrc"
 
+      - name: Fix for npm ERR
+        run: |
+          npm cache clear --force
+          npm config set registry https://registry.npmjs.org
+
       - name: Cypress CI Run
         uses: cypress-io/github-action@v2
         with:
