@@ -6,7 +6,7 @@
         v-for="format in global.state.download.formats"
         :key="format"
         class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline mb-1"
-        @click="global.toggleDownloadModal(format, this)"
+        @click="global.toggleDownloadModal(format)"
       >
         <ArrowDownIcon class="inline h-5 w-5 text-grey-300 mr-1" />
         <span>{{ format }}</span>
@@ -64,9 +64,8 @@
                 v-model="core"
                 class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline"
               >
-                <option value="transaction" :selected="true">
-                  Transaction
-                </option>
+                <option value="activity" :selected="true">Activity</option>
+                <option value="transaction">Transaction</option>
                 <option value="budget">Budget</option>
               </select>
               core in Excel-optimised* CSV format?<br /><br /><span
