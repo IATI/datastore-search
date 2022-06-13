@@ -656,16 +656,10 @@ const isFileLoading = () => {
   return state.download.fileLoading;
 };
 
-const toggleDownloadModal = (format, context = null) => {
+const toggleDownloadModal = (format) => {
   state.download.showModal = !state.download.showModal;
   if (format !== null) {
     state.download.selectedFormat = format;
-    if (
-      state.download.selectedFormat === "EXCEL" &&
-      context.core === "activity"
-    ) {
-      context.core = "transaction";
-    }
   } else {
     state.download.selectedFormat = null;
   }
@@ -695,10 +689,6 @@ const downloadFile = async (format, iid = null, core = "activity") => {
 
   if (format === "XML") {
     core = "activity";
-  }
-
-  if (format === "EXCEL" && core === "activity") {
-    core = "transaction";
   }
 
   let query = null;
