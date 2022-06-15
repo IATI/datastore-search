@@ -68,6 +68,7 @@ let page = 1;
       <v-pagination
         v-model="page"
         class="flex flex-auto justify-center"
+        data-cabin-event="Pagination"
         :pages="global.state.numberPages"
         :range-size="global.state.resultsPerPage"
         active-color="#155366"

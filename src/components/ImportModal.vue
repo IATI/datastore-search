@@ -49,6 +49,7 @@ import { ArrowUpIcon } from "@heroicons/vue/solid";
               'opacity-25 cursor-not-allowed': global.state.import.disabled,
             }"
             class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
+            data-cabin-event="Import filters"
             @click="global.importFilters()"
           >
             <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1" />

@@ -17,6 +17,7 @@
         role="button"
         aria-label="Submit"
         class="flex items-center justify-center px-4 border-l"
+        data-cabin-event="Run simple query"
         @click="
           global.runSimple(searchterm);
           $router.push('simple');
