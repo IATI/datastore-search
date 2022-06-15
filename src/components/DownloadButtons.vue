@@ -99,7 +99,10 @@
               <button
                 class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
                 :data-cabin-event="
-                  'Download ' + core + global.state.download.selectedFormat
+                  'Download ' +
+                  core +
+                  ' ' +
+                  global.state.download.selectedFormat
                 "
                 @click="
                   global.downloadFile(
