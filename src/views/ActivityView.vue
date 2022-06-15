@@ -13,6 +13,5 @@ export default {
     ActivityResult,
   },
   inject: ["global"],
-  // pageview in ActivityResult component to pass title
 };
 </script>
