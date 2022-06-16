@@ -7,7 +7,10 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
 <template>
   <div class="grid grid-cols-7 gap-4">
     <div
-      v-if="!global.isFilterFirstInChain(filter.id)"
+      v-if="
+        !global.isFilterFirstInChain(filter.id) &&
+        !global.filterIsGrouping(filter.id)
+      "
       class="inline-flex"
       role="toolbar"
     >
@@ -52,6 +55,29 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
     </div>
 
     <div class="col-span-3">
+      <!-- Grouping inputs -->
+      <div
+        v-if="global.isFieldType(filter.field, 'grouping')"
+        class="inline-flex"
+        role="toolbar"
+      >
+        <button
+          :class="{ 'bg-blue-300': filter.value === '(' }"
+          type="button"
+          class="h-10 border-l border-t border-b rounded-l px-5 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+          @click="global.changeFilter(filter.id, 'value', '(')"
+        >
+          (
+        </button>
+        <button
+          :class="{ 'bg-blue-300': filter.value === ')' }"
+          type="button"
+          class="h-10 border rounded-r px-5 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+          @click="global.changeFilter(filter.id, 'value', ')')"
+        >
+          )
+        </button>
+      </div>
       <!-- Boolean inputs -->
       <div
         v-if="global.isFieldType(filter.field, 'boolean')"
@@ -69,7 +95,7 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from "@heroicons/vue/solid";
         <button
           :class="{ 'bg-blue-300': filter.value === 'false' }"
           type="button"
-          class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
+          class="h-10 border rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
           @click="global.changeFilter(filter.id, 'value', 'false')"
         >
           FALSE

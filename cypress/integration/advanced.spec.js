@@ -196,6 +196,45 @@ describe("The advanced view", () => {
       });
     });
 
+    it("can select grouping filters", () => {
+      cy.get('button[aria-label="Add an additional filter"]').click();
+      cy.get("select").eq(7).select("Boolean Grouping");
+      cy.wait(1000);
+      cy.get('button:contains("(")').eq(3).click();
+      cy.get('button[aria-label="Add an additional filter"]').click();
+      cy.get("select").eq(8).select("Humanitarian");
+      cy.wait(1000);
+      cy.get('button:contains("TRUE")').eq(1).click();
+      cy.get('button[aria-label="Add an additional filter"]').click();
+      cy.get("select").eq(9).select("Boolean Grouping");
+      cy.wait(1000);
+      cy.get('button:contains(")")').eq(4).click();
+      cy.get('button[aria-label="Add an additional filter"]').click();
+      cy.get("select").eq(10).select("Humanitarian");
+      cy.wait(1000);
+      cy.get('button:contains("TRUE")').eq(2).click();
+      cy.fixture("advanced_q_test").then((advanced_q_test) => {
+        cy.intercept(
+          baseUrl +
+            "q=humanitarian%3Atrue" +
+            "+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D" +
+            "+AND+hierarchy%3A1" +
+            "+AND+sector_percentage%3A99.9" +
+            "+AND+budget_type%3A2" +
+            "+AND+title_narrative%3A%28Hello+world%29" +
+            "+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue" +
+            urlSuffix,
+          advanced_q_test
+        ).as("textQuery");
+        cy.get(
+          'button[aria-label="Run search query with selected filters"]'
+        ).click();
+        cy.wait("@textQuery").then((interception) => {
+          cy.wrap(interception.response.statusCode).should("eq", 200);
+        });
+      });
+    });
+
     it("can export and import filters", () => {
       const downloadsFolder = Cypress.config("downloadsFolder");
       cy.get('button[aria-label="Export filters to file"]').click();
@@ -220,6 +259,7 @@ describe("The advanced view", () => {
                 "+AND+sector_percentage%3A99.9" +
                 "+AND+budget_type%3A2" +
                 "+AND+title_narrative%3A%28Hello+world%29" +
+                "+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue" +
                 urlSuffix,
               advanced_q_test
             ).as("eximQuery");

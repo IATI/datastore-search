@@ -82,6 +82,7 @@ const state = reactive({
     file: null,
   },
   codelistURL: import.meta.env.VUE_ENV_CODELIST_URL,
+  responseErrorMessage: "",
 });
 
 const allNarrativesOption = {
@@ -94,6 +95,19 @@ const allNarrativesOption = {
   xsd_type: "",
   solr_required: "false",
   solr_multivalued: "true",
+};
+
+const groupingOption = {
+  field: "()",
+  label: "Boolean Grouping",
+  type: "grouping",
+  description:
+    "Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis.",
+  name: "",
+  path: "",
+  xsd_type: "",
+  solr_required: "false",
+  solr_multivalued: "false",
 };
 
 const populateOptions = async () => {
@@ -133,6 +147,12 @@ const populateOptions = async () => {
       disabled: true,
     },
     { ...allNarrativesOption },
+    {
+      field: "",
+      label: "Grouping:",
+      disabled: true,
+    },
+    { ...groupingOption },
     {
       field: "",
       label: "Standard fields:",
@@ -296,6 +316,13 @@ const validateFilters = () => {
             valid: false,
             validationMessage: "Selection is required",
           };
+        case "grouping":
+          count += 1;
+          return {
+            ...filter,
+            valid: false,
+            validationMessage: "Selection is required",
+          };
         case "number":
           count += 1;
           return {
@@ -378,6 +405,7 @@ const validateFilters = () => {
 const run = async (start = 0, rows = 10) => {
   state.responseTotal = null;
   state.query = null;
+  state.responseErrorMessage = "";
 
   if (validateFilters()) {
     state.queryInProgress = true;
@@ -390,7 +418,23 @@ const run = async (start = 0, rows = 10) => {
       "sort",
       `${state.searchOrderField} ${state.searchOrderDirection}`
     );
-    let result = await axios.get(url, axiosConfig);
+    let result = {
+      data: {
+        response: {
+          docs: [],
+          numFound: 0,
+          start: 0,
+        },
+        highlighting: {},
+      },
+    };
+    try {
+      result = await axios.get(url, axiosConfig);
+    } catch (error) {
+      state.responseErrorMessage =
+        "There was an error fetching your query. Please check how your query is constructed and try again.";
+    }
+
     state.simpleSearch = false;
 
     setResponseState(result);
@@ -408,6 +452,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
   state.queryInProgress = true;
   state.responseTotal = null;
   state.query = null;
+  state.responseErrorMessage = "";
 
   // Clean search term to prevent Solr Function Queries
   const cleanSearchTerm = cleanSolrQueryString(searchterm);
@@ -601,6 +646,32 @@ const isFilterFirstInChain = (id) => {
   if (state.filters[0].id === id) {
     return true;
   } else {
+    return false;
+  }
+};
+
+const filterIsGrouping = (id) => {
+  if (state.filters.length <= 1) {
+    return false;
+  } else {
+    let previousIndex = 1;
+    for (let i = 1; i < state.filters.length; i++) {
+      if (state.filters[i].id === id) {
+        previousIndex = i - 1;
+        break;
+      }
+    }
+    for (let i = 0; i < state.filters.length; i++) {
+      if (
+        state.filters[i].value === "(" &&
+        state.filters[i].id === state.filters[previousIndex].id
+      ) {
+        return state.filters[i].type === "grouping";
+      }
+      if (state.filters[i].value === ")" && state.filters[i].id === id) {
+        return state.filters[i].type === "grouping";
+      }
+    }
     return false;
   }
 };
@@ -855,7 +926,9 @@ const compileQuery = () => {
       joinOperator = " " + filter.joinOperator + " ";
     }
 
-    query = query + joinOperator;
+    if (!filterIsGrouping(filter.id)) {
+      query = query + joinOperator;
+    }
 
     const queryValue = getFilterValue(filter);
 
@@ -874,6 +947,8 @@ const compileQuery = () => {
         default:
           break;
       }
+    } else if (filter["type"] === "grouping") {
+      query = query + queryValue;
     } else {
       switch (filter["operator"]) {
         case "equals":
@@ -902,6 +977,7 @@ export default {
   isFieldSelected,
   isFieldOptionSelected,
   isFilterFirstInChain,
+  filterIsGrouping,
   importFilters,
   exportFilters,
   run,
