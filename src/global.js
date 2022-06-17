@@ -231,13 +231,9 @@ const importFilters = async () => {
       }
     }
 
-    const lastFilterId = parseInt(
-      state.filters
-        .map((d) => d.id)
-        .sort()
-        [state.filters.length - 1].split("-")[1],
-      10
-    );
+    const lastFilterId = state.filters
+      .map((d) => parseInt(d.id.split("-")[1], 10))
+      .sort()[state.filters.length - 1];
     state.nextFilterId = lastFilterId + 1;
     state.import.disabled = true;
     toggleImportModal();
