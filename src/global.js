@@ -230,7 +230,15 @@ const importFilters = async () => {
         state.filters[i].value = new Date(state.filters[i].value);
       }
     }
-    state.nextFilterId = state.filters.length;
+
+    const lastFilterId = parseInt(
+      state.filters
+        .map((d) => d.id)
+        .sort()
+        [state.filters.length - 1].split("-")[1],
+      10
+    );
+    state.nextFilterId = lastFilterId + 1;
     state.import.disabled = true;
     toggleImportModal();
     event("Imported Filters", {
