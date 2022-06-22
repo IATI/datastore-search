@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="result-download-buttons">
-      <b class="block 2xl:inline">Download:</b>
+      <b class="block">Download:</b>
       <button
         v-for="format in global.state.download.formats"
         :key="format"
@@ -27,7 +27,10 @@
           </div>
           <div class="mt-1">
             <p
-              v-if="global.state.download.selectedFormat != 'XML'"
+              v-if="
+                global.state.download.selectedFormat != 'XML' &&
+                global.state.download.selectedFormat != 'EXCEL'
+              "
               class="mb-4 mt-2 text-md"
             >
               Download
@@ -45,6 +48,32 @@
                 <option value="budget">Budget</option>
               </select>
               core in {{ global.state.download.selectedFormat }} format?
+            </p>
+
+            <p
+              v-if="global.state.download.selectedFormat === 'EXCEL'"
+              class="mb-4 mt-2 text-md"
+            >
+              Download
+              <span v-if="iatiIdentifier"> this IATI Activity </span>
+              <span v-if="!iatiIdentifier">
+                {{ global.state.responseTotal }} results
+              </span>
+              from the
+              <select
+                v-model="core"
+                class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline"
+              >
+                <option value="activity" :selected="true">Activity</option>
+                <option value="transaction">Transaction</option>
+                <option value="budget">Budget</option>
+              </select>
+              core in Excel-optimised* CSV format?<br /><br /><span
+                class="text-sm"
+                >*This ensures Excel will open with correct encoding and
+                formatting, but will truncate cells longer than 32,700
+                characters.</span
+              >
             </p>
 
             <p
@@ -69,6 +98,12 @@
               </button>
               <button
                 class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
+                :data-cabin-event="
+                  'Download ' +
+                  core +
+                  ' ' +
+                  global.state.download.selectedFormat
+                "
                 @click="
                   global.downloadFile(
                     global.state.download.selectedFormat,

@@ -50,7 +50,6 @@ import SearchBar from "../components/SearchBar.vue";
 import ResultList from "../components/ResultList.vue";
 import DownloadButtons from "../components/DownloadButtons.vue";
 import SortButtons from "../components/SortButtons.vue";
-import { pageview } from "vue-gtag";
 
 export default {
   name: "SimpleView",
@@ -63,12 +62,6 @@ export default {
   inject: ["global"],
   beforeUnmount() {
     sessionStorage.removeItem("searchterm");
-  },
-  mounted() {
-    pageview({
-      page_path: this.$route.fullPath,
-      page_title: this.$route.name,
-    });
   },
   methods: {
     goToAdvanced() {

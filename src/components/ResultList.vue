@@ -60,14 +60,30 @@ let page = 1;
         </li>
       </ul>
 
-      <p v-if="global.state.responseTotal === 0" class="mt-10">
+      <p
+        v-if="
+          global.state.responseTotal === 0 &&
+          global.state.responseErrorMessage === ''
+        "
+        class="mt-10"
+      >
         No matching IATI Activities - please try a different search
+      </p>
+      <p
+        v-if="
+          global.state.responseTotal === 0 &&
+          global.state.responseErrorMessage !== ''
+        "
+        class="mt-10"
+      >
+        {{ global.state.responseErrorMessage }}
       </p>
     </div>
     <div class="border-solid border-t p-2 flex">
       <v-pagination
         v-model="page"
         class="flex flex-auto justify-center"
+        data-cabin-event="Pagination"
         :pages="global.state.numberPages"
         :range-size="global.state.resultsPerPage"
         active-color="#155366"

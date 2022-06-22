@@ -10,7 +10,7 @@ To install:
 
 To run a development server using (`./envs/.env.development` vars):
 
-`npm run dev`
+`npm start`
 
 To run a development server using (`./envs/.env.production` vars):
 
