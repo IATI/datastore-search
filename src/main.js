@@ -3,6 +3,13 @@ import App from "./App.vue";
 import router from "./router";
 import VueGtag from "vue-gtag";
 import "./index.css";
+import plausible from "../plugins/plausible";
+
+const plausibleOptions = {
+  domain: import.meta.env.PLAUSIBLE_DOMAIN,
+  hashMode: true,
+  trackLocalhost: false,
+};
 
 createApp(App)
   .use(VueGtag, {
@@ -14,4 +21,5 @@ createApp(App)
     },
   })
   .use(router)
+  .use(plausible, plausibleOptions)
   .mount("#app");

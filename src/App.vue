@@ -112,6 +112,7 @@ import NotificationBanner from "./components/NotificationBanner.vue";
 
 <script>
 import global from "./global";
+import { inject } from "vue";
 import { time } from "vue-gtag";
 
 export default {
@@ -119,6 +120,12 @@ export default {
     NotificationBanner,
   },
   provide: { global },
+  setup() {
+    const plausible = inject("plausible");
+    return {
+      plausible,
+    };
+  },
   mounted() {
     const timeSincePageLoad = Math.round(performance.now());
     time({

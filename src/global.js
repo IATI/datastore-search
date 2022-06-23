@@ -4,6 +4,9 @@ import axios from "axios";
 import { event } from "vue-gtag";
 import { startOfToday, format } from "date-fns";
 import MD5 from "crypto-js/md5";
+import Plausible from "plausible-tracker";
+
+const { trackEvent } = Plausible();
 
 const axiosConfig = {
   headers: {
@@ -243,6 +246,11 @@ const importFilters = async () => {
       method: "Google",
       event_category: "Advanced",
     });
+    trackEvent("Imported Filters", {
+      props: {
+        event_category: "Advanced",
+      },
+    });
   } else {
     state.import.errors.push(
       "Incompatible file detected. Please try importing a different file."
@@ -296,6 +304,11 @@ export const exportFilters = () => {
   event("Exported Filters", {
     method: "Google",
     event_category: "Advanced",
+  });
+  trackEvent("Exported Filters", {
+    props: {
+      event_category: "Advanced",
+    },
   });
 };
 
@@ -451,6 +464,12 @@ const run = async (start = 0, rows = 10) => {
       event_category: "Advanced",
       event_label: state.query,
     });
+    trackEvent("Run query", {
+      props: {
+        event_category: "Advanced",
+        event_label: state.query,
+      },
+    });
   }
 };
 
@@ -483,6 +502,12 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
       method: "Google",
       event_category: "Simple",
       event_label: state.query,
+    });
+    trackEvent("Run query", {
+      props: {
+        event_category: "Simple",
+        event_label: state.query,
+      },
     });
   }
 };
@@ -784,6 +809,12 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     event_category: "Download buttons",
     event_label: event_label,
   });
+  trackEvent(`Initiated download ${core} ${format}`, {
+    props: {
+      event_category: "Download buttons",
+      event_label: event_label,
+    },
+  });
 
   try {
     state.download.fileLoading = true;
@@ -807,6 +838,12 @@ const downloadFile = async (format, iid = null, core = "activity") => {
         event_category: "Download buttons",
         event_label: event_label,
       });
+      trackEvent("Cancelled download", {
+        props: {
+          event_category: "Download buttons",
+          event_label: event_label,
+        },
+      });
       return;
     } else {
       await downloadItem({ url: response.url, label: response.fileName });
@@ -826,6 +863,12 @@ const downloadFile = async (format, iid = null, core = "activity") => {
     method: "Google",
     event_category: "Download buttons",
     event_label: event_label,
+  });
+  trackEvent(`Succeeded download ${core} ${format}`, {
+    props: {
+      event_category: "Download buttons",
+      event_label: event_label,
+    },
   });
 };
 
@@ -857,6 +900,12 @@ const paginationUpdate = async (page) => {
       event_category: "Simple",
       event_label: `${state.simpleSearchTerm} - ${state.page}`,
     });
+    trackEvent("Pagination", {
+      props: {
+        event_category: "Simple",
+        event_label: `${state.simpleSearchTerm} - ${state.page}`,
+      },
+    });
   } else {
     await run((state.page - 1) * state.resultsPerPage, state.resultsPerPage);
 
@@ -864,6 +913,12 @@ const paginationUpdate = async (page) => {
       method: "Google",
       event_category: "Advanced",
       event_label: `${state.query} - ${state.page}`,
+    });
+    trackEvent("Pagination", {
+      props: {
+        event_category: "Advanced",
+        event_label: `${state.query} - ${state.page}`,
+      },
     });
   }
 };
