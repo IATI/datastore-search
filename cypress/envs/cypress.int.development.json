@@ -1,9 +1,0 @@
-{
-  "baseUrl": "https://dev-datastore.iatistandard.org",
-  "fixturesFolder": "cypress/fixtures",
-  "integrationFolder": "cypress/integration",
-  "pluginsFile": "cypress/plugins/index.js",
-  "screenshotOnRunFailure": false,
-  "video": false,
-  "supportFile": "cypress/support/index.js"
-}

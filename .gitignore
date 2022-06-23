@@ -2,3 +2,5 @@ node_modules
 dist
 .eslintcache
 cypress/downloads
+cypress/videos
+cypress/screenshots
