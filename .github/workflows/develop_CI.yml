@@ -32,7 +32,7 @@ jobs:
           build: npm run build:development
           start: npm run serve
           wait-on: "http://localhost:3000"
-          config-file: cypress/envs/cypress.ci.json
+          config-file: cypress.config.ci.js
 
   automerge:
     needs: build-ci
