@@ -70,4 +70,4 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           wait-on: "https://dev-datastore.iatistandard.org"
-          config-file: cypress.config.js
+          config-file: cypress.config.dev.js

@@ -31,7 +31,7 @@ const hasFile = (dirPath, ms) => {
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "https://dev-datastore.iatistandard.org",
+    baseUrl: "http://localhost:3000",
     fixturesFolder: "cypress/fixtures",
     specPattern: "cypress/integration/*.spec.js",
     screenshotsFolder: "cypress/screenshots",
