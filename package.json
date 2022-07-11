@@ -11,8 +11,12 @@
     "preview": "vite preview",
     "cy:open": "cypress open --config-file cypress.config.local.js",
     "cy:open-ci": "cypress open --config-file cypress.config.ci.js",
+    "cy:open-dev": "cypress open --config-file cypress.config.dev.js",
+    "cy:open-prod": "cypress open --config-file cypress.config.prod.js",
     "cy:run": "cypress run --config-file cypress.config.local.js",
     "cy:run-ci": "cypress run --config-file cypress.config.ci.js",
+    "cy:run-dev": "cypress run --config-file cypress.config.dev.js",
+    "cy:run-prod": "cypress run --config-file cypress.config.prod.js",
     "lint": "eslint --ext .js,.vue --fix src",
     "format": "prettier . --write",
     "prepare": "husky install"
