@@ -28,7 +28,7 @@
     "split.js": "^1.6.5",
     "vue": "^3.2.37",
     "vue-gtag": "^2.0.1",
-    "vue-router": "^4.1.1",
+    "vue-router": "^4.1.2",
     "vue3-datepicker": "^0.3.4"
   },
   "devDependencies": {
