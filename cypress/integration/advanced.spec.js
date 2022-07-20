@@ -5,6 +5,9 @@ describe("The advanced view", () => {
     cy.intercept("https://dev-api.iatistandard.org/dss/resources/filters").as(
       "getFilters"
     );
+    cy.intercept("https://api.iatistandard.org/dss/resources/filters").as(
+      "getFilters"
+    );
     cy.visit("/advanced");
     cy.wait("@getFilters");
     cy.contains("Add Filter");
@@ -35,8 +38,13 @@ describe("The advanced view", () => {
   });
 
   describe("filters", () => {
-    const baseUrl =
+    let baseUrl =
       "https://dev-api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&";
+    if (Cypress.config("baseUrl") === "https://datastore.iatistandard.org") {
+      baseUrl =
+        "https://api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&";
+    }
+
     const urlSuffix = "&sort=score+desc";
 
     it("can select boolean filters", () => {
