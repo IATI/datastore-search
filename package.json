@@ -1,6 +1,6 @@
 {
   "name": "datastore-search",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "scripts": {
     "start": "npm run dev",
     "dev": "vite --mode development",
