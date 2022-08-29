@@ -101,5 +101,10 @@ export default {
             >
             is available, and hugely powerful.
         `,
+        overview_of_iati_activity: 'Overview of IATI Activity',
+        back_to_results: 'Back to results',
+        download: 'Download',
+        activity_file: 'Activity File',
+        results_file: 'Results File',
     },
 };
