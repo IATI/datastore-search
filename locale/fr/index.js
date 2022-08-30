@@ -212,7 +212,7 @@ export default {
         incompatible_file_error:
             'Fichier incompatible détecté. Veuillez essayer un autre fichier.',
         search_term_is_required: 'Le terme de recherche est requis',
-        selection_is_required: 'Selection is required',
+        selection_is_required: 'Une sélection est requise',
         value_is_required: 'Valeur est requise',
         date_is_required: 'La date est requise',
         is_not_allowed:
