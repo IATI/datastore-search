@@ -182,7 +182,7 @@ export default {
         file: 'Fichier',
         and: 'ET',
         or: 'OU',
-        select_field: 'sélectionner un champ',
+        select_field: 'Sélectionner un champ',
         true: 'VRAI',
         false: 'FAUX',
         select_from_codes: 'Sélectionnez parmi les codes %{name}',
