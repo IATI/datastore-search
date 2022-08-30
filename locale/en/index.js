@@ -194,5 +194,26 @@ export default {
         advanced: 'Advanced',
         found_activities: 'Found <b>%{count}</b> activities',
         relevance: 'Relevance',
+        identifier: 'Identifier',
+        all_narratives: 'All Narratives',
+        all_narratives_desc:
+            'Searches all IATI narrative fields, used by simple search',
+        boolean_grouping: 'Boolean Grouping',
+        boolean_grouping_desc:
+            'Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis.',
+        special_fields: 'Special fields',
+        grouping: 'Grouping',
+        standard_fields: 'Standard fields',
+        incompatible_file_error:
+            'Incompatible file detected. Please try a different file.',
+        search_term_is_required: 'Search term is required',
+        selection_is_required: 'Selection is required',
+        value_is_required: 'Value is required',
+        date_is_required: 'Date is required',
+        is_not_allowed: '%{bad} is not allowed for Datastore Search queries',
+        percentage_validation: 'Percentage must be between 0 and 100',
+        integer_validation: 'Value must be a whole number',
+        fetch_error:
+            'There was an error fetching your query. Please check how your query is constructed and try again.',
     },
 };

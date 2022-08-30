@@ -8,9 +8,24 @@ import Plausible from 'plausible-tracker';
 import i18n from './i18n.js';
 
 const { t } = i18n.global;
+const current_locale =
+    navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
 
 const { trackEvent } = Plausible();
 
+if (current_locale != 'en') {
+    event('Localisation', {
+        method: 'Google',
+        event_category: 'Language',
+        event_label: navigator.language,
+    });
+    trackEvent('Localisation', {
+        props: {
+            event_category: 'Language',
+            event_label: navigator.language,
+        },
+    });
+}
 const axiosConfig = {
     headers: {
         'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
@@ -32,7 +47,7 @@ const sortFields = [
         default: 'desc',
     },
     {
-        verbose: 'Identifier',
+        verbose: t('message.identifier'),
         field: 'iati_identifier',
         label: 'Sort results by IATI identifier',
         default: 'asc',
@@ -53,9 +68,7 @@ const baseUrlActivity =
 const baseUrlDownload = domain + '/dss/download';
 
 const state = reactive({
-    language:
-        navigator.language.split('-')[0] ||
-        navigator.userLanguage.split('-')[0],
+    language: current_locale,
     nextFilterId: 0,
     queryInProgress: false,
     filters: [],
@@ -95,9 +108,9 @@ const state = reactive({
 
 const allNarrativesOption = {
     field: 'iati_text',
-    label: 'All Narratives',
+    label: t('message.all_narratives'),
     type: 'text',
-    description: 'Searches all IATI narrative fields, used by simple search',
+    description: t('message.all_narratives_desc'),
     name: 'narrative',
     path: 'iati-activities/iati-activity//narrative',
     xsd_type: '',
@@ -107,10 +120,9 @@ const allNarrativesOption = {
 
 const groupingOption = {
     field: '()',
-    label: 'Boolean Grouping',
+    label: t('message.boolean_grouping'),
     type: 'grouping',
-    description:
-        'Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis.',
+    description: t('message.boolean_grouping_desc'),
     name: '',
     path: '',
     xsd_type: '',
@@ -122,7 +134,7 @@ const populateOptions = async () => {
     let filterOptions = null;
 
     let response = await axios.get(
-        `${domain}/dss/resources/filters`,
+        `${domain}/dss/resources/filters?locale=${current_locale}`,
         axiosConfig
     );
 
@@ -154,19 +166,19 @@ const populateOptions = async () => {
     const specialOptions = [
         {
             field: '',
-            label: 'Special fields:',
+            label: `${t('message.special_fields')}:`,
             disabled: true,
         },
         { ...allNarrativesOption },
         {
             field: '',
-            label: 'Grouping:',
+            label: `${t('message.grouping')}:`,
             disabled: true,
         },
         { ...groupingOption },
         {
             field: '',
-            label: 'Standard fields:',
+            label: `${t('message.standard_fields')}:`,
             disabled: true,
         },
     ];
@@ -260,9 +272,7 @@ const importFilters = async () => {
             },
         });
     } else {
-        state.import.errors.push(
-            'Incompatible file detected. Please try importing a different file.'
-        );
+        state.import.errors.push(t('message.incompatible_file_error'));
     }
     state.import.fileLoading = false;
 };
@@ -274,9 +284,7 @@ const stageFilter = (event) => {
         state.import.file = JSON.parse(event.target.result);
         state.import.disabled = false;
     } catch (error) {
-        state.import.errors.push(
-            'Incompatible file detected. Please try choosing a different file.'
-        );
+        state.import.errors.push(t('message.incompatible_file_error'));
         state.import.file = {};
     }
 };
@@ -334,49 +342,49 @@ const validateFilters = () => {
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'Search term is required',
+                        validationMessage: t('message.search_term_is_required'),
                     };
                 case 'boolean':
                     count += 1;
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'Selection is required',
+                        validationMessage: t('message.selection_is_required'),
                     };
                 case 'grouping':
                     count += 1;
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'Selection is required',
+                        validationMessage: t('message.selection_is_required'),
                     };
                 case 'number':
                     count += 1;
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'A value is required',
+                        validationMessage: t('message.value_is_required'),
                     };
                 case 'integer':
                     count += 1;
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'A value is required',
+                        validationMessage: t('message.value_is_required'),
                     };
                 case 'date':
                     count += 1;
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'A date is required',
+                        validationMessage: t('message.date_is_required'),
                     };
                 case 'select':
                     count += 1;
                     return {
                         ...filter,
                         valid: false,
-                        validationMessage: 'A selection is required',
+                        validationMessage: t('message.selection_is_required'),
                     };
                 default:
                     break;
@@ -397,7 +405,9 @@ const validateFilters = () => {
                 return {
                     ...filter,
                     valid: false,
-                    validationMessage: `${badStrs.join()} is not allowed for datastore search queries`,
+                    validationMessage: t('message.is_not_allowed', {
+                        bad: badStrs.join(),
+                    }),
                 };
             }
         }
@@ -412,7 +422,7 @@ const validateFilters = () => {
             return {
                 ...filter,
                 valid: false,
-                validationMessage: 'Percentage must be between 0 and 100',
+                validationMessage: t('message.percentage_validation'),
             };
         }
         // integer check
@@ -421,7 +431,7 @@ const validateFilters = () => {
             return {
                 ...filter,
                 valid: false,
-                validationMessage: 'Value must be a whole number',
+                validationMessage: t('message.integer_validation'),
             };
         }
         return { ...filter };
@@ -458,8 +468,7 @@ const run = async (start = 0, rows = 10) => {
         try {
             result = await axios.get(url, axiosConfig);
         } catch (error) {
-            state.responseErrorMessage =
-                'There was an error fetching your query. Please check how your query is constructed and try again.';
+            state.responseErrorMessage = t('message.fetch_error');
         }
 
         state.simpleSearch = false;
