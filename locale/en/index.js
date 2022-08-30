@@ -98,13 +98,13 @@ export default {
             >
             allows a much deeper exploration, with every IATI element
             available to be added to a chain of filters. For those who
-            would like exceptional control of their queries the
+            would like exceptional control of their queries, the
             <a
                 class="hover:underline text-iati-grey"
                 href="https://developer.iatistandard.org/api-details#api=datastore"
                 >Datastore API</a
             >
-            is available, and hugely powerful.
+            is available and hugely powerful.
         `,
         overview_of_iati_activity: 'Overview of IATI Activity',
         back_to_results: 'Back to results',
