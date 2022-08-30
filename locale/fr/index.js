@@ -141,82 +141,86 @@ export default {
         actual_start: 'Début réel',
         planned_end: 'Fin prévue',
         actual_end: 'Fin réelle',
-        not_present: 'Not Present',
-        description_not_provided: 'Description not provided',
-        title_not_provided: 'Title not provided',
-        name_not_provided: 'Name not provided',
-        not_provided: 'Not provided',
+        not_present: 'Pas présent',
+        description_not_provided: 'Description non fournie',
+        title_not_provided: 'Titre non fourni',
+        name_not_provided: 'Nom non fourni',
+        not_provided: 'Non fourni',
         advanced_unavailable_para1: `
-            Sorry, the advanced filter page isn't available for devices with
-            smaller screens.
+            Désolé, la page de filtrage avancé n'est pas disponible pour les appareils avec
+            écrans plus petits.
         `,
         advanced_unavailable_para2: `
-            Please
+        S'il vous plaît
             <a href="/simple" class="hover:underline text-blue-600"
-                >try the Simple Search</a
+                >essayez la recherche simple</a
             >
-            instead, or switch to a device with a larger screen.
+            à la place, ou passez à un appareil avec un écran plus grand.
         `,
-        run_aria: 'Run search query with selected filters',
-        run: 'Run',
-        export_aria: 'Export filters to file',
-        export: 'Export',
-        import_aria: 'Import filters from file',
-        import: 'Import',
-        add_aria: 'Add an additional filter',
-        add: 'Add',
-        add_filter: 'Add Filter',
-        import_filters: 'Import Filters',
-        export_filters: 'Export Filters',
-        export_para1: `Export currently selected filters to file?`,
+        run_aria:
+            'Exécuter une requête de recherche avec les filtres sélectionnés',
+        run: 'Exécuter',
+        export_aria: 'Exporter les filtres vers un fichier',
+        export: 'Exporter',
+        import_aria: 'Importer des filtres à partir d’un fichier',
+        import: 'Importer',
+        add_aria: 'Ajouter un filtre supplémentaire',
+        add: 'Ajouter',
+        add_filter: 'Ajouter un filtre',
+        import_filters: 'Importer des filtres',
+        export_filters: 'Exporter les filtres',
+        export_para1: `Exporter les filtres actuellement sélectionnés vers un fichier?`,
         export_para2: `
-            This will allow you to import them later to run the same
-            query or share with someone else.
+            Cela vous permettra de les importer plus tard pour exécuter le même
+            interroger ou partager avec quelqu'un d'autre.
         `,
-        import_para1: `Import filters from file?`,
+        import_para1: `Importer des filtres à partir d'un fichier?`,
         import_para2: `
-            Select a .json file previously exported from the Datastore
-            Advanced Search.
+            Sélectionnez un fichier .json précédemment exporté depuis le Datastore
+            Recherche Avancée.
         `,
-        file: 'File',
-        and: 'AND',
-        or: 'OR',
-        select_field: 'Select field',
-        true: 'TRUE',
-        false: 'FALSE',
-        select_from_codes: 'Select from %{name} codes',
+        file: 'Fichier',
+        and: 'ET',
+        or: 'OU',
+        select_field: 'sélectionner un champ',
+        true: 'VRAI',
+        false: 'FAUX',
+        select_from_codes: 'Sélectionnez parmi les codes %{name}',
         found_matching_iati_activities:
-            'Found <b>%{count}</b> matching IATI activities',
-        sort: 'Sort',
-        no_match: 'No matching IATI Activities - please try a different search',
-        not_found: 'Not Found',
+            '<b>%{count}</b> activités de l’IITA correspondantes trouvées',
+        sort: 'Trier',
+        no_match:
+            'Aucune activité de l’IITA correspondante - veuillez essayer une autre recherche',
+        not_found: 'Pas trouvé',
         not_found_para: `
-            Oops, we couldn't find that page. Try going
-            <a class="hover:underline" href="/">Home</a>
+            Oups, nous n'avons pas pu trouver cette page. Essayez d'y aller
+            <a class="hover:underline" href="/">Accueil</a>
         `,
-        advanced: 'Advanced',
-        found_activities: 'Found <b>%{count}</b> activities',
-        relevance: 'Relevance',
-        identifier: 'Identifier',
-        all_narratives: 'All Narratives',
+        advanced: 'Avancée',
+        found_activities: '<b>%{count}</b> activités trouvées',
+        relevance: 'Pertinence',
+        identifier: 'Identifiant',
+        all_narratives: 'Tout le texte',
         all_narratives_desc:
-            'Searches all IATI narrative fields, used by simple search',
-        boolean_grouping: 'Boolean Grouping',
+            'Recherche tous les champs narratifs de l’IITA, utilisés par une recherche simple',
+        boolean_grouping: 'Regroupement Booléen',
         boolean_grouping_desc:
-            'Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis.',
-        special_fields: 'Special fields',
-        grouping: 'Grouping',
-        standard_fields: 'Standard fields',
+            'Parenthèse pour regrouper les requêtes booléennes. Assurez-vous que chaque parenthèse ouvrante correspond à une parenthèse fermante.',
+        special_fields: 'Champs spéciaux',
+        grouping: 'Regroupement',
+        standard_fields: 'Champs standards',
         incompatible_file_error:
-            'Incompatible file detected. Please try a different file.',
-        search_term_is_required: 'Search term is required',
+            'Fichier incompatible détecté. Veuillez essayer un autre fichier.',
+        search_term_is_required: 'Le terme de recherche est requis',
         selection_is_required: 'Selection is required',
-        value_is_required: 'Value is required',
-        date_is_required: 'Date is required',
-        is_not_allowed: '%{bad} is not allowed for Datastore Search queries',
-        percentage_validation: 'Percentage must be between 0 and 100',
-        integer_validation: 'Value must be a whole number',
+        value_is_required: 'Valeur est requise',
+        date_is_required: 'La date est requise',
+        is_not_allowed:
+            '%{bad} n’est pas autorisé pour les requêtes Rechercher le Datastore',
+        percentage_validation:
+            'Le pourcentage doit être compris entre 0 et 100',
+        integer_validation: 'La valeur doit être un nombre entier',
         fetch_error:
-            'There was an error fetching your query. Please check how your query is constructed and try again.',
+            'Une erreur s’est produite lors de la récupération de votre requête. Veuillez vérifier la structure de votre requête et réessayer.',
     },
 };
