@@ -186,5 +186,12 @@ export default {
             'Found <b>%{count}</b> matching IATI activities',
         sort: 'Sort',
         no_match: 'No matching IATI Activities - please try a different search',
+        not_found: 'Not Found',
+        not_found_para: `
+            Oops, we couldn't find that page. Try going
+            <a class="hover:underline" href="/">Home</a>
+        `,
+        advanced: 'Advanced',
+        found_activities: 'Found <b>%{count}</b> activities',
     },
 };
