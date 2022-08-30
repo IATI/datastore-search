@@ -141,7 +141,7 @@ const populateOptions = async () => {
     filterOptions = response.data;
 
     response = await axios.get(
-        `${domain}/dss/resources/codelists`,
+        `${domain}/dss/resources/codelists?locale=${current_locale}`,
         axiosConfig
     );
 

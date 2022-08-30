@@ -103,7 +103,7 @@ describe('The advanced view', () => {
             cy.get(
                 'button[aria-label="Run search query with selected filters"]'
             ).click();
-            cy.contains('A value is required');
+            cy.contains('Value is required');
             cy.get('input[type="number"]').type(1);
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
@@ -129,7 +129,7 @@ describe('The advanced view', () => {
             cy.get(
                 'button[aria-label="Run search query with selected filters"]'
             ).click();
-            cy.contains('A value is required');
+            cy.contains('Value is required');
             cy.get('input[min="0"]').type(99.9);
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
@@ -156,7 +156,7 @@ describe('The advanced view', () => {
             cy.get(
                 'button[aria-label="Run search query with selected filters"]'
             ).click();
-            cy.contains('A selection is required');
+            cy.contains('Selection is required');
             cy.wait(1000);
             cy.get('select').eq(5).select('2 - Revised');
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
