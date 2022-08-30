@@ -5,6 +5,9 @@ import { event } from 'vue-gtag';
 import { startOfToday, format } from 'date-fns';
 import MD5 from 'crypto-js/md5';
 import Plausible from 'plausible-tracker';
+import i18n from './i18n.js';
+
+const { t } = i18n.global;
 
 const { trackEvent } = Plausible();
 
@@ -23,7 +26,7 @@ const activityDateTypes = {
 
 const sortFields = [
     {
-        verbose: 'Relevance',
+        verbose: t('message.relevance'),
         field: 'score',
         label: 'Sort results by relevance',
         default: 'desc',

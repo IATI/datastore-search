@@ -4,26 +4,13 @@ import router from './router';
 import VueGtag from 'vue-gtag';
 import './index.css';
 import plausible from '../plugins/plausible';
-import { createI18n } from 'vue-i18n';
-import en from '../locale/en/index';
-import fr from '../locale/fr/index';
+import i18n from './i18n.js';
 
 const plausibleOptions = {
     domain: import.meta.env.PLAUSIBLE_DOMAIN,
     hashMode: true,
     trackLocalhost: false,
 };
-
-const messages = {
-    en,
-    fr,
-};
-
-const i18n = createI18n({
-    locale: navigator.language || navigator.userLanguage,
-    fallbackLocale: 'en',
-    messages,
-});
 
 createApp(App)
     .use(i18n)

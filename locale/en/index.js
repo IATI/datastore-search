@@ -193,5 +193,6 @@ export default {
         `,
         advanced: 'Advanced',
         found_activities: 'Found <b>%{count}</b> activities',
+        relevance: 'Relevance',
     },
 };
