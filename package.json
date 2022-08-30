@@ -30,7 +30,7 @@
     "moment": "^2.29.4",
     "plausible-tracker": "^0.3.8",
     "split.js": "^1.6.5",
-    "vue": "^3.2.37",
+    "vue": "^3.2.38",
     "vue-gtag": "^2.0.1",
     "vue-router": "^4.1.5",
     "vue3-datepicker": "^0.3.4"
