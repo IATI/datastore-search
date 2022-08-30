@@ -3,8 +3,8 @@
         <div class="flex border-2 rounded my-3">
             <input
                 v-model="searchterm"
-                title="Search"
-                aria-label="Search iati data"
+                :title="$t('message.search')"
+                :aria-label="$t('message.search_iati_data')"
                 type="text"
                 class="px-4 py-2 placeholder-gray-600 search-bar"
                 :placeholder="$t('message.search_iati_activities')"
@@ -15,7 +15,7 @@
             />
             <button
                 role="button"
-                aria-label="Submit"
+                :aria-label="$t('message.submit')"
                 class="flex items-center justify-center px-4 border-l"
                 data-cabin-event="Run simple query"
                 @click="

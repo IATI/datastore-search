@@ -108,7 +108,7 @@ import NotificationBanner from './components/NotificationBanner.vue';
                         <a
                             class="inline-block ml-2"
                             role="link"
-                            aria-label="iati twitter profile link"
+                            :aria-label="$t('message.twitter_aria')"
                             href="https://twitter.com/IATI_aid"
                         >
                             <TwitterLogo class="w-8 h-8" />
@@ -116,7 +116,7 @@ import NotificationBanner from './components/NotificationBanner.vue';
                         <a
                             class="inline-block ml-5"
                             role="link"
-                            aria-label="iati linkedin profile link"
+                            :aria-label="$t('message.linkedin_aria')"
                             href="https://www.linkedin.com/company/international-aid-transparency-initiative/"
                         >
                             <LinkedInLogo class="w-8 h-8" />

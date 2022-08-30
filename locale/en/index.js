@@ -8,12 +8,17 @@ export default {
         advanced_search: 'Advanced Search',
         api: 'API',
         about: 'About',
+        search: 'Search',
+        search_iati_data: 'Search IATI data',
         search_iati_activities: 'Search IATI Activities...',
+        submit: 'Submit',
         switch_to_advanced_search: 'Switch to Advanced Search',
         datastore_search_is_part_of_the_iati_unified_platform:
             'Datastore Search is part of the IATI Unified Platform',
         privacy: 'Privacy',
         contact: 'Contact',
+        twitter_aria: 'iati twitter profile link',
+        linkedin_aria: 'iati linkedin profile link',
         about_iati_datastore_search: 'About IATI Datastore Search',
         about_para_1: `
             The
@@ -104,7 +109,39 @@ export default {
         overview_of_iati_activity: 'Overview of IATI Activity',
         back_to_results: 'Back to results',
         download: 'Download',
-        activity_file: 'Activity File',
-        results_file: 'Results File',
+        download_activity_file: 'Download Activity File',
+        download_results_file: 'Download Results File',
+        download_confirmation_1: 'Download',
+        download_confirmation_2a: 'this IATI Activity',
+        download_confirmation_2b: '%{count} results',
+        download_confirmation_3: 'from the',
+        download_confirmation_4a: 'Activity',
+        download_confirmation_4b: 'Transaction',
+        download_confirmation_4c: 'Budget',
+        download_confirmation_5a: 'core in %{format} format?',
+        download_confirmation_5b: `
+            core in Excel-optimised* CSV format?<br /><br /><span
+                class="text-sm"
+                >*This ensures Excel will open with correct
+                encoding and formatting, but will truncate cells
+                longer than 32,700 characters.</span
+            >
+        `,
+        download_confirmation_5c: 'in an IATI Activities XML document?',
+        cancel: 'Cancel',
+        view: 'View',
+        publisher: 'Publisher',
+        iati_identifier: 'IATI Identifier',
+        last_updated: 'Last updated',
+        participating_organisations: 'Participating organisations',
+        planned_start: 'Planned Start',
+        actual_start: 'Actual Start',
+        planned_end: 'Planned End',
+        actual_end_date: 'Actual End Date',
+        not_present: 'Not Present',
+        description_not_provided: 'Description not provided',
+        title_not_provided: 'Title not provided',
+        name_not_provided: 'Name not provided',
+        not_provided: 'Not provided',
     },
 };

@@ -24,11 +24,10 @@
                 >
                     <div class="flex items-center justify-between">
                         <h2 class="text-2xl">
-                            {{ $t('message.download') }}
                             {{
                                 iatiIdentifier
-                                    ? $t('message.activity_file')
-                                    : $t('message.results_file')
+                                    ? $t('message.download_activity_file')
+                                    : $t('message.download_results_file')
                             }}
                         </h2>
                     </div>
@@ -40,26 +39,38 @@
                             "
                             class="mb-4 mt-2 text-md"
                         >
-                            Download
+                            {{ $t('message.download_confirmation_1') }}
                             <span v-if="iatiIdentifier">
-                                this IATI Activity
+                                {{ $t('message.download_confirmation_2a') }}
                             </span>
                             <span v-if="!iatiIdentifier">
-                                {{ global.state.responseTotal }} results
+                                {{
+                                    $t('message.download_confirmation_2b', {
+                                        count: global.state.responseTotal,
+                                    })
+                                }}
                             </span>
-                            from the
+                            {{ $t('message.download_confirmation_3') }}
                             <select
                                 v-model="core"
                                 class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline"
                             >
                                 <option value="activity" :selected="true">
-                                    Activity
+                                    {{ $t('message.download_confirmation_4a') }}
                                 </option>
-                                <option value="transaction">Transaction</option>
-                                <option value="budget">Budget</option>
+                                <option value="transaction">
+                                    {{ $t('message.download_confirmation_4b') }}
+                                </option>
+                                <option value="budget">
+                                    {{ $t('message.download_confirmation_4c') }}
+                                </option>
                             </select>
-                            core in
-                            {{ global.state.download.selectedFormat }} format?
+                            {{
+                                $t('message.download_confirmation_5a', {
+                                    format: global.state.download
+                                        .selectedFormat,
+                                })
+                            }}
                         </p>
 
                         <p
@@ -68,30 +79,35 @@
                             "
                             class="mb-4 mt-2 text-md"
                         >
-                            Download
+                            {{ $t('message.download_confirmation_1') }}
                             <span v-if="iatiIdentifier">
-                                this IATI Activity
+                                {{ $t('message.download_confirmation_2a') }}
                             </span>
                             <span v-if="!iatiIdentifier">
-                                {{ global.state.responseTotal }} results
+                                {{
+                                    $t('message.download_confirmation_2b', {
+                                        count: global.state.responseTotal,
+                                    })
+                                }}
                             </span>
-                            from the
+                            {{ $t('message.download_confirmation_3') }}
                             <select
                                 v-model="core"
                                 class="h-8 bg-white border rounded focus:outline-none focus:shadow-outline"
                             >
                                 <option value="activity" :selected="true">
-                                    Activity
+                                    {{ $t('message.download_confirmation_4a') }}
                                 </option>
-                                <option value="transaction">Transaction</option>
-                                <option value="budget">Budget</option>
+                                <option value="transaction">
+                                    {{ $t('message.download_confirmation_4b') }}
+                                </option>
+                                <option value="budget">
+                                    {{ $t('message.download_confirmation_4c') }}
+                                </option>
                             </select>
-                            core in Excel-optimised* CSV format?<br /><br /><span
-                                class="text-sm"
-                                >*This ensures Excel will open with correct
-                                encoding and formatting, but will truncate cells
-                                longer than 32,700 characters.</span
-                            >
+                            <span
+                                v-html="$t('message.download_confirmation_5b')"
+                            ></span>
                         </p>
 
                         <p
@@ -100,15 +116,19 @@
                             "
                             class="mb-4 mt-2 text-md"
                         >
-                            Download
+                            {{ $t('message.download_confirmation_1') }}
 
                             <span v-if="iatiIdentifier">
-                                this IATI Activity
+                                {{ $t('message.download_confirmation_2a') }}
                             </span>
                             <span v-if="!iatiIdentifier">
-                                {{ global.state.responseTotal }} results
+                                {{
+                                    $t('message.download_confirmation_2b', {
+                                        count: global.state.responseTotal,
+                                    })
+                                }}
                             </span>
-                            in an IATI Activities XML document?
+                            {{ $t('message.download_confirmation_5c') }}
                         </p>
 
                         <div class="flex justify-between">
@@ -116,7 +136,7 @@
                                 class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded"
                                 @click="global.cancelDownloadFile()"
                             >
-                                Cancel
+                                {{ $t('message.cancel') }}
                             </button>
                             <button
                                 class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
@@ -137,8 +157,9 @@
                                 <ArrowDownIcon
                                     class="h-5 w-5 text-grey-300 mr-1"
                                 />
-                                <span v-if="!global.state.download.fileLoading"
-                                    >Download</span
+                                <span
+                                    v-if="!global.state.download.fileLoading"
+                                    >{{ $t('message.download') }}</span
                                 >
                                 <div
                                     v-if="global.state.download.fileLoading"

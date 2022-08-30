@@ -46,7 +46,9 @@ import axios from 'axios';
                         />
 
                         <div v-if="dPortalLink" class="col-span-1">
-                            <b class="block 2xl:inline">View:</b>
+                            <b class="block 2xl:inline"
+                                >{{ $t('message.view') }}:</b
+                            >
                             <a
                                 class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline-block mb-1"
                                 :href="dPortalLink"
@@ -61,14 +63,15 @@ import axios from 'axios';
 
                 <div class="col-span-1"></div>
                 <div class="col-span-2">
-                    Publisher:
+                    {{ $t('message.publisher') }}:
                     <b>{{ activity.reporting_org_narrative }}</b>
                 </div>
                 <div class="col-span-2">
-                    IATI Identifier <b>{{ activity.iati_identifier }}</b>
+                    {{ $t('message.iati_identifier') }}:
+                    <b>{{ activity.iati_identifier }}</b>
                 </div>
                 <div class="col-span-2">
-                    Last updated:
+                    {{ $t('message.last_updated') }}:
                     <b>{{ prettyDateTime(activity.last_updated_datetime) }}</b>
                 </div>
                 <div class="col-span-3"></div>
@@ -80,7 +83,7 @@ import axios from 'axios';
                 <div class="col-span-1"></div>
                 <div class="col-span-1"></div>
                 <div class="col-span-9 border-b pb-3">
-                    Participating organisations:
+                    {{ $t('message.participating_organisations') }}:
                     <span
                         v-for="(
                             org, index
@@ -102,16 +105,20 @@ import axios from 'axios';
 
                 <div class="col-span-1"></div>
                 <div class="col-span-2">
-                    Planned Start: <b>{{ prettyDate(dates.plannedStart) }}</b>
+                    {{ $t('message.planned_start') }}:
+                    <b>{{ prettyDate(dates.plannedStart) }}</b>
                 </div>
                 <div class="col-span-2">
-                    Actual Start: <b>{{ prettyDate(dates.actualStart) }}</b>
+                    {{ $t('message.actual_start') }}:
+                    <b>{{ prettyDate(dates.actualStart) }}</b>
                 </div>
                 <div class="col-span-2">
-                    Planned End: <b>{{ prettyDate(dates.plannedEnd) }}</b>
+                    {{ $t('message.planned_end') }}:
+                    <b>{{ prettyDate(dates.plannedEnd) }}</b>
                 </div>
                 <div class="col-span-2">
-                    Actual End Date: <b>{{ prettyDate(dates.actualEnd) }}</b>
+                    {{ $t('message.actual_end_date') }}:
+                    <b>{{ prettyDate(dates.actualEnd) }}</b>
                 </div>
                 <div class="col-span-1"></div>
             </div>
@@ -152,7 +159,7 @@ export default {
     methods: {
         prettyDate: function (dt) {
             if (dt === null) {
-                return 'Not Present';
+                return this.$t('message.not_present');
             }
             return new Date(dt).toLocaleDateString('en-gb', {
                 year: 'numeric',
@@ -237,8 +244,9 @@ export default {
                             this.activity.description_narrative =
                                 this.activity.description_narrative[0];
                         } else {
-                            this.activity.description_narrative =
-                                'Description not provided';
+                            this.activity.description_narrative = this.$t(
+                                'message.description_not_provided'
+                            );
                         }
                         if ('title_narrative' in this.activity) {
                             if ('title_narrative_xml_lang' in this.activity) {
@@ -267,8 +275,9 @@ export default {
                             this.activity.title_narrative =
                                 this.activity.title_narrative[0];
                         } else {
-                            this.activity.title_narrative =
-                                'Title not provided';
+                            this.activity.title_narrative = this.$t(
+                                'message.title_not_provided'
+                            );
                         }
                         if ('reporting_org_narrative' in this.activity) {
                             if (
@@ -302,8 +311,9 @@ export default {
                             this.activity.reporting_org_narrative =
                                 this.activity.reporting_org_narrative[0];
                         } else {
-                            this.activity.reporting_org_narrative =
-                                'Name not provided';
+                            this.activity.reporting_org_narrative = this.$t(
+                                'message.name_not_provided'
+                            );
                         }
                         if ('participating_org_narrative' in this.activity) {
                             if (
@@ -348,7 +358,7 @@ export default {
                             }
                         } else {
                             this.activity.participating_org_narrative = [
-                                'Not provided',
+                                this.$t('message.not_provided'),
                             ];
                         }
 
