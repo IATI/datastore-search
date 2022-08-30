@@ -137,11 +137,54 @@ export default {
         planned_start: 'Planned Start',
         actual_start: 'Actual Start',
         planned_end: 'Planned End',
-        actual_end_date: 'Actual End Date',
+        actual_end: 'Actual End',
         not_present: 'Not Present',
         description_not_provided: 'Description not provided',
         title_not_provided: 'Title not provided',
         name_not_provided: 'Name not provided',
         not_provided: 'Not provided',
+        advanced_unavailable_para1: `
+            Sorry, the advanced filter page isn't available for devices with
+            smaller screens.
+        `,
+        advanced_unavailable_para2: `
+            Please
+            <a href="/simple" class="hover:underline text-blue-600"
+                >try the Simple Search</a
+            >
+            instead, or switch to a device with a larger screen.
+        `,
+        run_aria: 'Run search query with selected filters',
+        run: 'Run',
+        export_aria: 'Export filters to file',
+        export: 'Export',
+        import_aria: 'Import filters from file',
+        import: 'Import',
+        add_aria: 'Add an additional filter',
+        add: 'Add',
+        add_filter: 'Add Filter',
+        import_filters: 'Import Filters',
+        export_filters: 'Export Filters',
+        export_para1: `Export currently selected filters to file?`,
+        export_para2: `
+            This will allow you to import them later to run the same
+            query or share with someone else.
+        `,
+        import_para1: `Import filters from file?`,
+        import_para2: `
+            Select a .json file previously exported from the Datastore
+            Advanced Search.
+        `,
+        file: 'File',
+        and: 'AND',
+        or: 'OR',
+        select_field: 'Select field',
+        true: 'TRUE',
+        false: 'FALSE',
+        select_from_codes: 'Select from %{name} codes',
+        found_matching_iati_activities:
+            'Found <b>%{count}</b> matching IATI activities',
+        sort: 'Sort',
+        no_match: 'No matching IATI Activities - please try a different search',
     },
 };

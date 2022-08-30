@@ -117,7 +117,7 @@ import axios from 'axios';
                     <b>{{ prettyDate(dates.plannedEnd) }}</b>
                 </div>
                 <div class="col-span-2">
-                    {{ $t('message.actual_end_date') }}:
+                    {{ $t('message.actual_end') }}:
                     <b>{{ prettyDate(dates.actualEnd) }}</b>
                 </div>
                 <div class="col-span-1"></div>
