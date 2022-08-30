@@ -215,5 +215,6 @@ export default {
         integer_validation: 'Value must be a whole number',
         fetch_error:
             'There was an error fetching your query. Please check how your query is constructed and try again.',
+        search_term: 'Search term',
     },
 };

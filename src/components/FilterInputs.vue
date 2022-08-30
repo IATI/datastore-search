@@ -132,7 +132,7 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from '@heroicons/vue/solid';
                 type="text"
                 :class="{ 'border-red-400': filter.valid === false }"
                 class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                placeholder="Search term"
+                :placeholder="$t('message.search_term')"
                 :value="filter.value"
                 @input="
                     global.changeFilter(filter.id, 'value', $event.target.value)

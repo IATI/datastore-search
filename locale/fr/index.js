@@ -222,5 +222,6 @@ export default {
         integer_validation: 'La valeur doit être un nombre entier',
         fetch_error:
             'Une erreur s’est produite lors de la récupération de votre requête. Veuillez vérifier la structure de votre requête et réessayer.',
+        search_term: 'Le terme de recherche',
     },
 };
