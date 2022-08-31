@@ -21,93 +21,98 @@ export default {
         linkedin_aria: 'lien profil LinkedIn',
         about_iati_datastore_search:
             'À propos Rechercher le Datastore de l’IITA',
-        about_para_1: `
-            La
-            <a
-                class="hover:underline text-iati-grey"
-                href="https://iatistandard.org"
-                >Initiative Internationale pour la Transparence de l'Aide (IITA)</a
-            >
-            est une initiative mondiale visant à améliorer la transparence des
-            ressources humanitaires et de développement et leurs résultats pour
-            lutte contre la pauvreté et les crises. Il fournit un XML ouvert
-            norme à laquelle toutes les organisations qui distribuent ou dépensent
-            ressources en développement international peuvent publier des détails
-            de leurs activités. La banque de données IATI contient tous les IATI
-            données connues de la
-            <a
-                class="hover:underline text-iati-grey"
-                href="https://www.iatiregistry.org/"
-                >le registre de l’IITA</a
-            >
-            qui est à la fois la version 2.0 ou supérieure et conforme à l'IATI
-            Schéma XML. Fichiers non conformes au schéma XML de l'IATI
-            sont marqués comme gravement invalides dans le
-            <a
-                class="hover:underline text-iati-grey"
-                href="https://iativalidator.iatistandard.org/"
-                >outil de validation de l’IITA</a
-            >.
-            <a href="/" class="hover:underline text-iati-grey"
-                >Rechercher le Datastore</a
-            >
-            permet à quiconque de rechercher dans la banque de données IATI, puis de
-            télécharger les données au format IATI XML, au format JSON ou au format CSV
-            format.
-        `,
-        about_para_2: `
-            <a
-                href="/"
-                class="hover:underline text-iati-grey font-semibold"
-                >La recherche simple</a
-            >
-            se comporte comme n'importe quel moteur de recherche familier et permet
-            utilisateurs la possibilité de rechercher rapidement le langage naturel
-            éléments de l'IITA pour tous les mots ou phrases d'intérêt.
-        `,
-        about_para_3: `
-            <a
-                href="/advanced"
-                class="hover:underline text-iati-grey font-semibold"
-                >La recherche avancée</a
-            >
-            permet aux utilisateurs de filtrer leurs résultats de recherche par n'importe quel
-            éléments de l'IITA et enchaîner ces filtres dans des requêtes complexes qui
-            peut être enregistré dans un fichier.
-        `,
-        about_para_4: `
-            Pour rechercher une expression particulière, utilisez des guillemets. Pour
-            Exemple,
-            <i>"production de lapins"</i> renverra des résultats de recherche sur
-            la production de lapins, alors que la <i>production de lapins</i>
-            renvoient des résultats sur les lapins et des résultats sur la production.
-            Attention, vous devez utiliser des guillemets comme " " et non comme « ».
-        `,
-        about_para_5: `
-            Le Datastore de l’IITA indexe et représente les données de l’IITA
-            précisément tel qu'il a été publié à l'origine, sans
-            transformations ou couches de signification ou de métadonnées inférées.
-            <a href="/" class="hover:underline text-iati-grey"
-                >La recherche simple</a
-            >
-            offre une introduction à ces données et est destinée à être aussi
-            intuitif que possible, accueillant ceux qui n'ont pas d'antécédents
-            connaissance de la norme de l’IITA.
-            <a
-                href="/advanced"
-                class="hover:underline text-iati-grey"
-                >La recherche avancée</a
-            >
-            permet une exploration beaucoup plus approfondie, avec chaque élément de l'IITA
-            disponible pour être ajouté à une chaîne de filtres. Pour ceux qui
-            souhaitent un contrôle exceptionnel de leurs requêtes
-            <a
-                class="hover:underline text-iati-grey"
-                href="https://developer.iatistandard.org/api-details#api=datastore"
-                >API de Datastore</a
-            >
-            est disponible et extrêmement puissante.
-        `,
+        about_para_1:
+            '\n' +
+            '            La\n' +
+            '            <a\n' +
+            '                class="hover:underline text-iati-grey"\n' +
+            '                href="https://iatistandard.org"\n' +
+            "                >Initiative Internationale pour la Transparence de l'Aide (IITA)</a\n" +
+            '            >\n' +
+            '            est une initiative mondiale visant à améliorer la transparence des\n' +
+            '            ressources humanitaires et de développement et leurs résultats pour\n' +
+            '            lutte contre la pauvreté et les crises. Il fournit un XML ouvert\n' +
+            '            norme à laquelle toutes les organisations qui distribuent ou dépensent\n' +
+            '            ressources en développement international peuvent publier des détails\n' +
+            '            de leurs activités. La banque de données IATI contient tous les IATI\n' +
+            '            données connues de la\n' +
+            '            <a\n' +
+            '                class="hover:underline text-iati-grey"\n' +
+            '                href="https://www.iatiregistry.org/"\n' +
+            '                >le registre de l’IITA</a\n' +
+            '            >\n' +
+            "            qui est à la fois la version 2.0 ou supérieure et conforme à l'IATI\n" +
+            "            Schéma XML. Fichiers non conformes au schéma XML de l'IATI\n" +
+            '            sont marqués comme gravement invalides dans le\n' +
+            '            <a\n' +
+            '                class="hover:underline text-iati-grey"\n' +
+            '                href="https://iativalidator.iatistandard.org/"\n' +
+            '                >outil de validation de l’IITA</a\n' +
+            '            >.\n' +
+            '            <a href="/" class="hover:underline text-iati-grey"\n' +
+            '                >Rechercher le Datastore</a\n' +
+            '            >\n' +
+            '            permet à quiconque de rechercher dans la banque de données IATI, puis de\n' +
+            '            télécharger les données au format IATI XML, au format JSON ou au format CSV\n' +
+            '            format.\n' +
+            '        ',
+        about_para_2:
+            '\n' +
+            '            <a\n' +
+            '                href="/"\n' +
+            '                class="hover:underline text-iati-grey font-semibold"\n' +
+            '                >La recherche simple</a\n' +
+            '            >\n' +
+            "            se comporte comme n'importe quel moteur de recherche familier et permet\n" +
+            '            utilisateurs la possibilité de rechercher rapidement le langage naturel\n' +
+            "            éléments de l'IITA pour tous les mots ou phrases d'intérêt.\n" +
+            '        ',
+        about_para_3:
+            '\n' +
+            '            <a\n' +
+            '                href="/advanced"\n' +
+            '                class="hover:underline text-iati-grey font-semibold"\n' +
+            '                >La recherche avancée</a\n' +
+            '            >\n' +
+            "            permet aux utilisateurs de filtrer leurs résultats de recherche par n'importe quel\n" +
+            "            éléments de l'IITA et enchaîner ces filtres dans des requêtes complexes qui\n" +
+            '            peut être enregistré dans un fichier.\n' +
+            '        ',
+        about_para_4:
+            '\n' +
+            '            Pour rechercher une expression particulière, utilisez des guillemets. Pour\n' +
+            '            Exemple,\n' +
+            '            <i>"production de lapins"</i> renverra des résultats de recherche sur\n' +
+            '            la production de lapins, alors que la <i>production de lapins</i>\n' +
+            '            renvoient des résultats sur les lapins et des résultats sur la production.\n' +
+            '            Attention, vous devez utiliser des guillemets comme " " et non comme « ».\n' +
+            '        ',
+        about_para_5:
+            '\n' +
+            '            Le Datastore de l’IITA indexe et représente les données de l’IITA\n' +
+            "            précisément tel qu'il a été publié à l'origine, sans\n" +
+            '            transformations ou couches de signification ou de métadonnées inférées.\n' +
+            '            <a href="/" class="hover:underline text-iati-grey"\n' +
+            '                >La recherche simple</a\n' +
+            '            >\n' +
+            '            offre une introduction à ces données et est destinée à être aussi\n' +
+            "            intuitif que possible, accueillant ceux qui n'ont pas d'antécédents\n" +
+            '            connaissance de la norme de l’IITA.\n' +
+            '            <a\n' +
+            '                href="/advanced"\n' +
+            '                class="hover:underline text-iati-grey"\n' +
+            '                >La recherche avancée</a\n' +
+            '            >\n' +
+            "            permet une exploration beaucoup plus approfondie, avec chaque élément de l'IITA\n" +
+            '            disponible pour être ajouté à une chaîne de filtres. Pour ceux qui\n' +
+            '            souhaitent un contrôle exceptionnel de leurs requêtes\n' +
+            '            <a\n' +
+            '                class="hover:underline text-iati-grey"\n' +
+            '                href="https://developer.iatistandard.org/api-details#api=datastore"\n' +
+            '                >API de Datastore</a\n' +
+            '            >\n' +
+            '            est disponible et extrêmement puissante.\n' +
+            '        ',
         overview_of_iati_activity: 'Aperçu de la activité de l’IITA',
         back_to_results: 'Retour aux résultats',
         download: 'Télécharger',
@@ -121,14 +126,15 @@ export default {
         download_confirmation_4b: 'de transaction',
         download_confirmation_4c: 'budgétaire',
         download_confirmation_5a: 'au format %{format} ?',
-        download_confirmation_5b: `
-            au format CSV optimisé pour Excel*?<br /><br /><span
-                class="text-sm"
-                >*Cela garantit qu'Excel s'ouvrira avec le bon
-                    l'encodage et le formatage, mais tronquera les cellules
-                    plus de 32 700 caractères.</span
-            >
-        `,
+        download_confirmation_5b:
+            '\n' +
+            '            au format CSV optimisé pour Excel*?<br /><br /><span\n' +
+            '                class="text-sm"\n' +
+            "                >*Cela garantit qu'Excel s'ouvrira avec le bon\n" +
+            "                    l'encodage et le formatage, mais tronquera les cellules\n" +
+            '                    plus de 32 700 caractères.</span\n' +
+            '            >\n' +
+            '        ',
         download_confirmation_5c:
             'dans un document XML des activités de l’IITA?',
         cancel: 'Annuler',
@@ -146,17 +152,19 @@ export default {
         title_not_provided: 'Titre non fourni',
         name_not_provided: 'Nom non fourni',
         not_provided: 'Non fourni',
-        advanced_unavailable_para1: `
-            Désolé, la page de filtrage avancé n'est pas disponible pour les appareils avec
-            écrans plus petits.
-        `,
-        advanced_unavailable_para2: `
-        S'il vous plaît
-            <a href="/simple" class="hover:underline text-blue-600"
-                >essayez la recherche simple</a
-            >
-            à la place, ou passez à un appareil avec un écran plus grand.
-        `,
+        advanced_unavailable_para1:
+            '\n' +
+            "            Désolé, la page de filtrage avancé n'est pas disponible pour les appareils avec\n" +
+            '            écrans plus petits.\n' +
+            '        ',
+        advanced_unavailable_para2:
+            '\n' +
+            "        S'il vous plaît\n" +
+            '            <a href="/simple" class="hover:underline text-blue-600"\n' +
+            '                >essayez la recherche simple</a\n' +
+            '            >\n' +
+            '            à la place, ou passez à un appareil avec un écran plus grand.\n' +
+            '        ',
         run_aria:
             'Exécuter une requête de recherche avec les filtres sélectionnés',
         run: 'Exécuter',
@@ -169,16 +177,19 @@ export default {
         add_filter: 'Ajouter un filtre',
         import_filters: 'Importer des filtres',
         export_filters: 'Exporter les filtres',
-        export_para1: `Exporter les filtres actuellement sélectionnés vers un fichier?`,
-        export_para2: `
-            Cela vous permettra de les importer plus tard pour exécuter le même
-            interroger ou partager avec quelqu'un d'autre.
-        `,
-        import_para1: `Importer des filtres à partir d'un fichier?`,
-        import_para2: `
-            Sélectionnez un fichier .json précédemment exporté depuis le Datastore
-            Recherche Avancée.
-        `,
+        export_para1:
+            'Exporter les filtres actuellement sélectionnés vers un fichier?',
+        export_para2:
+            '\n' +
+            '            Cela vous permettra de les importer plus tard pour exécuter le même\n' +
+            "            interroger ou partager avec quelqu'un d'autre.\n" +
+            '        ',
+        import_para1: "Importer des filtres à partir d'un fichier?",
+        import_para2:
+            '\n' +
+            '            Sélectionnez un fichier .json précédemment exporté depuis le Datastore\n' +
+            '            Recherche Avancée.\n' +
+            '        ',
         file: 'Fichier',
         and: 'ET',
         or: 'OU',
@@ -192,10 +203,11 @@ export default {
         no_match:
             'Aucune activité de l’IITA correspondante - veuillez essayer une autre recherche',
         not_found: 'Pas trouvé',
-        not_found_para: `
-            Oups, nous n'avons pas pu trouver cette page. Essayez d'y aller
-            <a class="hover:underline" href="/">Accueil</a>
-        `,
+        not_found_para:
+            '\n' +
+            "            Oups, nous n'avons pas pu trouver cette page. Essayez d'y aller\n" +
+            '            <a class="hover:underline" href="/">Accueil</a>\n' +
+            '        ',
         advanced: 'Avancée',
         found_activities: '<b>%{count}</b> activités trouvées',
         relevance: 'Pertinence',
