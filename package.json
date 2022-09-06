@@ -30,7 +30,6 @@
     "leaflet": "^1.8.0",
     "leaflet.markercluster": "^1.5.3",
     "moment": "^2.29.4",
-    "npm": "^8.19.1",
     "plausible-tracker": "^0.3.8",
     "split.js": "^1.6.5",
     "vue": "^3.2.38",
