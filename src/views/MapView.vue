@@ -31,8 +31,10 @@ export default {
   mounted() {
     this.map = L.map("mapContainer").setView([46.05, 11.05], 5);
     this.tile = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      minZoom: 3,
       maxZoom: 19,
       attribution: "© OpenStreetMap",
+      noWrap: true,
     });
     this.map.addLayer(toRaw(this.tile));
   },

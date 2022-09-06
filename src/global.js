@@ -963,25 +963,36 @@ const updateMap = async (proxyMap, tile) => {
   });
   map.addLayer(toRaw(tile));
   const bounds = map.getBounds();
+  bounds._southWest.lat = Math.max(Math.min(bounds._southWest.lat, 90), -90);
+  bounds._northEast.lat = Math.max(Math.min(bounds._northEast.lat, 90), -90);
+  bounds._southWest.lng = Math.max(Math.min(bounds._southWest.lng, 180), -180);
+  bounds._northEast.lng = Math.max(Math.min(bounds._northEast.lng, 180), -180);
   const SolrBounds = `[${bounds._southWest.lat},${bounds._southWest.lng} TO ${bounds._northEast.lat},${bounds._northEast.lng}]`;
   let result = await axios.get(spatialQueryUrl + SolrBounds, axiosConfig);
   const markers = L.markerClusterGroup();
   result.data.response.docs.forEach((activity) => {
     const points = activity.location_point_latlon;
     points.forEach((point) => {
-      const lat = point.split(",")[0];
-      const lon = point.split(",")[1];
-      markers.addLayer(
-        L.marker([lat, lon]).bindPopup(
-          "<b>Title: </b><a href='/activity/" +
-            window
-              .encodeURIComponent(activity.iati_identifier)
-              .replace("/", "%2F") +
-            "'>" +
-            activity.title_narrative +
-            "</a>"
-        )
-      );
+      const lat = parseFloat(point.split(",")[0]);
+      const lon = parseFloat(point.split(",")[1]);
+      if (
+        (lat >= bounds._southWest.lat) &
+        (lat <= bounds._northEast.lat) &
+        (lon >= bounds._southWest.lng) &
+        (lon <= bounds._northEast.lng)
+      ) {
+        markers.addLayer(
+          L.marker([lat, lon]).bindPopup(
+            "<b>Title: </b><a href='/activity/" +
+              window
+                .encodeURIComponent(activity.iati_identifier)
+                .replace("/", "%2F") +
+              "'>" +
+              activity.title_narrative +
+              "</a>"
+          )
+        );
+      }
     });
   });
   map.addLayer(toRaw(markers));
