@@ -52,7 +52,7 @@ const baseUrlActivity =
 const baseUrlDownload = domain + "/dss/download";
 const spatialQueryUrl =
   domain +
-  "/dss/activity/select?wt=json&rows=100&fl=iati_identifier,title_narrative,location_point_latlon&q=*:*&fq=location_point_latlon:";
+  "/dss/activity/select?wt=json&rows=1000&fl=iati_identifier,title_narrative,location_point_latlon&q=*:*&fq=location_point_latlon:";
 
 const state = reactive({
   language: "en",
