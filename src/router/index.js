@@ -4,6 +4,7 @@ import SimpleView from "../views/SimpleView.vue";
 import AdvancedView from "../views/AdvancedView.vue";
 import ActivityView from "../views/ActivityView.vue";
 import AboutPage from "../views/AboutPage.vue";
+import MapView from "../views/MapView.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/activity/:iati_identifier",
     name: "activity",
     component: ActivityView,
+  },
+  {
+    path: "/map",
+    name: "map",
+    component: MapView,
   },
   {
     path: "/:pathMatch(.*)*",

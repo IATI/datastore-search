@@ -1,10 +1,12 @@
 //Simple global state and API management
-import { reactive, readonly } from "vue";
+import { reactive, readonly, toRaw } from "vue";
 import axios from "axios";
 import { event } from "vue-gtag";
 import { startOfToday, format } from "date-fns";
 import MD5 from "crypto-js/md5";
 import Plausible from "plausible-tracker";
+import L from "leaflet";
+import "leaflet.markercluster";
 
 const { trackEvent } = Plausible();
 
@@ -48,6 +50,9 @@ const baseUrlActivity =
   domain +
   "/dss/activity/select?wt=json&sort=iati_identifier asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&rows=1&hl=true&hl.method=unified&hl.fl=*_narrative&q=";
 const baseUrlDownload = domain + "/dss/download";
+const spatialQueryUrl =
+  domain +
+  "/dss/activity/select?wt=json&rows=100&fl=iati_identifier,title_narrative,location_point_latlon&q=*:*&fq=location_point_latlon:";
 
 const state = reactive({
   language: "en",
@@ -951,6 +956,37 @@ const resetResults = () => {
     (state.simpleSearchTerm = null);
 };
 
+const updateMap = async (proxyMap, tile) => {
+  const map = toRaw(proxyMap);
+  map.eachLayer(function (layer) {
+    map.removeLayer(layer);
+  });
+  map.addLayer(toRaw(tile));
+  const bounds = map.getBounds();
+  const SolrBounds = `[${bounds._southWest.lat},${bounds._southWest.lng} TO ${bounds._northEast.lat},${bounds._northEast.lng}]`;
+  let result = await axios.get(spatialQueryUrl + SolrBounds, axiosConfig);
+  const markers = L.markerClusterGroup();
+  result.data.response.docs.forEach((activity) => {
+    const points = activity.location_point_latlon;
+    points.forEach((point) => {
+      const lat = point.split(",")[0];
+      const lon = point.split(",")[1];
+      markers.addLayer(
+        L.marker([lat, lon]).bindPopup(
+          "<b>Title: </b><a href='/activity/" +
+            window
+              .encodeURIComponent(activity.iati_identifier)
+              .replace("/", "%2F") +
+            "'>" +
+            activity.title_narrative +
+            "</a>"
+        )
+      );
+    });
+  });
+  map.addLayer(toRaw(markers));
+};
+
 // Helper functions, not exported:
 
 const cleanSolrQueryString = (qString) => {
@@ -1057,4 +1093,5 @@ export default {
   sortResults,
   importSimpleSearchToAdv,
   resetResults,
+  updateMap,
 };
