@@ -957,6 +957,7 @@ const resetResults = () => {
 };
 
 const updateMap = async (proxyMap, tile) => {
+  let pointCount = 0;
   const map = toRaw(proxyMap);
   map.eachLayer(function (layer) {
     map.removeLayer(layer);
@@ -969,6 +970,7 @@ const updateMap = async (proxyMap, tile) => {
   bounds._northEast.lng = Math.max(Math.min(bounds._northEast.lng, 180), -180);
   const SolrBounds = `[${bounds._southWest.lat},${bounds._southWest.lng} TO ${bounds._northEast.lat},${bounds._northEast.lng}]`;
   let result = await axios.get(spatialQueryUrl + SolrBounds, axiosConfig);
+  const numFound = result.data.response.numFound;
   const markers = L.markerClusterGroup();
   result.data.response.docs.forEach((activity) => {
     const points = activity.location_point_latlon;
@@ -981,6 +983,7 @@ const updateMap = async (proxyMap, tile) => {
         (lon >= bounds._southWest.lng) &
         (lon <= bounds._northEast.lng)
       ) {
+        pointCount += 1;
         markers.addLayer(
           L.marker([lat, lon]).bindPopup(
             "<b>Title: </b><a href='/activity/" +
@@ -996,6 +999,7 @@ const updateMap = async (proxyMap, tile) => {
     });
   });
   map.addLayer(toRaw(markers));
+  return [numFound, pointCount];
 };
 
 // Helper functions, not exported:
