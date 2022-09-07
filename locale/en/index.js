@@ -216,5 +216,14 @@ export default {
         fetch_error:
             'There was an error fetching your query. Please check how your query is constructed and try again.',
         search_term: 'Search term',
+        searching: 'Searching',
+        map_no_results:
+            'Found no activities with locations in the current map view. Try a wider zoom level or a different location.',
+        map_some_results:
+            'Found %{numFound} activities with %{pointCount} locations in the current map view.',
+        map_too_many_results:
+            'Found %{numFound} activities in the current map view. Displaying %{pointCount} locations from the first 1000 activities. Try a closer zoom level to narrow your search.',
+        update_map: 'Update map',
+        title: 'Title',
     },
 };
