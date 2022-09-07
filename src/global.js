@@ -986,7 +986,7 @@ const updateMap = async (proxyMap, tile) => {
         pointCount += 1;
         markers.addLayer(
           L.marker([lat, lon]).bindPopup(
-            "<b>Title: </b><a href='/activity/" +
+            "<b>Title: </b><a target='_blank' href='/activity/" +
               window
                 .encodeURIComponent(activity.iati_identifier)
                 .replace("/", "%2F") +
