@@ -1,0 +1,653 @@
+msgid ""
+msgstr ""
+
+# main_header
+msgid "Main header"
+msgstr "En-tête principal"
+
+# iati_standard_website
+msgid "IATI Standard Website"
+msgstr "Site de la norme de l’IITA"
+
+# datastore_search
+msgid "Datastore Search"
+msgstr "Rechercher le Datastore"
+
+# navigation
+msgid "Navigation"
+msgstr "Menu"
+
+# simple_search
+msgid "Simple Search"
+msgstr "Recherche simple"
+
+# advanced_search
+msgid "Advanced Search"
+msgstr "Recherche avancée"
+
+# api
+msgid "API"
+msgstr "API"
+
+# about
+msgid "About"
+msgstr "À propos"
+
+# search
+msgid "Search"
+msgstr "Rechercher"
+
+# search_iati_data
+msgid "Search IATI data"
+msgstr "Rechercher des données de l’IITA"
+
+# search_iati_activities
+msgid "Search IATI Activities..."
+msgstr "Rechercher des activités de l’IITA..."
+
+# submit
+msgid "Submit"
+msgstr "Envoyer"
+
+# switch_to_advanced_search
+msgid "Switch to Advanced Search"
+msgstr "Recherche avancée"
+
+# datastore_search_is_part_of_the_iati_unified_platform
+msgid "Datastore Search is part of the IATI Unified Platform"
+msgstr "Rechercher le Datastore fait partie de la plateforme unifiée de l’IITA"
+
+# privacy
+msgid "Privacy"
+msgstr "Politique de confidentialité"
+
+# contact
+msgid "Contact"
+msgstr "Contact"
+
+# twitter_aria
+msgid "iati twitter profile link"
+msgstr "lien profil Twitter"
+
+# linkedin_aria
+msgid "iati linkedin profile link"
+msgstr "lien profil LinkedIn"
+
+# about_iati_datastore_search
+msgid "About IATI Datastore Search"
+msgstr "À propos Rechercher le Datastore de l’IITA"
+
+# about_para_1
+msgid ""
+"\n"
+"            The\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://iatistandard.org\"\n"
+"                >International Aid Transparency Initiative (IATI)</a\n"
+"            >\n"
+"            is a global initiative to improve the transparency of\n"
+"            development and humanitarian resources and their results for\n"
+"            addressing poverty and crises. It provides an open XML\n"
+"            standard to which all organisations that distribute or spend\n"
+"            resources in international development can publish details\n"
+"            of their activities. The IATI Datastore contains all IATI\n"
+"            data known to the\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://www.iatiregistry.org/\"\n"
+"                >IATI Registry</a\n"
+"            >\n"
+"            which is both version 2.0 or above and conforms to the IATI\n"
+"            XML Schema. Files that do not conform to the IATI XML schema\n"
+"            are marked as critically invalid in the\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://iativalidator.iatistandard.org/\"\n"
+"                >IATI Validator</a\n"
+"            >.\n"
+"            <a href=\"/\" class=\"hover:underline text-iati-grey\"\n"
+"                >Datastore Search</a\n"
+"            >\n"
+"            allows anyone to search the IATI Datastore and then to\n"
+"            download the data in either IATI XML, in JSON, or in CSV\n"
+"            format.\n"
+"        "
+msgstr ""
+"\n"
+"            La\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://iatistandard.org\"\n"
+"                >Initiative Internationale pour la Transparence de l'Aide (IITA)</a\n"
+"            >\n"
+"            est une initiative mondiale visant à améliorer la transparence des\n"
+"            ressources humanitaires et de développement et leurs résultats pour\n"
+"            lutte contre la pauvreté et les crises. Il fournit un XML ouvert\n"
+"            norme à laquelle toutes les organisations qui distribuent ou dépensent\n"
+"            ressources en développement international peuvent publier des détails\n"
+"            de leurs activités. La banque de données IATI contient tous les IATI\n"
+"            données connues de la\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://www.iatiregistry.org/\"\n"
+"                >le registre de l’IITA</a\n"
+"            >\n"
+"            qui est à la fois la version 2.0 ou supérieure et conforme à l'IATI\n"
+"            Schéma XML. Fichiers non conformes au schéma XML de l'IATI\n"
+"            sont marqués comme gravement invalides dans le\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://iativalidator.iatistandard.org/\"\n"
+"                >outil de validation de l’IITA</a\n"
+"            >.\n"
+"            <a href=\"/\" class=\"hover:underline text-iati-grey\"\n"
+"                >Rechercher le Datastore</a\n"
+"            >\n"
+"            permet à quiconque de rechercher dans la banque de données IATI, puis de\n"
+"            télécharger les données au format IATI XML, au format JSON ou au format CSV\n"
+"            format.\n"
+"        "
+
+# about_para_2
+msgid ""
+"\n"
+"            <a\n"
+"                href=\"/\"\n"
+"                class=\"hover:underline text-iati-grey font-semibold\"\n"
+"                >Simple Search</a\n"
+"            >\n"
+"            behaves just like any familiar search engine and allows\n"
+"            users the ability to quickly search the natural language\n"
+"            elements of IATI for any words or phrases of interest.\n"
+"        "
+msgstr ""
+"\n"
+"            <a\n"
+"                href=\"/\"\n"
+"                class=\"hover:underline text-iati-grey font-semibold\"\n"
+"                >La recherche simple</a\n"
+"            >\n"
+"            se comporte comme n'importe quel moteur de recherche familier et permet\n"
+"            utilisateurs la possibilité de rechercher rapidement le langage naturel\n"
+"            éléments de l'IITA pour tous les mots ou phrases d'intérêt.\n"
+"        "
+
+# about_para_3
+msgid ""
+"\n"
+"            <a\n"
+"                href=\"/advanced\"\n"
+"                class=\"hover:underline text-iati-grey font-semibold\"\n"
+"                >Advanced Search</a\n"
+"            >\n"
+"            allows users to filter their search results by any IATI\n"
+"            element and chain those filters into complex queries which\n"
+"            can be saved to file.\n"
+"        "
+msgstr ""
+"\n"
+"            <a\n"
+"                href=\"/advanced\"\n"
+"                class=\"hover:underline text-iati-grey font-semibold\"\n"
+"                >La recherche avancée</a\n"
+"            >\n"
+"            permet aux utilisateurs de filtrer leurs résultats de recherche par n'importe quel\n"
+"            éléments de l'IITA et enchaîner ces filtres dans des requêtes complexes qui\n"
+"            peut être enregistré dans un fichier.\n"
+"        "
+
+# about_para_4
+msgid ""
+"\n"
+"            To search for a particular phrase, use quotation marks. For\n"
+"            example,\n"
+"            <i>\"rabbit production\"</i> will return search results about\n"
+"            rabbit production, where as <i>rabbit production</i> will\n"
+"            return results about rabbits, and results about production.\n"
+"        "
+msgstr ""
+"\n"
+"            Pour rechercher une expression particulière, utilisez des guillemets. Pour\n"
+"            Exemple,\n"
+"            <i>\"production de lapins\"</i> renverra des résultats de recherche sur\n"
+"            la production de lapins, alors que la <i>production de lapins</i>\n"
+"            renvoient des résultats sur les lapins et des résultats sur la production.\n"
+"            Attention, vous devez utiliser des guillemets comme \" \" et non comme « ».\n"
+"        "
+
+# about_para_5
+msgid ""
+"\n"
+"            The IATI Datastore indexes and represents IATI data\n"
+"            precisely as it is was originally published, with no\n"
+"            transformations or layers of inferred meaning or metadata.\n"
+"            <a href=\"/\" class=\"hover:underline text-iati-grey\"\n"
+"                >Simple Search</a\n"
+"            >\n"
+"            offers an introduction to that data and is intended to be as\n"
+"            intuitive as possible, welcoming those with no prior\n"
+"            knowledge of the IATI Standard.\n"
+"            <a\n"
+"                href=\"/advanced\"\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                >Advanced Search</a\n"
+"            >\n"
+"            allows a much deeper exploration, with every IATI element\n"
+"            available to be added to a chain of filters. For those who\n"
+"            would like exceptional control of their queries, the\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://developer.iatistandard.org/api-details#api=datastore\"\n"
+"                >Datastore API</a\n"
+"            >\n"
+"            is available and hugely powerful.\n"
+"        "
+msgstr ""
+"\n"
+"            Le Datastore de l’IITA indexe et représente les données de l’IITA\n"
+"            précisément tel qu'il a été publié à l'origine, sans\n"
+"            transformations ou couches de signification ou de métadonnées inférées.\n"
+"            <a href=\"/\" class=\"hover:underline text-iati-grey\"\n"
+"                >La recherche simple</a\n"
+"            >\n"
+"            offre une introduction à ces données et est destinée à être aussi\n"
+"            intuitif que possible, accueillant ceux qui n'ont pas d'antécédents\n"
+"            connaissance de la norme de l’IITA.\n"
+"            <a\n"
+"                href=\"/advanced\"\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                >La recherche avancée</a\n"
+"            >\n"
+"            permet une exploration beaucoup plus approfondie, avec chaque élément de l'IITA\n"
+"            disponible pour être ajouté à une chaîne de filtres. Pour ceux qui\n"
+"            souhaitent un contrôle exceptionnel de leurs requêtes\n"
+"            <a\n"
+"                class=\"hover:underline text-iati-grey\"\n"
+"                href=\"https://developer.iatistandard.org/api-details#api=datastore\"\n"
+"                >API de Datastore</a\n"
+"            >\n"
+"            est disponible et extrêmement puissante.\n"
+"        "
+
+# overview_of_iati_activity
+msgid "Overview of IATI Activity"
+msgstr "Aperçu de la activité de l’IITA"
+
+# back_to_results
+msgid "Back to results"
+msgstr "Retour aux résultats"
+
+# download
+msgid "Download"
+msgstr "Télécharger"
+
+# download_activity_file
+msgid "Download Activity File"
+msgstr "Télécharger le fichier d’activité"
+
+# download_results_file
+msgid "Download Results File"
+msgstr "Télécharger le fichier de résultats"
+
+# download_confirmation_1
+msgid "Download"
+msgstr "Télécharger"
+
+# download_confirmation_2a
+msgid "this IATI Activity"
+msgstr "cette activité de l’IITA"
+
+# download_confirmation_2b
+msgid "%{count} results"
+msgstr "%{count} résultats"
+
+# download_confirmation_3
+msgid "from the"
+msgstr "à partir de noyau"
+
+# download_confirmation_4a
+msgid "Activity"
+msgstr "d’activité"
+
+# download_confirmation_4b
+msgid "Transaction"
+msgstr "de transaction"
+
+# download_confirmation_4c
+msgid "Budget"
+msgstr "budgétaire"
+
+# download_confirmation_5a
+msgid "core in %{format} format?"
+msgstr "au format %{format} ?"
+
+# download_confirmation_5b
+msgid ""
+"\n"
+"            core in Excel-optimised* CSV format?<br /><br /><span\n"
+"                class=\"text-sm\"\n"
+"                >*This ensures Excel will open with correct\n"
+"                encoding and formatting, but will truncate cells\n"
+"                longer than 32,700 characters.</span\n"
+"            >\n"
+"        "
+msgstr ""
+"\n"
+"            au format CSV optimisé pour Excel*?<br /><br /><span\n"
+"                class=\"text-sm\"\n"
+"                >*Cela garantit qu'Excel s'ouvrira avec le bon\n"
+"                    l'encodage et le formatage, mais tronquera les cellules\n"
+"                    plus de 32 700 caractères.</span\n"
+"            >\n"
+"        "
+
+# download_confirmation_5c
+msgid "in an IATI Activities XML document?"
+msgstr "dans un document XML des activités de l’IITA?"
+
+# cancel
+msgid "Cancel"
+msgstr "Annuler"
+
+# view
+msgid "View"
+msgstr "Visiter"
+
+# publisher
+msgid "Publisher"
+msgstr "Éditeur"
+
+# iati_identifier
+msgid "IATI Identifier"
+msgstr "Identifiant de l’IITA"
+
+# last_updated
+msgid "Last updated"
+msgstr "Dernière mise à jour"
+
+# participating_organisations
+msgid "Participating organisations"
+msgstr "Organisations participantes"
+
+# planned_start
+msgid "Planned Start"
+msgstr "Début prévu"
+
+# actual_start
+msgid "Actual Start"
+msgstr "Début réel"
+
+# planned_end
+msgid "Planned End"
+msgstr "Fin prévue"
+
+# actual_end
+msgid "Actual End"
+msgstr "Fin réelle"
+
+# not_present
+msgid "Not Present"
+msgstr "Pas présent"
+
+# description_not_provided
+msgid "Description not provided"
+msgstr "Description non fournie"
+
+# title_not_provided
+msgid "Title not provided"
+msgstr "Titre non fourni"
+
+# name_not_provided
+msgid "Name not provided"
+msgstr "Nom non fourni"
+
+# not_provided
+msgid "Not provided"
+msgstr "Non fourni"
+
+# advanced_unavailable_para1
+msgid ""
+"\n"
+"            Sorry, the advanced filter page isn't available for devices with\n"
+"            smaller screens.\n"
+"        "
+msgstr ""
+"\n"
+"            Désolé, la page de filtrage avancé n'est pas disponible pour les appareils avec\n"
+"            écrans plus petits.\n"
+"        "
+
+# advanced_unavailable_para2
+msgid ""
+"\n"
+"            Please\n"
+"            <a href=\"/simple\" class=\"hover:underline text-blue-600\"\n"
+"                >try the Simple Search</a\n"
+"            >\n"
+"            instead, or switch to a device with a larger screen.\n"
+"        "
+msgstr ""
+"\n"
+"        S'il vous plaît\n"
+"            <a href=\"/simple\" class=\"hover:underline text-blue-600\"\n"
+"                >essayez la recherche simple</a\n"
+"            >\n"
+"            à la place, ou passez à un appareil avec un écran plus grand.\n"
+"        "
+
+# run_aria
+msgid "Run search query with selected filters"
+msgstr "Exécuter une requête de recherche avec les filtres sélectionnés"
+
+# run
+msgid "Run"
+msgstr "Exécuter"
+
+# export_aria
+msgid "Export filters to file"
+msgstr "Exporter les filtres vers un fichier"
+
+# export
+msgid "Export"
+msgstr "Exporter"
+
+# import_aria
+msgid "Import filters from file"
+msgstr "Importer des filtres à partir d’un fichier"
+
+# import
+msgid "Import"
+msgstr "Importer"
+
+# add_aria
+msgid "Add an additional filter"
+msgstr "Ajouter un filtre supplémentaire"
+
+# add
+msgid "Add"
+msgstr "Ajouter"
+
+# add_filter
+msgid "Add Filter"
+msgstr "Ajouter un filtre"
+
+# import_filters
+msgid "Import Filters"
+msgstr "Importer des filtres"
+
+# export_filters
+msgid "Export Filters"
+msgstr "Exporter les filtres"
+
+# export_para1
+msgid "Export currently selected filters to file?"
+msgstr "Exporter les filtres actuellement sélectionnés vers un fichier?"
+
+# export_para2
+msgid ""
+"\n"
+"            This will allow you to import them later to run the same\n"
+"            query or share with someone else.\n"
+"        "
+msgstr ""
+"\n"
+"            Cela vous permettra de les importer plus tard pour exécuter le même\n"
+"            interroger ou partager avec quelqu'un d'autre.\n"
+"        "
+
+# import_para1
+msgid "Import filters from file?"
+msgstr "Importer des filtres à partir d'un fichier?"
+
+# import_para2
+msgid ""
+"\n"
+"            Select a .json file previously exported from the Datastore\n"
+"            Advanced Search.\n"
+"        "
+msgstr ""
+"\n"
+"            Sélectionnez un fichier .json précédemment exporté depuis le Datastore\n"
+"            Recherche Avancée.\n"
+"        "
+
+# file
+msgid "File"
+msgstr "Fichier"
+
+# and
+msgid "AND"
+msgstr "ET"
+
+# or
+msgid "OR"
+msgstr "OU"
+
+# select_field
+msgid "Select field"
+msgstr "Sélectionner un champ"
+
+# true
+msgid "TRUE"
+msgstr "VRAI"
+
+# false
+msgid "FALSE"
+msgstr "FAUX"
+
+# select_from_codes
+msgid "Select from %{name} codes"
+msgstr "Sélectionnez parmi les codes %{name}"
+
+# found_matching_iati_activities
+msgid "Found <b>%{count}</b> matching IATI activities"
+msgstr "<b>%{count}</b> activités de l’IITA correspondantes trouvées"
+
+# sort
+msgid "Sort"
+msgstr "Trier"
+
+# no_match
+msgid "No matching IATI Activities - please try a different search"
+msgstr "Aucune activité de l’IITA correspondante - veuillez essayer une autre recherche"
+
+# not_found
+msgid "Not Found"
+msgstr "Pas trouvé"
+
+# not_found_para
+msgid ""
+"\n"
+"            Oops, we couldn't find that page. Try going\n"
+"            <a class=\"hover:underline\" href=\"/\">Home</a>\n"
+"        "
+msgstr ""
+"\n"
+"            Oups, nous n'avons pas pu trouver cette page. Essayez d'y aller\n"
+"            <a class=\"hover:underline\" href=\"/\">Accueil</a>\n"
+"        "
+
+# advanced
+msgid "Advanced"
+msgstr "Avancée"
+
+# found_activities
+msgid "Found <b>%{count}</b> activities"
+msgstr "<b>%{count}</b> activités trouvées"
+
+# relevance
+msgid "Relevance"
+msgstr "Pertinence"
+
+# identifier
+msgid "Identifier"
+msgstr "Identifiant"
+
+# all_narratives
+msgid "All Narratives"
+msgstr "Tout le texte"
+
+# all_narratives_desc
+msgid "Searches all IATI narrative fields, used by simple search"
+msgstr "Recherche tous les champs narratifs de l’IITA, utilisés par une recherche simple"
+
+# boolean_grouping
+msgid "Boolean Grouping"
+msgstr "Regroupement Booléen"
+
+# boolean_grouping_desc
+msgid "Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis."
+msgstr "Parenthèse pour regrouper les requêtes booléennes. Assurez-vous que chaque parenthèse ouvrante correspond à une parenthèse fermante."
+
+# special_fields
+msgid "Special fields"
+msgstr "Champs spéciaux"
+
+# grouping
+msgid "Grouping"
+msgstr "Regroupement"
+
+# standard_fields
+msgid "Standard fields"
+msgstr "Champs standards"
+
+# incompatible_file_error
+msgid "Incompatible file detected. Please try a different file."
+msgstr "Fichier incompatible détecté. Veuillez essayer un autre fichier."
+
+# search_term_is_required
+msgid "Search term is required"
+msgstr "Le terme de recherche est requis"
+
+# selection_is_required
+msgid "Selection is required"
+msgstr "Une sélection est requise"
+
+# value_is_required
+msgid "Value is required"
+msgstr "Valeur est requise"
+
+# date_is_required
+msgid "Date is required"
+msgstr "La date est requise"
+
+# is_not_allowed
+msgid "%{bad} is not allowed for Datastore Search queries"
+msgstr "%{bad} n’est pas autorisé pour les requêtes Rechercher le Datastore"
+
+# percentage_validation
+msgid "Percentage must be between 0 and 100"
+msgstr "Le pourcentage doit être compris entre 0 et 100"
+
+# integer_validation
+msgid "Value must be a whole number"
+msgstr "La valeur doit être un nombre entier"
+
+# fetch_error
+msgid "There was an error fetching your query. Please check how your query is constructed and try again."
+msgstr "Une erreur s’est produite lors de la récupération de votre requête. Veuillez vérifier la structure de votre requête et réessayer."
+
+# search_term
+msgid "Search term"
+msgstr "Le terme de recherche"
