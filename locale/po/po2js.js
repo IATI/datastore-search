@@ -1,4 +1,5 @@
-const PO = require('pofile');
+import PO from 'pofile';
+
 let fr = { default: { message: {} } };
 
 PO.load('locale/po/datastore_search.po', function (err, po) {
@@ -11,5 +12,5 @@ PO.load('locale/po/datastore_search.po', function (err, po) {
         fr.default.message[msgkey] = msgstr;
     });
     process.stdout.write('export default ');
-    console.log(fr.default);
+    console.log(JSON.stringify(fr.default, null, 4));
 });

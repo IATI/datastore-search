@@ -1,19 +1,20 @@
-const PO = require('pofile');
-const en = require('esm')(module)('../en/index');
-const fr = require('esm')(module)('../fr/index');
+import PO from 'pofile';
+import en from '../en/index.js';
+import fr from '../fr/index.js';
 
 let po = new PO();
+const { Item } = PO;
 
-const en_translation_keys = Object.keys(en.default.message);
-const fr_translation_keys = Object.keys(fr.default.message);
+const en_translation_keys = Object.keys(en.message);
+const fr_translation_keys = Object.keys(fr.message);
 
 en_translation_keys.forEach((msgkey) => {
-    const msgid = en.default.message[msgkey];
+    const msgid = en.message[msgkey];
     let msgstr = '';
     if (fr_translation_keys.includes(msgkey)) {
-        msgstr = fr.default.message[msgkey];
+        msgstr = fr.message[msgkey];
     }
-    let po_item = new PO.Item();
+    let po_item = new Item();
     po_item.msgid = msgid;
     po_item.msgstr = msgstr;
     po_item.comments = [msgkey];
