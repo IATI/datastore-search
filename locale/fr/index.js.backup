@@ -211,7 +211,9 @@ export default {
         advanced: 'Avancée',
         found_activities: '<b>%{count}</b> activités trouvées',
         relevance: 'Pertinence',
+        sort_relevance_label: 'Trier les résultats par pertinence',
         identifier: 'Identifiant',
+        sort_identifier_label: 'Trier les résultats par identifiant IATI',
         all_narratives: 'Tout le texte',
         all_narratives_desc:
             'Recherche tous les champs narratifs de l’IITA, utilisés par une recherche simple',
