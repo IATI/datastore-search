@@ -9,7 +9,9 @@ PO.load('locale/po/datastore_search.po', function (err, po) {
     po.items.forEach((item) => {
         const msgkey = item.comments[0];
         const msgstr = item.msgstr[0];
-        fr.default.message[msgkey] = msgstr;
+        if (msgstr !== '') {
+            fr.default.message[msgkey] = msgstr;
+        }
     });
     process.stdout.write('export default ');
     console.log(JSON.stringify(fr.default, null, 4));
