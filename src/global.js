@@ -8,8 +8,7 @@ import Plausible from 'plausible-tracker';
 import i18n from './i18n.js';
 
 const { t } = i18n.global;
-const current_locale =
-    navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
+const current_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
 
 const { trackEvent } = Plausible();
 
@@ -43,13 +42,13 @@ const sortFields = [
     {
         verbose: t('message.relevance'),
         field: 'score',
-        label: 'Sort results by relevance',
+        label: t('message.sort_relevance_label'),
         default: 'desc',
     },
     {
         verbose: t('message.identifier'),
         field: 'iati_identifier',
-        label: 'Sort results by IATI identifier',
+        label: t('message.sort_identifier_label'),
         default: 'asc',
     },
 ];
@@ -451,10 +450,7 @@ const run = async (start = 0, rows = 10) => {
         url.searchParams.set('q', state.query);
         url.searchParams.set('start', start);
         url.searchParams.set('rows', rows);
-        url.searchParams.set(
-            'sort',
-            `${state.searchOrderField} ${state.searchOrderDirection}`
-        );
+        url.searchParams.set('sort', `${state.searchOrderField} ${state.searchOrderDirection}`);
         let result = {
             data: {
                 response: {
@@ -504,10 +500,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
     url.searchParams.set('q', cleanSearchTerm);
     url.searchParams.set('start', start);
     url.searchParams.set('rows', rows);
-    url.searchParams.set(
-        'sort',
-        `${state.searchOrderField} ${state.searchOrderDirection}`
-    );
+    url.searchParams.set('sort', `${state.searchOrderField} ${state.searchOrderDirection}`);
     let result = await axios.get(url, axiosConfig);
     state.simpleSearch = true;
     state.query = cleanSearchTerm;
@@ -582,24 +575,15 @@ const setResponseState = (result) => {
 
         if ('title_narrative' in state.responseDocs[index]) {
             if ('title_narrative_xml_lang' in state.responseDocs[index]) {
-                for (const narrativeKey in state.responseDocs[index]
-                    .title_narrative_xml_lang) {
+                for (const narrativeKey in state.responseDocs[index].title_narrative_xml_lang) {
                     if (
-                        state.responseDocs[index].title_narrative_xml_lang[
-                            narrativeKey
-                        ] === state.language
+                        state.responseDocs[index].title_narrative_xml_lang[narrativeKey] ===
+                        state.language
                     ) {
                         const langTitleNarrative =
-                            state.responseDocs[index].title_narrative[
-                                narrativeKey
-                            ];
-                        state.responseDocs[index].title_narrative.splice(
-                            narrativeKey,
-                            1
-                        );
-                        state.responseDocs[index].title_narrative.unshift(
-                            langTitleNarrative
-                        );
+                            state.responseDocs[index].title_narrative[narrativeKey];
+                        state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
+                        state.responseDocs[index].title_narrative.unshift(langTitleNarrative);
                         break;
                     }
                 }
@@ -608,33 +592,22 @@ const setResponseState = (result) => {
 
         if (state.responseDocs[index]['highlighting'] === '') {
             if ('description_narrative' in state.responseDocs[index]) {
-                if (
-                    'description_narrative_xml_lang' in
-                    state.responseDocs[index]
-                ) {
+                if ('description_narrative_xml_lang' in state.responseDocs[index]) {
                     for (const narrativeKey in state.responseDocs[index]
                         .description_narrative_xml_lang) {
                         if (
-                            state.responseDocs[index]
-                                .description_narrative_xml_lang[
+                            state.responseDocs[index].description_narrative_xml_lang[
                                 narrativeKey
                             ] === state.language
                         ) {
                             let langDescriptionNarrative =
-                                state.responseDocs[index].description_narrative[
-                                    narrativeKey
-                                ];
-                            if (
-                                'title_narrative' in state.responseDocs[index]
-                            ) {
+                                state.responseDocs[index].description_narrative[narrativeKey];
+                            if ('title_narrative' in state.responseDocs[index]) {
                                 if (
                                     langDescriptionNarrative !==
                                     state.responseDocs[index].title_narrative[0]
                                 ) {
-                                    if (
-                                        langDescriptionNarrative.split(' ')
-                                            .length > 30
-                                    ) {
+                                    if (langDescriptionNarrative.split(' ').length > 30) {
                                         langDescriptionNarrative =
                                             langDescriptionNarrative
                                                 .split(' ')
@@ -649,17 +622,12 @@ const setResponseState = (result) => {
                         }
                     }
                 } else {
-                    let descriptionNarrative =
-                        state.responseDocs[index].description_narrative[0];
+                    let descriptionNarrative = state.responseDocs[index].description_narrative[0];
                     if (descriptionNarrative.split(' ').length > 30) {
                         descriptionNarrative =
-                            descriptionNarrative
-                                .split(' ')
-                                .splice(0, 30)
-                                .join(' ') + ' ...';
+                            descriptionNarrative.split(' ').splice(0, 30).join(' ') + ' ...';
                     }
-                    state.responseDocs[index]['highlighting'] =
-                        descriptionNarrative;
+                    state.responseDocs[index]['highlighting'] = descriptionNarrative;
                 }
             }
         }
@@ -684,12 +652,10 @@ const changeFilter = (id, key, value) => {
             if (key === 'field') {
                 for (let n = 0; n < state.fieldOptions.length; n++) {
                     if (state.fieldOptions[n].label === value) {
-                        state.filters[i]['selectedOption'] =
-                            state.fieldOptions[n];
+                        state.filters[i]['selectedOption'] = state.fieldOptions[n];
 
                         state.filters[i][key] = state.fieldOptions[n].field;
-                        state.filters[i]['desc'] =
-                            state.fieldOptions[n].description;
+                        state.filters[i]['desc'] = state.fieldOptions[n].description;
                         state.filters[i]['type'] = state.fieldOptions[n].type;
 
                         if (state.fieldOptions[n].type === 'date') {
@@ -780,10 +746,7 @@ const validateDropdownOptions = (id, index, options) => {
         if (state.filters[i].id === id) {
             const currentValue = state.filters[i].value;
             // If the current field value is null or not in the list of valid options, set blank so "Select code" can be reselected
-            if (
-                !options.map((d) => d.code).includes(currentValue) &&
-                index === 0
-            ) {
+            if (!options.map((d) => d.code).includes(currentValue) && index === 0) {
                 state.filters[i].value = '';
             }
         }
@@ -950,10 +913,7 @@ const paginationUpdate = async (page) => {
             },
         });
     } else {
-        await run(
-            (state.page - 1) * state.resultsPerPage,
-            state.resultsPerPage
-        );
+        await run((state.page - 1) * state.resultsPerPage, state.resultsPerPage);
 
         event('Pagination', {
             method: 'Google',
@@ -971,8 +931,7 @@ const paginationUpdate = async (page) => {
 
 const sortResults = async (field) => {
     if (field == state.searchOrderField) {
-        state.searchOrderDirection =
-            state.searchOrderDirection == 'desc' ? 'asc' : 'desc';
+        state.searchOrderDirection = state.searchOrderDirection == 'desc' ? 'asc' : 'desc';
     } else {
         state.searchOrderField = field;
         const fieldObj = sortFields.filter((d) => d.field == field)[0];
@@ -1046,12 +1005,10 @@ const compileQuery = () => {
                     query = query + filter['field'] + ':"' + queryValue + `"`;
                     break;
                 case 'lessThan':
-                    query =
-                        query + filter['field'] + ':[ * TO ' + queryValue + ']';
+                    query = query + filter['field'] + ':[ * TO ' + queryValue + ']';
                     break;
                 case 'greaterThan':
-                    query =
-                        query + filter['field'] + ':[' + queryValue + ' TO * ]';
+                    query = query + filter['field'] + ':[' + queryValue + ' TO * ]';
                     break;
                 default:
                     break;
