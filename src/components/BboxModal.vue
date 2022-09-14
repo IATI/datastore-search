@@ -8,7 +8,7 @@
             <h2 class="text-2xl">{{ $t('message.pan_and_zoom') }}</h2>
             <p v-if="global.state.bbox.southWestLat !== null">
                 {{ global.state.bbox.southWestLat.toFixed(global.state.bbox.displayPrecision) }},
-                {{ global.state.bbox.southWestLon.toFixed(global.state.bbox.displayPrecision) }} -
+                {{ global.state.bbox.southWestLon.toFixed(global.state.bbox.displayPrecision) }} TO
                 {{ global.state.bbox.northEastLat.toFixed(global.state.bbox.displayPrecision) }},
                 {{ global.state.bbox.northEastLon.toFixed(global.state.bbox.displayPrecision) }}
             </p>
