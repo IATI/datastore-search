@@ -20,10 +20,14 @@ export default {
         };
     },
     mounted() {
+        const southWestCorner = L.latLng(-85, -180);
+        const northEastCorner = L.latLng(85, 180);
+        const bounds = L.latLngBounds(southWestCorner, northEastCorner);
         this.map = L.map('map').setView(
             [global.state.bbox.centerLat, global.state.bbox.centerLon],
             global.state.bbox.zoom
         );
+        this.map.setMaxBounds(bounds);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             minZoom: 3,
             maxZoom: 19,
