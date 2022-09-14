@@ -101,6 +101,18 @@ const state = reactive({
         errors: [],
         file: null,
     },
+    bbox: {
+        showModal: false,
+        displayPrecision: 2,
+        centerLat: 0,
+        centerLon: 0,
+        zoom: 3,
+        southWestLat: null,
+        southWestLon: null,
+        northEastLat: null,
+        northEastLon: null,
+        filterId: null,
+    },
     codelistURL: import.meta.env.VUE_ENV_CODELIST_URL,
     responseErrorMessage: '',
 });
@@ -127,6 +139,18 @@ const groupingOption = {
     xsd_type: '',
     solr_required: 'false',
     solr_multivalued: 'false',
+};
+
+const spatialOption = {
+    field: 'location_point_latlon',
+    label: t('message.spatial_search'),
+    type: 'latlon',
+    description: t('message.location_point_latlon_desc'),
+    name: 'pos',
+    path: 'iati-activities/iati-activity/location/point/pos',
+    xsd_type: '',
+    solr_required: 'false',
+    solr_multivalued: 'true',
 };
 
 const populateOptions = async () => {
@@ -169,6 +193,7 @@ const populateOptions = async () => {
             disabled: true,
         },
         { ...allNarrativesOption },
+        { ...spatialOption },
         {
             field: '',
             label: `${t('message.grouping')}:`,
@@ -365,6 +390,13 @@ const validateFilters = () => {
                         validationMessage: t('message.value_is_required'),
                     };
                 case 'integer':
+                    count += 1;
+                    return {
+                        ...filter,
+                        valid: false,
+                        validationMessage: t('message.value_is_required'),
+                    };
+                case 'latlon':
                     count += 1;
                     return {
                         ...filter,
@@ -956,6 +988,44 @@ const resetResults = () => {
         (state.simpleSearchTerm = null);
 };
 
+const toggleBboxModal = (filterId = null) => {
+    if (filterId !== null) {
+        state.bbox.filterId = filterId;
+    } else {
+        state.bbox.filterId = null;
+    }
+    state.bbox.showModal = !state.bbox.showModal;
+};
+
+const setMapBbox = (map) => {
+    const bounds = map.getBounds();
+    const center = bounds.getCenter();
+    state.bbox.zoom = map.getZoom();
+    state.bbox.centerLat = center.lat;
+    state.bbox.centerLon = center.lng;
+    state.bbox.southWestLat = Math.max(Math.min(bounds._southWest.lat, 90), -90);
+    state.bbox.northEastLat = Math.max(Math.min(bounds._northEast.lat, 90), -90);
+    state.bbox.southWestLon = Math.max(Math.min(bounds._southWest.lng, 180), -180);
+    state.bbox.northEastLon = Math.max(Math.min(bounds._northEast.lng, 180), -180);
+    state.bbox.displayPrecision = Math.round(1 + ((state.bbox.zoom - 3) / 16) * 5);
+};
+
+const applyBbox = () => {
+    changeFilter(
+        state.bbox.filterId,
+        'value',
+        `[${state.bbox.southWestLat.toFixed(
+            state.bbox.displayPrecision
+        )},${state.bbox.southWestLon.toFixed(
+            state.bbox.displayPrecision
+        )} TO ${state.bbox.northEastLat.toFixed(
+            state.bbox.displayPrecision
+        )},${state.bbox.northEastLon.toFixed(state.bbox.displayPrecision)}]`
+    );
+
+    toggleBboxModal();
+};
+
 // Helper functions, not exported:
 
 const cleanSolrQueryString = (qString) => {
@@ -1062,4 +1132,7 @@ export default {
     sortResults,
     importSimpleSearchToAdv,
     resetResults,
+    toggleBboxModal,
+    setMapBbox,
+    applyBbox,
 };

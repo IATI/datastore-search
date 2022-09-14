@@ -215,5 +215,11 @@ export default {
         fetch_error:
             'There was an error fetching your query. Please check how your query is constructed and try again.',
         search_term: 'Search term',
+        spatial_search: 'Geospatial search',
+        location_point_latlon_desc: 'Spatial search on location/point/pos latitude and longitude',
+        latlon_placeholder: 'X1,Y1 TO X2,Y2',
+        use_map: 'Open map',
+        pan_and_zoom: 'Pan and zoom map to select bounds',
+        apply: 'Apply',
     },
 };
