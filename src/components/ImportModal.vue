@@ -11,18 +11,10 @@ import { ArrowUpIcon } from '@heroicons/vue/solid';
         <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
             <h2 class="text-2xl">{{ $t('message.import_filters') }}</h2>
             <div class="mt-1">
-                <p
-                    class="my-4 text-left text-md"
-                    v-html="$t('message.import_para1')"
-                ></p>
-                <p
-                    class="my-4 text-left text-sm"
-                    v-html="$t('message.import_para2')"
-                ></p>
+                <p class="my-4 text-left text-md" v-html="$t('message.import_para1')"></p>
+                <p class="my-4 text-left text-sm" v-html="$t('message.import_para2')"></p>
                 <div class="flex justify-between items-center">
-                    <label for="filename" hidden
-                        >{{ $t('message.file') }}:</label
-                    >
+                    <label for="filename" hidden>{{ $t('message.file') }}:</label>
                     <input
                         id="filename"
                         class="border rounded py-2 px-3 m-2 mb-4 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -31,15 +23,9 @@ import { ArrowUpIcon } from '@heroicons/vue/solid';
                         @change="global.onFilePicked"
                     />
                 </div>
-                <div
-                    v-if="global.state.import.errors.length"
-                    class="text-sm text-red-800 mb-4"
-                >
+                <div v-if="global.state.import.errors.length" class="text-sm text-red-800 mb-4">
                     <ul>
-                        <li
-                            v-for="error in global.state.import.errors"
-                            :key="error"
-                        >
+                        <li v-for="error in global.state.import.errors" :key="error">
                             {{ error }}
                         </li>
                     </ul>
@@ -54,11 +40,9 @@ import { ArrowUpIcon } from '@heroicons/vue/solid';
                     <button
                         :disabled="global.state.import.disabled"
                         :class="{
-                            'opacity-25 cursor-not-allowed':
-                                global.state.import.disabled,
+                            'opacity-25 cursor-not-allowed': global.state.import.disabled,
                         }"
                         class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
-                        data-cabin-event="Import filters"
                         @click="global.importFilters()"
                     >
                         <ArrowUpIcon class="h-5 w-5 text-grey-300 mr-1" />

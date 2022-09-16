@@ -17,7 +17,6 @@
                 role="button"
                 :aria-label="$t('message.submit')"
                 class="flex items-center justify-center px-4 border-l"
-                data-cabin-event="Run simple query"
                 @click="
                     global.runSimple(searchterm);
                     $router.push('simple');
@@ -53,8 +52,7 @@ export default {
         },
     },
     mounted() {
-        this.searchterm =
-            JSON.parse(sessionStorage.getItem('searchterm')) || '';
+        this.searchterm = JSON.parse(sessionStorage.getItem('searchterm')) || '';
     },
 };
 </script>

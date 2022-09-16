@@ -1,7 +1,6 @@
 //Simple global state and API management
 import { reactive, readonly } from 'vue';
 import axios from 'axios';
-import { event } from 'vue-gtag';
 import { startOfToday, format } from 'date-fns';
 import MD5 from 'crypto-js/md5';
 import Plausible from 'plausible-tracker';
@@ -13,11 +12,6 @@ const current_locale = navigator.language.split('-')[0] || navigator.userLanguag
 const { trackEvent } = Plausible();
 
 if (current_locale != 'en') {
-    event('Localisation', {
-        method: 'Google',
-        event_category: 'Language',
-        event_label: navigator.language,
-    });
     trackEvent('Localisation', {
         props: {
             event_category: 'Language',
@@ -286,10 +280,6 @@ const importFilters = async () => {
         state.nextFilterId = lastFilterId + 1;
         state.import.disabled = true;
         toggleImportModal();
-        event('Imported Filters', {
-            method: 'Google',
-            event_category: 'Advanced',
-        });
         trackEvent('Imported Filters', {
             props: {
                 event_category: 'Advanced',
@@ -341,10 +331,6 @@ export const exportFilters = () => {
     URL.revokeObjectURL(link.href);
     state.export.fileLoading = false;
     state.export.showModal = false;
-    event('Exported Filters', {
-        method: 'Google',
-        event_category: 'Advanced',
-    });
     trackEvent('Exported Filters', {
         props: {
             event_category: 'Advanced',
@@ -504,11 +490,6 @@ const run = async (start = 0, rows = 10) => {
         setResponseState(result);
     }
     if (start === 0) {
-        event('Run query', {
-            method: 'Google',
-            event_category: 'Advanced',
-            event_label: state.query,
-        });
         trackEvent('Run query', {
             props: {
                 event_category: 'Advanced',
@@ -540,11 +521,6 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
     setResponseState(result);
 
     if (start === 0) {
-        event('Run query', {
-            method: 'Google',
-            event_category: 'Simple',
-            event_label: state.query,
-        });
         trackEvent('Run query', {
             props: {
                 event_category: 'Simple',
@@ -842,11 +818,6 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
         event_label = iid;
     }
 
-    event(`Initiated download ${core} ${format}`, {
-        method: 'Google',
-        event_category: 'Download buttons',
-        event_label: event_label,
-    });
     trackEvent(`Initiated download ${core} ${format}`, {
         props: {
             event_category: 'Download buttons',
@@ -871,11 +842,6 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
             startDownloadRes.data.terminatePostUri
         );
         if ('config' in response && response.config.method === 'post') {
-            event('Cancelled download', {
-                method: 'Google',
-                event_category: 'Download buttons',
-                event_label: event_label,
-            });
             trackEvent('Cancelled download', {
                 props: {
                     event_category: 'Download buttons',
@@ -897,11 +863,6 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
         }
     }
 
-    event(`Succeeded download ${core} ${format}`, {
-        method: 'Google',
-        event_category: 'Download buttons',
-        event_label: event_label,
-    });
     trackEvent(`Succeeded download ${core} ${format}`, {
         props: {
             event_category: 'Download buttons',
@@ -933,11 +894,6 @@ const paginationUpdate = async (page) => {
             state.resultsPerPage
         );
 
-        event('Pagination', {
-            method: 'Google',
-            event_category: 'Simple',
-            event_label: `${state.simpleSearchTerm} - ${state.page}`,
-        });
         trackEvent('Pagination', {
             props: {
                 event_category: 'Simple',
@@ -947,11 +903,6 @@ const paginationUpdate = async (page) => {
     } else {
         await run((state.page - 1) * state.resultsPerPage, state.resultsPerPage);
 
-        event('Pagination', {
-            method: 'Google',
-            event_category: 'Advanced',
-            event_label: `${state.query} - ${state.page}`,
-        });
         trackEvent('Pagination', {
             props: {
                 event_category: 'Advanced',

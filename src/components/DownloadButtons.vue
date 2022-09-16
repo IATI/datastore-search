@@ -19,9 +19,7 @@
                 role="dialog"
                 class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
             >
-                <div
-                    class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded"
-                >
+                <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
                     <div class="flex items-center justify-between">
                         <h2 class="text-2xl">
                             {{
@@ -67,16 +65,13 @@
                             </select>
                             {{
                                 $t('message.download_confirmation_5a', {
-                                    format: global.state.download
-                                        .selectedFormat,
+                                    format: global.state.download.selectedFormat,
                                 })
                             }}
                         </p>
 
                         <p
-                            v-if="
-                                global.state.download.selectedFormat === 'EXCEL'
-                            "
+                            v-if="global.state.download.selectedFormat === 'EXCEL'"
                             class="mb-4 mt-2 text-md"
                         >
                             {{ $t('message.download_confirmation_1') }}
@@ -105,15 +100,11 @@
                                     {{ $t('message.download_confirmation_4c') }}
                                 </option>
                             </select>
-                            <span
-                                v-html="$t('message.download_confirmation_5b')"
-                            ></span>
+                            <span v-html="$t('message.download_confirmation_5b')"></span>
                         </p>
 
                         <p
-                            v-if="
-                                global.state.download.selectedFormat === 'XML'
-                            "
+                            v-if="global.state.download.selectedFormat === 'XML'"
                             class="mb-4 mt-2 text-md"
                         >
                             {{ $t('message.download_confirmation_1') }}
@@ -140,12 +131,6 @@
                             </button>
                             <button
                                 class="px-4 py-2 text-white bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
-                                :data-cabin-event="
-                                    'Download ' +
-                                    core +
-                                    ' ' +
-                                    global.state.download.selectedFormat
-                                "
                                 @click="
                                     global.downloadFile(
                                         global.state.download.selectedFormat,
@@ -154,13 +139,10 @@
                                     )
                                 "
                             >
-                                <ArrowDownIcon
-                                    class="h-5 w-5 text-grey-300 mr-1"
-                                />
-                                <span
-                                    v-if="!global.state.download.fileLoading"
-                                    >{{ $t('message.download') }}</span
-                                >
+                                <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1" />
+                                <span v-if="!global.state.download.fileLoading">{{
+                                    $t('message.download')
+                                }}</span>
                                 <div
                                     v-if="global.state.download.fileLoading"
                                     style="border-top-color: transparent"
