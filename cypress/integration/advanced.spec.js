@@ -97,7 +97,7 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
+                        '+AND+hierarchy%3A%221%22' +
                         urlSuffix,
                     advanced_q_test
                 ).as('integerQuery');
@@ -119,8 +119,8 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
-                        '+AND+sector_percentage%3A99.9' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
                         urlSuffix,
                     advanced_q_test
                 ).as('numberQuery');
@@ -143,8 +143,8 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
-                        '+AND+sector_percentage%3A99.9' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
                         '+AND+budget_type%3A2' +
                         urlSuffix,
                     advanced_q_test
@@ -167,8 +167,8 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
-                        '+AND+sector_percentage%3A99.9' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
                         '+AND+budget_type%3A2' +
                         '+AND+title_narrative%3A%28Hello+world%29' +
                         urlSuffix,
@@ -203,8 +203,8 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
-                        '+AND+sector_percentage%3A99.9' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
                         '+AND+budget_type%3A2' +
                         '+AND+title_narrative%3A%28Hello+world%29' +
                         '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
@@ -230,8 +230,8 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
-                        '+AND+sector_percentage%3A99.9' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
                         '+AND+budget_type%3A2' +
                         '+AND+title_narrative%3A%28Hello+world%29' +
                         '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
@@ -266,8 +266,8 @@ describe('The advanced view', () => {
                             baseUrl +
                                 'q=humanitarian%3Atrue' +
                                 '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                                '+AND+hierarchy%3A1' +
-                                '+AND+sector_percentage%3A99.9' +
+                                '+AND+hierarchy%3A%221%22' +
+                                '+AND+sector_percentage%3A%2299.9%22' +
                                 '+AND+budget_type%3A2' +
                                 '+AND+title_narrative%3A%28Hello+world%29' +
                                 '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
@@ -296,8 +296,8 @@ describe('The advanced view', () => {
                     baseUrl +
                         'q=humanitarian%3Atrue' +
                         '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A1' +
-                        '+AND+sector_percentage%3A99.9' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
                         '+AND+budget_type%3A2' +
                         '+AND+title_narrative%3A%28Hello+world%29' +
                         '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +

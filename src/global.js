@@ -1068,7 +1068,11 @@ const compileQuery = () => {
 
         const queryValue = getFilterValue(filter);
 
-        if (filter['type'] === 'date') {
+        if (
+            filter['type'] === 'date' ||
+            filter['type'] === 'number' ||
+            filter['type'] === 'integer'
+        ) {
             switch (filter['operator']) {
                 case 'equals':
                     // needs to be encasulated in "" for equals
