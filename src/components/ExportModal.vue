@@ -12,14 +12,8 @@ import { ArrowDownIcon } from '@heroicons/vue/solid';
             <h2 class="text-2xl">{{ $t('message.export_filters') }}</h2>
 
             <div class="mt-1">
-                <p
-                    class="mb-4 mt-2 text-left text-md"
-                    v-html="$t('message.export_para1')"
-                ></p>
-                <p
-                    class="mb-4 mt-2 text-left text-sm"
-                    v-html="$t('message.export_para2')"
-                ></p>
+                <p class="mb-4 mt-2 text-left text-md" v-html="$t('message.export_para1')"></p>
+                <p class="mb-4 mt-2 text-left text-sm" v-html="$t('message.export_para2')"></p>
                 <div class="flex justify-between">
                     <button
                         class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded"
@@ -29,7 +23,6 @@ import { ArrowDownIcon } from '@heroicons/vue/solid';
                     </button>
                     <button
                         class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
-                        data-cabin-event="Export filters"
                         @click="global.exportFilters()"
                     >
                         <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1" />

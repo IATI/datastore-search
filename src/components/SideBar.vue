@@ -17,7 +17,6 @@ import { PlayIcon } from '@heroicons/vue/solid';
                 <button
                     :aria-label="$t('message.run_aria')"
                     class="bg-btn-green hover:bg-iati-grey text-white font-bold py-1 px-1 rounded float-right ml-5 mr-8 pr-2 w-2/24"
-                    data-cabin-event="Run advanced query"
                     @click="global.run()"
                 >
                     <PlayIcon class="h-5 w-5 text-grey-300 mr-1 float-left" /><span

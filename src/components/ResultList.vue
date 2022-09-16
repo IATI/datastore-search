@@ -27,10 +27,7 @@ let page = 1;
             </svg>
         </div>
         <div
-            v-if="
-                global.state.responseTotal > 0 &&
-                $route.matched[0].path === '/advanced'
-            "
+            v-if="global.state.responseTotal > 0 && $route.matched[0].path === '/advanced'"
             class="grid grid-cols-4 gap-2 text-left py-3 border"
         >
             <div class="col-span-4">
@@ -54,10 +51,7 @@ let page = 1;
         <div class="flex-grow">
             <router-view />
             <ul
-                v-if="
-                    global.state.responseTotal != null &&
-                    global.state.responseTotal > 0
-                "
+                v-if="global.state.responseTotal != null && global.state.responseTotal > 0"
                 id="results"
                 class="mx-5 my-5"
             >
@@ -67,19 +61,13 @@ let page = 1;
             </ul>
 
             <p
-                v-if="
-                    global.state.responseTotal === 0 &&
-                    global.state.responseErrorMessage === ''
-                "
+                v-if="global.state.responseTotal === 0 && global.state.responseErrorMessage === ''"
                 class="mt-10"
             >
                 {{ $t('message.no_match') }}
             </p>
             <p
-                v-if="
-                    global.state.responseTotal === 0 &&
-                    global.state.responseErrorMessage !== ''
-                "
+                v-if="global.state.responseTotal === 0 && global.state.responseErrorMessage !== ''"
                 class="mt-10"
             >
                 {{ global.state.responseErrorMessage }}
@@ -89,7 +77,6 @@ let page = 1;
             <v-pagination
                 v-model="page"
                 class="flex flex-auto justify-center"
-                data-cabin-event="Pagination"
                 :pages="global.state.numberPages"
                 :range-size="global.state.resultsPerPage"
                 active-color="#155366"

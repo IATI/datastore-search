@@ -10,18 +10,14 @@ import NotificationBanner from './components/NotificationBanner.vue';
         <header :aria-label="$t('message.main_header')">
             <div class="bg-iati-grey text-white">
                 <div class="mx-5">
-                    <div
-                        class="inline-block h-12 my-2 align-middle w-full sm:w-1/2 md:w-1/3"
-                    >
+                    <div class="inline-block h-12 my-2 align-middle w-full sm:w-1/2 md:w-1/3">
                         <a
                             href="https://iatistandard.org"
                             :title="$t('message.iati_standard_website')"
                             ><IatiLogo colour="#fff" class="h-12 mx-auto"
                         /></a>
                     </div>
-                    <div
-                        class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3"
-                    >
+                    <div class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
                         <h1 class="text-4xl mt-5">
                             <a href="/"
                                 ><b>{{ $t('message.datastore_search') }}</b></a
@@ -32,10 +28,7 @@ import NotificationBanner from './components/NotificationBanner.vue';
                     <div
                         class="hidden md:inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3"
                     >
-                        <nav
-                            :aria-label="$t('message.navigation')"
-                            class="ml-10 mt-8 text-xl"
-                        >
+                        <nav :aria-label="$t('message.navigation')" class="ml-10 mt-8 text-xl">
                             <router-link
                                 v-if="$route.path === '/advanced'"
                                 to="/"
@@ -43,15 +36,10 @@ import NotificationBanner from './components/NotificationBanner.vue';
                                 >{{ $t('message.simple_search') }}</router-link
                             >
                             <router-link
-                                v-if="
-                                    $route.path !== '/advanced' &&
-                                    $route.path !== '/'
-                                "
+                                v-if="$route.path !== '/advanced' && $route.path !== '/'"
                                 to="/advanced"
                                 class="hover:underline"
-                                >{{
-                                    $t('message.advanced_search')
-                                }}</router-link
+                                >{{ $t('message.advanced_search') }}</router-link
                             >
                             <a
                                 v-if="$route.path === '/'"
@@ -65,11 +53,9 @@ import NotificationBanner from './components/NotificationBanner.vue';
                                 href="https://developer.iatistandard.org/api-details#api=datastore"
                                 >{{ $t('message.api') }}</a
                             >
-                            <a
-                                class="hover:underline border-l pl-2 ml-2"
-                                href="/about"
-                                >{{ $t('message.about') }}</a
-                            >
+                            <a class="hover:underline border-l pl-2 ml-2" href="/about">{{
+                                $t('message.about')
+                            }}</a>
                         </nav>
                     </div>
                 </div>
@@ -81,11 +67,7 @@ import NotificationBanner from './components/NotificationBanner.vue';
             <div class="mx-auto">
                 <div class="py-4 px-12 xl:max-w-[75%] mx-auto">
                     <p class="inline-block float-left mt-1">
-                        {{
-                            $t(
-                                'message.datastore_search_is_part_of_the_iati_unified_platform'
-                            )
-                        }}
+                        {{ $t('message.datastore_search_is_part_of_the_iati_unified_platform') }}
                     </p>
 
                     <div class="float-right">
@@ -131,7 +113,7 @@ import NotificationBanner from './components/NotificationBanner.vue';
 <script>
 import global from './global';
 import { inject } from 'vue';
-import { time } from 'vue-gtag';
+import Plausible from 'plausible-tracker';
 
 export default {
     components: {
@@ -145,11 +127,14 @@ export default {
         };
     },
     mounted() {
+        const { trackEvent } = Plausible();
+
         const timeSincePageLoad = Math.round(performance.now());
-        time({
-            name: 'load',
-            value: timeSincePageLoad,
-            event_category: 'Initial application load',
+        trackEvent('Initial application load', {
+            props: {
+                event_category: 'Speed',
+                event_label: timeSincePageLoad,
+            },
         });
     },
 };
