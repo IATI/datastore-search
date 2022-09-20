@@ -129,11 +129,11 @@ export default {
     mounted() {
         const { trackEvent } = Plausible();
 
-        const timeSincePageLoad = Math.round(performance.now());
-        trackEvent('Initial application load', {
+        const requestStart = performance.getEntriesByType('navigation')[0].requestStart;
+        trackEvent('TTFB', {
             props: {
-                event_category: 'Speed',
-                event_label: timeSincePageLoad,
+                event_category: 'PageSpeed',
+                event_label: requestStart,
             },
         });
     },
