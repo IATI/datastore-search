@@ -3,79 +3,79 @@ msgstr ""
 
 # main_header
 msgid "Main header"
-msgstr "En-tête principal"
+msgstr ""
 
 # iati_standard_website
 msgid "IATI Standard Website"
-msgstr "Site de la norme de l’IITA"
+msgstr ""
 
 # datastore_search
 msgid "Datastore Search"
-msgstr "Rechercher le Datastore"
+msgstr ""
 
 # navigation
 msgid "Navigation"
-msgstr "Menu"
+msgstr ""
 
 # simple_search
 msgid "Simple Search"
-msgstr "Recherche simple"
+msgstr ""
 
 # advanced_search
 msgid "Advanced Search"
-msgstr "Recherche avancée"
+msgstr ""
 
 # api
 msgid "API"
-msgstr "API"
+msgstr ""
 
 # about
 msgid "About"
-msgstr "À propos"
+msgstr ""
 
 # search
 msgid "Search"
-msgstr "Rechercher"
+msgstr ""
 
 # search_iati_data
 msgid "Search IATI data"
-msgstr "Rechercher des données de l’IITA"
+msgstr ""
 
 # search_iati_activities
 msgid "Search IATI Activities..."
-msgstr "Rechercher des activités de l’IITA..."
+msgstr ""
 
 # submit
 msgid "Submit"
-msgstr "Envoyer"
+msgstr ""
 
 # switch_to_advanced_search
 msgid "Switch to Advanced Search"
-msgstr "Recherche avancée"
+msgstr ""
 
 # datastore_search_is_part_of_the_iati_unified_platform
 msgid "Datastore Search is part of the IATI Unified Platform"
-msgstr "Rechercher le Datastore fait partie de la plateforme unifiée de l’IITA"
+msgstr ""
 
 # privacy
 msgid "Privacy"
-msgstr "Politique de confidentialité"
+msgstr ""
 
 # contact
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 # twitter_aria
 msgid "iati twitter profile link"
-msgstr "lien profil Twitter"
+msgstr ""
 
 # linkedin_aria
 msgid "iati linkedin profile link"
-msgstr "lien profil LinkedIn"
+msgstr ""
 
 # about_iati_datastore_search
 msgid "About IATI Datastore Search"
-msgstr "À propos Rechercher le Datastore de l’IITA"
+msgstr ""
 
 # about_para_1
 msgid ""
@@ -114,40 +114,6 @@ msgid ""
 "            format.\n"
 "        "
 msgstr ""
-"\n"
-"            La\n"
-"            <a\n"
-"                class=\"hover:underline text-iati-grey\"\n"
-"                href=\"https://iatistandard.org\"\n"
-"                >Initiative Internationale pour la Transparence de l'Aide (IITA)</a\n"
-"            >\n"
-"            est une initiative mondiale visant à améliorer la transparence des\n"
-"            ressources humanitaires et de développement et leurs résultats pour\n"
-"            lutte contre la pauvreté et les crises. Il fournit un XML ouvert\n"
-"            norme à laquelle toutes les organisations qui distribuent ou dépensent\n"
-"            ressources en développement international peuvent publier des détails\n"
-"            de leurs activités. La banque de données IATI contient tous les IATI\n"
-"            données connues de la\n"
-"            <a\n"
-"                class=\"hover:underline text-iati-grey\"\n"
-"                href=\"https://www.iatiregistry.org/\"\n"
-"                >le registre de l’IITA</a\n"
-"            >\n"
-"            qui est à la fois la version 2.0 ou supérieure et conforme à l'IATI\n"
-"            Schéma XML. Fichiers non conformes au schéma XML de l'IATI\n"
-"            sont marqués comme gravement invalides dans le\n"
-"            <a\n"
-"                class=\"hover:underline text-iati-grey\"\n"
-"                href=\"https://iativalidator.iatistandard.org/\"\n"
-"                >outil de validation de l’IITA</a\n"
-"            >.\n"
-"            <a href=\"/\" class=\"hover:underline text-iati-grey\"\n"
-"                >Rechercher le Datastore</a\n"
-"            >\n"
-"            permet à quiconque de rechercher dans la banque de données IATI, puis de\n"
-"            télécharger les données au format IATI XML, au format JSON ou au format CSV\n"
-"            format.\n"
-"        "
 
 # about_para_2
 msgid ""
@@ -162,16 +128,6 @@ msgid ""
 "            elements of IATI for any words or phrases of interest.\n"
 "        "
 msgstr ""
-"\n"
-"            <a\n"
-"                href=\"/\"\n"
-"                class=\"hover:underline text-iati-grey font-semibold\"\n"
-"                >La recherche simple</a\n"
-"            >\n"
-"            se comporte comme n'importe quel moteur de recherche familier et permet\n"
-"            utilisateurs la possibilité de rechercher rapidement le langage naturel\n"
-"            éléments de l'IITA pour tous les mots ou phrases d'intérêt.\n"
-"        "
 
 # about_para_3
 msgid ""
@@ -186,16 +142,6 @@ msgid ""
 "            can be saved to file.\n"
 "        "
 msgstr ""
-"\n"
-"            <a\n"
-"                href=\"/advanced\"\n"
-"                class=\"hover:underline text-iati-grey font-semibold\"\n"
-"                >La recherche avancée</a\n"
-"            >\n"
-"            permet aux utilisateurs de filtrer leurs résultats de recherche par n'importe quel\n"
-"            éléments de l'IITA et enchaîner ces filtres dans des requêtes complexes qui\n"
-"            peut être enregistré dans un fichier.\n"
-"        "
 
 # about_para_4
 msgid ""
@@ -207,14 +153,6 @@ msgid ""
 "            return results about rabbits, and results about production.\n"
 "        "
 msgstr ""
-"\n"
-"            Pour rechercher une expression particulière, utilisez des guillemets. Pour\n"
-"            Exemple,\n"
-"            <i>\"production de lapins\"</i> renverra des résultats de recherche sur\n"
-"            la production de lapins, alors que la <i>production de lapins</i>\n"
-"            renvoient des résultats sur les lapins et des résultats sur la production.\n"
-"            Attention, vous devez utiliser des guillemets comme \" \" et non comme « ».\n"
-"        "
 
 # about_para_5
 msgid ""
@@ -244,83 +182,58 @@ msgid ""
 "            is available and hugely powerful.\n"
 "        "
 msgstr ""
-"\n"
-"            Le Datastore de l’IITA indexe et représente les données de l’IITA\n"
-"            précisément tel qu'il a été publié à l'origine, sans\n"
-"            transformations ou couches de signification ou de métadonnées inférées.\n"
-"            <a href=\"/\" class=\"hover:underline text-iati-grey\"\n"
-"                >La recherche simple</a\n"
-"            >\n"
-"            offre une introduction à ces données et est destinée à être aussi\n"
-"            intuitif que possible, accueillant ceux qui n'ont pas d'antécédents\n"
-"            connaissance de la norme de l’IITA.\n"
-"            <a\n"
-"                href=\"/advanced\"\n"
-"                class=\"hover:underline text-iati-grey\"\n"
-"                >La recherche avancée</a\n"
-"            >\n"
-"            permet une exploration beaucoup plus approfondie, avec chaque élément de l'IITA\n"
-"            disponible pour être ajouté à une chaîne de filtres. Pour ceux qui\n"
-"            souhaitent un contrôle exceptionnel de leurs requêtes\n"
-"            <a\n"
-"                class=\"hover:underline text-iati-grey\"\n"
-"                href=\"https://developer.iatistandard.org/api-details#api=datastore\"\n"
-"                >API de Datastore</a\n"
-"            >\n"
-"            est disponible et extrêmement puissante.\n"
-"        "
 
 # overview_of_iati_activity
 msgid "Overview of IATI Activity"
-msgstr "Aperçu de la activité de l’IITA"
+msgstr ""
 
 # back_to_results
 msgid "Back to results"
-msgstr "Retour aux résultats"
+msgstr ""
 
 # download
 msgid "Download"
-msgstr "Télécharger"
+msgstr ""
 
 # download_activity_file
 msgid "Download Activity File"
-msgstr "Télécharger le fichier d’activité"
+msgstr ""
 
 # download_results_file
 msgid "Download Results File"
-msgstr "Télécharger le fichier de résultats"
+msgstr ""
 
 # download_confirmation_1
 msgid "Download"
-msgstr "Télécharger"
+msgstr ""
 
 # download_confirmation_2a
 msgid "this IATI Activity"
-msgstr "cette activité de l’IITA"
+msgstr ""
 
 # download_confirmation_2b
 msgid "%{count} results"
-msgstr "%{count} résultats"
+msgstr ""
 
 # download_confirmation_3
 msgid "from the"
-msgstr "à partir de noyau"
+msgstr ""
 
 # download_confirmation_4a
 msgid "Activity"
-msgstr "d’activité"
+msgstr ""
 
 # download_confirmation_4b
 msgid "Transaction"
-msgstr "de transaction"
+msgstr ""
 
 # download_confirmation_4c
 msgid "Budget"
-msgstr "budgétaire"
+msgstr ""
 
 # download_confirmation_5a
 msgid "core in %{format} format?"
-msgstr "au format %{format} ?"
+msgstr ""
 
 # download_confirmation_5b
 msgid ""
@@ -333,78 +246,70 @@ msgid ""
 "            >\n"
 "        "
 msgstr ""
-"\n"
-"            au format CSV optimisé pour Excel*?<br /><br /><span\n"
-"                class=\"text-sm\"\n"
-"                >*Cela garantit qu'Excel s'ouvrira avec le bon\n"
-"                    l'encodage et le formatage, mais tronquera les cellules\n"
-"                    plus de 32 700 caractères.</span\n"
-"            >\n"
-"        "
 
 # download_confirmation_5c
 msgid "in an IATI Activities XML document?"
-msgstr "dans un document XML des activités de l’IITA?"
+msgstr ""
 
 # cancel
 msgid "Cancel"
-msgstr "Annuler"
+msgstr ""
 
 # view
 msgid "View"
-msgstr "Visiter"
+msgstr ""
 
 # publisher
 msgid "Publisher"
-msgstr "Éditeur"
+msgstr ""
 
 # iati_identifier
 msgid "IATI Identifier"
-msgstr "Identifiant de l’IITA"
+msgstr ""
 
 # last_updated
 msgid "Last updated"
-msgstr "Dernière mise à jour"
+msgstr ""
 
 # participating_organisations
 msgid "Participating organisations"
-msgstr "Organisations participantes"
+msgstr ""
 
 # planned_start
 msgid "Planned Start"
-msgstr "Début prévu"
+msgstr ""
 
 # actual_start
 msgid "Actual Start"
-msgstr "Début réel"
+msgstr ""
 
 # planned_end
 msgid "Planned End"
-msgstr "Fin prévue"
+msgstr ""
 
 # actual_end
 msgid "Actual End"
-msgstr "Fin réelle"
+msgstr ""
 
 # not_present
 msgid "Not Present"
-msgstr "Pas présent"
+msgstr ""
 
 # description_not_provided
 msgid "Description not provided"
-msgstr "Description non fournie"
+msgstr ""
 
 # title_not_provided
 msgid "Title not provided"
-msgstr "Titre non fourni"
+msgstr ""
 
 # name_not_provided
 msgid "Name not provided"
-msgstr "Nom non fourni"
+msgstr ""
 
 # not_provided
 msgid "Not provided"
-msgstr "Non fourni"
+msgstr ""
 
 # advanced_unavailable_para1
 msgid ""
@@ -413,10 +318,6 @@ msgid ""
 "            smaller screens.\n"
 "        "
 msgstr ""
-"\n"
-"            Désolé, la page de filtrage avancé n'est pas disponible pour les appareils avec\n"
-"            écrans plus petits.\n"
-"        "
 
 # advanced_unavailable_para2
 msgid ""
@@ -428,61 +329,54 @@ msgid ""
 "            instead, or switch to a device with a larger screen.\n"
 "        "
 msgstr ""
-"\n"
-"        S'il vous plaît\n"
-"            <a href=\"/simple\" class=\"hover:underline text-blue-600\"\n"
-"                >essayez la recherche simple</a\n"
-"            >\n"
-"            à la place, ou passez à un appareil avec un écran plus grand.\n"
-"        "
 
 # run_aria
 msgid "Run search query with selected filters"
-msgstr "Exécuter une requête de recherche avec les filtres sélectionnés"
+msgstr ""
 
 # run
 msgid "Run"
-msgstr "Exécuter"
+msgstr ""
 
 # export_aria
 msgid "Export filters to file"
-msgstr "Exporter les filtres vers un fichier"
+msgstr ""
 
 # export
 msgid "Export"
-msgstr "Exporter"
+msgstr ""
 
 # import_aria
 msgid "Import filters from file"
-msgstr "Importer des filtres à partir d’un fichier"
+msgstr ""
 
 # import
 msgid "Import"
-msgstr "Importer"
+msgstr ""
 
 # add_aria
 msgid "Add an additional filter"
-msgstr "Ajouter un filtre supplémentaire"
+msgstr ""
 
 # add
 msgid "Add"
-msgstr "Ajouter"
+msgstr ""
 
 # add_filter
 msgid "Add Filter"
-msgstr "Ajouter un filtre"
+msgstr ""
 
 # import_filters
 msgid "Import Filters"
-msgstr "Importer des filtres"
+msgstr ""
 
 # export_filters
 msgid "Export Filters"
-msgstr "Exporter les filtres"
+msgstr ""
 
 # export_para1
 msgid "Export currently selected filters to file?"
-msgstr "Exporter les filtres actuellement sélectionnés vers un fichier?"
+msgstr ""
 
 # export_para2
 msgid ""
@@ -491,14 +385,10 @@ msgid ""
 "            query or share with someone else.\n"
 "        "
 msgstr ""
-"\n"
-"            Cela vous permettra de les importer plus tard pour exécuter le même\n"
-"            interroger ou partager avec quelqu'un d'autre.\n"
-"        "
 
 # import_para1
 msgid "Import filters from file?"
-msgstr "Importer des filtres à partir d'un fichier?"
+msgstr ""
 
 # import_para2
 msgid ""
@@ -507,54 +397,50 @@ msgid ""
 "            Advanced Search.\n"
 "        "
 msgstr ""
-"\n"
-"            Sélectionnez un fichier .json précédemment exporté depuis le Datastore\n"
-"            Recherche Avancée.\n"
-"        "
 
 # file
 msgid "File"
-msgstr "Fichier"
+msgstr ""
 
 # and
 msgid "AND"
-msgstr "ET"
+msgstr ""
 
 # or
 msgid "OR"
-msgstr "OU"
+msgstr ""
 
 # select_field
 msgid "Select field"
-msgstr "Sélectionner un champ"
+msgstr ""
 
 # true
 msgid "TRUE"
-msgstr "VRAI"
+msgstr ""
 
 # false
 msgid "FALSE"
-msgstr "FAUX"
+msgstr ""
 
 # select_from_codes
 msgid "Select from %{name} codes"
-msgstr "Sélectionnez parmi les codes %{name}"
+msgstr ""
 
 # found_matching_iati_activities
 msgid "Found <b>%{count}</b> matching IATI activities"
-msgstr "<b>%{count}</b> activités de l’IITA correspondantes trouvées"
+msgstr ""
 
 # sort
 msgid "Sort"
-msgstr "Trier"
+msgstr ""
 
 # no_match
 msgid "No matching IATI Activities - please try a different search"
-msgstr "Aucune activité de l’IITA correspondante - veuillez essayer une autre recherche"
+msgstr ""
 
 # not_found
 msgid "Not Found"
-msgstr "Pas trouvé"
+msgstr ""
 
 # not_found_para
 msgid ""
@@ -563,91 +449,119 @@ msgid ""
 "            <a class=\"hover:underline\" href=\"/\">Home</a>\n"
 "        "
 msgstr ""
-"\n"
-"            Oups, nous n'avons pas pu trouver cette page. Essayez d'y aller\n"
-"            <a class=\"hover:underline\" href=\"/\">Accueil</a>\n"
-"        "
 
 # advanced
 msgid "Advanced"
-msgstr "Avancée"
+msgstr ""
 
 # found_activities
 msgid "Found <b>%{count}</b> activities"
-msgstr "<b>%{count}</b> activités trouvées"
+msgstr ""
 
 # relevance
 msgid "Relevance"
-msgstr "Pertinence"
+msgstr ""
+
+# sort_relevance_label
+msgid "Sort results by relevance"
+msgstr ""
 
 # identifier
 msgid "Identifier"
-msgstr "Identifiant"
+msgstr ""
+
+# sort_identifier_label
+msgid "Sort results by IATI identifier"
+msgstr ""
 
 # all_narratives
 msgid "All Narratives"
-msgstr "Tout le texte"
+msgstr ""
 
 # all_narratives_desc
 msgid "Searches all IATI narrative fields, used by simple search"
-msgstr "Recherche tous les champs narratifs de l’IITA, utilisés par une recherche simple"
+msgstr ""
 
 # boolean_grouping
 msgid "Boolean Grouping"
-msgstr "Regroupement Booléen"
+msgstr ""
 
 # boolean_grouping_desc
 msgid "Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis."
-msgstr "Parenthèse pour regrouper les requêtes booléennes. Assurez-vous que chaque parenthèse ouvrante correspond à une parenthèse fermante."
+msgstr ""
 
 # special_fields
 msgid "Special fields"
-msgstr "Champs spéciaux"
+msgstr ""
 
 # grouping
 msgid "Grouping"
-msgstr "Regroupement"
+msgstr ""
 
 # standard_fields
 msgid "Standard fields"
-msgstr "Champs standards"
+msgstr ""
 
 # incompatible_file_error
 msgid "Incompatible file detected. Please try a different file."
-msgstr "Fichier incompatible détecté. Veuillez essayer un autre fichier."
+msgstr ""
 
 # search_term_is_required
 msgid "Search term is required"
-msgstr "Le terme de recherche est requis"
+msgstr ""
 
 # selection_is_required
 msgid "Selection is required"
-msgstr "Une sélection est requise"
+msgstr ""
 
 # value_is_required
 msgid "Value is required"
-msgstr "Valeur est requise"
+msgstr ""
 
 # date_is_required
 msgid "Date is required"
-msgstr "La date est requise"
+msgstr ""
 
 # is_not_allowed
 msgid "%{bad} is not allowed for Datastore Search queries"
-msgstr "%{bad} n’est pas autorisé pour les requêtes Rechercher le Datastore"
+msgstr ""
 
 # percentage_validation
 msgid "Percentage must be between 0 and 100"
-msgstr "Le pourcentage doit être compris entre 0 et 100"
+msgstr ""
 
 # integer_validation
 msgid "Value must be a whole number"
-msgstr "La valeur doit être un nombre entier"
+msgstr ""
 
 # fetch_error
 msgid "There was an error fetching your query. Please check how your query is constructed and try again."
-msgstr "Une erreur s’est produite lors de la récupération de votre requête. Veuillez vérifier la structure de votre requête et réessayer."
+msgstr ""
 
 # search_term
 msgid "Search term"
-msgstr "Le terme de recherche"
+msgstr ""
+
+# spatial_search
+msgid "Geospatial search"
+msgstr ""
+
+# location_point_latlon_desc
+msgid "Spatial search on location/point/pos latitude and longitude"
+msgstr ""
+
+# latlon_placeholder
+msgid "X1,Y1 TO X2,Y2"
+msgstr ""
+
+# use_map
+msgid "Open map"
+msgstr ""
+
+# pan_and_zoom
+msgid "Pan and zoom map to select bounds"
+msgstr ""
+
+# apply
+msgid "Apply"
+msgstr ""
