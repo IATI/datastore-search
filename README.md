@@ -12,6 +12,8 @@ To run a development server using (`./envs/.env.development` vars):
 
 `npm start`
 
+You will want to navigate to http://localhost:3000/ to test as the CORS rules for Dev only allow http://localhost:3000/ not http://127.0.0.1:3000/
+
 To run a development server using (`./envs/.env.production` vars):
 
 `npm run dev:production`
@@ -51,8 +53,8 @@ https://vueschool.io/articles/vuejs-tutorials/eslint-and-prettier-with-vite-and-
 
 It's recommended you install the following VSCode Extensions:
 
-- [ESLint](https://open-vsx.org/extension/dbaeumer/vscode-eslint) VSCode extension.
-- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+-   [ESLint](https://open-vsx.org/extension/dbaeumer/vscode-eslint) VSCode extension.
+-   [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
 ### Manual Lint w/ ESLint
 

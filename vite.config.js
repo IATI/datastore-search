@@ -12,5 +12,9 @@ export default defineConfig(({ mode }) => {
         define: {
             __VUE_PROD_DEVTOOLS__: !!process.env.VUE_ENV_DEV_TOOLS,
         },
+        server: {
+            host: 'localhost',
+            port: 3000,
+        },
     };
 });
