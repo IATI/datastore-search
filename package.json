@@ -27,7 +27,7 @@
     "dependencies": {
         "@hennge/vue3-pagination": "^1.0.17",
         "@heroicons/vue": "^1.0.6",
-        "axios": "^0.27.2",
+        "axios": "^1.0.0",
         "crypto-js": "^4.1.1",
         "date-fns": "^2.29.3",
         "esm": "^3.2.25",
@@ -52,7 +52,7 @@
         "cypress-file-upload": "^5.0.8",
         "eslint": "^8.24.0",
         "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-vue": "^9.5.1",
+        "eslint-plugin-vue": "^9.6.0",
         "husky": "^8.0.1",
         "lint-staged": "^13.0.3",
         "postcss": "^8.4.17",
