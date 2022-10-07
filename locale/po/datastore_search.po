@@ -11,7 +11,7 @@ msgstr "Site Internet de la norme de l’IITA"
 
 # datastore_search
 msgid "Datastore Search"
-msgstr "Recherche dans la banque de données"
+msgstr "Datastore Search"
 
 # navigation
 msgid "Navigation"
@@ -476,19 +476,19 @@ msgstr "Trier les résultats par identifiant de l’IITA"
 
 # all_narratives
 msgid "All Narratives"
-msgstr "Tous les textes libres"
+msgstr "All Narratives"
 
 # all_narratives_desc
 msgid "Searches all IATI narrative fields, used by simple search"
-msgstr "Une recherche est effectuée dans tous les champs &lt;narrative> de l’IITA, utilisés lors d’une recherche simple."
+msgstr "Searches all IATI narrative fields, used by simple search"
 
 # boolean_grouping
 msgid "Boolean Grouping"
-msgstr "Regroupement selon la logique booléenne"
+msgstr "Boolean Grouping"
 
 # boolean_grouping_desc
 msgid "Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis."
-msgstr "Parenthèses pour le regroupement des requêtes selon la logique booléenne Veillez à ce que chaque parenthèse ouvrante soit assortie d’une parenthèse fermante."
+msgstr "Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis"
 
 # special_fields
 msgid "Special fields"
@@ -544,11 +544,11 @@ msgstr "Terme de recherche"
 
 # spatial_search
 msgid "Geospatial search"
-msgstr "Recherche géospatiale"
+msgstr "Geospatial search"
 
 # location_point_latlon_desc
 msgid "Spatial search on location/point/pos latitude and longitude"
-msgstr "Recherche spatiale en fonction de la latitude et de la longitude d’un lieu, d’un point ou d’une position"
+msgstr "Spatial search on location/point/pos latitude and longitude"
 
 # latlon_placeholder
 msgid "X1,Y1 TO X2,Y2"
