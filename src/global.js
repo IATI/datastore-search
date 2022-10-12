@@ -581,52 +581,125 @@ const setResponseState = (result) => {
             'highlighting'
         ].replaceAll('",', '"');
 
+        let langTitleNarrative = t('message.title_not_provided');
         if ('title_narrative' in state.responseDocs[index]) {
             if ('title_narrative_xml_lang' in state.responseDocs[index]) {
-                for (const narrativeKey in state.responseDocs[index].title_narrative_xml_lang) {
-                    if (
-                        state.responseDocs[index].title_narrative_xml_lang[narrativeKey] ===
-                        state.language
+                if (
+                    state.responseDocs[index].title_narrative_xml_lang.length ===
+                    state.responseDocs[index].title_narrative.length
+                ) {
+                    // First remove blank titles, iterating backwards
+                    for (
+                        let narrativeKey =
+                            state.responseDocs[index].title_narrative_xml_lang.length - 1;
+                        narrativeKey >= 0;
+                        narrativeKey--
                     ) {
-                        const langTitleNarrative =
-                            state.responseDocs[index].title_narrative[narrativeKey];
-                        state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
-                        state.responseDocs[index].title_narrative.unshift(langTitleNarrative);
-                        break;
+                        if (state.responseDocs[index].title_narrative[narrativeKey] === '') {
+                            state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
+                            state.responseDocs[index].title_narrative_xml_lang.splice(
+                                narrativeKey,
+                                1
+                            );
+                        }
                     }
+                    // Then preference locale, if still available
+                    if (state.responseDocs[index].title_narrative_xml_lang.length > 0) {
+                        for (const narrativeKey in state.responseDocs[index]
+                            .title_narrative_xml_lang) {
+                            if (
+                                state.responseDocs[index].title_narrative_xml_lang[narrativeKey] ===
+                                state.language
+                            ) {
+                                langTitleNarrative =
+                                    state.responseDocs[index].title_narrative[narrativeKey];
+                                state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
+                                state.responseDocs[index].title_narrative.unshift(
+                                    langTitleNarrative
+                                );
+                                break;
+                            }
+                        }
+                    } else {
+                        // No non-blank titles, set a default
+                        state.responseDocs[index].title_narrative = [langTitleNarrative];
+                    }
+                } else {
+                    langTitleNarrative = state.responseDocs[index].title_narrative[0];
                 }
+            } else {
+                langTitleNarrative = state.responseDocs[index].title_narrative[0];
             }
+        } else {
+            state.responseDocs[index].title_narrative = [langTitleNarrative];
         }
 
         if (state.responseDocs[index]['highlighting'] === '') {
             if ('description_narrative' in state.responseDocs[index]) {
                 if ('description_narrative_xml_lang' in state.responseDocs[index]) {
-                    let langDescriptionNarrative =
-                        state.responseDocs[index].description_narrative[0];
-                    for (const narrativeKey in state.responseDocs[index]
-                        .description_narrative_xml_lang) {
-                        if (
-                            state.responseDocs[index].description_narrative_xml_lang[
-                                narrativeKey
-                            ] === state.language
+                    if (
+                        state.responseDocs[index].description_narrative_xml_lang.length ===
+                        state.responseDocs[index].description_narrative.length
+                    ) {
+                        // First remove blank descriptions, iterating backwards
+                        for (
+                            let narrativeKey =
+                                state.responseDocs[index].description_narrative_xml_lang.length - 1;
+                            narrativeKey >= 0;
+                            narrativeKey--
                         ) {
-                            langDescriptionNarrative =
-                                state.responseDocs[index].description_narrative[narrativeKey];
-                            break;
-                        }
-                    }
-                    if ('title_narrative' in state.responseDocs[index]) {
-                        if (
-                            langDescriptionNarrative !==
-                            state.responseDocs[index].title_narrative[0]
-                        ) {
-                            if (langDescriptionNarrative.split(' ').length > 30) {
-                                langDescriptionNarrative =
-                                    langDescriptionNarrative.split(' ').splice(0, 30).join(' ') +
-                                    ' ...';
+                            if (
+                                state.responseDocs[index].description_narrative[narrativeKey] === ''
+                            ) {
+                                state.responseDocs[index].description_narrative.splice(
+                                    narrativeKey,
+                                    1
+                                );
+                                state.responseDocs[index].description_narrative_xml_lang.splice(
+                                    narrativeKey,
+                                    1
+                                );
                             }
-                            state.responseDocs[index]['highlighting'] = langDescriptionNarrative;
                         }
+                        // Then proceed to preference locale, if available
+                        if (state.responseDocs[index].description_narrative.length > 0) {
+                            let langDescriptionNarrative =
+                                state.responseDocs[index].description_narrative[0];
+                            for (const narrativeKey in state.responseDocs[index]
+                                .description_narrative_xml_lang) {
+                                if (
+                                    state.responseDocs[index].description_narrative_xml_lang[
+                                        narrativeKey
+                                    ] === state.language
+                                ) {
+                                    langDescriptionNarrative =
+                                        state.responseDocs[index].description_narrative[
+                                            narrativeKey
+                                        ];
+                                    break;
+                                }
+                            }
+
+                            if (langDescriptionNarrative !== langTitleNarrative) {
+                                if (langDescriptionNarrative.split(' ').length > 30) {
+                                    langDescriptionNarrative =
+                                        langDescriptionNarrative
+                                            .split(' ')
+                                            .splice(0, 30)
+                                            .join(' ') + ' ...';
+                                }
+                                state.responseDocs[index]['highlighting'] =
+                                    langDescriptionNarrative;
+                            }
+                        }
+                    } else {
+                        let descriptionNarrative =
+                            state.responseDocs[index].description_narrative[0];
+                        if (descriptionNarrative.split(' ').length > 30) {
+                            descriptionNarrative =
+                                descriptionNarrative.split(' ').splice(0, 30).join(' ') + ' ...';
+                        }
+                        state.responseDocs[index]['highlighting'] = descriptionNarrative;
                     }
                 } else {
                     let descriptionNarrative = state.responseDocs[index].description_narrative[0];
