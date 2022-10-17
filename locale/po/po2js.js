@@ -8,7 +8,8 @@ PO.load('locale/po/datastore_search.po', function (err, po) {
     }
     po.items.forEach((item) => {
         const msgkey = item.comments[0];
-        const msgstr = item.msgstr[0];
+        let msgstr = item.msgstr[0];
+        msgstr = msgstr.replaceAll('\\u0022', '"');
         if (msgstr !== '') {
             fr.default.message[msgkey] = msgstr;
         }
