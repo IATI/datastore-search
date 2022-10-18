@@ -1,7 +1,7 @@
 <script setup>
 import Datepicker from 'vue3-datepicker';
-import { TrashIcon } from '@heroicons/vue/solid';
-import { QuestionMarkCircleIcon, ExternalLinkIcon } from '@heroicons/vue/solid';
+import { TrashIcon } from '@heroicons/vue/20/solid';
+import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
 </script>
 
 <template>
@@ -316,7 +316,7 @@ import { QuestionMarkCircleIcon, ExternalLinkIcon } from '@heroicons/vue/solid';
                     class="float-left has-tooltip"
                     :href="global.state.codelistURL + filter.selectedOption.codelist_name"
                 >
-                    <ExternalLinkIcon class="h-7 w-7 text-grey-500" />
+                    <ArrowTopRightOnSquareIcon class="h-7 w-7 text-grey-500" />
                 </a>
                 <button
                     type="button"
