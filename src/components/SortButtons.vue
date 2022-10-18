@@ -26,20 +26,20 @@
                 />
             </span>
             <span v-if="global.state.searchOrderField != fieldObj.field">
-                <MinusSmIcon class="h-5 w-5 text-grey-300 ml-1 inline" />
+                <MinusSmallIcon class="h-5 w-5 text-grey-300 ml-1 inline" />
             </span>
         </button>
     </div>
 </template>
 
 <script>
-import { ChevronDownIcon } from '@heroicons/vue/solid';
-import { ChevronUpIcon } from '@heroicons/vue/solid';
-import { MinusSmIcon } from '@heroicons/vue/solid';
+import { ChevronDownIcon } from '@heroicons/vue/20/solid';
+import { ChevronUpIcon } from '@heroicons/vue/20/solid';
+import { MinusSmallIcon } from '@heroicons/vue/20/solid';
 
 export default {
     name: 'SortButton',
-    components: { ChevronDownIcon, ChevronUpIcon, MinusSmIcon },
+    components: { ChevronDownIcon, ChevronUpIcon, MinusSmallIcon },
     inject: ['global'],
 };
 </script>

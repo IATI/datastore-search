@@ -1,8 +1,8 @@
 <script setup>
-import { PlusCircleIcon } from '@heroicons/vue/solid';
-import { ArrowDownIcon } from '@heroicons/vue/solid';
-import { ArrowUpIcon } from '@heroicons/vue/solid';
-import { PlayIcon } from '@heroicons/vue/solid';
+import { PlusCircleIcon } from '@heroicons/vue/20/solid';
+import { ArrowDownIcon } from '@heroicons/vue/20/solid';
+import { ArrowUpIcon } from '@heroicons/vue/20/solid';
+import { PlayIcon } from '@heroicons/vue/20/solid';
 </script>
 
 <template>
