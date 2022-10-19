@@ -7,11 +7,16 @@ import Plausible from 'plausible-tracker';
 import i18n from './i18n.js';
 
 const { t } = i18n.global;
-const current_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
+const browser_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
+let language = JSON.parse(localStorage.getItem('language')) || '';
+
+if (language === '') {
+    language = browser_locale;
+}
 
 const { trackEvent } = Plausible();
 
-if (current_locale != 'en') {
+if (language != 'en') {
     trackEvent('Localisation', {
         props: {
             event_category: 'Language',
@@ -19,6 +24,19 @@ if (current_locale != 'en') {
         },
     });
 }
+
+const available_locales = {
+    en: 'English',
+    fr: 'Français',
+};
+
+if (!Object.keys(available_locales).includes(language)) {
+    language = 'en';
+}
+
+i18n.global.locale = language;
+localStorage.setItem('language', JSON.stringify(language));
+
 const axiosConfig = {
     headers: {
         'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
@@ -61,7 +79,8 @@ const baseUrlActivity =
 const baseUrlDownload = domain + '/dss/download';
 
 const state = reactive({
-    language: current_locale,
+    available_locales: available_locales,
+    language: language,
     nextFilterId: 0,
     queryInProgress: false,
     filters: [],
@@ -151,14 +170,14 @@ const populateOptions = async () => {
     let filterOptions = null;
 
     let response = await axios.get(
-        `${domain}/dss/resources/filters?locale=${current_locale}`,
+        `${domain}/dss/resources/filters?locale=${state.language}`,
         axiosConfig
     );
 
     filterOptions = response.data;
 
     response = await axios.get(
-        `${domain}/dss/resources/codelists?locale=${current_locale}`,
+        `${domain}/dss/resources/codelists?locale=${state.language}`,
         axiosConfig
     );
 
@@ -617,6 +636,13 @@ const setResponseState = (result) => {
                                 state.responseDocs[index].title_narrative.unshift(
                                     langTitleNarrative
                                 );
+                                state.responseDocs[index].title_narrative_xml_lang.splice(
+                                    narrativeKey,
+                                    1
+                                );
+                                state.responseDocs[index].title_narrative_xml_lang.unshift(
+                                    state.language
+                                );
                                 break;
                             }
                         }
@@ -1049,7 +1075,62 @@ const applyBbox = () => {
     toggleBboxModal();
 };
 
+const changeLocale = (preferred_locale) => {
+    if (Object.keys(state.available_locales).includes(preferred_locale)) {
+        i18n.global.locale = preferred_locale;
+        state.language = preferred_locale;
+        localStorage.setItem('language', JSON.stringify(preferred_locale));
+        if (state.responseDocs !== null) {
+            relocalizeResponseDocs();
+        }
+    }
+};
+
 // Helper functions, not exported:
+
+const relocalizeResponseDocs = () => {
+    state.responseDocs.forEach((doc, index) => {
+        let langTitleNarrative = '';
+        if (
+            'title_narrative_xml_lang' in doc &&
+            doc.title_narrative_xml_lang.length === doc.title_narrative.length
+        ) {
+            for (const narrativeKey in doc.title_narrative_xml_lang) {
+                if (doc.title_narrative_xml_lang[narrativeKey] === state.language) {
+                    langTitleNarrative = doc.title_narrative[narrativeKey];
+                    state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
+                    state.responseDocs[index].title_narrative.unshift(langTitleNarrative);
+                    state.responseDocs[index].title_narrative_xml_lang.splice(narrativeKey, 1);
+                    state.responseDocs[index].title_narrative_xml_lang.unshift(state.language);
+                    break;
+                }
+            }
+        }
+        if ('description_narrative' in doc) {
+            if ('description_narrative_xml_lang' in doc) {
+                if (
+                    doc.description_narrative_xml_lang.length === doc.description_narrative.length
+                ) {
+                    let langDescriptionNarrative = doc.description_narrative[0];
+                    for (const narrativeKey in doc.description_narrative_xml_lang) {
+                        if (doc.description_narrative_xml_lang[narrativeKey] === state.language) {
+                            langDescriptionNarrative = doc.description_narrative[narrativeKey];
+                            break;
+                        }
+                    }
+                    if (langDescriptionNarrative !== langTitleNarrative) {
+                        if (langDescriptionNarrative.split(' ').length > 30) {
+                            langDescriptionNarrative =
+                                langDescriptionNarrative.split(' ').splice(0, 30).join(' ') +
+                                ' ...';
+                        }
+                        state.responseDocs[index]['highlighting'] = langDescriptionNarrative;
+                    }
+                }
+            }
+        }
+    });
+};
 
 const cleanSolrQueryString = (qString) => {
     disallowedStrings.forEach((str) => {
@@ -1162,4 +1243,5 @@ export default {
     toggleBboxModal,
     setMapBbox,
     applyBbox,
+    changeLocale,
 };
