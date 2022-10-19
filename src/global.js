@@ -16,7 +16,7 @@ if (language === '') {
 
 const { trackEvent } = Plausible();
 
-if (language != 'en') {
+if (browser_locale != 'en') {
     trackEvent('Localisation', {
         props: {
             event_category: 'Language',
