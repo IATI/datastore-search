@@ -1,5 +1,5 @@
 <script setup>
-import { ArrowUpIcon } from '@heroicons/vue/solid';
+import { ArrowUpIcon } from '@heroicons/vue/20/solid';
 </script>
 
 <template>

@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import { ArrowDownIcon } from '@heroicons/vue/solid';
+import { ArrowDownIcon } from '@heroicons/vue/20/solid';
 
 export default {
     name: 'DownloadButtons',

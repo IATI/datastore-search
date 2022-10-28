@@ -20,7 +20,7 @@ describe('The advanced view', () => {
         });
 
         it('creates a textbox when you select Title Narrative', () => {
-            cy.get('select').select('Title Narrative');
+            cy.get('select').eq(1).select('Title Narrative');
             cy.get('input[placeholder="Search term"]').should('be.visible');
         });
 
@@ -30,7 +30,7 @@ describe('The advanced view', () => {
         });
 
         it('clears the error message when another field is selected', () => {
-            cy.get('select').select('Dataset Version');
+            cy.get('select').eq(1).select('Dataset Version');
             cy.contains('Search term is required').should('not.exist');
         });
     });
@@ -48,7 +48,7 @@ describe('The advanced view', () => {
         it('can select boolean filters', () => {
             cy.get('button[aria-label="Remove filter"]').click();
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').select('Humanitarian');
+            cy.get('select').eq(1).select('Humanitarian');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.contains('Selection is required');
             cy.get('button:contains("TRUE")').click();
@@ -67,7 +67,7 @@ describe('The advanced view', () => {
             const now = new Date(2022, 0, 1).getTime();
             cy.clock(now);
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(1).select('Activity Date Iso Date');
+            cy.get('select').eq(2).select('Activity Date Iso Date');
             cy.get('button:contains("<")').click();
             cy.get('input[type="text"]').click();
             cy.get('button:contains("31")').eq(1).click();
@@ -88,7 +88,7 @@ describe('The advanced view', () => {
 
         it('can select integer filters', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(2).select('Hierarchy');
+            cy.get('select').eq(3).select('Hierarchy');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.contains('Value is required');
             cy.get('input[type="number"]').type(1);
@@ -110,7 +110,7 @@ describe('The advanced view', () => {
 
         it('can select number filters', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(3).select('Sector Percentage');
+            cy.get('select').eq(4).select('Sector Percentage');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.contains('Value is required');
             cy.get('input[min="0"]').type(99.9);
@@ -133,11 +133,11 @@ describe('The advanced view', () => {
 
         it('can select select filters', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(4).select('Budget Type');
+            cy.get('select').eq(5).select('Budget Type');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.contains('Selection is required');
             cy.wait(1000);
-            cy.get('select').eq(5).select('2 - Revised');
+            cy.get('select').eq(6).select('2 - Revised');
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     baseUrl +
@@ -159,7 +159,7 @@ describe('The advanced view', () => {
 
         it('can select text filters', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(6).select('Title Narrative');
+            cy.get('select').eq(7).select('Title Narrative');
             cy.wait(1000);
             cy.get('input[type="text"]').eq(1).type('Hello world');
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
@@ -183,19 +183,19 @@ describe('The advanced view', () => {
 
         it('can select grouping filters', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(7).select('Boolean Grouping');
+            cy.get('select').eq(8).select('Boolean Grouping');
             cy.wait(1000);
             cy.get('button:contains("(")').eq(3).click();
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(8).select('Humanitarian');
+            cy.get('select').eq(9).select('Humanitarian');
             cy.wait(1000);
             cy.get('button:contains("TRUE")').eq(1).click();
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(9).select('Boolean Grouping');
+            cy.get('select').eq(10).select('Boolean Grouping');
             cy.wait(1000);
             cy.get('button:contains(")")').eq(4).click();
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(10).select('Humanitarian');
+            cy.get('select').eq(11).select('Humanitarian');
             cy.wait(1000);
             cy.get('button:contains("TRUE")').eq(2).click();
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
@@ -220,7 +220,7 @@ describe('The advanced view', () => {
 
         it('can use the spatial filter', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(11).select('Geospatial search');
+            cy.get('select').eq(12).select('Geospatial search');
             cy.wait(1000);
             cy.get('button:contains("Open map")').click();
             cy.wait(1000);
@@ -288,7 +288,7 @@ describe('The advanced view', () => {
 
         it('can continue to function normally after import', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(12).select('Description Narrative');
+            cy.get('select').eq(13).select('Description Narrative');
             cy.wait(1000);
             cy.get('input[type="text"]').eq(3).type('Hello world2');
             cy.fixture('advanced_q_test').then((advanced_q_test) => {

@@ -3,6 +3,7 @@ import IatiLogo from './components/IatiLogo.vue';
 import TwitterLogo from './components/TwitterLogo.vue';
 import LinkedInLogo from './components/LinkedInLogo.vue';
 import NotificationBanner from './components/NotificationBanner.vue';
+import { LanguageIcon } from '@heroicons/vue/20/solid';
 </script>
 
 <template>
@@ -10,12 +11,28 @@ import NotificationBanner from './components/NotificationBanner.vue';
         <header :aria-label="$t('message.main_header')">
             <div class="bg-iati-grey text-white">
                 <div class="mx-5">
-                    <div class="inline-block h-12 my-2 align-middle w-full sm:w-1/2 md:w-1/3">
+                    <div class="inline-block my-2 align-middle w-full sm:w-1/2 md:w-1/3">
                         <a
                             href="https://iatistandard.org"
                             :title="$t('message.iati_standard_website')"
                             ><IatiLogo colour="#fff" class="h-12 mx-auto"
                         /></a>
+                        <div class="inline-block h-10 pt-3 mb-3">
+                            <LanguageIcon class="h-7 w-7 text-grey-300 float-left mr-1 mt-1" />
+                            <select
+                                class="h-10 float-left bg-white border rounded w-auto py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                                :value="global.state.language"
+                                @change="global.changeLocale($event.target.value)"
+                            >
+                                <option
+                                    v-for="(langText, langKey) in global.state.available_locales"
+                                    :key="langKey"
+                                    :value="langKey"
+                                >
+                                    <span>{{ langText }}</span>
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
                         <h1 class="text-4xl mt-5">
@@ -75,7 +92,11 @@ import NotificationBanner from './components/NotificationBanner.vue';
                             <a
                                 class="hover:underline"
                                 role="link"
-                                href="https://iatistandard.org/en/privacy-policy/"
+                                :href="
+                                    'https://iatistandard.org/' +
+                                    global.state.language +
+                                    '/privacy-policy/'
+                                "
                                 >{{ $t('message.privacy') }}</a
                             >
                         </p>
@@ -83,7 +104,11 @@ import NotificationBanner from './components/NotificationBanner.vue';
                             <a
                                 class="hover:underline"
                                 role="link"
-                                href="https://iatistandard.org/en/contact/"
+                                :href="
+                                    'https://iatistandard.org/' +
+                                    global.state.language +
+                                    '/contact/'
+                                "
                                 >{{ $t('message.contact') }}</a
                             >
                         </p>
@@ -129,11 +154,11 @@ export default {
     mounted() {
         const { trackEvent } = Plausible();
 
-        const requestStart = performance.getEntriesByType('navigation')[0].requestStart;
+        const responseStart = performance.getEntriesByType('navigation')[0].responseStart;
         trackEvent('TTFB', {
             props: {
                 event_category: 'PageSpeed',
-                event_label: requestStart,
+                event_label: responseStart,
             },
         });
     },
