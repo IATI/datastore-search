@@ -23,7 +23,10 @@ export default {
         const southWestCorner = L.latLng(-85, -180);
         const northEastCorner = L.latLng(85, 180);
         const bounds = L.latLngBounds(southWestCorner, northEastCorner);
-        this.map = L.map('map').setView(
+        this.map = L.map('map', {
+            zoomDelta: 0.25,
+            zoomSnap: 0,
+        }).setView(
             [global.state.bbox.centerLat, global.state.bbox.centerLon],
             global.state.bbox.zoom
         );
