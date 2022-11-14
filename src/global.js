@@ -1204,7 +1204,7 @@ const compileQuery = () => {
                     query = query + filter['field'] + ':' + queryValue;
                     break;
                 case 'notEquals':
-                    query = query + '-' + filter['field'] + ':' + queryValue;
+                    query = query + '(*:* -' + filter['field'] + ':' + queryValue + ')';
                     break;
                 default:
                     break;
