@@ -1133,7 +1133,7 @@ const relocalizeResponseDocs = () => {
 };
 
 const cleanSolrQueryString = (qString) => {
-    const stylizedQuotes = ['“', '”', '‘', '’', "'", '«', '»'];
+    const stylizedQuotes = ['“', '”', '«', '»'];
     stylizedQuotes.forEach((str) => {
         const reg = new RegExp(str, 'g');
         qString = qString.replace(reg, '"');
