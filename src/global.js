@@ -524,7 +524,7 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
     state.query = null;
     state.responseErrorMessage = '';
 
-    // Clean search term to prevent Solr Function Queries
+    // Clean search term to prevent Solr Function Queries and clean quotes
     const cleanSearchTerm = cleanSolrQueryString(searchterm);
 
     state.simpleSearchTerm = cleanSearchTerm;
@@ -1133,6 +1133,11 @@ const relocalizeResponseDocs = () => {
 };
 
 const cleanSolrQueryString = (qString) => {
+    const stylizedQuotes = ['“', '”', '«', '»'];
+    stylizedQuotes.forEach((str) => {
+        const reg = new RegExp(str, 'g');
+        qString = qString.replace(reg, '"');
+    });
     disallowedStrings.forEach((str) => {
         const reg = new RegExp(str, 'g');
         qString = qString.replace(reg, '');
