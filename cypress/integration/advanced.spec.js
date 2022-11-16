@@ -246,6 +246,33 @@ describe('The advanced view', () => {
             });
         });
 
+        it('can select combo filters', () => {
+            cy.get('button[aria-label="Add an additional filter"]').click();
+            cy.get('select').eq(13).select('Sector Code');
+            cy.wait(1000);
+            cy.get('input[type="text"]').eq(3).type('11111');
+            cy.fixture('advanced_q_test').then((advanced_q_test) => {
+                cy.intercept(
+                    baseUrl +
+                        'q=humanitarian%3Atrue' +
+                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
+                        '+AND+hierarchy%3A%221%22' +
+                        '+AND+sector_percentage%3A%2299.9%22' +
+                        '+AND+budget_type%3A2' +
+                        '+AND+title_narrative%3A%28Hello+world%29' +
+                        '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
+                        '+AND+location_point_latlon%3A%5B*%5D' +
+                        '+AND+sector_code%3A%2811111%29' +
+                        urlSuffix,
+                    advanced_q_test
+                ).as('comboQuery');
+                cy.get('button[aria-label="Run search query with selected filters"]').click();
+                cy.wait('@comboQuery').then((interception) => {
+                    cy.wrap(interception.response.statusCode).should('eq', 200);
+                });
+            });
+        });
+
         it('can export and import filters', () => {
             const downloadsFolder = Cypress.config('downloadsFolder');
             cy.get('button[aria-label="Export filters to file"]').click();
@@ -272,6 +299,7 @@ describe('The advanced view', () => {
                                 '+AND+title_narrative%3A%28Hello+world%29' +
                                 '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
                                 '+AND+location_point_latlon%3A%5B*%5D' +
+                                '+AND+sector_code%3A%2811111%29' +
                                 urlSuffix,
                             advanced_q_test
                         ).as('eximQuery');
@@ -288,9 +316,9 @@ describe('The advanced view', () => {
 
         it('can continue to function normally after import', () => {
             cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(13).select('Description Narrative');
+            cy.get('select').eq(14).select('Description Narrative');
             cy.wait(1000);
-            cy.get('input[type="text"]').eq(3).type('Hello world2');
+            cy.get('input[type="text"]').eq(4).type('Hello world2');
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     baseUrl +
@@ -302,6 +330,7 @@ describe('The advanced view', () => {
                         '+AND+title_narrative%3A%28Hello+world%29' +
                         '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
                         '+AND+location_point_latlon%3A%5B*%5D' +
+                        '+AND+sector_code%3A%2811111%29' +
                         '+AND+description_narrative%3A%28Hello+world2%29' +
                         urlSuffix,
                     advanced_q_test
