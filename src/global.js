@@ -196,6 +196,10 @@ const populateOptions = async () => {
             }
             filterOptions[index].codelistMeta =
                 codelists[filterOptions[index].codelist_name].metadata;
+            // Set conditional codelists to 'combo'
+            if (filterOptions[index].codelist_condition != '') {
+                filterOptions[index].type = 'combo';
+            }
         }
     }
 
@@ -373,6 +377,13 @@ const validateFilters = () => {
                         valid: false,
                         validationMessage: t('message.search_term_is_required'),
                     };
+                case 'combo':
+                    count += 1;
+                    return {
+                        ...filter,
+                        valid: false,
+                        validationMessage: t('message.search_term_is_required'),
+                    };
                 case 'boolean':
                     count += 1;
                     return {
@@ -428,7 +439,7 @@ const validateFilters = () => {
         }
 
         // Disallowed strings to prevent Solr Function queries
-        if (filter.type === 'text') {
+        if (filter.type === 'text' || filter.type === 'combo') {
             const badStrs = disallowedStrings.reduce((acc, str) => {
                 if (filter.value.includes(str)) {
                     acc.push(str);
@@ -766,6 +777,9 @@ const changeFilter = (id, key, value) => {
 
                         if (state.fieldOptions[n].type === 'date') {
                             state.filters[i]['value'] = startOfToday();
+                        }
+                        if (state.fieldOptions[n].type === 'combo') {
+                            state.filters[i]['value'] = null;
                         }
 
                         return;
@@ -1148,6 +1162,8 @@ const cleanSolrQueryString = (qString) => {
 const getFilterValue = (filter) => {
     switch (filter['type']) {
         case 'text':
+            return `(${cleanSolrQueryString(filter['value'])})`;
+        case 'combo':
             return `(${cleanSolrQueryString(filter['value'])})`;
         case 'date':
             return `${format(filter['value'], 'yyyy-MM-dd')}T00:00:00Z`;
