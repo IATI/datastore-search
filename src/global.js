@@ -778,6 +778,9 @@ const changeFilter = (id, key, value) => {
                         if (state.fieldOptions[n].type === 'date') {
                             state.filters[i]['value'] = startOfToday();
                         }
+                        if (state.fieldOptions[n].type === 'combo') {
+                            state.filters[i]['value'] = null;
+                        }
 
                         return;
                     }
