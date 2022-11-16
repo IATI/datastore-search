@@ -365,7 +365,10 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
         <div class="col-span-1 self-center">
             <div class="grid grid-cols-3 gap-1">
                 <a
-                    v-if="global.isFieldType(filter.field, 'select')"
+                    v-if="
+                        global.isFieldType(filter.field, 'select') ||
+                        global.isFieldType(filter.field, 'combo')
+                    "
                     type="link"
                     target="_blank"
                     aria-label="Link to codelist describe on iati website"
