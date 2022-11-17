@@ -304,9 +304,10 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
                             :key="valueOption.code"
                             :value="valueOption.code"
                         >
-                            <span>{{
-                                valueOption.name ? valueOption.name : valueOption.code
-                            }}</span>
+                            <span
+                                >{{ valueOption.code
+                                }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
+                            >
                         </option>
                     </datalist>
                 </div>
