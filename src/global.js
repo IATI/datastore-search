@@ -969,8 +969,13 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
     } catch (error) {
         // If a user cancels right before download finishes, POST returns error 410 GONE. Don't alert user in this case.
         if (state.download.fileLoading === true) {
-            console.error(error);
-            alert(`Download Failed: ${error.message}`);
+            alert(`Sorry, an error occurred while downloading your file. Please try again later.`);
+            trackEvent(`Error download`, {
+                props: {
+                    event_category: 'Download buttons',
+                    event_label: `Core: ${core}; Format: ${format}; Message: ${error.message}`,
+                },
+            });
             state.download.fileLoading = false;
         }
     }
