@@ -18,12 +18,16 @@ describe('The landing view', () => {
 
     describe('search bar', () => {
         it('routes a search to the simple view', () => {
+            cy.visit('/');
             cy.get('input[title=Search]').type('test');
             cy.get('button[aria-label=Submit]').click();
             cy.url().should('includes', '/simple');
         });
 
         it('retains the search term after routing', () => {
+            cy.visit('/');
+            cy.get('input[title=Search]').type('test');
+            cy.get('button[aria-label=Submit]').click();
             cy.get('input[title=Search]').should('have.value', 'test');
         });
     });
