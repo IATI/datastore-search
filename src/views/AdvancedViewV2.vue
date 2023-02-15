@@ -1,8 +1,8 @@
 <script setup>
 import Split from 'split.js';
+import { inject, onMounted, onUnmounted } from 'vue';
 import SideBar from '../components/SideBar.vue';
 import ResultList from '../designs/ResultList.vue';
-import { onMounted, onUnmounted, inject } from 'vue';
 
 const global = inject('global');
 

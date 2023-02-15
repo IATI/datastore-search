@@ -53,7 +53,7 @@ let page = 1;
             <ul
                 v-if="global.state.responseTotal != null && global.state.responseTotal > 0"
                 id="results"
-                class="mx-5 my-5"
+                class="mx-5 my-5 overflow-y-auto"
             >
                 <li v-for="doc in global.state.responseDocs" :key="doc.id">
                     <ResultItem :doc="doc" />
