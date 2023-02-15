@@ -9,7 +9,7 @@ const global = inject('global');
 onMounted(() => {
     Split(['#split-0', '#split-1'], {
         sizes: [40, 60],
-        minSize: 450,
+        minSize: 500,
         expandToMin: true,
         gutterAlign: 'start',
     });
