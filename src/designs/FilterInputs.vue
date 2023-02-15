@@ -4,7 +4,7 @@ import FilterGroup from './FilterGroup.vue';
 
 <template>
     <div class="text-left">
-        <FilterGroup />
+        <FilterGroup :filter="filter" />
     </div>
 </template>
 

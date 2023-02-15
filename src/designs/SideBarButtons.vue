@@ -10,10 +10,10 @@ const global = inject('global');
 </script>
 
 <template>
-    <div id="buttons">
+    <div id="buttons w-full">
         <div
             v-if="global.state.filters.length > 0"
-            class="border-solid border-t border-b py-5 flex justify-between mx-3"
+            class="border-solid border-t border-b py-5 flex justify-between mx-3 w-full"
         >
             <AppButton
                 :aria-label="$t('message.add_aria')"
