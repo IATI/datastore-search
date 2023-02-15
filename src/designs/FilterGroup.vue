@@ -26,5 +26,8 @@ const onAddGroup = () => {
                 :filter="props.filter"
             />
         </div>
+        <div v-if="groupCount" class="mt-3">
+            <FilterGroup :filter="filter" />
+        </div>
     </div>
 </template>
