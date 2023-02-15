@@ -12,33 +12,35 @@ const buttonClasses =
 </script>
 
 <template>
-    <div class="inline-flex items-center w-full" role="toolbar">
-        <div class="mr-5">
-            <button
-                :class="[operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
-                class="border-l border-t border-b rounded-l"
-                type="button"
-                @click="toggleOperator"
-            >
-                {{ $t('message.and') }}
-            </button>
-            <button
-                :class="[operator === 'OR' ? 'bg-blue-300' : '', buttonClasses]"
-                type="button"
-                class="border-r border-t border-b rounded-r"
-                @click="toggleOperator"
-            >
-                {{ $t('message.or') }}
-            </button>
-        </div>
-        <AppButton size="sm" class="mr-2">
-            <span class="uppercase">Add Rule</span>
-        </AppButton>
-        <AppButton size="sm" variant="red">
-            <span class="uppercase">Add Group</span>
-        </AppButton>
-        <div class="p-2 float-right">
-            <XCircleIcon class="h-6" />
+    <div class="p-2 border">
+        <div class="inline-flex items-center w-full" role="toolbar">
+            <div class="mr-5">
+                <button
+                    :class="[operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
+                    class="border-l border-t border-b rounded-l"
+                    type="button"
+                    @click="toggleOperator"
+                >
+                    {{ $t('message.and') }}
+                </button>
+                <button
+                    :class="[operator === 'OR' ? 'bg-blue-300' : '', buttonClasses]"
+                    type="button"
+                    class="border-r border-t border-b rounded-r"
+                    @click="toggleOperator"
+                >
+                    {{ $t('message.or') }}
+                </button>
+            </div>
+            <AppButton size="sm" class="mr-2">
+                <span class="uppercase">Add Rule</span>
+            </AppButton>
+            <AppButton size="sm" variant="red">
+                <span class="uppercase">Add Group</span>
+            </AppButton>
+            <div class="p-2 float-right">
+                <XCircleIcon class="h-6" />
+            </div>
         </div>
     </div>
 </template>

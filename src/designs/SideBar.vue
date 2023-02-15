@@ -5,7 +5,7 @@ import SideBarButtons from './SideBarButtons.vue';
 <template>
     <div class="sticky top-0">
         <div class="h-auto max-h-screen overflow-y-auto">
-            <ul id="filters" class="mx-5 my-5">
+            <ul id="filters" class="mx-3 my-5">
                 <li v-for="filter in global.state.filters" :key="filter.id">
                     <FilterInputs :filter="filter" />
                 </li>
