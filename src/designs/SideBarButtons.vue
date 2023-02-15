@@ -13,7 +13,7 @@ const global = inject('global');
     <div id="buttons w-full">
         <div
             v-if="global.state.filters.length > 0"
-            class="border-solid border-t border-b py-5 flex justify-between mx-3 w-full"
+            class="border-solid border-t border-b py-5 flex justify-between w-full px-4"
         >
             <AppButton
                 :aria-label="$t('message.add_aria')"
