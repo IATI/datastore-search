@@ -32,10 +32,10 @@ const buttonClasses =
                     {{ $t('message.or') }}
                 </button>
             </div>
-            <AppButton size="sm" class="mr-2">
+            <AppButton variant="outline" size="sm" class="mr-2">
                 <span class="uppercase">Add Rule</span>
             </AppButton>
-            <AppButton size="sm" variant="red">
+            <AppButton variant="outline-accent" size="sm">
                 <span class="uppercase">Add Group</span>
             </AppButton>
             <div class="p-2 float-right">
