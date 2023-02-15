@@ -149,7 +149,7 @@ export default {
         `,
         advanced_unavailable_para2: `
             Please
-            <a href="/simple" class="hover:underline text-blue-600"
+            <a href="/simple" class="text-underline text-blue"
                 >try the Simple Search</a
             >
             instead, or switch to a device with a larger screen.
