@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
+import { XCircleIcon } from '@heroicons/vue/20/solid';
 
 const operator = ref('AND');
 const toggleOperator = () => {
@@ -11,7 +12,7 @@ const buttonClasses =
 </script>
 
 <template>
-    <div class="inline-flex" role="toolbar">
+    <div class="inline-flex items-center w-full" role="toolbar">
         <div class="mr-5">
             <button
                 :class="[operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
@@ -36,5 +37,8 @@ const buttonClasses =
         <AppButton size="sm" variant="red">
             <span class="uppercase">Add Group</span>
         </AppButton>
+        <div class="p-2 float-right">
+            <XCircleIcon class="h-6" />
+        </div>
     </div>
 </template>
