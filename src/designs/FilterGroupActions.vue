@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
 import { XCircleIcon } from '@heroicons/vue/20/solid';
 
+const emits = defineEmits(['addRule', 'addGroup']);
+
 const operator = ref('AND');
 const toggleOperator = () => {
     operator.value = operator.value === 'AND' ? 'OR' : 'AND';
@@ -31,10 +33,10 @@ const buttonClasses =
                 {{ $t('message.or') }}
             </button>
         </div>
-        <AppButton variant="outline" size="sm" class="mr-2">
+        <AppButton variant="outline" size="sm" class="mr-2" @click="emits('addRule')">
             <span class="uppercase">Add Rule</span>
         </AppButton>
-        <AppButton variant="outline-accent" size="sm">
+        <AppButton variant="outline-accent" size="sm" @click="emits('addGroup')">
             <span class="uppercase">Add Group</span>
         </AppButton>
         <div class="p-2 float-right">
