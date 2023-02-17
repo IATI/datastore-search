@@ -18,34 +18,43 @@ const global = inject('global');
             <AppButton
                 :aria-label="$t('message.add_aria')"
                 variant="yellow"
+                size="sm"
+                class="hidden"
                 @click="global.addFilter()"
             >
-                <PlusCircleIcon class="h-4 w-5 text-grey-300 mr-1 relative top-[3px]" />
-                <span>{{ $t('message.add') }}</span>
+                <PlusCircleIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                <span class="uppercase">{{ $t('message.add') }}</span>
             </AppButton>
             <div>
                 <AppButton
                     :aria-label="$t('message.export_aria')"
                     variant="red"
                     class="mr-1"
+                    size="sm"
                     @click="global.toggleExportModal()"
                 >
-                    <ArrowDownIcon class="h-4 w-5 text-grey-300 mr-1 relative top-[3px]" />
-                    <span>{{ $t('message.export') }}</span>
+                    <ArrowDownIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <span class="uppercase">{{ $t('message.export') }}</span>
                 </AppButton>
                 <AppButton
                     :aria-label="$t('message.import_aria')"
                     variant="red"
                     class="ml-1"
+                    size="sm"
                     @click="global.toggleImportModal()"
                 >
-                    <ArrowUpIcon class="h-4 w-5 text-grey-300 mr-1 relative top-[3px]" />
-                    <span>{{ $t('message.import') }}</span>
+                    <ArrowUpIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <span class="uppercase">{{ $t('message.import') }}</span>
                 </AppButton>
             </div>
-            <AppButton :aria-label="$t('message.run_aria')" variant="green" @click="global.run()">
-                <PlayIcon class="h-4 w-5 text-grey-300 mr-1 relative top-[3px]" />
-                <span>{{ $t('message.run') }}</span>
+            <AppButton
+                :aria-label="$t('message.run_aria')"
+                variant="green"
+                size="sm"
+                @click="global.run()"
+            >
+                <PlayIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                <span class="uppercase">{{ $t('message.run') }}</span>
             </AppButton>
         </div>
         <div v-if="global.state.filters.length === 0">
