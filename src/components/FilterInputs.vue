@@ -2,6 +2,7 @@
 import Datepicker from 'vue3-datepicker';
 import { TrashIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
+import FilterTextInput from './FilterTextInput.vue';
 </script>
 
 <template>
@@ -183,15 +184,7 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
             </div>
 
             <!-- Text inputs -->
-            <input
-                v-if="global.isFieldType(filter.field, 'text')"
-                type="text"
-                :class="{ 'border-red-400': filter.valid === false }"
-                class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                :placeholder="$t('message.search_term')"
-                :value="filter.value"
-                @input="global.changeFilter(filter.id, 'value', $event.target.value)"
-            />
+            <FilterTextInput :filter="filter" />
             <!-- Select inputs -->
             <div v-if="global.isFieldType(filter.field, 'select')" class="grid grid-cols-8 gap-2">
                 <div class="col-span-3">
@@ -406,6 +399,7 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
 <script>
 export default {
     name: 'FilterInputs',
+    components: { FilterTextInput },
     inject: ['global'],
     props: {
         filter: {
