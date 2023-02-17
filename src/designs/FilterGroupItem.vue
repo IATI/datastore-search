@@ -5,6 +5,8 @@ import {
     QuestionMarkCircleIcon,
     XCircleIcon,
 } from '@heroicons/vue/24/outline';
+import FilterTextInput from '../components/FilterTextInput.vue';
+
 const props = defineProps({ filter: { type: Object, default: () => {} } });
 
 const global = inject('global');
@@ -14,6 +16,7 @@ const global = inject('global');
         <div class="col-span-3">
             <select
                 class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                @change="global.changeFilter(filter.id, 'field', $event.target.value)"
             >
                 <option ref="default-option" disabled value="" selected>
                     {{ $t('message.select_field') }}
@@ -30,13 +33,9 @@ const global = inject('global');
         </div>
 
         <div class="col-span-3">
-            <input
-                type="text"
-                :class="{ 'border-red-400': filter.valid === false }"
-                class="h-10 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                :placeholder="$t('message.search_term')"
-                :value="filter.value"
-                @input="global.changeFilter(filter.id, 'value', $event.target.value)"
+            <FilterTextInput
+                v-if="global.isFieldType(props.filter.field, 'text')"
+                :filter="props.filter"
             />
         </div>
         <div class="col-span-1">
