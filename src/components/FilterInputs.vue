@@ -184,7 +184,7 @@ import FilterTextInput from './FilterTextInput.vue';
             </div>
 
             <!-- Text inputs -->
-            <FilterTextInput :filter="filter" />
+            <FilterTextInput v-if="global.isFieldType(filter.field, 'text')" :filter="filter" />
             <!-- Select inputs -->
             <div v-if="global.isFieldType(filter.field, 'select')" class="grid grid-cols-8 gap-2">
                 <div class="col-span-3">

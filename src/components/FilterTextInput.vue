@@ -8,7 +8,6 @@ const global = inject('global');
 
 <template>
     <input
-        v-if="global.isFieldType(props.filter.field, 'text')"
         type="text"
         :class="{ 'border-red-400': props.filter.valid === false }"
         class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
