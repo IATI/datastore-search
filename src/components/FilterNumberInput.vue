@@ -1,7 +1,21 @@
 <script setup>
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 
 defineProps({ filter: { type: Object, default: () => {} } });
+
+const minNumber = computed(() => {
+    if (this.$props.filter.field.includes('_percentage')) {
+        return 0;
+    }
+    return null;
+});
+
+const maxNumber = computed(() => {
+    if (this.$props.filter.field.includes('_percentage')) {
+        return 100;
+    }
+    return null;
+});
 
 const global = inject('global');
 </script>
