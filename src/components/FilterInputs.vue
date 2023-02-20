@@ -4,6 +4,7 @@ import { TrashIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
 import FilterTextInput from './FilterTextInput.vue';
 import FilterLatLongInput from './FilterLatLongInput.vue';
+import FilterBooleanInput from './FilterBooleanInput.vue';
 </script>
 
 <template>
@@ -81,28 +82,10 @@ import FilterLatLongInput from './FilterLatLongInput.vue';
                 </button>
             </div>
             <!-- Boolean inputs -->
-            <div
+            <FilterBooleanInput
                 v-if="global.isFieldType(filter.field, 'boolean')"
-                class="inline-flex"
-                role="toolbar"
-            >
-                <button
-                    :class="{ 'bg-blue-300': filter.value === 'true' }"
-                    type="button"
-                    class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', 'true')"
-                >
-                    {{ $t('message.true') }}
-                </button>
-                <button
-                    :class="{ 'bg-blue-300': filter.value === 'false' }"
-                    type="button"
-                    class="h-10 border rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', 'false')"
-                >
-                    {{ $t('message.false') }}
-                </button>
-            </div>
+                :filter="filter"
+            />
             <!-- Number inputs -->
             <div
                 v-if="
@@ -378,7 +361,7 @@ import FilterLatLongInput from './FilterLatLongInput.vue';
 <script>
 export default {
     name: 'FilterInputs',
-    components: { FilterTextInput, FilterLatLongInput },
+    components: { FilterTextInput, FilterLatLongInput, FilterBooleanInput },
     inject: ['global'],
     props: {
         filter: {

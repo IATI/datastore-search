@@ -7,6 +7,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import FilterTextInput from '../components/FilterTextInput.vue';
 import FilterLatLongInput from '../components/FilterLatLongInput.vue';
+import FilterBooleanInput from '../components/FilterBooleanInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
 
@@ -40,6 +41,10 @@ const global = inject('global');
             />
             <FilterLatLongInput
                 v-if="global.isFieldType(filter.field, 'latlon')"
+                :filter="filter"
+            />
+            <FilterBooleanInput
+                v-if="global.isFieldType(filter.field, 'boolean')"
                 :filter="filter"
             />
         </div>
