@@ -7,6 +7,7 @@ import FilterLatLongInput from './FilterLatLongInput.vue';
 import FilterBooleanInput from './FilterBooleanInput.vue';
 import FilterNumberInput from './FilterNumberInput.vue';
 import FilterSelectInput from './FilterSelectInput.vue';
+import FilterComboInput from './FilterComboInput.vue';
 </script>
 
 <template>
@@ -102,62 +103,7 @@ import FilterSelectInput from './FilterSelectInput.vue';
             <!-- Select inputs -->
             <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
             <!-- Combo inputs -->
-            <div v-if="global.isFieldType(filter.field, 'combo')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                ==
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'notEquals',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'notEquals')"
-                            >
-                                !=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <input
-                        v-if="global.isFieldType(filter.field, 'combo')"
-                        type="text"
-                        :placeholder="
-                            $t('message.select_from_codes', {
-                                name: filter.selectedOption.codelistMeta.name,
-                            })
-                        "
-                        :list="'datalist' + filter.id"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        :value="filter.value"
-                        @change="global.changeFilter(filter.id, 'value', $event.target.value)"
-                    />
-                    <datalist :id="'datalist' + filter.id">
-                        <option
-                            v-for="valueOption in filter.selectedOption.options"
-                            :key="valueOption.code"
-                            :value="valueOption.code"
-                        >
-                            <span
-                                >{{ valueOption.code
-                                }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
-                            >
-                        </option>
-                    </datalist>
-                </div>
-            </div>
+            <FilterComboInput v-if="global.isFieldType(filter.field, 'combo')" :filter="filter" />
 
             <!-- Date inputs -->
             <div v-if="global.isFieldType(filter.field, 'date')" class="grid grid-cols-8 gap-2">
@@ -258,6 +204,7 @@ export default {
         FilterBooleanInput,
         FilterNumberInput,
         FilterSelectInput,
+        FilterComboInput,
     },
     inject: ['global'],
     props: {

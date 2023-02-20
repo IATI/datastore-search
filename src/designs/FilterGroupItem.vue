@@ -1,15 +1,16 @@
 <script setup>
-import { inject } from 'vue';
 import {
     ArrowTopRightOnSquareIcon,
     QuestionMarkCircleIcon,
     XCircleIcon,
 } from '@heroicons/vue/24/outline';
-import FilterTextInput from '../components/FilterTextInput.vue';
-import FilterLatLongInput from '../components/FilterLatLongInput.vue';
+import { inject } from 'vue';
 import FilterBooleanInput from '../components/FilterBooleanInput.vue';
+import FilterComboInput from '../components/FilterComboInput.vue';
+import FilterLatLongInput from '../components/FilterLatLongInput.vue';
 import FilterNumberInput from '../components/FilterNumberInput.vue';
 import FilterSelectInput from '../components/FilterSelectInput.vue';
+import FilterTextInput from '../components/FilterTextInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
 
@@ -54,6 +55,7 @@ const global = inject('global');
                 :filter="filter"
             />
             <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
+            <FilterComboInput v-if="global.isFieldType(filter.field, 'combo')" :filter="filter" />
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
