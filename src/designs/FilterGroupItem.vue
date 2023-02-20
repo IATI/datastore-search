@@ -8,6 +8,7 @@ import {
 import FilterTextInput from '../components/FilterTextInput.vue';
 import FilterLatLongInput from '../components/FilterLatLongInput.vue';
 import FilterBooleanInput from '../components/FilterBooleanInput.vue';
+import FilterNumberInput from '../components/FilterNumberInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
 
@@ -45,6 +46,13 @@ const global = inject('global');
             />
             <FilterBooleanInput
                 v-if="global.isFieldType(filter.field, 'boolean')"
+                :filter="filter"
+            />
+            <FilterNumberInput
+                v-if="
+                    global.isFieldType(filter.field, 'number') ||
+                    global.isFieldType(filter.field, 'integer')
+                "
                 :filter="filter"
             />
         </div>
