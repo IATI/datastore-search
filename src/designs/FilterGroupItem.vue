@@ -61,7 +61,7 @@ const global = inject('global');
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
-                <XCircleIcon class="h-6 mr-1" />
+                <XCircleIcon class="h-6 mr-1" @click="global.removeFilter(filter.id)" />
                 <ArrowTopRightOnSquareIcon class="h-5 mr-1 -mt-[1px]" />
                 <QuestionMarkCircleIcon class="h-5" />
             </div>
