@@ -9,6 +9,7 @@ import FilterTextInput from '../components/FilterTextInput.vue';
 import FilterLatLongInput from '../components/FilterLatLongInput.vue';
 import FilterBooleanInput from '../components/FilterBooleanInput.vue';
 import FilterNumberInput from '../components/FilterNumberInput.vue';
+import FilterSelectInput from '../components/FilterSelectInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
 
@@ -36,10 +37,7 @@ const global = inject('global');
         </div>
 
         <div class="col-span-3">
-            <FilterTextInput
-                v-if="global.isFieldType(props.filter.field, 'text')"
-                :filter="props.filter"
-            />
+            <FilterTextInput v-if="global.isFieldType(filter.field, 'text')" :filter="filter" />
             <FilterLatLongInput
                 v-if="global.isFieldType(filter.field, 'latlon')"
                 :filter="filter"
@@ -55,6 +53,7 @@ const global = inject('global');
                 "
                 :filter="filter"
             />
+            <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
