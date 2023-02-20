@@ -3,8 +3,8 @@ import SideBarButtons from '../components/SideBarButtons.vue';
 </script>
 
 <template>
-    <div class="sticky top-0">
-        <div class="h-auto max-h-screen overflow-y-auto">
+    <div class="sticky top-0 h-full">
+        <div class="h-full max-h-screen overflow-y-auto">
             <ul id="filters" class="mx-5 my-5">
                 <li v-for="filter in global.state.filters" :key="filter.id">
                     <FilterInputs :filter="filter" />

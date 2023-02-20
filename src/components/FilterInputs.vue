@@ -1,13 +1,16 @@
 <script setup>
-import Datepicker from 'vue3-datepicker';
-import { TrashIcon } from '@heroicons/vue/20/solid';
-import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
-import FilterTextInput from './FilterTextInput.vue';
-import FilterLatLongInput from './FilterLatLongInput.vue';
+import {
+    ArrowTopRightOnSquareIcon,
+    QuestionMarkCircleIcon,
+    TrashIcon,
+} from '@heroicons/vue/20/solid';
 import FilterBooleanInput from './FilterBooleanInput.vue';
+import FilterComboInput from './FilterComboInput.vue';
+import FilterDateInput from './FilterDateInput.vue';
+import FilterLatLongInput from './FilterLatLongInput.vue';
 import FilterNumberInput from './FilterNumberInput.vue';
 import FilterSelectInput from './FilterSelectInput.vue';
-import FilterComboInput from './FilterComboInput.vue';
+import FilterTextInput from './FilterTextInput.vue';
 </script>
 
 <template>
@@ -97,60 +100,15 @@ import FilterComboInput from './FilterComboInput.vue';
                 "
                 :filter="filter"
             />
-
             <!-- text inputs -->
             <FilterTextInput v-if="global.isFieldType(filter.field, 'text')" :filter="filter" />
             <!-- Select inputs -->
             <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
             <!-- Combo inputs -->
             <FilterComboInput v-if="global.isFieldType(filter.field, 'combo')" :filter="filter" />
-
             <!-- Date inputs -->
-            <div v-if="global.isFieldType(filter.field, 'date')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'lessThan',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'lessThan')"
-                            >
-                                &#60;
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                =
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'greaterThan',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'greaterThan')"
-                            >
-                                &#62;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <datepicker
-                        :model-value="new Date(filter.value)"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        @update:model-value="global.changeFilter(filter.id, 'value', $event)"
-                    />
-                </div>
-            </div>
+            <FilterDateInput v-if="global.isFieldType(filter.field, 'date')" :filter="filter" />
+
             <p v-if="filter.valid === false" id="validation" class="text-sm text-red-600">
                 {{ filter.validationMessage }}
             </p>
@@ -205,6 +163,7 @@ export default {
         FilterNumberInput,
         FilterSelectInput,
         FilterComboInput,
+        FilterDateInput,
     },
     inject: ['global'],
     props: {

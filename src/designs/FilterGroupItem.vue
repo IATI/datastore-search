@@ -7,6 +7,7 @@ import {
 import { inject } from 'vue';
 import FilterBooleanInput from '../components/FilterBooleanInput.vue';
 import FilterComboInput from '../components/FilterComboInput.vue';
+import FilterDateInput from '../components/FilterDateInput.vue';
 import FilterLatLongInput from '../components/FilterLatLongInput.vue';
 import FilterNumberInput from '../components/FilterNumberInput.vue';
 import FilterSelectInput from '../components/FilterSelectInput.vue';
@@ -56,6 +57,7 @@ const global = inject('global');
             />
             <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
             <FilterComboInput v-if="global.isFieldType(filter.field, 'combo')" :filter="filter" />
+            <FilterDateInput v-if="global.isFieldType(filter.field, 'date')" :filter="filter" />
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
