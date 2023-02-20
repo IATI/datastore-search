@@ -62,7 +62,19 @@ const global = inject('global');
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
                 <XCircleIcon class="h-6 mr-1" @click="global.removeFilter(filter.id)" />
-                <ArrowTopRightOnSquareIcon class="h-5 mr-1 -mt-[1px]" />
+                <a
+                    v-if="
+                        global.isFieldType(filter.field, 'select') ||
+                        global.isFieldType(filter.field, 'combo')
+                    "
+                    type="link"
+                    target="_blank"
+                    aria-label="Link to codelist describe on iati website"
+                    class="float-left has-tooltip"
+                    :href="global.state.codelistURL + filter.selectedOption.codelist_name"
+                >
+                    <ArrowTopRightOnSquareIcon class="h-5 mr-1 -mt-[1px]" />
+                </a>
                 <button class="has-tooltip" type="button" aria-label="Hover for description">
                     <QuestionMarkCircleIcon v-if="global.isFieldSelected(filter.id)" class="h-5" />
                     <span
