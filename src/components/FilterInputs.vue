@@ -101,7 +101,11 @@ import FilterTextInput from './FilterTextInput.vue';
                 :filter="filter"
             />
             <!-- text inputs -->
-            <FilterTextInput v-if="global.isFieldType(filter.field, 'text')" :filter="filter" />
+            <FilterTextInput
+                v-if="global.isFieldType(filter.field, 'text')"
+                :filter="filter"
+                @change="global.changeFilter(filter.id, 'value', $event.target.value)"
+            />
             <!-- Select inputs -->
             <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
             <!-- Combo inputs -->

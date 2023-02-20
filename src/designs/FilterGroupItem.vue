@@ -39,7 +39,11 @@ const global = inject('global');
         </div>
 
         <div class="col-span-3">
-            <FilterTextInput v-if="global.isFieldType(filter.field, 'text')" :filter="filter" />
+            <FilterTextInput
+                v-if="global.isFieldType(filter.field, 'text')"
+                :filter="filter"
+                @change="global.changeFilter(filter.id, 'value', $event.target.value)"
+            />
             <FilterLatLongInput
                 v-if="global.isFieldType(filter.field, 'latlon')"
                 :filter="filter"
