@@ -6,6 +6,7 @@ import {
     XCircleIcon,
 } from '@heroicons/vue/24/outline';
 import FilterTextInput from '../components/FilterTextInput.vue';
+import FilterLatLongInput from '../components/FilterLatLongInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
 
@@ -36,6 +37,10 @@ const global = inject('global');
             <FilterTextInput
                 v-if="global.isFieldType(props.filter.field, 'text')"
                 :filter="props.filter"
+            />
+            <FilterLatLongInput
+                v-if="global.isFieldType(filter.field, 'latlon')"
+                :filter="filter"
             />
         </div>
         <div class="col-span-1">

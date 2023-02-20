@@ -3,6 +3,7 @@ import Datepicker from 'vue3-datepicker';
 import { TrashIcon } from '@heroicons/vue/20/solid';
 import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
 import FilterTextInput from './FilterTextInput.vue';
+import FilterLatLongInput from './FilterLatLongInput.vue';
 </script>
 
 <template>
@@ -52,32 +53,10 @@ import FilterTextInput from './FilterTextInput.vue';
 
         <div class="col-span-3">
             <!-- Latitude/longitude inputs -->
-            <div v-if="global.isFieldType(filter.field, 'latlon')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-5">
-                    <div class="flex items-center justify-center">
-                        <input
-                            type="text"
-                            disabled="true"
-                            :class="{ 'border-red-400': filter.valid === false }"
-                            class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                            :placeholder="$t('message.latlon_placeholder')"
-                            :value="filter.value"
-                            @input="global.changeFilter(filter.id, 'value', $event.target.value)"
-                        />
-                    </div>
-                </div>
-                <div class="col-span-3">
-                    <div class="inline-flex" role="toolbar">
-                        <button
-                            type="button"
-                            class="bg-blue-300 hover:bg-iati-grey text-white font-bold py-2 px-2 rounded float-right"
-                            @click="global.toggleBboxModal(filter.id)"
-                        >
-                            {{ $t('message.use_map') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <FilterLatLongInput
+                v-if="global.isFieldType(filter.field, 'latlon')"
+                :filter="filter"
+            />
             <!-- Grouping inputs -->
             <div
                 v-if="global.isFieldType(filter.field, 'grouping')"
@@ -399,7 +378,7 @@ import FilterTextInput from './FilterTextInput.vue';
 <script>
 export default {
     name: 'FilterInputs',
-    components: { FilterTextInput },
+    components: { FilterTextInput, FilterLatLongInput },
     inject: ['global'],
     props: {
         filter: {
