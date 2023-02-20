@@ -63,7 +63,15 @@ const global = inject('global');
             <div class="py-2 inline-flex items-center -ml-1">
                 <XCircleIcon class="h-6 mr-1" @click="global.removeFilter(filter.id)" />
                 <ArrowTopRightOnSquareIcon class="h-5 mr-1 -mt-[1px]" />
-                <QuestionMarkCircleIcon class="h-5" />
+                <button class="has-tooltip" type="button" aria-label="Hover for description">
+                    <QuestionMarkCircleIcon v-if="global.isFieldSelected(filter.id)" class="h-5" />
+                    <span
+                        role="definition"
+                        class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
+                    >
+                        {{ filter.desc }}
+                    </span>
+                </button>
             </div>
         </div>
     </div>
