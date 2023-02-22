@@ -20,8 +20,8 @@ const onAddGroup = (group) => {
     const items = group.items.concat({ type: 'group', operator: 'AND', items: [] });
     group.items = items;
 };
-const onUpdateFilter = (event) => {
-    console.log(event.target.value);
+const onUpdateFilter = (filter) => {
+    console.log(filter);
 };
 </script>
 
