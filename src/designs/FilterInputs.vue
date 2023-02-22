@@ -1,27 +1,27 @@
 <script setup>
-import { inject, ref } from 'vue';
+import { inject, reactive } from 'vue';
 import FilterGroup from './FilterGroup.vue';
 
 defineProps({ filters: { type: Array, default: () => [] } });
 
 const global = inject('global');
 
-const group = ref({ type: 'group', operator: 'AND', items: [] });
+const group = reactive({ type: 'group', operator: 'AND', items: [] });
 
 const onAddRule = () => {
-    const items = group.value.items.concat({
-        id: `filter-${group.value.items.length + 1}`,
+    const items = group.items.concat({
+        id: `filter-${group.items.length + 1}`,
         type: null,
         field: null,
         value: null,
         operator: 'equals',
         joinOperator: 'AND',
     });
-    group.value.items = items;
+    group.items = items;
 };
 const onAddGroup = () => {
-    const items = group.value.items.concat({ type: 'group', operator: 'AND', items: [] });
-    group.value.items = items;
+    const items = group.items.concat({ type: 'group', operator: 'AND', items: [] });
+    group.items = items;
 };
 </script>
 
