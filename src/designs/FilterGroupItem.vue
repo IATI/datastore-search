@@ -14,6 +14,7 @@ import FilterSelectInput from '../components/FilterSelectInput.vue';
 import FilterTextInput from '../components/FilterTextInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
+const emit = defineEmits(['change']);
 
 const global = inject('global');
 </script>
@@ -42,7 +43,7 @@ const global = inject('global');
             <FilterTextInput
                 v-if="global.isFieldType(filter.field, 'text')"
                 :filter="filter"
-                @change="global.changeFilter(filter.id, 'value', $event.target.value)"
+                @change="emit('change')"
             />
             <FilterLatLongInput
                 v-if="global.isFieldType(filter.field, 'latlon')"
