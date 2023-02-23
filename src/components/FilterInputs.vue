@@ -92,6 +92,7 @@ import FilterTextInput from './FilterTextInput.vue';
             <FilterBooleanInput
                 v-if="global.isFieldType(filter.field, 'boolean')"
                 :filter="filter"
+                @change="(value) => global.changeFilter(filter.id, 'value', value)"
             />
             <!-- Number inputs -->
             <FilterNumberInput

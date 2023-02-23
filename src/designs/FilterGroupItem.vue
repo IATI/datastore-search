@@ -73,8 +73,16 @@ watch(select, () => {
                 :filter="filter"
                 @change="onChange($event.target.value)"
             />
-            <FilterLatLongInput v-if="selectedOption.type === 'latlon'" :filter="filter" />
-            <FilterBooleanInput v-if="selectedOption.type === 'boolean'" :filter="filter" />
+            <FilterLatLongInput
+                v-if="selectedOption.type === 'latlon'"
+                :filter="filter"
+                @change="onChange($event.target.value)"
+            />
+            <FilterBooleanInput
+                v-if="selectedOption.type === 'boolean'"
+                :filter="filter"
+                @change="(value) => onChange(value)"
+            />
             <FilterNumberInput
                 v-if="selectedOption.type === 'number' || selectedOption.type === 'integer'"
                 :filter="filter"
