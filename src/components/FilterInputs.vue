@@ -101,6 +101,10 @@ import FilterTextInput from './FilterTextInput.vue';
                     global.isFieldType(filter.field, 'integer')
                 "
                 :filter="filter"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+                @change-value="(value) => global.changeFilter(filter.id, 'value', value)"
             />
             <!-- text inputs -->
             <FilterTextInput

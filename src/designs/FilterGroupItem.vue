@@ -86,6 +86,8 @@ watch(select, () => {
             <FilterNumberInput
                 v-if="selectedOption.type === 'number' || selectedOption.type === 'integer'"
                 :filter="filter"
+                @change-operator="(operator) => onChange(operator, true)"
+                @change-value="(value) => onChange(value)"
             />
             <FilterSelectInput
                 v-if="selectedOption.type === 'select'"
