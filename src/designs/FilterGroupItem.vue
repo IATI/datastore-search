@@ -101,7 +101,12 @@ watch(select, () => {
                 @change-operator="(operator) => onChange(operator, true)"
                 @change-value="onChange($event.target.value)"
             />
-            <FilterDateInput v-if="selectedOption.type === 'date'" :filter="filter" />
+            <FilterDateInput
+                v-if="selectedOption.type === 'date'"
+                :filter="filter"
+                @change-operator="(operator) => onChange(operator, true)"
+                @change-value="(value) => onChange(value)"
+            />
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">

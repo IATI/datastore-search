@@ -131,7 +131,14 @@ import FilterTextInput from './FilterTextInput.vue';
                 @change-value="global.changeFilter(filter.id, 'value', $event.target.value)"
             />
             <!-- Date inputs -->
-            <FilterDateInput v-if="global.isFieldType(filter.field, 'date')" :filter="filter" />
+            <FilterDateInput
+                v-if="global.isFieldType(filter.field, 'date')"
+                :filter="filter"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+                @change-value="(value) => global.changeFilter(filter.id, 'value', value)"
+            />
 
             <p v-if="filter.valid === false" id="validation" class="text-sm text-red-600">
                 {{ filter.validationMessage }}
