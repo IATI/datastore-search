@@ -35,7 +35,6 @@ const global = inject('global');
         </div>
         <div class="col-span-5">
             <select
-                v-if="global.isFieldType(filter.field, 'select')"
                 class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                 :class="{ 'border-red-400': filter.valid === false }"
                 :value="filter.value"
