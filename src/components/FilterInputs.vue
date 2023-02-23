@@ -63,6 +63,7 @@ import FilterTextInput from './FilterTextInput.vue';
             <FilterLatLongInput
                 v-if="global.isFieldType(filter.field, 'latlon')"
                 :filter="filter"
+                @change="global.changeFilter(props.filter.id, 'value', $event.target.value)"
             />
             <!-- Grouping inputs -->
             <div
@@ -107,7 +108,14 @@ import FilterTextInput from './FilterTextInput.vue';
                 @change="global.changeFilter(filter.id, 'value', $event.target.value)"
             />
             <!-- Select inputs -->
-            <FilterSelectInput v-if="global.isFieldType(filter.field, 'select')" :filter="filter" />
+            <FilterSelectInput
+                v-if="global.isFieldType(filter.field, 'select')"
+                :filter="filter"
+                @change-value="global.changeFilter(filter.id, 'value', $event.target.value)"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+            />
             <!-- Combo inputs -->
             <FilterComboInput v-if="global.isFieldType(filter.field, 'combo')" :filter="filter" />
             <!-- Date inputs -->

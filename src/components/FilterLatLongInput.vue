@@ -2,6 +2,7 @@
 import { inject } from 'vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
+const emits = defineEmits(['change']);
 const global = inject('global');
 </script>
 <template>
@@ -15,7 +16,7 @@ const global = inject('global');
                     class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                     :placeholder="$t('message.latlon_placeholder')"
                     :value="props.filter.value"
-                    @input="global.changeFilter(props.filter.id, 'value', $event.target.value)"
+                    @input="(event) => emits('change', event)"
                 />
             </div>
         </div>

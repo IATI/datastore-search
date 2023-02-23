@@ -19,7 +19,7 @@ const emit = defineEmits(['change']);
 const global = inject('global');
 
 const filter = reactive(props.filter);
-const value = ref('');
+const select = ref('');
 const selectedOption = ref();
 
 const getSelectedOption = (label) =>
@@ -32,9 +32,18 @@ const updateFilterFromSelectedOption = (option) => {
 
     emit('change', filter);
 };
+const onChange = (value, isOperator = false) => {
+    if (isOperator) {
+        filter.operator = value;
+    } else {
+        filter.value = value;
+    }
 
-watch(value, () => {
-    selectedOption.value = getSelectedOption(value.value);
+    emit('change', filter);
+};
+
+watch(select, () => {
+    selectedOption.value = getSelectedOption(select.value);
     updateFilterFromSelectedOption(selectedOption.value);
 });
 </script>
@@ -42,7 +51,7 @@ watch(value, () => {
     <div class="grid grid-cols-7 gap-3 mt-3">
         <div class="col-span-3">
             <select
-                v-model="value"
+                v-model="select"
                 class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
             >
                 <option ref="default-option" disabled value="" selected>
@@ -62,7 +71,7 @@ watch(value, () => {
             <FilterTextInput
                 v-if="selectedOption.type === 'text'"
                 :filter="filter"
-                @change="emit('change', filter)"
+                @change="onChange($event.target.value)"
             />
             <FilterLatLongInput v-if="selectedOption.type === 'latlon'" :filter="filter" />
             <FilterBooleanInput v-if="selectedOption.type === 'boolean'" :filter="filter" />
@@ -70,7 +79,12 @@ watch(value, () => {
                 v-if="selectedOption.type === 'number' || selectedOption.type === 'integer'"
                 :filter="filter"
             />
-            <FilterSelectInput v-if="selectedOption.type === 'select'" :filter="filter" />
+            <FilterSelectInput
+                v-if="selectedOption.type === 'select'"
+                :filter="filter"
+                @change-value="onChange($event.target.value)"
+                @change-operator="(operator) => onChange(operator, true)"
+            />
             <FilterComboInput v-if="selectedOption.type === 'combo'" :filter="filter" />
             <FilterDateInput v-if="selectedOption.type === 'date'" :filter="filter" />
         </div>
