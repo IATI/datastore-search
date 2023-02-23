@@ -63,7 +63,7 @@ import FilterTextInput from './FilterTextInput.vue';
             <FilterLatLongInput
                 v-if="global.isFieldType(filter.field, 'latlon')"
                 :filter="filter"
-                @change="global.changeFilter(props.filter.id, 'value', $event.target.value)"
+                @change="(value) => global.changeFilter(filter.id, 'value', value)"
             />
             <!-- Grouping inputs -->
             <div
