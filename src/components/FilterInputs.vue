@@ -122,7 +122,14 @@ import FilterTextInput from './FilterTextInput.vue';
                 "
             />
             <!-- Combo inputs -->
-            <FilterComboInput v-if="global.isFieldType(filter.field, 'combo')" :filter="filter" />
+            <FilterComboInput
+                v-if="global.isFieldType(filter.field, 'combo')"
+                :filter="filter"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+                @change-value="global.changeFilter(filter.id, 'value', $event.target.value)"
+            />
             <!-- Date inputs -->
             <FilterDateInput v-if="global.isFieldType(filter.field, 'date')" :filter="filter" />
 

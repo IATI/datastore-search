@@ -95,7 +95,12 @@ watch(select, () => {
                 @change-value="onChange($event.target.value)"
                 @change-operator="(operator) => onChange(operator, true)"
             />
-            <FilterComboInput v-if="selectedOption.type === 'combo'" :filter="filter" />
+            <FilterComboInput
+                v-if="selectedOption.type === 'combo'"
+                :filter="filter"
+                @change-operator="(operator) => onChange(operator, true)"
+                @change-value="onChange($event.target.value)"
+            />
             <FilterDateInput v-if="selectedOption.type === 'date'" :filter="filter" />
         </div>
         <div class="col-span-1">
