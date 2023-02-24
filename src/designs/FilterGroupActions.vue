@@ -3,11 +3,12 @@ import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
 import { XCircleIcon } from '@heroicons/vue/20/solid';
 
-const emits = defineEmits(['addRule', 'addGroup']);
+const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator']);
 
 const operator = ref('AND');
 const toggleOperator = () => {
     operator.value = operator.value === 'AND' ? 'OR' : 'AND';
+    emits('toggleOperator', operator.value);
 };
 const buttonClasses =
     'h-8 text-xs px-5 py-1 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out';

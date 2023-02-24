@@ -28,6 +28,9 @@ const onAddGroup = () => {
     });
     group.items = items;
 };
+const onToggleOperator = (group, operator) => {
+    group.operator = operator;
+};
 watch(group, () => {
     console.log(group);
 });
@@ -40,6 +43,7 @@ watch(group, () => {
             :group="group"
             @add-rule="onAddRule"
             @add-group="onAddGroup"
+            @toggle-operator="onToggleOperator"
         />
     </div>
 </template>
