@@ -1,4 +1,5 @@
 <script setup>
+import { v4 as uuidv4 } from 'uuid';
 import { inject, reactive, watch } from 'vue';
 import FilterGroup from './FilterGroup.vue';
 
@@ -7,11 +8,11 @@ const emits = defineEmits(['update']);
 
 const global = inject('global');
 
-const group = reactive({ id: 'group-0', type: 'group', operator: 'AND', items: [] });
+const group = reactive({ id: uuidv4(), type: 'group', operator: 'AND', items: [] });
 
 const onAddRule = () => {
     const items = group.items.concat({
-        id: `${group.id}-item-${group.items.length + 1}`,
+        id: uuidv4(),
         type: null,
         field: null,
         value: null,
@@ -22,7 +23,7 @@ const onAddRule = () => {
 };
 const onAddGroup = () => {
     const items = group.items.concat({
-        id: `${group.id}-item-${group.items.length + 1}`,
+        id: uuidv4(),
         type: 'group',
         operator: 'AND',
         items: [],

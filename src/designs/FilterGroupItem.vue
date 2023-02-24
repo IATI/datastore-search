@@ -14,7 +14,7 @@ import FilterSelectInput from '../components/FilterSelectInput.vue';
 import FilterTextInput from '../components/FilterTextInput.vue';
 
 const props = defineProps({ filter: { type: Object, default: () => {} } });
-const emit = defineEmits(['change']);
+const emit = defineEmits(['change', 'delete']);
 
 const global = inject('global');
 
@@ -110,7 +110,7 @@ watch(select, () => {
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
-                <XCircleIcon class="h-6 mr-1" @click="global.removeFilter(filter.id)" />
+                <XCircleIcon class="h-6 mr-1" @click="emit('delete', filter)" />
                 <a
                     v-if="selectedOption && ['select', 'combo'].includes(selectedOption.type)"
                     type="link"

@@ -1,4 +1,5 @@
 <script setup>
+import { v4 as uuidv4 } from 'uuid';
 import FilterGroupActions from './FilterGroupActions.vue';
 import FilterGroupItem from './FilterGroupItem.vue';
 
@@ -7,7 +8,7 @@ const emit = defineEmits(['addRule', 'addGroup', 'toggleOperator']);
 
 const onAddRule = (group) => {
     const items = group.items.concat({
-        id: `${group.id}-item-${group.items.length + 1}`,
+        id: uuidv4(),
         type: null,
         field: null,
         value: null,
@@ -18,7 +19,7 @@ const onAddRule = (group) => {
 };
 const onAddGroup = (group) => {
     const items = group.items.concat({
-        id: `${group.id}-item-${group.items.length + 1}`,
+        id: uuidv4(),
         type: 'group',
         operator: 'AND',
         items: [],
@@ -27,6 +28,9 @@ const onAddGroup = (group) => {
 };
 const onToggleOperator = (group, operator) => {
     group.operator = operator;
+};
+const onDeleteItem = (group, filter) => {
+    group.items = group.items.filter((item) => item.id !== filter.id);
 };
 </script>
 
@@ -39,7 +43,11 @@ const onToggleOperator = (group, operator) => {
         />
         <div v-for="item in group.items" :key="item.id">
             <div v-if="item.type !== 'group'">
-                <FilterGroupItem :key="item.id" :filter="item" />
+                <FilterGroupItem
+                    :key="item.id"
+                    :filter="item"
+                    @delete="onDeleteItem(group, item)"
+                />
             </div>
             <div v-else class="mt-3">
                 <FilterGroup
