@@ -246,6 +246,10 @@ const addFilter = async () => {
     return filterId;
 };
 
+const setFilters = (filters) => {
+    state.filters = filters;
+};
+
 const removeFilter = (id) => {
     state.filters = state.filters.filter(function (filter) {
         return filter.id !== id;
@@ -1240,6 +1244,7 @@ const compileQuery = () => {
 export default {
     state: readonly(state),
     addFilter,
+    setFilters,
     removeFilter,
     changeFilter,
     loadActivity,

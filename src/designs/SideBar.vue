@@ -1,8 +1,36 @@
 <script setup>
+import { v4 as uuidv4 } from 'uuid';
+import { inject } from 'vue';
 import SideBarButtons from './SideBarButtons.vue';
 
+const global = inject('global');
+
+// alternative value for variant is "closing"
+const getBracketFilter = (variant = 'opening', joinOperator = 'AND') => {
+    return {
+        id: uuidv4(),
+        type: 'grouping',
+        field: '()',
+        value: variant === 'opening' ? '(' : ')',
+        operator: 'equals',
+        joinOperator,
+    };
+};
+const getFiltersFromGroup = (group, parentGroupOperator) => {
+    return [getBracketFilter('opening', parentGroupOperator || group.operator)].concat(
+        group.items.reduce((filters, item) => {
+            if (item.type === 'group') {
+                return filters.concat(getFiltersFromGroup(item, group.operator));
+            }
+            item.joinOperator = group.operator;
+            return filters.concat(item);
+        }, []),
+        getBracketFilter('closing', group.operator)
+    );
+};
+
 const onUpdateFilter = (group) => {
-    console.log(group);
+    global.setFilters(getFiltersFromGroup(group));
 };
 </script>
 
