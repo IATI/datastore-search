@@ -368,124 +368,168 @@ export const exportFilters = () => {
 // don't allow use of Functions in DSS
 const disallowedStrings = ['{!func}', '_val_'];
 
-const validateFilters = () => {
+const validateFilter = (filter) => {
     let count = 0;
-    state.filters = state.filters.map((filter) => {
-        // require input value check
-        if (filter.value === null || filter.value === '') {
-            switch (filter.type) {
-                case 'text':
-                    count += 1;
-                    return {
+    // require input value check
+    if (filter.value === null || filter.value === '') {
+        switch (filter.type) {
+            case 'text':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.search_term_is_required'),
-                    };
-                case 'combo':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'combo':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.search_term_is_required'),
-                    };
-                case 'boolean':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'boolean':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.selection_is_required'),
-                    };
-                case 'grouping':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'grouping':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.selection_is_required'),
-                    };
-                case 'number':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'number':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.value_is_required'),
-                    };
-                case 'integer':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'integer':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.value_is_required'),
-                    };
-                case 'latlon':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'latlon':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.value_is_required'),
-                    };
-                case 'date':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'date':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.date_is_required'),
-                    };
-                case 'select':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'select':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.selection_is_required'),
-                    };
-                default:
-                    break;
-            }
+                    },
+                ];
+            default:
+                break;
         }
+    }
 
-        // Disallowed strings to prevent Solr Function queries
-        if (filter.type === 'text' || filter.type === 'combo') {
-            const badStrs = disallowedStrings.reduce((acc, str) => {
-                if (filter.value.includes(str)) {
-                    acc.push(str);
-                }
-                return acc;
-            }, []);
+    // Disallowed strings to prevent Solr Function queries
+    if (filter.type === 'text' || filter.type === 'combo') {
+        const badStrs = disallowedStrings.reduce((acc, str) => {
+            if (filter.value.includes(str)) {
+                acc.push(str);
+            }
+            return acc;
+        }, []);
 
-            if (badStrs.length > 0) {
-                count += 1;
-                return {
+        if (badStrs.length > 0) {
+            count += 1;
+            return [
+                count,
+                {
                     ...filter,
                     valid: false,
                     validationMessage: t('message.is_not_allowed', {
                         bad: badStrs.join(),
                     }),
-                };
-            }
+                },
+            ];
         }
+    }
 
-        // percentages 0 to 100 check
-        if (
-            filter.type === 'number' &&
-            filter.field.includes('_percentage') &&
-            (filter.value < 0 || filter.value > 100)
-        ) {
-            count += 1;
-            return {
+    // percentages 0 to 100 check
+    if (
+        filter.type === 'number' &&
+        filter.field.includes('_percentage') &&
+        (filter.value < 0 || filter.value > 100)
+    ) {
+        count += 1;
+        return [
+            count,
+            {
                 ...filter,
                 valid: false,
                 validationMessage: t('message.percentage_validation'),
-            };
-        }
-        // integer check
-        if (filter.type === 'integer' && !Number.isInteger(filter.value)) {
-            count += 1;
-            return {
+            },
+        ];
+    }
+    // integer check
+    if (filter.type === 'integer' && !Number.isInteger(filter.value)) {
+        count += 1;
+        return [
+            count,
+            {
                 ...filter,
                 valid: false,
                 validationMessage: t('message.integer_validation'),
-            };
-        }
-        return { ...filter };
+            },
+        ];
+    }
+    return [count, filter];
+};
+
+const validateFilters = () => {
+    let count = 0;
+    state.filters = state.filters.map((filter) => {
+        const [errorsCount, validatedFilter] = validateFilter({ ...filter });
+        count += errorsCount;
+
+        return validatedFilter;
     });
     return count === 0;
 };
