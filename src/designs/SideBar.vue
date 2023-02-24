@@ -1,12 +1,16 @@
 <script setup>
 import SideBarButtons from './SideBarButtons.vue';
+
+const onUpdateFilter = (group) => {
+    console.log(group);
+};
 </script>
 
 <template>
     <div class="sticky top-0 h-full">
         <div class="h-full max-h-screen overflow-y-auto">
             <div id="filters" class="mx-3 my-5">
-                <FilterInputs :filters="global.state.filters" />
+                <FilterInputs :filters="global.state.filters" @update="onUpdateFilter" />
             </div>
             <SideBarButtons />
         </div>

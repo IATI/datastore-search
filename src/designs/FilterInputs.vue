@@ -3,6 +3,7 @@ import { inject, reactive, watch } from 'vue';
 import FilterGroup from './FilterGroup.vue';
 
 defineProps({ filters: { type: Array, default: () => [] } });
+const emits = defineEmits(['update']);
 
 const global = inject('global');
 
@@ -32,7 +33,7 @@ const onToggleOperator = (group, operator) => {
     group.operator = operator;
 };
 watch(group, () => {
-    console.log(group);
+    emits('update', group);
 });
 </script>
 
