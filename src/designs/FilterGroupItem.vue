@@ -110,7 +110,7 @@ watch(select, () => {
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">
-                <XCircleIcon class="h-6 mr-1" @click="emit('delete', filter)" />
+                <XCircleIcon class="h-6 mr-1 cursor-pointer" @click="emit('delete', filter)" />
                 <a
                     v-if="selectedOption && ['select', 'combo'].includes(selectedOption.type)"
                     type="link"

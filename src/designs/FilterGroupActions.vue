@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
 import { XCircleIcon } from '@heroicons/vue/20/solid';
 
-const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator']);
+defineProps({ deletable: { type: Boolean, default: true } });
+const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
 
 const operator = ref('AND');
 const toggleOperator = () => {
@@ -40,8 +41,8 @@ const buttonClasses =
         <AppButton variant="outline-accent" size="sm" @click="emits('addGroup')">
             <span class="uppercase">Add Group</span>
         </AppButton>
-        <div class="p-2 float-right">
-            <XCircleIcon class="h-6" />
+        <div v-if="deletable" class="p-2 float-right">
+            <XCircleIcon class="h-6 cursor-pointer" @click="emits('delete')" />
         </div>
     </div>
 </template>

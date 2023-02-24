@@ -10,6 +10,10 @@ const global = inject('global');
 
 const group = reactive({ id: uuidv4(), type: 'group', operator: 'AND', items: [] });
 
+watch(group, () => {
+    emits('update', group);
+});
+
 const onAddRule = () => {
     const items = group.items.concat({
         id: uuidv4(),
@@ -33,9 +37,6 @@ const onAddGroup = () => {
 const onToggleOperator = (group, operator) => {
     group.operator = operator;
 };
-watch(group, () => {
-    emits('update', group);
-});
 </script>
 
 <template>
@@ -43,6 +44,7 @@ watch(group, () => {
         <FilterGroup
             v-if="global.state.filters.length"
             :group="group"
+            :deletable="false"
             @add-rule="onAddRule"
             @add-group="onAddGroup"
             @toggle-operator="onToggleOperator"
