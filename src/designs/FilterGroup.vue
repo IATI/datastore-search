@@ -7,7 +7,7 @@ const emit = defineEmits(['addRule', 'addGroup']);
 
 const onAddRule = (group) => {
     const items = group.items.concat({
-        id: `filter-${group.items.length + 1}`,
+        id: `${group.id}-item-${group.items.length + 1}`,
         type: null,
         field: null,
         value: null,
@@ -17,7 +17,12 @@ const onAddRule = (group) => {
     group.items = items;
 };
 const onAddGroup = (group) => {
-    const items = group.items.concat({ type: 'group', operator: 'AND', items: [] });
+    const items = group.items.concat({
+        id: `${group.id}-item-${group.items.length + 1}`,
+        type: 'group',
+        operator: 'AND',
+        items: [],
+    });
     group.items = items;
 };
 const onUpdateFilter = (filter) => {

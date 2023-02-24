@@ -1,16 +1,16 @@
 <script setup>
-import { inject, reactive } from 'vue';
+import { inject, reactive, watch } from 'vue';
 import FilterGroup from './FilterGroup.vue';
 
 defineProps({ filters: { type: Array, default: () => [] } });
 
 const global = inject('global');
 
-const group = reactive({ type: 'group', operator: 'AND', items: [] });
+const group = reactive({ id: 'group-0', type: 'group', operator: 'AND', items: [] });
 
 const onAddRule = () => {
     const items = group.items.concat({
-        id: `filter-${group.items.length + 1}`,
+        id: `${group.id}-item-${group.items.length + 1}`,
         type: null,
         field: null,
         value: null,
@@ -20,9 +20,17 @@ const onAddRule = () => {
     group.items = items;
 };
 const onAddGroup = () => {
-    const items = group.items.concat({ type: 'group', operator: 'AND', items: [] });
+    const items = group.items.concat({
+        id: `${group.id}-item-${group.items.length + 1}`,
+        type: 'group',
+        operator: 'AND',
+        items: [],
+    });
     group.items = items;
 };
+watch(group, () => {
+    console.log(group);
+});
 </script>
 
 <template>
