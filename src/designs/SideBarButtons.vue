@@ -7,6 +7,8 @@ import { PlayIcon } from '@heroicons/vue/20/solid';
 import AppButton from '../components/AppButton.vue';
 
 const global = inject('global');
+
+const emits = defineEmits(['run']);
 </script>
 
 <template>
@@ -51,7 +53,7 @@ const global = inject('global');
                 :aria-label="$t('message.run_aria')"
                 variant="green"
                 size="sm"
-                @click="global.run()"
+                @click="emits('run')"
             >
                 <PlayIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
                 <span class="uppercase">{{ $t('message.run') }}</span>

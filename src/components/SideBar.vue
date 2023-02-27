@@ -10,7 +10,7 @@ import SideBarButtons from '../components/SideBarButtons.vue';
                     <FilterInputs :filter="filter" />
                 </li>
             </ul>
-            <SideBarButtons />
+            <SideBarButtons @run="global.run()" />
         </div>
     </div>
     <teleport to="#modals">

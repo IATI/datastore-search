@@ -18,7 +18,7 @@ const emit = defineEmits(['change', 'delete']);
 
 const global = inject('global');
 
-const filter = reactive(props.filter);
+let filter = reactive(props.filter);
 const select = ref('');
 const selectedOption = ref();
 
@@ -42,6 +42,12 @@ const onChange = (value, isOperator = false) => {
     emit('change', filter);
 };
 
+watch(
+    () => props.filter,
+    () => {
+        filter = reactive(props.filter);
+    }
+);
 watch(select, () => {
     selectedOption.value = getSelectedOption(select.value);
     updateFilterFromSelectedOption(selectedOption.value);
@@ -107,6 +113,10 @@ watch(select, () => {
                 @change-operator="(operator) => onChange(operator, true)"
                 @change-value="(value) => onChange(value)"
             />
+
+            <p v-if="!filter.valid" id="validation" class="text-sm text-red-600">
+                {{ filter.validationMessage }}
+            </p>
         </div>
         <div class="col-span-1">
             <div class="py-2 inline-flex items-center -ml-1">

@@ -1291,6 +1291,7 @@ export default {
     setFilters,
     removeFilter,
     changeFilter,
+    validateFilter,
     loadActivity,
     isFieldType,
     isFieldSelected,
