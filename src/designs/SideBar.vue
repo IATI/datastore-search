@@ -1,5 +1,9 @@
 <script setup>
 import { inject } from 'vue';
+import FilterInputs from './FilterInputs.vue';
+import ExportModal from './ExportModal.vue';
+import ImportModal from './ImportModal.vue';
+import BboxModal from './BboxModal.vue';
 
 const global = inject('global');
 </script>
@@ -18,20 +22,3 @@ const global = inject('global');
         <BboxModal />
     </teleport>
 </template>
-
-<script>
-import FilterInputs from './FilterInputs.vue';
-import ExportModal from './ExportModal.vue';
-import ImportModal from './ImportModal.vue';
-import BboxModal from './BboxModal.vue';
-export default {
-    name: 'SideBar',
-    components: {
-        FilterInputs,
-        ExportModal,
-        ImportModal,
-        BboxModal,
-    },
-    inject: ['global'],
-};
-</script>
