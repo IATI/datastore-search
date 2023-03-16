@@ -162,8 +162,8 @@ export default {
         import: 'Import',
         add_aria: 'Add an additional filter',
         add: 'Add',
-        add_filter: 'Add Filter',
-        import_filters: 'Import Filters',
+        add_filter: 'Build Query',
+        import_filters: 'Import Query',
         export_filters: 'Export Filters',
         export_para1: `Export currently selected filters to file?`,
         export_para2: `
