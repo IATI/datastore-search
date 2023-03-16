@@ -11,8 +11,8 @@ describe('The advanced view', { testIsolation: false }, () => {
         cy.visit('/advanced');
         cy.wait('@getFilters');
     });
-    it('has a button to add filters', () => {
-        cy.contains('Add Filter');
+    it('has a button to build query', () => {
+        cy.contains('Build Query');
     });
 
     describe('side bar', () => {
