@@ -164,3 +164,12 @@ export default {
     },
 };
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
+<style>
+.text-underline {
+    text-decoration: underline;
+}
+.text-blue {
+    color: rgb(37 99 235 / 1);
+}
+</style>

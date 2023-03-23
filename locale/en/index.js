@@ -151,7 +151,7 @@ export default {
         `,
         advanced_unavailable_para2: `
             Please
-            <a href="/simple" class="hover:underline text-blue-600"
+            <a href="/simple" class="text-underline text-blue"
                 >try the Simple Search</a
             >
             instead, or switch to a device with a larger screen.
@@ -164,8 +164,8 @@ export default {
         import: 'Import',
         add_aria: 'Add an additional filter',
         add: 'Add',
-        add_filter: 'Add Filter',
-        import_filters: 'Import Filters',
+        add_filter: 'Build Query',
+        import_filters: 'Import Query',
         export_filters: 'Export Filters',
         export_para1: `Export currently selected filters to file?`,
         export_para2: `

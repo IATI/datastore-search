@@ -1,7 +1,16 @@
 <script setup>
-import Datepicker from 'vue3-datepicker';
-import { TrashIcon } from '@heroicons/vue/20/solid';
-import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
+import {
+    ArrowTopRightOnSquareIcon,
+    QuestionMarkCircleIcon,
+    TrashIcon,
+} from '@heroicons/vue/20/solid';
+import FilterBooleanInput from './FilterBooleanInput.vue';
+import FilterComboInput from './FilterComboInput.vue';
+import FilterDateInput from './FilterDateInput.vue';
+import FilterLatLongInput from './FilterLatLongInput.vue';
+import FilterNumberInput from './FilterNumberInput.vue';
+import FilterSelectInput from './FilterSelectInput.vue';
+import FilterTextInput from './FilterTextInput.vue';
 </script>
 
 <template>
@@ -51,32 +60,11 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
 
         <div class="col-span-3">
             <!-- Latitude/longitude inputs -->
-            <div v-if="global.isFieldType(filter.field, 'latlon')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-5">
-                    <div class="flex items-center justify-center">
-                        <input
-                            type="text"
-                            disabled="true"
-                            :class="{ 'border-red-400': filter.valid === false }"
-                            class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                            :placeholder="$t('message.latlon_placeholder')"
-                            :value="filter.value"
-                            @input="global.changeFilter(filter.id, 'value', $event.target.value)"
-                        />
-                    </div>
-                </div>
-                <div class="col-span-3">
-                    <div class="inline-flex" role="toolbar">
-                        <button
-                            type="button"
-                            class="bg-blue-300 hover:bg-iati-grey text-white font-bold py-2 px-2 rounded float-right"
-                            @click="global.toggleBboxModal(filter.id)"
-                        >
-                            {{ $t('message.use_map') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <FilterLatLongInput
+                v-if="global.isFieldType(filter.field, 'latlon')"
+                :filter="filter"
+                @change="(value) => global.changeFilter(filter.id, 'value', value)"
+            />
             <!-- Grouping inputs -->
             <div
                 v-if="global.isFieldType(filter.field, 'grouping')"
@@ -101,264 +89,57 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
                 </button>
             </div>
             <!-- Boolean inputs -->
-            <div
+            <FilterBooleanInput
                 v-if="global.isFieldType(filter.field, 'boolean')"
-                class="inline-flex"
-                role="toolbar"
-            >
-                <button
-                    :class="{ 'bg-blue-300': filter.value === 'true' }"
-                    type="button"
-                    class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', 'true')"
-                >
-                    {{ $t('message.true') }}
-                </button>
-                <button
-                    :class="{ 'bg-blue-300': filter.value === 'false' }"
-                    type="button"
-                    class="h-10 border rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', 'false')"
-                >
-                    {{ $t('message.false') }}
-                </button>
-            </div>
+                :filter="filter"
+                @change="(value) => global.changeFilter(filter.id, 'value', value)"
+            />
             <!-- Number inputs -->
-            <div
+            <FilterNumberInput
                 v-if="
                     global.isFieldType(filter.field, 'number') ||
                     global.isFieldType(filter.field, 'integer')
                 "
-                class="grid grid-cols-8 gap-2"
-            >
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'lessThan',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'lessThan')"
-                            >
-                                &#60;
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                =
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'greaterThan',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'greaterThan')"
-                            >
-                                &#62;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <input
-                        type="number"
-                        :min="minNumber"
-                        :max="maxNumber"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :value="filter.value"
-                        @input="
-                            global.changeFilter(filter.id, 'value', Number($event.target.value))
-                        "
-                    />
-                </div>
-            </div>
-
-            <!-- Text inputs -->
-            <input
+                :filter="filter"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+                @change-value="(value) => global.changeFilter(filter.id, 'value', value)"
+            />
+            <!-- text inputs -->
+            <FilterTextInput
                 v-if="global.isFieldType(filter.field, 'text')"
-                type="text"
-                :class="{ 'border-red-400': filter.valid === false }"
-                class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                :placeholder="$t('message.search_term')"
-                :value="filter.value"
-                @input="global.changeFilter(filter.id, 'value', $event.target.value)"
+                :filter="filter"
+                @change="global.changeFilter(filter.id, 'value', $event.target.value)"
             />
             <!-- Select inputs -->
-            <div v-if="global.isFieldType(filter.field, 'select')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                ==
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'notEquals',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'notEquals')"
-                            >
-                                !=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <select
-                        v-if="global.isFieldType(filter.field, 'select')"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        :value="filter.value"
-                        @change="global.changeFilter(filter.id, 'value', $event.target.value)"
-                    >
-                        <option disabled value="" :selected="global.dropdownStateBlank(filter.id)">
-                            {{
-                                $t('message.select_from_codes', {
-                                    name: filter.selectedOption.codelistMeta.name,
-                                })
-                            }}
-                        </option>
-                        <option
-                            v-for="(valueOption, index) in filter.selectedOption.options"
-                            :key="valueOption.code"
-                            :value="valueOption.code"
-                            :selected="
-                                global.validateDropdownOptions(
-                                    filter.id,
-                                    index,
-                                    filter.selectedOption.options
-                                )
-                            "
-                        >
-                            <span
-                                >{{ valueOption.code
-                                }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
-                            >
-                        </option>
-                    </select>
-                </div>
-            </div>
+            <FilterSelectInput
+                v-if="global.isFieldType(filter.field, 'select')"
+                :filter="filter"
+                @change-value="global.changeFilter(filter.id, 'value', $event.target.value)"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+            />
             <!-- Combo inputs -->
-            <div v-if="global.isFieldType(filter.field, 'combo')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                ==
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'notEquals',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'notEquals')"
-                            >
-                                !=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <input
-                        v-if="global.isFieldType(filter.field, 'combo')"
-                        type="text"
-                        :placeholder="
-                            $t('message.select_from_codes', {
-                                name: filter.selectedOption.codelistMeta.name,
-                            })
-                        "
-                        :list="'datalist' + filter.id"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        :value="filter.value"
-                        @change="global.changeFilter(filter.id, 'value', $event.target.value)"
-                    />
-                    <datalist :id="'datalist' + filter.id">
-                        <option
-                            v-for="valueOption in filter.selectedOption.options"
-                            :key="valueOption.code"
-                            :value="valueOption.code"
-                        >
-                            <span
-                                >{{ valueOption.code
-                                }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
-                            >
-                        </option>
-                    </datalist>
-                </div>
-            </div>
-
+            <FilterComboInput
+                v-if="global.isFieldType(filter.field, 'combo')"
+                :filter="filter"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+                @change-value="global.changeFilter(filter.id, 'value', $event.target.value)"
+            />
             <!-- Date inputs -->
-            <div v-if="global.isFieldType(filter.field, 'date')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'lessThan',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'lessThan')"
-                            >
-                                &#60;
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                =
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'greaterThan',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'greaterThan')"
-                            >
-                                &#62;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <datepicker
-                        :model-value="new Date(filter.value)"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        @update:model-value="global.changeFilter(filter.id, 'value', $event)"
-                    />
-                </div>
-            </div>
+            <FilterDateInput
+                v-if="global.isFieldType(filter.field, 'date')"
+                :filter="filter"
+                @change-operator="
+                    (operator) => global.changeFilter(filter.id, 'operator', operator)
+                "
+                @change-value="(value) => global.changeFilter(filter.id, 'value', value)"
+            />
+
             <p v-if="filter.valid === false" id="validation" class="text-sm text-red-600">
                 {{ filter.validationMessage }}
             </p>
@@ -406,6 +187,15 @@ import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vu
 <script>
 export default {
     name: 'FilterInputs',
+    components: {
+        FilterTextInput,
+        FilterLatLongInput,
+        FilterBooleanInput,
+        FilterNumberInput,
+        FilterSelectInput,
+        FilterComboInput,
+        FilterDateInput,
+    },
     inject: ['global'],
     props: {
         filter: {
