@@ -80,6 +80,8 @@ export default {
             <i>"rabbit production"</i> will return search results about
             rabbit production, where as <i>rabbit production</i> will
             return results about rabbits, and results about production.
+            For more information on how to use the Datastore Search, please
+            see the <a href="https://docs.google.com/document/d/1WcfE4z4CbhQnsWFgMchU-LDSz8ZbT5a6HHbMCBaLrOo/edit?usp=sharing" class="hover:underline text-iati-grey font-semibold">User Guide</a>.
         `,
         about_para_5: `
             The IATI Datastore indexes and represents IATI data

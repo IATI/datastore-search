@@ -1,7 +1,7 @@
 /// <reference types="Cypress"/>
 
-describe('The advanced view', () => {
-    it('has a button to add filters', () => {
+describe('The advanced view', { testIsolation: false }, () => {
+    beforeEach(() => {
         cy.intercept('https://dev-api.iatistandard.org/dss/resources/filters?locale=en').as(
             'getFilters'
         );
@@ -10,12 +10,16 @@ describe('The advanced view', () => {
         );
         cy.visit('/advanced');
         cy.wait('@getFilters');
+    });
+    it('has a button to add filters', () => {
         cy.contains('Add Filter');
     });
 
     describe('side bar', () => {
-        it('creates a dropdown when you click Add Filters button', () => {
+        beforeEach(() => {
             cy.get('button[aria-label="Add an additional filter"]').click();
+        });
+        it('creates a dropdown when you click Add Filters button', () => {
             cy.contains('Select field');
         });
 
@@ -25,11 +29,14 @@ describe('The advanced view', () => {
         });
 
         it('yields an error message when the search is run empty', () => {
+            cy.get('select').eq(1).select('Title Narrative');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.contains('Search term is required');
         });
 
         it('clears the error message when another field is selected', () => {
+            cy.get('select').eq(1).select('Title Narrative');
+            cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.get('select').eq(1).select('Dataset Version');
             cy.contains('Search term is required').should('not.exist');
         });
@@ -45,8 +52,8 @@ describe('The advanced view', () => {
 
         const urlSuffix = '&sort=score+desc';
 
-        it('can select boolean filters', () => {
-            cy.get('button[aria-label="Remove filter"]').click();
+        it('can add/run all filter types and import/export the generated config', () => {
+            // boolean filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(1).select('Humanitarian');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
@@ -61,9 +68,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select date filters', () => {
+            // date filters
             const now = new Date(2022, 0, 1).getTime();
             cy.clock(now);
             cy.get('button[aria-label="Add an additional filter"]').click();
@@ -84,9 +90,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select integer filters', () => {
+            // integer filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(3).select('Hierarchy');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
@@ -106,9 +111,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select number filters', () => {
+            // number filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(4).select('Sector Percentage');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
@@ -129,9 +133,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select select filters', () => {
+            // select filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(5).select('Budget Type');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
@@ -155,9 +158,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select text filters', () => {
+            // text filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(7).select('Title Narrative');
             cy.wait(1000);
@@ -179,9 +181,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select grouping filters', () => {
+            // grouping filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(8).select('Boolean Grouping');
             cy.wait(1000);
@@ -216,9 +217,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can use the spatial filter', () => {
+            // spatial filter
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(12).select('Geospatial search');
             cy.wait(1000);
@@ -244,9 +244,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can select combo filters', () => {
+            // combo filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(13).select('Sector Code');
             cy.wait(1000);
@@ -271,9 +270,8 @@ describe('The advanced view', () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
-        });
 
-        it('can export and import filters', () => {
+            // export and import filters
             const downloadsFolder = Cypress.config('downloadsFolder');
             cy.get('button[aria-label="Export filters to file"]').click();
             cy.get('button.bg-iati-grey:contains("Export")').click();
@@ -312,9 +310,8 @@ describe('The advanced view', () => {
                     });
                 });
             });
-        });
 
-        it('can continue to function normally after import', () => {
+            // function normally after import
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(14).select('Description Narrative');
             cy.wait(1000);
