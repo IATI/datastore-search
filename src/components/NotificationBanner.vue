@@ -18,7 +18,7 @@ import { QuestionMarkCircleIcon } from '@heroicons/vue/20/solid';
                     Please come back later to run your queries.</span
                 >
             </button>
-            Planned Maintenance - Tuesday 29 November 2022 - 1430-1530 GMT (London)
+            Planned Maintenance - Monday 27 March 2023 - 1400-1800 BST (London)
         </p>
     </div>
 </template>
