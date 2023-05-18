@@ -31,7 +31,7 @@
         "crypto-js": "^4.1.1",
         "date-fns": "^2.30.0",
         "esm": "^3.2.25",
-        "leaflet": "^1.9.3",
+        "leaflet": "^1.9.4",
         "leaflet.markercluster": "^1.5.3",
         "moment": "^2.29.4",
         "plausible-tracker": "^0.3.8",
