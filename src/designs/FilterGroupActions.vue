@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
-import { XCircleIcon } from '@heroicons/vue/20/solid';
+import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
 
 defineProps({ deletable: { type: Boolean, default: true } });
 const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
@@ -16,8 +16,9 @@ const buttonClasses =
 </script>
 
 <template>
-    <div class="inline-flex items-center w-full" role="toolbar">
-        <div class="mr-3">
+    <div class="mr-3 mb-1 text-center flex">
+        <div class="py-1">
+            <span class="mr-3 text-sm">Group Operator</span>
             <button
                 :class="[operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
                 class="border-l border-t border-b rounded-l"
@@ -35,14 +36,26 @@ const buttonClasses =
                 {{ $t('message.or') }}
             </button>
         </div>
+        <button type="button" class="p-2 block has-tooltip">
+            <QuestionMarkCircleIcon class="h-6 cursor-pointer" />
+            <span
+                role="definition"
+                class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
+            >
+                The selected operator is used to join all elements within the group
+            </span>
+        </button>
+
+        <div v-if="deletable" class="p-2 float-right">
+            <XCircleIcon class="h-6 cursor-pointer" @click="emits('delete')" />
+        </div>
+    </div>
+    <div class="inline-flex items-center w-full" role="toolbar">
         <AppButton variant="outline" size="sm" class="mr-2 px-[8px]" @click="emits('addRule')">
             <span class="uppercase">Add Rule</span>
         </AppButton>
         <AppButton variant="outline-accent" class="px-[8px]" size="sm" @click="emits('addGroup')">
             <span class="uppercase">Add Group</span>
         </AppButton>
-        <div v-if="deletable" class="p-2 float-right">
-            <XCircleIcon class="h-6 cursor-pointer" @click="emits('delete')" />
-        </div>
     </div>
 </template>
