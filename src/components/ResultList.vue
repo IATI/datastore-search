@@ -1,7 +1,12 @@
 <script setup>
+import { inject } from 'vue';
 import VPagination from '@hennge/vue3-pagination';
 import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
+import ResultListHeader from '../components/ResultListHeader.vue';
+import ResultItem from '../components/ResultItem.vue';
+
+const global = inject('global');
 
 let page = 1;
 </script>
@@ -11,29 +16,12 @@ let page = 1;
         <div class="flex items-center justify-center">
             <LoadingSpinner v-if="global.state.queryInProgress === true" />
         </div>
-        <div
+
+        <ResultListHeader
             v-if="global.state.responseTotal > 0 && $route.matched[0].path === '/advanced'"
-            class="grid grid-cols-4 gap-2 text-left py-3 border"
-        >
-            <div class="col-span-4">
-                <div class="flex items-center justify-center mt-1">
-                    <!-- eslint-disable vue/no-v-html -->
-                    <span
-                        class="my-2"
-                        v-html="
-                            $t('message.found_matching_iati_activities', {
-                                count: global.state.responseTotal,
-                            })
-                        "
-                    ></span>
-                    <!-- eslint-enable vue/no-v-html -->
-                </div>
-            </div>
-            <div class="flex items-center justify-center col-span-4">
-                <SortButtons class="mr-4" />
-                <DownloadButtons v-if="global.state.responseDocs" />
-            </div>
-        </div>
+            :count="global.state.responseTotal"
+            :show-download-buttons="!!global.state.responseDocs"
+        />
 
         <div class="flex-grow">
             <router-view />
@@ -61,7 +49,7 @@ let page = 1;
             </p>
         </div>
         <div class="border-solid border-t p-2 flex">
-            <v-pagination
+            <VPagination
                 v-model="page"
                 class="flex flex-auto justify-center"
                 :pages="global.state.numberPages"
@@ -72,22 +60,6 @@ let page = 1;
         </div>
     </div>
 </template>
-
-<script>
-import ResultItem from './ResultItem.vue';
-import DownloadButtons from './DownloadButtons.vue';
-import SortButtons from './SortButtons.vue';
-export default {
-    name: 'ResultList',
-    components: {
-        DownloadButtons,
-        ResultItem,
-        VPagination,
-        SortButtons,
-    },
-    inject: ['global'],
-};
-</script>
 
 <style>
 /* override the pagination component CSS */
