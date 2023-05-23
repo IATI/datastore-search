@@ -20,12 +20,12 @@ const routes = [
     {
         path: '/advanced',
         name: 'advanced',
-        component: AdvancedView,
+        component: AdvancedViewV2,
     },
     {
         path: '/advanced/v2',
         name: 'advanced.v2',
-        component: AdvancedViewV2,
+        component: AdvancedView,
     },
     {
         path: '/about',
