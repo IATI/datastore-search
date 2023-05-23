@@ -1,6 +1,12 @@
 <script setup>
 import VPagination from '@hennge/vue3-pagination';
 import '@hennge/vue3-pagination/dist/vue3-pagination.css';
+import { inject } from 'vue';
+import DownloadButtons from './DownloadButtons.vue';
+import ResultItem from './ResultItem.vue';
+import SortButtons from './SortButtons.vue';
+
+const global = inject('global');
 
 let page = 1;
 </script>
@@ -27,7 +33,7 @@ let page = 1;
             </svg>
         </div>
         <div
-            v-if="global.state.responseTotal > 0 && $route.matched[0].path === '/advanced'"
+            v-if="global.state.responseTotal > 0 && $route.matched[0].path === '/advanced/v2'"
             class="grid grid-cols-4 gap-2 text-left py-3 border"
         >
             <div class="col-span-4">
@@ -85,22 +91,6 @@ let page = 1;
         </div>
     </div>
 </template>
-
-<script>
-import ResultItem from './ResultItem.vue';
-import DownloadButtons from './DownloadButtons.vue';
-import SortButtons from './SortButtons.vue';
-export default {
-    name: 'ResultList',
-    components: {
-        DownloadButtons,
-        ResultItem,
-        VPagination,
-        SortButtons,
-    },
-    inject: ['global'],
-};
-</script>
 
 <style>
 /* override the pagination component CSS */
