@@ -13,17 +13,11 @@
             {{ $t('message.actual_start') }}:
             <b v-html="prettyDate(doc.actualStart)"></b>
         </div>
-        <div
-            v-if="!doc.actualStart && doc.plannedStart"
-            class="col-span-1 meta"
-        >
+        <div v-if="!doc.actualStart && doc.plannedStart" class="col-span-1 meta">
             {{ $t('message.planned_start') }}:
             <b v-html="prettyDate(doc.plannedStart)"></b>
         </div>
-        <div
-            v-if="!doc.actualStart && !doc.plannedStart"
-            class="col-span-1 meta"
-        ></div>
+        <div v-if="!doc.actualStart && !doc.plannedStart" class="col-span-1 meta"></div>
         <div v-if="doc.actualEnd" class="col-span-1 meta">
             {{ $t('message.actual_end') }}:
             <b v-html="prettyDate(doc.actualEnd)"></b>
@@ -32,10 +26,7 @@
             {{ $t('message.planned_end') }}:
             <b v-html="prettyDate(doc.plannedEnd)"></b>
         </div>
-        <div
-            v-if="!doc.actualEnd && !doc.plannedEnd"
-            class="col-span-1 meta"
-        ></div>
+        <div v-if="!doc.actualEnd && !doc.plannedEnd" class="col-span-1 meta"></div>
         <div class="col-span-1"></div>
         <div class="col-span-1"></div>
         <div class="col-span-8 hover:underline text-sky-700">

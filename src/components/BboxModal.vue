@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import SmallMap from './SmallMap.vue';
+import SmallMap from '../components/SmallMap.vue';
 
 export default {
     name: 'BboxModal',
