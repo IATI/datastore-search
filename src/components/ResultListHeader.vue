@@ -5,6 +5,7 @@ import SortButtons from './SortButtons.vue';
 const props = defineProps({
     count: { type: Number, default: null },
     showDownloadButtons: { type: Boolean, default: true },
+    processing: { type: Boolean, default: false },
 });
 
 const formatNumber = (value) => new Intl.NumberFormat('en-us').format(value);
@@ -18,16 +19,18 @@ const formatNumber = (value) => new Intl.NumberFormat('en-us').format(value);
                 <span
                     class="my-2"
                     v-html="
-                        $t('message.found_matching_iati_activities', {
-                            count: formatNumber(props.count),
-                        })
+                        props.count
+                            ? $t('message.found_matching_iati_activities', {
+                                  count: formatNumber(props.count),
+                              })
+                            : 'Loading ...'
                     "
                 ></span>
                 <!-- eslint-enable vue/no-v-html -->
             </div>
         </div>
         <div class="mx-5">
-            <SortButtons class="mr-4" />
+            <SortButtons class="mr-4" :disabled="props.processing" />
             <DownloadButtons v-if="props.showDownloadButtons" />
         </div>
     </div>

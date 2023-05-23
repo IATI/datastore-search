@@ -1,5 +1,6 @@
 <script setup>
 import { inject } from 'vue';
+import { useRoute } from 'vue-router';
 import VPagination from '@hennge/vue3-pagination';
 import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
@@ -7,21 +8,26 @@ import ResultListHeader from '../components/ResultListHeader.vue';
 import ResultItem from '../components/ResultItem.vue';
 
 const global = inject('global');
+const route = useRoute();
 
 let page = 1;
 </script>
 
 <template>
     <div class="flex flex-col h-full">
+        <ResultListHeader
+            v-if="
+                (global.state.queryInProgress || global.state.responseTotal > 0) &&
+                route.matched[0].path === '/advanced'
+            "
+            :count="global.state.responseTotal"
+            :show-download-buttons="!!global.state.responseDocs"
+            :processing="!!global.state.queryInProgress"
+        />
+
         <div class="flex items-center justify-center">
             <LoadingSpinner v-if="global.state.queryInProgress === true" />
         </div>
-
-        <ResultListHeader
-            v-if="global.state.responseTotal > 0 && $route.matched[0].path === '/advanced'"
-            :count="global.state.responseTotal"
-            :show-download-buttons="!!global.state.responseDocs"
-        />
 
         <div class="flex-grow">
             <router-view />
