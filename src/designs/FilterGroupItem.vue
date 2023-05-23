@@ -32,6 +32,9 @@ const updateFilterFromSelectedOption = (option) => {
 
     emit('change', filter);
 };
+const filterOptions = global.state.fieldOptions.filter(
+    (option) => option.type !== 'grouping' && option.label !== 'Grouping:' // exclude grouping(bracket) options
+);
 const onChange = (value, isOperator = false) => {
     if (isOperator) {
         filter.operator = value;
@@ -64,7 +67,7 @@ watch(select, () => {
                     {{ $t('message.select_field') }}
                 </option>
                 <option
-                    v-for="filterOption in global.state.fieldOptions"
+                    v-for="filterOption in filterOptions"
                     :key="filterOption.field"
                     :disabled="filterOption.disabled === true"
                 >
