@@ -6,25 +6,27 @@ const props = defineProps({
     count: { type: Number, default: null },
     showDownloadButtons: { type: Boolean, default: true },
 });
+
+const formatNumber = (value) => new Intl.NumberFormat('en-us').format(value);
 </script>
 
 <template>
-    <div class="grid grid-cols-4 gap-2 text-left py-3 border">
-        <div class="col-span-4">
-            <div class="flex items-center justify-center mt-1">
+    <div class="text-left py-3 border">
+        <div class="mx-5 pb-4">
+            <div class="mt-1">
                 <!-- eslint-disable vue/no-v-html -->
                 <span
                     class="my-2"
                     v-html="
                         $t('message.found_matching_iati_activities', {
-                            count: props.count,
+                            count: formatNumber(props.count),
                         })
                     "
                 ></span>
                 <!-- eslint-enable vue/no-v-html -->
             </div>
         </div>
-        <div class="flex items-center justify-center col-span-4">
+        <div class="mx-5">
             <SortButtons class="mr-4" />
             <DownloadButtons v-if="props.showDownloadButtons" />
         </div>
