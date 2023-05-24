@@ -18,7 +18,7 @@ const selected = computed({
 </script>
 
 <template>
-    <div class="flex max-w-[50%] mb-2">
+    <div class="flex min-w-[35%] max-w-[50%] mb-2">
         <VueMultiselect
             v-model="selected"
             :options="global.sortFields"

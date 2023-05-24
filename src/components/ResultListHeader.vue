@@ -29,7 +29,7 @@ const formatNumber = (value) => new Intl.NumberFormat('en-us').format(value);
                 <!-- eslint-enable vue/no-v-html -->
             </div>
         </div>
-        <div class="mx-5">
+        <div class="mx-5 flex">
             <SortButtons class="mr-4" :disabled="props.processing" />
             <DownloadButtons v-if="props.showDownloadButtons" />
         </div>
