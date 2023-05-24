@@ -15,6 +15,7 @@ export default {
         switch_to_advanced_search: 'Switch to Advanced Search',
         datastore_search_is_part_of_the_iati_unified_platform:
             'Datastore Search is part of the IATI Unified Platform',
+        iati_data_access_tools: 'IATI data access tools',
         privacy: 'Privacy',
         contact: 'Contact',
         twitter_aria: 'iati twitter profile link',

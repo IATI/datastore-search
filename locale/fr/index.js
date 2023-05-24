@@ -16,6 +16,7 @@ export default {
         datastore_search_is_part_of_the_iati_unified_platform:
             'La recherche dans la banque de données fait partie de la plateforme unifiée de l’IITA.',
         privacy: 'Confidentialité des données',
+        iati_data_access_tools: 'Outils d’accès aux onnées de l’IITA',
         contact: 'Contact',
         twitter_aria: 'lien vers la page twitter de l’iita',
         linkedin_aria: 'lien vers la page linkedin de l’iita',

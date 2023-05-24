@@ -80,15 +80,36 @@ import { LanguageIcon } from '@heroicons/vue/20/solid';
             </div>
         </header>
         <div class="flex-grow"><router-view /></div>
-        <footer class="bg-iati-grey text-white text-left text-sm">
+        <footer class="bg-iati-grey text-white text-center text-sm">
             <div class="mx-auto">
                 <div class="py-4 px-12 xl:max-w-[75%] mx-auto">
-                    <p class="inline-block float-left mt-1">
-                        {{ $t('message.datastore_search_is_part_of_the_iati_unified_platform') }}
-                    </p>
-
-                    <div class="float-right">
-                        <p class="inline-block float-left mt-1 mr-5">
+                    <div class="inline-block float-left flex mt-1 w-1/3">
+                        <p>
+                            {{
+                                $t('message.datastore_search_is_part_of_the_iati_unified_platform')
+                            }}
+                        </p>
+                    </div>
+                    <div class="inline-block float-left mt-1 mb-1 pl-5 w-1/3">
+                        <div class="text-left flex">
+                            <span class="w-full">{{ $t('message.iati_data_access_tools') }}:</span>
+                            <ul class="w-full ml-3">
+                                <li class="flex items-center">
+                                    <a href="https://countrydata.iatistandard.org/">• CDFD</a>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://d-portal.org/">• d-Portal</a>
+                                </li>
+                                <li class="flex items-center">
+                                    <a href="https://datastore.iatistandard.org/"
+                                        >• Datastore Search</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="float-right flex">
+                        <p class="inline-block align-top mt-1 mr-5">
                             <a
                                 class="hover:underline"
                                 role="link"
@@ -100,7 +121,7 @@ import { LanguageIcon } from '@heroicons/vue/20/solid';
                                 >{{ $t('message.privacy') }}</a
                             >
                         </p>
-                        <p class="inline-block float-left mt-1 mr-5">
+                        <p class="inline-block align-top mt-1 mr-5">
                             <a
                                 class="hover:underline"
                                 role="link"
