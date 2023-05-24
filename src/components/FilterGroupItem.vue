@@ -32,9 +32,11 @@ const updateFilterFromSelectedOption = (option) => {
 
     emit('change', filter);
 };
-const filterOptions = global.state.fieldOptions.filter(
-    (option) => option.type !== 'grouping' && option.label !== 'Grouping:' // exclude grouping(bracket) options
-);
+const filterOptions = global.state.fieldOptions
+    .filter(
+        (option) => option.type !== 'grouping' && option.label !== 'Grouping:' // exclude grouping(bracket) options
+    )
+    .map((option) => ({ ...option, $isDisabled: option.disabled }));
 const onChange = (value, isOperator = false) => {
     if (isOperator) {
         filter.operator = value;
@@ -52,28 +54,25 @@ watch(
     }
 );
 watch(select, () => {
-    selectedOption.value = getSelectedOption(select.value);
+    selectedOption.value = getSelectedOption(select.value.label);
     updateFilterFromSelectedOption(selectedOption.value);
 });
 </script>
 <template>
     <div class="grid grid-cols-7 gap-3 mt-3">
         <div class="col-span-3">
-            <select
+            <v-select
                 v-model="select"
-                class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-            >
-                <option ref="default-option" disabled value="" selected>
-                    {{ $t('message.select_field') }}
-                </option>
-                <option
-                    v-for="filterOption in filterOptions"
-                    :key="filterOption.field"
-                    :disabled="filterOption.disabled === true"
-                >
-                    {{ filterOption.label }}
-                </option>
-            </select>
+                :options="filterOptions"
+                :placeholder="$t('message.select_field')"
+                :allow-empty="false"
+                :selected-label="''"
+                :select-label="''"
+                :deselect-label="''"
+                track-by="field"
+                label="label"
+                class="filter-group-item"
+            />
         </div>
 
         <div v-if="selectedOption" class="col-span-3">
@@ -147,3 +146,21 @@ watch(select, () => {
         </div>
     </div>
 </template>
+
+<style>
+.filter-group-item .multiselect__content-wrapper {
+    width: 350px;
+    margin-top: 2px;
+    border-top: 1px solid #e8e8e8;
+}
+
+.filter-group-item .multiselect__single {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.filter-group-item .multiselect__option {
+    white-space: pre-wrap;
+    line-height: 1.3rem;
+}
+</style>
