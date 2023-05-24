@@ -1,7 +1,8 @@
 <script setup>
+import { ArrowDownIcon, ArrowDownTrayIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
 import { inject, ref } from 'vue';
-import { ArrowDownTrayIcon, ArrowDownIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
 import DropdownMenu from '../components/DropdownMenu.vue';
+import { formatNumber } from '../utils';
 import DropdownMenuContent from './DropdownMenuContent.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 
@@ -131,7 +132,7 @@ const core = ref('activity');
                             <span v-if="!props.iatiIdentifier">
                                 {{
                                     $t('message.download_confirmation_2b', {
-                                        count: global.state.responseTotal,
+                                        count: formatNumber(global.state.responseTotal),
                                     })
                                 }}
                             </span>

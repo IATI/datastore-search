@@ -1,14 +1,13 @@
 <script setup>
 import DownloadButtons from './DownloadButtons.vue';
 import SortButtons from './SortButtons.vue';
+import { formatNumber } from '../utils';
 
 const props = defineProps({
     count: { type: Number, default: null },
     showDownloadButtons: { type: Boolean, default: true },
     processing: { type: Boolean, default: false },
 });
-
-const formatNumber = (value) => new Intl.NumberFormat('en-us').format(value);
 </script>
 
 <template>
