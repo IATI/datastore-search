@@ -1,5 +1,4 @@
 <script setup>
-import VueMultiselect from 'vue-multiselect';
 import { inject, computed } from 'vue';
 
 import { BarsArrowDownIcon, BarsArrowUpIcon } from '@heroicons/vue/20/solid';
@@ -19,7 +18,7 @@ const selected = computed({
 
 <template>
     <div class="flex min-w-[35%] max-w-[50%] mb-2">
-        <VueMultiselect
+        <v-select
             v-model="selected"
             :options="global.sortFields"
             :placeholder="$t('message.sort')"
