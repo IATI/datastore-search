@@ -1,6 +1,9 @@
 <script setup>
 import { inject, ref } from 'vue';
-import { ArrowDownIcon } from '@heroicons/vue/20/solid';
+import { ArrowDownTrayIcon, ArrowDownIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
+import DropdownMenu from '../components/DropdownMenu.vue';
+import DropdownMenuContent from './DropdownMenuContent.vue';
+import DropdownMenuItem from './DropdownMenuItem.vue';
 
 const props = defineProps({ iatiIdentifier: { type: String, default: null } });
 const global = inject('global');
@@ -9,19 +12,23 @@ const core = ref('activity');
 
 <template>
     <div>
-        <div id="result-download-buttons">
-            <b class="block">{{ $t('message.download') }}:</b>
-            <button
-                v-for="format in global.state.download.formats"
-                :key="format"
-                class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline mb-1"
-                @click="global.toggleDownloadModal(format)"
-            >
-                <ArrowDownIcon class="inline h-5 w-5 text-grey-300 mr-1" />
-                <span>{{ format }}</span>
-                <div></div>
-            </button>
-        </div>
+        <DropdownMenu>
+            <template #toggler>
+                <button class="toggler text-grey-300 bg-iati-grey flex">
+                    <ArrowDownTrayIcon class="inline h-4 w-5 text-white" />
+                    <span class="align-bottom ml-2 text-white">Download</span>
+                    <ChevronDownIcon class="inline h-5 w-5 text-white ml-4" />
+                </button>
+            </template>
+            <DropdownMenuContent>
+                <DropdownMenuItem
+                    v-for="format in global.state.download.formats"
+                    :key="format"
+                    @click="global.toggleDownloadModal(format)"
+                    >Download as {{ format }}</DropdownMenuItem
+                >
+            </DropdownMenuContent>
+        </DropdownMenu>
         <teleport to="#modals">
             <div
                 v-if="global.state.download.showModal"
