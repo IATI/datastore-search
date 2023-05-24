@@ -1,3 +1,12 @@
+<script setup>
+import { inject, ref } from 'vue';
+import { ArrowDownIcon } from '@heroicons/vue/20/solid';
+
+const props = defineProps({ iatiIdentifier: { type: String, default: null } });
+const global = inject('global');
+const core = ref('activity');
+</script>
+
 <template>
     <div>
         <div id="result-download-buttons">
@@ -23,7 +32,7 @@
                     <div class="flex items-center justify-between">
                         <h2 class="text-2xl">
                             {{
-                                iatiIdentifier
+                                props.iatiIdentifier
                                     ? $t('message.download_activity_file')
                                     : $t('message.download_results_file')
                             }}
@@ -38,10 +47,10 @@
                             class="mb-4 mt-2 text-md"
                         >
                             {{ $t('message.download_confirmation_1') }}
-                            <span v-if="iatiIdentifier">
+                            <span v-if="props.iatiIdentifier">
                                 {{ $t('message.download_confirmation_2a') }}
                             </span>
-                            <span v-if="!iatiIdentifier">
+                            <span v-if="!props.iatiIdentifier">
                                 {{
                                     $t('message.download_confirmation_2b', {
                                         count: global.state.responseTotal,
@@ -75,10 +84,10 @@
                             class="mb-4 mt-2 text-md"
                         >
                             {{ $t('message.download_confirmation_1') }}
-                            <span v-if="iatiIdentifier">
+                            <span v-if="props.iatiIdentifier">
                                 {{ $t('message.download_confirmation_2a') }}
                             </span>
-                            <span v-if="!iatiIdentifier">
+                            <span v-if="!props.iatiIdentifier">
                                 {{
                                     $t('message.download_confirmation_2b', {
                                         count: global.state.responseTotal,
@@ -109,10 +118,10 @@
                         >
                             {{ $t('message.download_confirmation_1') }}
 
-                            <span v-if="iatiIdentifier">
+                            <span v-if="props.iatiIdentifier">
                                 {{ $t('message.download_confirmation_2a') }}
                             </span>
-                            <span v-if="!iatiIdentifier">
+                            <span v-if="!props.iatiIdentifier">
                                 {{
                                     $t('message.download_confirmation_2b', {
                                         count: global.state.responseTotal,
@@ -134,7 +143,7 @@
                                 @click="
                                     global.downloadFile(
                                         global.state.download.selectedFormat,
-                                        iatiIdentifier,
+                                        props.iatiIdentifier,
                                         core
                                     )
                                 "
@@ -156,17 +165,3 @@
         </teleport>
     </div>
 </template>
-
-<script>
-import { ArrowDownIcon } from '@heroicons/vue/20/solid';
-
-export default {
-    name: 'DownloadButtons',
-    components: { ArrowDownIcon },
-    inject: ['global'],
-    props: { iatiIdentifier: { type: String, default: null } },
-    data() {
-        return { core: 'activity' };
-    },
-};
-</script>
