@@ -6,7 +6,7 @@ import { ArrowUpIcon } from '@heroicons/vue/20/solid';
     <div
         v-if="global.state.import.showModal"
         role="dialog"
-        class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
+        class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-10"
     >
         <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
             <h2 class="text-2xl">{{ $t('message.import_filters') }}</h2>
