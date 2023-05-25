@@ -1,9 +1,12 @@
 <script setup>
-import { inject, onBeforeMount, ref } from 'vue';
+import { inject, provide, onBeforeMount, ref } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
 import SearchResults from '../components/SearchResults.vue';
+import AdvancedSearchBar from '../components/AdvancedSearchBar.vue';
 
 const global = inject('global');
+const showAdvancedSearch = ref(false);
+provide('showAdvancedSearch', showAdvancedSearch);
 
 onBeforeMount(() => {
     sessionStorage.removeItem('searchterm');
@@ -25,6 +28,7 @@ const onSearch = (query) => {
             <SearchBar class="landing" @search="onSearch" />
             <button
                 class="bg-slate-100 hover:bg-slate-300 text-slate-600 py-2 px-4 rounded hide-on-mobile"
+                @click="showAdvancedSearch = true"
             >
                 {{ $t('message.switch_to_advanced_search') }}
             </button>
@@ -33,4 +37,7 @@ const onSearch = (query) => {
             <SearchResults />
         </div>
     </div>
+    <teleport to="#searchbar">
+        <AdvancedSearchBar :show="showAdvancedSearch" />
+    </teleport>
 </template>
