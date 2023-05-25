@@ -35,7 +35,7 @@ const showAdvancedSearch = inject('showAdvancedSearch');
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 9000;
+    z-index: 2;
 }
 
 .search-bar--menu {
