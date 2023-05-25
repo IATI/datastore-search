@@ -1,49 +1,30 @@
 <script setup>
-import { LanguageIcon } from '@heroicons/vue/20/solid';
-import { inject } from 'vue';
 import NotificationBanner from './NotificationBanner.vue';
 import IatiLogo from './IatiLogo.vue';
-
-const global = inject('global');
+import LanguageSelector from './LanguageSelector.vue';
 </script>
 
 <template>
-    <header :aria-label="$t('message.main_header')">
-        <div class="bg-iati-grey text-white">
-            <div class="mx-5">
-                <div class="inline-block my-2 align-middle w-full sm:w-1/2 md:w-1/3">
-                    <a href="https://iatistandard.org" :title="$t('message.iati_standard_website')"
-                        ><IatiLogo colour="#fff" class="h-12 mx-auto"
-                    /></a>
-                    <div class="inline-block h-10 pt-3 mb-3">
-                        <LanguageIcon class="h-7 w-7 text-grey-300 float-left mr-1 mt-1" />
-                        <select
-                            class="h-10 float-left bg-white border rounded w-auto py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                            :value="global.state.language"
-                            @change="global.changeLocale($event.target.value)"
-                        >
-                            <option
-                                v-for="(langText, langKey) in global.state.available_locales"
-                                :key="langKey"
-                                :value="langKey"
-                            >
-                                <span>{{ langText }}</span>
-                            </option>
-                        </select>
-                    </div>
+    <header :aria-label="$t('message.main_header')" class="bg-iati-grey">
+        <div class="text-white ml-auto mr-auto max-w-[1200px] relative">
+            <div class="mx-5 flex">
+                <div class="inline-block my-2 w-full sm:w-1/2 md:w-1/3">
+                    <a href="https://iatistandard.org" :title="$t('message.iati_standard_website')">
+                        <IatiLogo colour="#fff" class="h-12" />
+                    </a>
                 </div>
                 <div class="inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3">
-                    <h1 class="text-4xl mt-5">
-                        <a href="/"
-                            ><b>{{ $t('message.datastore_search') }}</b></a
-                        >
+                    <h1 class="text-3xl mt-4 pb-3">
+                        <a href="/">
+                            <b>{{ $t('message.datastore_search') }}</b>
+                        </a>
                     </h1>
                 </div>
 
                 <div
-                    class="hidden md:inline-block h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3"
+                    class="hidden md:inline-flex justify-between h-full my-2 align-middle w-full sm:w-1/2 md:w-1/3"
                 >
-                    <nav :aria-label="$t('message.navigation')" class="ml-10 mt-8 text-xl">
+                    <nav :aria-label="$t('message.navigation')" class="ml-10 mt-5 text-xl">
                         <router-link
                             v-if="$route.path === '/advanced'"
                             to="/"
@@ -72,6 +53,7 @@ const global = inject('global');
                             $t('message.about')
                         }}</a>
                     </nav>
+                    <LanguageSelector />
                 </div>
             </div>
             <NotificationBanner />

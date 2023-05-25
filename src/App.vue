@@ -5,9 +5,11 @@ import TwitterLogo from './components/TwitterLogo.vue';
 </script>
 
 <template>
-    <div class="flex flex-col h-screen min-w-fit sm:min-w-0">
+    <div class="h-screen min-w-fit sm:min-w-0">
         <AppHeader />
-        <div class="flex-grow"><router-view /></div>
+        <div class="flex flex-col h-screen min-w-fit sm:min-w-0">
+            <div class="flex-grow"><router-view /></div>
+        </div>
         <footer class="bg-iati-grey text-white text-left text-sm">
             <div class="mx-auto">
                 <div class="py-4 px-12 xl:max-w-[75%] mx-auto">
