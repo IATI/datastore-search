@@ -1,5 +1,5 @@
 <script setup>
-import { inject, provide, onBeforeMount, ref } from 'vue';
+import { inject, provide, onBeforeMount, ref, watch } from 'vue';
 import SearchBar from '../components/SearchBar.vue';
 import SearchResults from '../components/SearchResults.vue';
 import AdvancedSearchBar from '../components/AdvancedSearchBar.vue';
@@ -17,6 +17,15 @@ const onSearch = (query) => {
         global.runSimple(query);
     }
 };
+
+watch(
+    () => global.state.queryInProgress,
+    () => {
+        if (global.state.queryInProgress) {
+            showAdvancedSearch.value = false;
+        }
+    }
+);
 </script>
 
 <template>
