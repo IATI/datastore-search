@@ -1,3 +1,12 @@
+<script setup>
+import { onBeforeMount } from 'vue';
+import SearchBar from '../components/SearchBar.vue';
+
+onBeforeMount(() => {
+    sessionStorage.removeItem('searchterm');
+});
+</script>
+
 <template>
     <div class="flex h-5/6">
         <div class="m-auto">
@@ -10,17 +19,3 @@
         </div>
     </div>
 </template>
-
-<script>
-import SearchBar from '../components/SearchBar.vue';
-
-export default {
-    name: 'LandingView',
-    components: {
-        SearchBar,
-    },
-    beforeMount() {
-        sessionStorage.removeItem('searchterm');
-    },
-};
-</script>
