@@ -4,7 +4,7 @@ import {
     QuestionMarkCircleIcon,
     XCircleIcon,
 } from '@heroicons/vue/24/outline';
-import { inject, ref, reactive, watch } from 'vue';
+import { computed, inject, ref, reactive, watch } from 'vue';
 import FilterBooleanInput from '../components/FilterBooleanInput.vue';
 import FilterComboInput from '../components/FilterComboInput.vue';
 import FilterDateInput from '../components/FilterDateInput.vue';
@@ -32,11 +32,13 @@ const updateFilterFromSelectedOption = (option) => {
 
     emit('change', filter);
 };
-const filterOptions = global.state.fieldOptions
-    .filter(
-        (option) => option.type !== 'grouping' && option.label !== 'Grouping:' // exclude grouping(bracket) options
-    )
-    .map((option) => ({ ...option, $isDisabled: option.disabled }));
+const filterOptions = computed(() =>
+    global.state.fieldOptions
+        .filter(
+            (option) => option.type !== 'grouping' && option.label !== 'Grouping:' // exclude grouping(bracket) options
+        )
+        .map((option) => ({ ...option, $isDisabled: option.disabled }))
+);
 const onChange = (value, isOperator = false) => {
     if (isOperator) {
         filter.operator = value;
