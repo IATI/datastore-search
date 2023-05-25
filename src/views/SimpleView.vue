@@ -1,12 +1,29 @@
+<script setup>
+import { inject, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
+import SearchBar from '../components/SearchBar.vue';
+import ResultList from '../components/ResultList.vue';
+import DownloadButtons from '../components/DownloadButtons.vue';
+import SortButtons from '../components/SortButtons.vue';
+
+const global = inject('global');
+const router = useRouter();
+
+onBeforeUnmount(() => {
+    sessionStorage.removeItem('searchterm');
+});
+
+const goToAdvanced = () => {
+    global.importSimpleSearchToAdv();
+    router.push({ path: '/advanced' });
+};
+</script>
+
 <template>
     <div class="flex flex-col h-full min-w-fit sm:min-w-0">
-        <div
-            class="px-2 md:grid md:grid-cols-11 lg:grid-cols-12 md:gap-4 text-left border-b"
-        >
+        <div class="px-2 md:grid md:grid-cols-11 lg:grid-cols-12 md:gap-4 text-left border-b">
             <div class="col-span-1 hidden 2xl:block"></div>
-            <div
-                class="my-auto col-span-3 md:col-span-4 lg:col-span-3 2xl:col-span-2 ml-2"
-            >
+            <div class="my-auto col-span-3 md:col-span-4 lg:col-span-3 2xl:col-span-2 ml-2">
                 <SearchBar class="simple" />
             </div>
             <button
@@ -20,6 +37,7 @@
                 v-if="global.state.responseTotal > 0"
                 class="flex col-span-1 xl:col-span-2 justify-center items-center"
             >
+                <!-- eslint-disable vue/no-v-html -->
                 <span
                     class="my-2"
                     v-html="
@@ -28,16 +46,14 @@
                         })
                     "
                 ></span>
+                <!-- eslint-enable vue/no-v-html -->
             </div>
             <div
                 v-if="global.state.responseTotal > 0"
                 class="flex col-span-2 md:col-span-3 m-1 justify-left items-center"
             >
                 <SortButtons
-                    v-if="
-                        global.state.responseTotal != null &&
-                        global.state.responseTotal > 0
-                    "
+                    v-if="global.state.responseTotal != null && global.state.responseTotal > 0"
                 />
             </div>
             <div
@@ -50,30 +66,3 @@
         <ResultList />
     </div>
 </template>
-
-<script>
-import SearchBar from '../components/SearchBar.vue';
-import ResultList from '../components/ResultList.vue';
-import DownloadButtons from '../components/DownloadButtons.vue';
-import SortButtons from '../components/SortButtons.vue';
-
-export default {
-    name: 'SimpleView',
-    components: {
-        SearchBar,
-        ResultList,
-        DownloadButtons,
-        SortButtons,
-    },
-    inject: ['global'],
-    beforeUnmount() {
-        sessionStorage.removeItem('searchterm');
-    },
-    methods: {
-        goToAdvanced() {
-            this.global.importSimpleSearchToAdv();
-            this.$router.push({ path: '/advanced' });
-        },
-    },
-};
-</script>
