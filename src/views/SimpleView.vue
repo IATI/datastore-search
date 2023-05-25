@@ -1,21 +1,20 @@
 <script setup>
 import { inject, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
 import SearchBar from '../components/SearchBar.vue';
 import ResultList from '../components/ResultList.vue';
 import DownloadButtons from '../components/DownloadButtons.vue';
 import SortButtons from '../components/SortButtons.vue';
 
 const global = inject('global');
-const router = useRouter();
+const showAdvancedSearch = inject('showAdvancedSearch');
 
 onBeforeUnmount(() => {
     sessionStorage.removeItem('searchterm');
 });
 
 const goToAdvanced = () => {
-    global.importSimpleSearchToAdv();
-    router.push({ path: '/advanced' });
+    // global.importSimpleSearchToAdv();
+    showAdvancedSearch.value = true;
 };
 </script>
 
