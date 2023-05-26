@@ -28,7 +28,7 @@ const onSearch = (query) => {
                     <SearchBar class="simple" @search="onSearch" />
                 </div>
                 <button
-                    v-if="global.state.responseTotal > 0"
+                    v-if="!global.state.queryInProgress"
                     class="py-2 px-4 justify-self-start 2xl:ml-6 my-auto bg-slate-100 hover:bg-slate-300 text-slate-600 font-medium rounded"
                     @click="showAdvancedSearch = true"
                 >

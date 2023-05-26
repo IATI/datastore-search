@@ -42,7 +42,10 @@ watch(
                 {{ $t('message.switch_to_advanced_search') }}
             </button>
         </div>
-        <div v-if="global.state.queryInProgress || global.state.responseTotal != null">
+        <div
+            v-if="global.state.queryInProgress || global.state.responseTotal != null"
+            class="flex-grow"
+        >
             <SearchResults />
         </div>
     </div>
