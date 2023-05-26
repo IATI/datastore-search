@@ -35,10 +35,10 @@ const onSearch = (query) => {
                     {{ $t('message.advanced') }}
                 </button>
             </div>
-            <div class="flex items-center mb-3 justify-between">
+            <div class="md:flex items-center mb-3 justify-between">
                 <div
                     v-if="global.state.responseTotal > 0"
-                    class="flex justify-center items-center mr-5"
+                    class="md:flex md:justify-center items-center mb-3 md:mb-0 mr-5"
                 >
                     <!-- eslint-disable vue/no-v-html -->
                     <span
@@ -51,10 +51,10 @@ const onSearch = (query) => {
                     ></span>
                     <!-- eslint-enable vue/no-v-html -->
                 </div>
-                <div class="inline-flex">
+                <div class="sm:inline-flex">
                     <div
                         v-if="global.state.responseTotal > 0"
-                        class="flex mx-1 justify-left items-center"
+                        class="flex ml-0 md:mx-1 justify-left items-center"
                     >
                         <SortButtons
                             v-if="
@@ -65,7 +65,7 @@ const onSearch = (query) => {
                     </div>
                     <div
                         v-if="global.state.responseTotal > 0"
-                        class="flex justify-left items-center m-1"
+                        class="flex justify-left items-center mt-2 sm:m-1"
                     >
                         <DownloadButtons />
                     </div>
