@@ -1,4 +1,5 @@
 <script setup>
+import { XMarkIcon } from '@heroicons/vue/20/solid';
 import { inject, ref, watch } from 'vue';
 import SideBar from '../components/SideBar.vue';
 
@@ -29,6 +30,10 @@ const onClose = () => {
         @click.stop="onClose"
     >
         <div class="search-bar--menu" :class="{ show }" @click.stop>
+            <div class="p-4 text-left flex justify-between items-center">
+                <h1 class="text-3xl font-semibold">{{ $t('message.advanced_search') }}</h1>
+                <XMarkIcon class="h-25 w-10 text-grey-300 mr-1 cursor-pointer" @click="onClose" />
+            </div>
             <SideBar />
         </div>
     </div>
