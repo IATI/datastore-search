@@ -29,7 +29,7 @@ const onClose = () => {
         :class="{ '!block': showAdvancedSearch }"
         @click.stop="onClose"
     >
-        <div class="search-bar--menu" :class="{ show }" @click.stop>
+        <div class="search-bar--menu pr-4 md:pr-0" :class="{ show }" @click.stop>
             <div class="p-4 text-left flex justify-between items-center">
                 <h1 class="text-3xl font-semibold">{{ $t('message.advanced_search') }}</h1>
                 <XMarkIcon class="h-25 w-10 text-grey-300 mr-1 cursor-pointer" @click="onClose" />
@@ -73,5 +73,12 @@ const onClose = () => {
 
 .search-bar .search-bar--menu.show {
     transform: translateX(-100%);
+}
+
+@media only screen and (max-width: 600px) {
+    .search-bar--menu {
+        right: -100%;
+        width: 100%;
+    }
 }
 </style>
