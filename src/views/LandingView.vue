@@ -47,6 +47,6 @@ watch(
         </div>
     </div>
     <teleport to="#searchbar">
-        <AdvancedSearchBar :show="showAdvancedSearch" />
+        <AdvancedSearchBar />
     </teleport>
 </template>

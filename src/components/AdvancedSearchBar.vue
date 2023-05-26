@@ -1,16 +1,32 @@
 <script setup>
-import { inject } from 'vue';
+import { inject, ref, watch } from 'vue';
 import SideBar from '../components/SideBar.vue';
-defineProps({ show: Boolean });
 
 const showAdvancedSearch = inject('showAdvancedSearch');
+const show = ref(false);
+
+watch(showAdvancedSearch, () => {
+    if (showAdvancedSearch.value) {
+        setTimeout(() => {
+            show.value = true;
+        }, 10);
+    } else if (show.value) {
+        show.value = false;
+    }
+});
+const onClose = () => {
+    show.value = false;
+    setTimeout(() => {
+        showAdvancedSearch.value = false;
+    }, 310);
+};
 </script>
 
 <template>
     <div
         class="search-bar--wrapper"
-        :class="{ '!block': show }"
-        @click.stop="showAdvancedSearch = false"
+        :class="{ '!block': showAdvancedSearch }"
+        @click.stop="onClose"
     >
         <div class="search-bar--menu" :class="{ show }" @click.stop>
             <SideBar />
@@ -44,13 +60,13 @@ const showAdvancedSearch = inject('showAdvancedSearch');
     bottom: 0;
     overflow-y: auto;
     position: fixed;
-    left: 360px;
+    right: -560px;
     top: 0;
     width: 560px;
     transition: transform 0.3s;
 }
 
 .search-bar .search-bar--menu.show {
-    transform: translateX(-360px);
+    transform: translateX(-560px);
 }
 </style>
