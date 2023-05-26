@@ -13,9 +13,10 @@ onBeforeUnmount(() => {
     sessionStorage.removeItem('searchterm');
 });
 
-const goToAdvanced = () => {
-    // global.importSimpleSearchToAdv();
-    showAdvancedSearch.value = true;
+const onSearch = (query) => {
+    if (query) {
+        global.runSimple(query);
+    }
 };
 </script>
 
@@ -24,12 +25,12 @@ const goToAdvanced = () => {
         <div class="px-2 md:gap-4 text-left border-b">
             <div class="inline-flex">
                 <div class="my-auto mr-2">
-                    <SearchBar class="simple" />
+                    <SearchBar class="simple" @search="onSearch" />
                 </div>
                 <button
                     v-if="global.state.responseTotal > 0"
                     class="py-2 px-4 justify-self-start 2xl:ml-6 my-auto bg-slate-100 hover:bg-slate-300 text-slate-600 font-medium rounded"
-                    @click="goToAdvanced"
+                    @click="showAdvancedSearch = true"
                 >
                     {{ $t('message.advanced') }}
                 </button>
