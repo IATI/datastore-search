@@ -60,13 +60,13 @@ const onClose = () => {
     bottom: 0;
     overflow-y: auto;
     position: fixed;
-    right: -560px;
+    right: -50%;
     top: 0;
-    width: 560px;
+    width: 50%;
     transition: transform 0.3s;
 }
 
 .search-bar .search-bar--menu.show {
-    transform: translateX(-560px);
+    transform: translateX(-100%);
 }
 </style>
