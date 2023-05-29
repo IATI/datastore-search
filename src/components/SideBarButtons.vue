@@ -15,7 +15,7 @@ const emits = defineEmits(['run']);
     <div id="buttons w-full">
         <div
             v-if="global.state.filters.length > 0"
-            class="border-solid border-t border-b py-5 flex justify-between w-full px-4"
+            class="border-solid border-t border-b py-5 flex justify-between w-full px-4 content-end pr-0"
         >
             <AppButton
                 :aria-label="$t('message.add_aria')"
@@ -27,7 +27,7 @@ const emits = defineEmits(['run']);
                 <PlusCircleIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
                 <span class="uppercase">{{ $t('message.add') }}</span>
             </AppButton>
-            <div>
+            <div class="hidden">
                 <AppButton
                     :aria-label="$t('message.export_aria')"
                     variant="red"
@@ -53,6 +53,7 @@ const emits = defineEmits(['run']);
                 :aria-label="$t('message.run_aria')"
                 variant="green"
                 size="sm"
+                class="float-right"
                 @click="emits('run')"
             >
                 <PlayIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
