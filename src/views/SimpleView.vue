@@ -60,7 +60,7 @@ const onSearch = (query) => {
                             v-if="
                                 global.state.responseTotal != null && global.state.responseTotal > 0
                             "
-                            class="max-w-full mb-0"
+                            class="max-w-full sm:mb-0"
                         />
                     </div>
                     <div
