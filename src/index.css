@@ -11,9 +11,9 @@
         font-size: 0.8em;
     }
 
-    .has-tooltip:hover .tooltip {
+    .has-tooltip .tooltip.open {
         @apply visible z-50;
-        width: 400px;
+        max-width: 400px;
         text-align: left;
     }
 

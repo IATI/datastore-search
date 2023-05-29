@@ -48,12 +48,7 @@ const buttonClasses =
                 </button>
             </template>
             <TooltipContent>
-                <span
-                    role="definition"
-                    class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
-                >
-                    The selected operator is used to join all elements within the group
-                </span>
+                The selected operator is used to join all elements within the group
             </TooltipContent>
         </AppTooltip>
 
