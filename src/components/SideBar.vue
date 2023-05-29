@@ -1,11 +1,15 @@
 <script setup>
-import { inject } from 'vue';
+import { inject, onBeforeMount } from 'vue';
 import FilterInputs from './FilterInputs.vue';
 import ExportModal from './ExportModal.vue';
 import ImportModal from './ImportModal.vue';
 import BboxModal from './BboxModal.vue';
 
 const global = inject('global');
+
+onBeforeMount(() => {
+    global.addFilter();
+});
 </script>
 
 <template>
