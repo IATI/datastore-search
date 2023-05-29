@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
 import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
+import AppTooltip from './AppTooltip.vue';
+import TooltipContent from './TooltipContent.vue';
 
 defineProps({
     deletable: { type: Boolean, default: true },
@@ -39,15 +41,21 @@ const buttonClasses =
                 {{ $t('message.or') }}
             </button>
         </div>
-        <button type="button" class="p-2 block has-tooltip">
-            <QuestionMarkCircleIcon class="h-6 cursor-pointer" />
-            <span
-                role="definition"
-                class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
-            >
-                The selected operator is used to join all elements within the group
-            </span>
-        </button>
+        <AppTooltip>
+            <template #trigger>
+                <button type="button" class="p-2 block">
+                    <QuestionMarkCircleIcon class="h-6 cursor-pointer" />
+                </button>
+            </template>
+            <TooltipContent>
+                <span
+                    role="definition"
+                    class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
+                >
+                    The selected operator is used to join all elements within the group
+                </span>
+            </TooltipContent>
+        </AppTooltip>
 
         <div v-if="deletable" class="p-2 float-right">
             <XCircleIcon class="h-6 cursor-pointer" @click="emits('delete')" />
