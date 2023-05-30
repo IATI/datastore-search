@@ -309,9 +309,16 @@
         transform-origin: left center;
     }
 
-    [data-size~='small']:after {
+    [data-size]:after {
+        white-space: inherit;
+    }
+
+    [data-size~='sm']:after {
         width: 220px;
-        white-space: pre-wrap;
+    }
+
+    [data-size~='md']:after {
+        width: 320px;
     }
 
     @media screen and (min-width: 1700px) {

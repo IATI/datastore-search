@@ -130,19 +130,20 @@ watch(select, () => {
                     type="link"
                     target="_blank"
                     aria-label="Link to codelist describe on iati website"
-                    class="float-left has-tooltip"
+                    class="float-left"
                     :href="global.state.codelistURL + selectedOption.codelist_name"
                 >
                     <ArrowTopRightOnSquareIcon class="h-5 mr-1 -mt-[1px]" />
                 </a>
-                <button class="has-tooltip" type="button" aria-label="Hover for description">
-                    <QuestionMarkCircleIcon v-if="filter.desc" class="h-5" />
-                    <span
-                        role="definition"
-                        class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
-                    >
-                        {{ filter.desc }}
-                    </span>
+                <button
+                    v-if="filter.desc"
+                    type="button"
+                    aria-label="Hover for description"
+                    :data-tooltip="filter.desc"
+                    data-position="bottom right"
+                    data-size="md"
+                >
+                    <QuestionMarkCircleIcon class="h-5" />
                 </button>
             </div>
         </div>
