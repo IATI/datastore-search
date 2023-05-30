@@ -1,6 +1,5 @@
 <script setup>
 import NotificationBanner from './NotificationBanner.vue';
-import IatiLogo from './IatiLogo.vue';
 import LanguageSelector from './LanguageSelector.vue';
 </script>
 
@@ -8,10 +7,12 @@ import LanguageSelector from './LanguageSelector.vue';
     <header :aria-label="$t('message.main_header')" class="bg-iati-grey">
         <div class="text-white ml-auto mr-auto max-w-[1200px] relative">
             <div class="lg:mx-5 lg:flex">
-                <div class="flex justify-center lg:inline-block my-2 w-full lg:w-1/3">
-                    <a href="https://iatistandard.org" :title="$t('message.iati_standard_website')">
-                        <IatiLogo colour="#fff" class="h-12" />
-                    </a>
+                <div class="lg:inline-block my-2 w-full lg:w-1/3">
+                    <a
+                        href="https://iatistandard.org"
+                        :title="$t('message.iati_standard_website')"
+                        class="bg-logo-white h-12 bg-contain block bg-no-repeat lg:bg-left bg-center"
+                    ></a>
                 </div>
                 <div class="inline-block h-full my-2 align-middle w-full md:w-1/2 lg:w-1/3">
                     <h1 class="text-3xl mt-1 md:mt-4 pb-3">
