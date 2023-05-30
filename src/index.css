@@ -367,3 +367,11 @@
         }
     }
 }
+
+.multiselect__option--highlight {
+    background: #81c3d6;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+    background: #155366;
+}
