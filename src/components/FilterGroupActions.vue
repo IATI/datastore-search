@@ -41,9 +41,10 @@ const buttonClasses =
         </div>
         <button
             type="button"
-            class="p-2 block tooltip-small"
+            class="m-2 block"
             data-tooltip="The selected operator is used to join all elements within the group"
             data-position="bottom right"
+            data-size="small"
         >
             <QuestionMarkCircleIcon class="h-6 cursor-pointer" />
         </button>
