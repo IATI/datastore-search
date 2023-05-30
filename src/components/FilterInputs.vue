@@ -1,6 +1,7 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
 import { inject, reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import FilterGroup from './FilterGroup.vue';
 import SideBarButtons from './SideBarButtons.vue';
 
@@ -9,6 +10,8 @@ defineProps({
 });
 
 const global = inject('global');
+const route = useRoute();
+const router = useRouter();
 
 let group = reactive({ id: uuidv4(), type: 'group', operator: 'AND', items: [] });
 
@@ -83,6 +86,10 @@ const validateGroup = (grup) => {
 const onRun = () => {
     const [isValid] = validateGroup(group);
     if (isValid) {
+        if (route.query.q) {
+            router.push({ path: '/' });
+            sessionStorage.removeItem('searchterm');
+        }
         global.run();
     }
 };
