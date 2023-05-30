@@ -217,18 +217,11 @@ onBeforeMount(() => {
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full mx-5">
         <div class="flex-grow">
             <router-view />
-            <div v-if="activity" class="grid grid-cols-10 gap-4 text-left mb-5">
-                <div class="col-span-1"></div>
-                <h1 class="col-span-6 mt-10">
-                    {{ $t('message.overview_of_iati_activity') }}
-                </h1>
-                <div
-                    v-if="global.state.responseDocs"
-                    class="col-span-2 mt-10 pb-2 hover:underline text-sky-700"
-                >
+            <div v-if="activity" class="text-left mb-5 font-medium">
+                <div v-if="global.state.responseDocs" class="mt-4 hover:underline text-sky-700">
                     <router-link v-if="global.state.simpleSearch" to="/simple">
                         {{ $t('message.back_to_results') }}
                     </router-link>
@@ -236,17 +229,13 @@ onBeforeMount(() => {
                         {{ $t('message.back_to_results') }}
                     </router-link>
                 </div>
-                <div v-if="!global.state.responseDocs" class="col-span-2 mt-10 pb-2"></div>
-                <div class="col-span-1"></div>
-
-                <div class="col-span-1"></div>
-                <h1 class="col-span-8 text-2xl border-b pb-2 break-words">
+                <h1 class="mt-5 text-lg">
+                    {{ $t('message.overview_of_iati_activity') }}
+                </h1>
+                <h1 class="mt-4 pb-2 text-2xl border-b break-words text-iati-grey">
                     <b>{{ activity.title_narrative }}</b>
                 </h1>
-                <div class="col-span-1"></div>
-
-                <div class="col-span-1"></div>
-                <div class="col-span-8 border-b pb-3">
+                <div class="border-b pb-3">
                     <div class="grid grid-cols-2">
                         <DownloadButtons
                             :iati-identifier="activity.iati_identifier"
@@ -265,29 +254,21 @@ onBeforeMount(() => {
                         </div>
                     </div>
                 </div>
-                <div class="col-span-1"></div>
-
-                <div class="col-span-1"></div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.publisher') }}:
                     <b>{{ activity.reporting_org_narrative }}</b>
                 </div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.iati_identifier') }}:
                     <b>{{ activity.iati_identifier }}</b>
                 </div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.last_updated') }}:
                     <b>{{ prettyDateTime(activity.last_updated_datetime) }}</b>
                 </div>
-                <div class="col-span-3"></div>
-
-                <div class="col-span-1"></div>
                 <p class="col-span-8 border-b border-t pt-3 pb-3 break-words">
                     {{ activity.description_narrative }}
                 </p>
-                <div class="col-span-1"></div>
-                <div class="col-span-1"></div>
                 <div class="col-span-9 border-b pb-3">
                     {{ $t('message.participating_organisations') }}:
                     <span
@@ -303,25 +284,22 @@ onBeforeMount(() => {
                         </span></span
                     >
                 </div>
-
-                <div class="col-span-1"></div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.planned_start') }}:
                     <b>{{ prettyDate(dates.plannedStart) }}</b>
                 </div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.actual_start') }}:
                     <b>{{ prettyDate(dates.actualStart) }}</b>
                 </div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.planned_end') }}:
                     <b>{{ prettyDate(dates.plannedEnd) }}</b>
                 </div>
-                <div class="col-span-2">
+                <div class="">
                     {{ $t('message.actual_end') }}:
                     <b>{{ prettyDate(dates.actualEnd) }}</b>
                 </div>
-                <div class="col-span-1"></div>
             </div>
         </div>
     </div>
