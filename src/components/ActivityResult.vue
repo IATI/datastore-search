@@ -232,10 +232,10 @@ onBeforeMount(() => {
                 <h1 class="mt-5 text-lg">
                     {{ $t('message.overview_of_iati_activity') }}
                 </h1>
-                <h1 class="mt-4 pb-2 text-2xl border-b break-words text-iati-grey">
+                <h1 class="mt-4 pb-2 text-2xl border-b border-dashed break-words text-iati-grey">
                     <b>{{ activity.title_narrative }}</b>
                 </h1>
-                <div class="border-b py-3 flex items-center">
+                <div class="border-b border-dashed py-3 flex items-center">
                     <DownloadButtons :iati-identifier="activity.iati_identifier" />
                     <a
                         v-if="dPortalLink"
@@ -270,7 +270,7 @@ onBeforeMount(() => {
                     {{ activity.description_narrative }}
                 </p>
 
-                <div class="border-b pb-3">
+                <div class="pt-3">
                     <span class="font-normal">
                         {{ $t('message.participating_organisations') }}:
                     </span>
@@ -288,21 +288,28 @@ onBeforeMount(() => {
                         </span>
                     </span>
                 </div>
-                <div class="">
-                    {{ $t('message.planned_start') }}:
-                    <b>{{ prettyDate(dates.plannedStart) }}</b>
-                </div>
-                <div class="">
-                    {{ $t('message.actual_start') }}:
-                    <b>{{ prettyDate(dates.actualStart) }}</b>
-                </div>
-                <div class="">
-                    {{ $t('message.planned_end') }}:
-                    <b>{{ prettyDate(dates.plannedEnd) }}</b>
-                </div>
-                <div class="">
-                    {{ $t('message.actual_end') }}:
-                    <b>{{ prettyDate(dates.actualEnd) }}</b>
+
+                <div class="flex font-normal flex-col md:flex-row pt-3">
+                    <div class="mr-5 flex mb-2 lg:mb-0">
+                        <div class="mr-5">
+                            {{ $t('message.planned_start') }}:
+                            <b>{{ prettyDate(dates.plannedStart) }}</b>
+                        </div>
+                        <div class="">
+                            {{ $t('message.actual_start') }}:
+                            <b>{{ prettyDate(dates.actualStart) }}</b>
+                        </div>
+                    </div>
+                    <div class="mr-5 flex mb-2 lg:mb-0">
+                        <div class="mr-5">
+                            {{ $t('message.planned_end') }}:
+                            <b>{{ prettyDate(dates.plannedEnd) }}</b>
+                        </div>
+                        <div class="">
+                            {{ $t('message.actual_end') }}:
+                            <b>{{ prettyDate(dates.actualEnd) }}</b>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
