@@ -68,9 +68,10 @@ watch(select, () => {
                 (!filter.desc ||
                     !(selectedOption && ['select', 'combo'].includes(selectedOption.type))) &&
                 !(
-                    selectedOption.type === 'number' ||
-                    selectedOption.type === 'integer' ||
-                    selectedOption.type === 'date'
+                    selectedOption &&
+                    (selectedOption.type === 'number' ||
+                        selectedOption.type === 'integer' ||
+                        selectedOption.type === 'date')
                 )
                     ? 'col-span-3'
                     : 'col-span-2'
@@ -94,9 +95,10 @@ watch(select, () => {
             v-if="selectedOption"
             class="md:col-span-3"
             :class="
-                selectedOption.type === 'number' ||
-                selectedOption.type === 'integer' ||
-                selectedOption.type === 'date'
+                selectedOption &&
+                (selectedOption.type === 'number' ||
+                    selectedOption.type === 'integer' ||
+                    selectedOption.type === 'date')
                     ? 'col-span-4'
                     : 'col-span-3'
             "
