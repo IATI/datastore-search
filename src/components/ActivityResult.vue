@@ -1,5 +1,219 @@
 <script setup>
 import axios from 'axios';
+import { computed, inject, onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import i18n from '../i18n.js';
+import DownloadButtons from './DownloadButtons.vue';
+
+const { t } = i18n.global;
+
+defineProps({ searchType: { type: String, default: '' } });
+
+const global = inject('global');
+const router = useRouter();
+const route = useRoute();
+const activity = ref(null);
+const dates = ref(null);
+const dPortalLink = computed(() => {
+    const baseUrl = 'http://d-portal.org/ctrack.html';
+    return (
+        activity.value &&
+        `${baseUrl}?publisher=${activity.value.reporting_org_ref}#view=act&aid=${activity.value.iati_identifier}`
+    );
+});
+
+const requestData = () => {
+    const axiosConfig = {
+        headers: {
+            'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
+        },
+    };
+
+    const id = window.encodeURIComponent(route.params.iati_identifier);
+    const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
+    const fields = [
+        'title_narrative',
+        'title_narrative_xml_lang',
+        'description_narrative',
+        'description_narrative_xml_lang',
+        'participating_org_narrative',
+        'participating_org_narrative_xml_lang',
+        'iati_identifier',
+        'last_updated_datetime',
+        'reporting_org_ref',
+        'reporting_org_narrative',
+        'reporting_org_narrative_xml_lang',
+        'activity_date',
+    ].join(',');
+    const baseUrl = `${domain}/dss/activity/select?wt=json&sort=iati_identifier asc&fl=${fields}*&rows=1&q=`;
+
+    axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then(({ data }) => {
+        if (data.response.numFound === 0) {
+            router.push({ name: 'NotFound' });
+        } else {
+            activity.value = data.response.docs[0];
+
+            if ('description_narrative' in activity.value) {
+                if ('description_narrative_xml_lang' in activity.value) {
+                    for (const narrativeKey in activity.value.description_narrative_xml_lang) {
+                        if (
+                            activity.value.description_narrative_xml_lang[narrativeKey] ===
+                            global.state.language
+                        ) {
+                            const langDescriptionNarrative =
+                                activity.value.description_narrative[narrativeKey];
+                            activity.value.description_narrative.splice(narrativeKey, 1);
+                            activity.value.description_narrative.unshift(langDescriptionNarrative);
+                            break;
+                        }
+                    }
+                }
+                activity.value.description_narrative = activity.value.description_narrative[0];
+            } else {
+                activity.value.description_narrative = t('message.description_not_provided');
+            }
+            if ('title_narrative' in activity.value) {
+                if ('title_narrative_xml_lang' in activity.value) {
+                    for (const narrativeKey in activity.value.title_narrative_xml_lang) {
+                        if (
+                            activity.value.title_narrative_xml_lang[narrativeKey] ===
+                            global.state.language
+                        ) {
+                            const langTitleNarrative = activity.value.title_narrative[narrativeKey];
+                            activity.value.title_narrative.splice(narrativeKey, 1);
+                            activity.value.title_narrative.unshift(langTitleNarrative);
+                            break;
+                        }
+                    }
+                }
+                activity.value.title_narrative = activity.value.title_narrative[0];
+            } else {
+                activity.value.title_narrative = t('message.title_not_provided');
+            }
+            if ('reporting_org_narrative' in activity.value) {
+                if ('reporting_org_narrative_xml_lang' in activity.value) {
+                    for (const narrativeKey in activity.value.reporting_org_narrative_xml_lang) {
+                        if (
+                            activity.value.reporting_org_narrative_xml_lang[narrativeKey] ===
+                            global.state.language
+                        ) {
+                            const langReportingOrgNarrative =
+                                activity.value.reporting_org_narrative[narrativeKey];
+                            activity.value.reporting_org_narrative.splice(narrativeKey, 1);
+                            activity.value.reporting_org_narrative.unshift(
+                                langReportingOrgNarrative
+                            );
+                            break;
+                        }
+                    }
+                }
+                activity.value.reporting_org_narrative = activity.value.reporting_org_narrative[0];
+            } else {
+                activity.value.reporting_org_narrative = t('message.name_not_provided');
+            }
+            if ('participating_org_narrative' in activity.value) {
+                if ('participating_org_narrative_xml_lang' in activity.value) {
+                    let orderedParticipatingOrgs = [];
+                    for (const narrativeKey in activity.value
+                        .participating_org_narrative_xml_lang) {
+                        if (
+                            activity.value.participating_org_narrative_xml_lang[narrativeKey] ===
+                            global.state.language
+                        ) {
+                            orderedParticipatingOrgs.push(
+                                activity.value.participating_org_narrative[narrativeKey]
+                            );
+                        }
+                    }
+                    for (const narrativeKey in activity.value
+                        .participating_org_narrative_xml_lang) {
+                        if (
+                            activity.value.participating_org_narrative_xml_lang[narrativeKey] !==
+                            global.state.language
+                        ) {
+                            orderedParticipatingOrgs.push(
+                                activity.value.participating_org_narrative[narrativeKey]
+                            );
+                        }
+                    }
+                    activity.value.participating_org_narrative = orderedParticipatingOrgs;
+                }
+            } else {
+                activity.value.participating_org_narrative = [t('message.not_provided')];
+            }
+
+            dates.value = {
+                plannedStart: null,
+                actualStart: null,
+                plannedEnd: null,
+                actualEnd: null,
+            };
+
+            const activityDateTypes = {
+                planned_start: '1',
+                actual_start: '2',
+                planned_end: '3',
+                actual_end: '4',
+            };
+
+            for (const key in activity.value['activity_date_type']) {
+                const dt = activity.value['activity_date_iso_date'][key];
+
+                switch (activity.value['activity_date_type'][key]) {
+                    case activityDateTypes.planned_start:
+                        dates.value['plannedStart'] = dt;
+                        break;
+                    case activityDateTypes.actual_start:
+                        dates.value['actualStart'] = dt;
+                        break;
+                    case activityDateTypes.planned_end:
+                        dates.value['plannedEnd'] = dt;
+                        break;
+                    case activityDateTypes.actual_end:
+                        dates.value['actualEnd'] = dt;
+                        break;
+                }
+            }
+
+            const titleEl = document.querySelector('head title');
+            titleEl.textContent = `${activity.value.title_narrative} - IATI Datastore Search`;
+
+            const descEl = document.querySelector('head meta[name="description"]');
+            descEl.setAttribute(
+                'content',
+                `IATI identifier: ${activity.value.iati_identifier}, ` +
+                    `Publisher: ${activity.value.reporting_org_narrative}, ` +
+                    `Description: ${activity.value.description_narrative}, ` +
+                    `Participating organisations: ${activity.value.participating_org_narrative}`
+            );
+        }
+    });
+};
+
+const prettyDate = (dt) => {
+    if (dt === null) {
+        return t('message.not_present');
+    }
+    return new Date(dt).toLocaleDateString('en-gb', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+    });
+};
+
+const prettyDateTime = (dt) => {
+    return new Date(dt).toLocaleDateString('en-gb', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+};
+
+onBeforeMount(() => {
+    requestData();
+});
 </script>
 
 <template>
@@ -112,242 +326,3 @@ import axios from 'axios';
         </div>
     </div>
 </template>
-
-<script>
-import DownloadButtons from './DownloadButtons.vue';
-
-export default {
-    name: 'ActivityResult',
-    components: {
-        DownloadButtons,
-    },
-    inject: ['global'],
-    props: {
-        searchType: { type: String, default: '' },
-    },
-    data: function () {
-        return {
-            activity: null,
-            dates: null,
-        };
-    },
-    computed: {
-        dPortalLink() {
-            const baseUrl = 'http://d-portal.org/ctrack.html';
-            return (
-                this.activity &&
-                `${baseUrl}?publisher=${this.activity.reporting_org_ref}#view=act&aid=${this.activity.iati_identifier}`
-            );
-        },
-    },
-    created() {
-        this.requestData();
-    },
-    methods: {
-        prettyDate: function (dt) {
-            if (dt === null) {
-                return this.$t('message.not_present');
-            }
-            return new Date(dt).toLocaleDateString('en-gb', {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-            });
-        },
-
-        prettyDateTime: function (dt) {
-            return new Date(dt).toLocaleDateString('en-gb', {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-            });
-        },
-
-        requestData: function () {
-            const axiosConfig = {
-                headers: {
-                    'Ocp-Apim-Subscription-Key': import.meta.env.VUE_ENV_APIM_API_KEY,
-                },
-            };
-
-            const route = this.$route;
-            const id = window.encodeURIComponent(route.params.iati_identifier);
-            const domain = import.meta.env.VUE_ENV_APIM_DOMAIN;
-            const fields = [
-                'title_narrative',
-                'title_narrative_xml_lang',
-                'description_narrative',
-                'description_narrative_xml_lang',
-                'participating_org_narrative',
-                'participating_org_narrative_xml_lang',
-                'iati_identifier',
-                'last_updated_datetime',
-                'reporting_org_ref',
-                'reporting_org_narrative',
-                'reporting_org_narrative_xml_lang',
-                'activity_date',
-            ].join(',');
-            const baseUrl = `${domain}/dss/activity/select?wt=json&sort=iati_identifier asc&fl=${fields}*&rows=1&q=`;
-
-            axios.get(baseUrl + 'iati_identifier:"' + id + '"', axiosConfig).then(({ data }) => {
-                if (data.response.numFound === 0) {
-                    this.$router.push({ name: 'NotFound' });
-                } else {
-                    this.activity = data.response.docs[0];
-
-                    if ('description_narrative' in this.activity) {
-                        if ('description_narrative_xml_lang' in this.activity) {
-                            for (const narrativeKey in this.activity
-                                .description_narrative_xml_lang) {
-                                if (
-                                    this.activity.description_narrative_xml_lang[narrativeKey] ===
-                                    this.global.state.language
-                                ) {
-                                    const langDescriptionNarrative =
-                                        this.activity.description_narrative[narrativeKey];
-                                    this.activity.description_narrative.splice(narrativeKey, 1);
-                                    this.activity.description_narrative.unshift(
-                                        langDescriptionNarrative
-                                    );
-                                    break;
-                                }
-                            }
-                        }
-                        this.activity.description_narrative =
-                            this.activity.description_narrative[0];
-                    } else {
-                        this.activity.description_narrative = this.$t(
-                            'message.description_not_provided'
-                        );
-                    }
-                    if ('title_narrative' in this.activity) {
-                        if ('title_narrative_xml_lang' in this.activity) {
-                            for (const narrativeKey in this.activity.title_narrative_xml_lang) {
-                                if (
-                                    this.activity.title_narrative_xml_lang[narrativeKey] ===
-                                    this.global.state.language
-                                ) {
-                                    const langTitleNarrative =
-                                        this.activity.title_narrative[narrativeKey];
-                                    this.activity.title_narrative.splice(narrativeKey, 1);
-                                    this.activity.title_narrative.unshift(langTitleNarrative);
-                                    break;
-                                }
-                            }
-                        }
-                        this.activity.title_narrative = this.activity.title_narrative[0];
-                    } else {
-                        this.activity.title_narrative = this.$t('message.title_not_provided');
-                    }
-                    if ('reporting_org_narrative' in this.activity) {
-                        if ('reporting_org_narrative_xml_lang' in this.activity) {
-                            for (const narrativeKey in this.activity
-                                .reporting_org_narrative_xml_lang) {
-                                if (
-                                    this.activity.reporting_org_narrative_xml_lang[narrativeKey] ===
-                                    this.global.state.language
-                                ) {
-                                    const langReportingOrgNarrative =
-                                        this.activity.reporting_org_narrative[narrativeKey];
-                                    this.activity.reporting_org_narrative.splice(narrativeKey, 1);
-                                    this.activity.reporting_org_narrative.unshift(
-                                        langReportingOrgNarrative
-                                    );
-                                    break;
-                                }
-                            }
-                        }
-                        this.activity.reporting_org_narrative =
-                            this.activity.reporting_org_narrative[0];
-                    } else {
-                        this.activity.reporting_org_narrative = this.$t(
-                            'message.name_not_provided'
-                        );
-                    }
-                    if ('participating_org_narrative' in this.activity) {
-                        if ('participating_org_narrative_xml_lang' in this.activity) {
-                            let orderedParticipatingOrgs = [];
-                            for (const narrativeKey in this.activity
-                                .participating_org_narrative_xml_lang) {
-                                if (
-                                    this.activity.participating_org_narrative_xml_lang[
-                                        narrativeKey
-                                    ] === this.global.state.language
-                                ) {
-                                    orderedParticipatingOrgs.push(
-                                        this.activity.participating_org_narrative[narrativeKey]
-                                    );
-                                }
-                            }
-                            for (const narrativeKey in this.activity
-                                .participating_org_narrative_xml_lang) {
-                                if (
-                                    this.activity.participating_org_narrative_xml_lang[
-                                        narrativeKey
-                                    ] !== this.global.state.language
-                                ) {
-                                    orderedParticipatingOrgs.push(
-                                        this.activity.participating_org_narrative[narrativeKey]
-                                    );
-                                }
-                            }
-                            this.activity.participating_org_narrative = orderedParticipatingOrgs;
-                        }
-                    } else {
-                        this.activity.participating_org_narrative = [
-                            this.$t('message.not_provided'),
-                        ];
-                    }
-
-                    this.dates = {
-                        plannedStart: null,
-                        actualStart: null,
-                        plannedEnd: null,
-                        actualEnd: null,
-                    };
-
-                    const activityDateTypes = {
-                        planned_start: '1',
-                        actual_start: '2',
-                        planned_end: '3',
-                        actual_end: '4',
-                    };
-
-                    for (const key in this.activity['activity_date_type']) {
-                        const dt = this.activity['activity_date_iso_date'][key];
-
-                        switch (this.activity['activity_date_type'][key]) {
-                            case activityDateTypes.planned_start:
-                                this.dates['plannedStart'] = dt;
-                                break;
-                            case activityDateTypes.actual_start:
-                                this.dates['actualStart'] = dt;
-                                break;
-                            case activityDateTypes.planned_end:
-                                this.dates['plannedEnd'] = dt;
-                                break;
-                            case activityDateTypes.actual_end:
-                                this.dates['actualEnd'] = dt;
-                                break;
-                        }
-                    }
-
-                    const titleEl = document.querySelector('head title');
-                    titleEl.textContent = `${this.activity.title_narrative} - IATI Datastore Search`;
-
-                    const descEl = document.querySelector('head meta[name="description"]');
-                    descEl.setAttribute(
-                        'content',
-                        `IATI identifier: ${this.activity.iati_identifier}, ` +
-                            `Publisher: ${this.activity.reporting_org_narrative}, ` +
-                            `Description: ${this.activity.description_narrative}, ` +
-                            `Participating organisations: ${this.activity.participating_org_narrative}`
-                    );
-                }
-            });
-        },
-    },
-};
-</script>
