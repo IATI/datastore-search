@@ -222,10 +222,7 @@ onBeforeMount(() => {
             <router-view />
             <div v-if="activity" class="text-left mb-5 font-medium">
                 <div v-if="global.state.responseDocs" class="mt-4 hover:underline text-sky-700">
-                    <router-link v-if="global.state.simpleSearch" to="/simple">
-                        {{ $t('message.back_to_results') }}
-                    </router-link>
-                    <router-link v-if="!global.state.simpleSearch" to="/advanced">
+                    <router-link to="/">
                         {{ $t('message.back_to_results') }}
                     </router-link>
                 </div>
