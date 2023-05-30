@@ -62,7 +62,20 @@ watch(select, () => {
 </script>
 <template>
     <div class="grid grid-cols-7 gap-3 mt-3">
-        <div class="col-span-3">
+        <div
+            class="md:col-span-3"
+            :class="
+                (!filter.desc ||
+                    !(selectedOption && ['select', 'combo'].includes(selectedOption.type))) &&
+                !(
+                    selectedOption.type === 'number' ||
+                    selectedOption.type === 'integer' ||
+                    selectedOption.type === 'date'
+                )
+                    ? 'col-span-3'
+                    : 'col-span-2'
+            "
+        >
             <v-select
                 v-model="select"
                 :options="filterOptions"
@@ -77,7 +90,17 @@ watch(select, () => {
             />
         </div>
 
-        <div v-if="selectedOption" class="col-span-3">
+        <div
+            v-if="selectedOption"
+            class="md:col-span-3"
+            :class="
+                selectedOption.type === 'number' ||
+                selectedOption.type === 'integer' ||
+                selectedOption.type === 'date'
+                    ? 'col-span-4'
+                    : 'col-span-3'
+            "
+        >
             <FilterTextInput
                 v-if="selectedOption.type === 'text'"
                 :filter="filter"
@@ -122,7 +145,14 @@ watch(select, () => {
                 {{ filter.validationMessage }}
             </p>
         </div>
-        <div class="col-span-1">
+        <div
+            class="md:col-span-1"
+            :class="
+                filter.desc && selectedOption && ['select', 'combo'].includes(selectedOption.type)
+                    ? 'col-span-2'
+                    : 'col-span-1'
+            "
+        >
             <div class="py-2 inline-flex items-center -ml-1">
                 <XCircleIcon class="h-6 mr-1 cursor-pointer" @click="emit('delete', filter)" />
                 <a
