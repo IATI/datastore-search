@@ -4,7 +4,7 @@ export default {
         iati_standard_website: 'Site Internet de la norme de l’IITA',
         datastore_search: 'Datastore Search',
         navigation: 'Navigation',
-        simple_search: 'Recherche simple',
+        simple_search: 'Recherche',
         advanced_search: 'Recherche avancée',
         api: 'API',
         about: 'À propos',

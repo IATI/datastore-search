@@ -4,7 +4,7 @@ export default {
         iati_standard_website: 'IATI Standard Website',
         datastore_search: 'Datastore Search',
         navigation: 'Navigation',
-        simple_search: 'Simple Search',
+        simple_search: 'Search',
         advanced_search: 'Advanced Search',
         api: 'API',
         about: 'About',
