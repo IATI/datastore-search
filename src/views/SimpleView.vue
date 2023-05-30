@@ -21,8 +21,8 @@ const onSearch = (query) => {
 </script>
 
 <template>
-    <div class="flex flex-col h-full min-w-fit sm:min-w-0">
-        <div class="px-2 md:gap-4 text-left border-b">
+    <div class="flex flex-col h-full min-w-fit sm:min-w-0 mx-5">
+        <div class="md:gap-4 text-left border-b">
             <div class="inline-flex">
                 <div class="my-auto mr-2">
                     <SearchBar class="simple" @search="onSearch" />

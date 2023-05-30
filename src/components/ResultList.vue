@@ -34,7 +34,7 @@ let page = 1;
             <ul
                 v-if="global.state.responseTotal != null && global.state.responseTotal > 0"
                 id="results"
-                class="mx-5 my-5"
+                class="my-5"
             >
                 <li v-for="doc in global.state.responseDocs" :key="doc.id">
                     <ResultItem :doc="doc" />
