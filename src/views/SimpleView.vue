@@ -1,13 +1,15 @@
 <script setup>
 import { inject, onBeforeUnmount } from 'vue';
-import SearchBar from '../components/SearchBar.vue';
-import ResultList from '../components/ResultList.vue';
+import { useRouter } from 'vue-router';
 import DownloadButtons from '../components/DownloadButtons.vue';
+import ResultList from '../components/ResultList.vue';
+import SearchBar from '../components/SearchBar.vue';
 import SortButtons from '../components/SortButtons.vue';
 import { formatNumber } from '../utils';
 
 const global = inject('global');
 const showAdvancedSearch = inject('showAdvancedSearch');
+const router = useRouter();
 
 onBeforeUnmount(() => {
     sessionStorage.removeItem('searchterm');
@@ -16,6 +18,7 @@ onBeforeUnmount(() => {
 const onSearch = (query) => {
     if (query) {
         global.runSimple(query);
+        router.push({ path: '/', query: { q: query } });
     }
 };
 </script>

@@ -1,5 +1,6 @@
 <script setup>
 import { inject, provide, onBeforeMount, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import SearchBar from '../components/SearchBar.vue';
 import SearchResults from '../components/SearchResults.vue';
 import AdvancedSearchBar from '../components/AdvancedSearchBar.vue';
@@ -7,13 +8,21 @@ import AdvancedSearchBar from '../components/AdvancedSearchBar.vue';
 const global = inject('global');
 const showAdvancedSearch = ref(false);
 provide('showAdvancedSearch', showAdvancedSearch);
+const route = useRoute();
+const router = useRouter();
 
 onBeforeMount(() => {
     sessionStorage.removeItem('searchterm');
+    const { q } = route.query;
+    if (q) {
+        sessionStorage.setItem('searchterm', JSON.stringify(q));
+        global.runSimple(q);
+    }
 });
 
 const onSearch = (query) => {
     if (query) {
+        router.push({ path: '/', query: { q: query } });
         global.runSimple(query);
     }
 };
