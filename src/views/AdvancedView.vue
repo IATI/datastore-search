@@ -1,3 +1,4 @@
+<!-- This view is deprecated TODO: remove in future version -->
 <script setup>
 import Split from 'split.js';
 import { inject, onMounted, onUnmounted } from 'vue';
