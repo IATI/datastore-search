@@ -48,6 +48,7 @@ export default {
         download_confirmation_5c: 'dans un document d’activités de l’IITA au format XML ?',
         cancel: 'Annuler',
         view: 'Afficher',
+        view_on: 'Afficher sur',
         publisher: 'Signataire',
         iati_identifier: 'Identifiant de l’IITA',
         last_updated: 'Dernière mise à jour',

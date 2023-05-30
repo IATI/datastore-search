@@ -132,6 +132,7 @@ export default {
         download_confirmation_5c: 'in an IATI Activities XML document?',
         cancel: 'Cancel',
         view: 'View',
+        view_on: 'View on',
         publisher: 'Publisher',
         iati_identifier: 'IATI Identifier',
         last_updated: 'Last updated',

@@ -235,24 +235,16 @@ onBeforeMount(() => {
                 <h1 class="mt-4 pb-2 text-2xl border-b break-words text-iati-grey">
                     <b>{{ activity.title_narrative }}</b>
                 </h1>
-                <div class="border-b pb-3">
-                    <div class="grid grid-cols-2">
-                        <DownloadButtons
-                            :iati-identifier="activity.iati_identifier"
-                            class="col-span-1"
-                        />
-
-                        <div v-if="dPortalLink" class="col-span-1">
-                            <b class="block 2xl:inline">{{ $t('message.view') }}:</b>
-                            <a
-                                class="bg-iati-grey hover:bg-iati-blue text-white font-bold py-1 px-2 rounded ml-4 w-3/24 block inline-block mb-1"
-                                :href="dPortalLink"
-                                target="_blank"
-                            >
-                                <span>d-portal</span>
-                            </a>
-                        </div>
-                    </div>
+                <div class="border-b py-3 flex items-center">
+                    <DownloadButtons :iati-identifier="activity.iati_identifier" />
+                    <a
+                        v-if="dPortalLink"
+                        class="bg-iati-grey hover:bg-iati-blue text-white rounded font-medium py-2 px-3 ml-4 w-3/24 block"
+                        :href="dPortalLink"
+                        target="_blank"
+                    >
+                        <span class="text-base">{{ $t('message.view_on') }} d-portal</span>
+                    </a>
                 </div>
                 <div class="">
                     {{ $t('message.publisher') }}:
