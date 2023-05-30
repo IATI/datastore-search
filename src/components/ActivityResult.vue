@@ -15,7 +15,7 @@ const route = useRoute();
 const activity = ref(null);
 const dates = ref(null);
 const dPortalLink = computed(() => {
-    const baseUrl = 'http://d-portal.org/ctrack.html';
+    const baseUrl = 'https://d-portal.org/ctrack.html';
     return (
         activity.value &&
         `${baseUrl}?publisher=${activity.value.reporting_org_ref}#view=act&aid=${activity.value.iati_identifier}`
@@ -246,35 +246,47 @@ onBeforeMount(() => {
                         <span class="text-base">{{ $t('message.view_on') }} d-portal</span>
                     </a>
                 </div>
-                <div class="">
-                    {{ $t('message.publisher') }}:
-                    <b>{{ activity.reporting_org_narrative }}</b>
+
+                <div class="flex-col lg:flex-row flex py-4 font-light">
+                    <div class="mr-5 md:flex mb-2 lg:mb-0">
+                        <div class="mr-5 mb-2 md:mb-0">
+                            {{ $t('message.publisher') }}:
+                            <b class="font-semibold">{{ activity.reporting_org_narrative }}</b>
+                        </div>
+                        <div>
+                            {{ $t('message.iati_identifier') }}:
+                            <b class="font-semibold">{{ activity.iati_identifier }}</b>
+                        </div>
+                    </div>
+                    <div class="">
+                        {{ $t('message.last_updated') }}:
+                        <b class="font-semibold">{{
+                            prettyDateTime(activity.last_updated_datetime)
+                        }}</b>
+                    </div>
                 </div>
-                <div class="">
-                    {{ $t('message.iati_identifier') }}:
-                    <b>{{ activity.iati_identifier }}</b>
-                </div>
-                <div class="">
-                    {{ $t('message.last_updated') }}:
-                    <b>{{ prettyDateTime(activity.last_updated_datetime) }}</b>
-                </div>
-                <p class="col-span-8 border-b border-t pt-3 pb-3 break-words">
+
+                <p class="pt-3 pb-4 break-words">
                     {{ activity.description_narrative }}
                 </p>
-                <div class="col-span-9 border-b pb-3">
-                    {{ $t('message.participating_organisations') }}:
+
+                <div class="border-b pb-3">
+                    <span class="font-normal">
+                        {{ $t('message.participating_organisations') }}:
+                    </span>
                     <span
                         v-for="(org, index) in activity.participating_org_narrative"
                         :key="index"
                         class="font-semibold"
-                        >{{ org
-                        }}<span
+                    >
+                        {{ org }}
+                        <span
                             v-if="index != activity.participating_org_narrative.length - 1"
                             class="font-normal"
                         >
                             |
-                        </span></span
-                    >
+                        </span>
+                    </span>
                 </div>
                 <div class="">
                     {{ $t('message.planned_start') }}:
