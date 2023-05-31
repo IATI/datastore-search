@@ -39,6 +39,14 @@ const getFiltersFromGroup = (group, parentGroupOperator) => {
         getBracketFilter('closing', group.operator)
     );
 };
+const getGroupDescendants = (group) =>
+    group.items
+        .concat(
+            ...group.items
+                .filter((item) => item.type === 'group')
+                .map((item) => getGroupDescendants(item))
+        )
+        .filter((item) => item.type !== 'group');
 
 watch(group, () => {
     global.setFilters(getFiltersFromGroup(group));
@@ -95,21 +103,41 @@ const onRun = () => {
         global.run();
     }
 };
+const resetGroup = (group) => {
+    group.items = [];
+    if (props.defaultQuery) {
+        addQueryToGroup(group);
+    } else {
+        onAddRule(group);
+    }
+};
+const addQueryToGroup = (group) => {
+    if (group && !group.items.length && props.defaultQuery) {
+        const textOption = global.state.fieldOptions.find(
+            (item) => item.label === 'All Narratives'
+        );
+        onAddRule(group, {
+            type: 'text',
+            field: 'iati_text',
+            value: props.defaultQuery,
+            operator: 'equals',
+            selectedOption: textOption,
+        });
+    }
+};
 
 watch(
     () => props.defaultQuery,
     () => {
-        if (group && !group.items.length && props.defaultQuery) {
-            const textOption = global.state.fieldOptions.find(
-                (item) => item.label === 'All Narratives'
-            );
-            onAddRule(group, {
-                type: 'text',
-                field: 'iati_text',
-                value: props.defaultQuery,
-                operator: 'equals',
-                selectedOption: textOption,
-            });
+        addQueryToGroup(group);
+    }
+);
+watch(
+    () => global.state.filters,
+    () => {
+        const descendants = getGroupDescendants(group);
+        if (global.state.filters.length < descendants.length && global.state.filters.length === 1) {
+            resetGroup(group);
         }
     }
 );
