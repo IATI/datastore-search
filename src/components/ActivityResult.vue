@@ -238,7 +238,7 @@ onBeforeMount(() => {
                     <DownloadButtons :iati-identifier="activity.iati_identifier" />
                     <a
                         v-if="dPortalLink"
-                        class="bg-iati-grey hover:bg-iati-blue text-white rounded font-medium py-2 px-3 ml-4 w-3/24 block"
+                        class="bg-iati-grey hover:bg-iati-blue text-white rounded font-medium py-[0.4rem] px-3 ml-4 w-3/24 block"
                         :href="dPortalLink"
                         target="_blank"
                     >
