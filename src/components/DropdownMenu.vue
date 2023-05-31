@@ -9,7 +9,7 @@ provide('sharedState', { active, toggle });
 </script>
 
 <template>
-    <div class="w-fit dropdown" @click="toggle">
+    <div class="w-fit dropdown" @click.stop="toggle">
         <slot name="toggler">
             <button class="toggler bg-iati-grey">
                 Menu <ChevronDownIcon class="inline h-5 w-5 text-grey-300" />

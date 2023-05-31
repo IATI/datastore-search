@@ -1,7 +1,15 @@
 <script setup>
-import { inject } from 'vue';
+import { inject, watch } from 'vue';
 
-const { active } = inject('sharedState');
+const { active, toggle } = inject('sharedState');
+
+watch(active, () => {
+    if (active.value) {
+        window.addEventListener('click', toggle);
+    } else {
+        window.removeEventListener('click', toggle);
+    }
+});
 </script>
 
 <template>
@@ -29,7 +37,7 @@ const { active } = inject('sharedState');
     border: 1px solid rgba(34, 36, 38, 0.15);
     border-radius: 0.28571429rem;
     transition: opacity 0.1s ease;
-    z-index: 11;
+    z-index: 1;
     will-change: transform, opacity;
 }
 </style>
