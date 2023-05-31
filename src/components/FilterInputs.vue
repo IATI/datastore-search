@@ -103,26 +103,34 @@ const onRun = () => {
         global.run();
     }
 };
+const addQueryToGroup = (group) => {
+    if (group && group.items.length <= 1 && props.query) {
+        const { items } = group;
+        const textOption = global.state.fieldOptions.find(
+            (item) => item.label === 'All Narratives'
+        );
+        if (
+            items.length === 1 &&
+            items[0].selectedOption.label.toLowerCase() === 'all narratives'
+        ) {
+            group.items[0].value = props.query;
+        } else {
+            onAddRule(group, {
+                type: 'text',
+                field: 'iati_text',
+                value: props.query,
+                operator: 'equals',
+                selectedOption: textOption,
+            });
+        }
+    }
+};
 const resetGroup = (group) => {
     group.items = [];
     if (props.query) {
         addQueryToGroup(group);
     } else {
         onAddRule(group);
-    }
-};
-const addQueryToGroup = (group) => {
-    if (group && !group.items.length && props.query) {
-        const textOption = global.state.fieldOptions.find(
-            (item) => item.label === 'All Narratives'
-        );
-        onAddRule(group, {
-            type: 'text',
-            field: 'iati_text',
-            value: props.query,
-            operator: 'equals',
-            selectedOption: textOption,
-        });
     }
 };
 
@@ -138,6 +146,8 @@ watch(
         const descendants = getGroupDescendants(group);
         if (global.state.filters.length < descendants.length && global.state.filters.length === 1) {
             resetGroup(group);
+        } else {
+            addQueryToGroup(group);
         }
     }
 );
