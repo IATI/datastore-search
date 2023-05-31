@@ -5,8 +5,9 @@ import { useRoute, useRouter } from 'vue-router';
 import FilterGroup from './FilterGroup.vue';
 import SideBarButtons from './SideBarButtons.vue';
 
-defineProps({
+const props = defineProps({
     filters: { type: Array, default: () => [] },
+    defaultQuery: { type: String, default: '' }, // allows for the prepopulation of the narrative field for when a search query exists
 });
 
 const global = inject('global');
@@ -43,7 +44,7 @@ watch(group, () => {
     global.setFilters(getFiltersFromGroup(group));
 });
 
-const onAddRule = () => {
+const onAddRule = (group, rule = {}) => {
     const items = group.items.concat({
         id: uuidv4(),
         type: null,
@@ -51,6 +52,7 @@ const onAddRule = () => {
         value: null,
         operator: 'equals',
         joinOperator: 'AND',
+        ...rule,
     });
     group.items = items;
 };
@@ -93,6 +95,24 @@ const onRun = () => {
         global.run();
     }
 };
+
+watch(
+    () => props.defaultQuery,
+    () => {
+        if (group && !group.items.length && props.defaultQuery) {
+            const textOption = global.state.fieldOptions.find(
+                (item) => item.label === 'All Narratives'
+            );
+            onAddRule(group, {
+                type: 'text',
+                field: 'iati_text',
+                value: props.defaultQuery,
+                operator: 'equals',
+                selectedOption: textOption,
+            });
+        }
+    }
+);
 </script>
 
 <template>

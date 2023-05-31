@@ -4,7 +4,7 @@ import {
     QuestionMarkCircleIcon,
     XCircleIcon,
 } from '@heroicons/vue/24/outline';
-import { computed, inject, ref, reactive, watch } from 'vue';
+import { computed, inject, onBeforeMount, ref, reactive, watch } from 'vue';
 import FilterBooleanInput from '../components/FilterBooleanInput.vue';
 import FilterComboInput from '../components/FilterComboInput.vue';
 import FilterDateInput from '../components/FilterDateInput.vue';
@@ -58,6 +58,12 @@ watch(
 watch(select, () => {
     selectedOption.value = getSelectedOption(select.value.label);
     updateFilterFromSelectedOption(selectedOption.value);
+});
+
+onBeforeMount(() => {
+    if (props.filter && props.filter.selectedOption) {
+        select.value = props.filter.selectedOption;
+    }
 });
 </script>
 <template>

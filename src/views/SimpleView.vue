@@ -17,6 +17,7 @@ onBeforeUnmount(() => {
 
 const onSearch = (query) => {
     if (query) {
+        global.resetFilters();
         global.runSimple(query);
         router.push({ path: '/', query: { q: query } });
     }
