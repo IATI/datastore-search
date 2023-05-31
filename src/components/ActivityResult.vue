@@ -4,6 +4,7 @@ import { computed, inject, onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import i18n from '../i18n.js';
 import DownloadButtons from './DownloadButtons.vue';
+import LoadingSpinner from './LoadingSpinner.vue';
 
 const { t } = i18n.global;
 
@@ -220,6 +221,7 @@ onBeforeMount(() => {
     <div class="flex flex-col h-full mx-5">
         <div class="flex-grow">
             <router-view />
+            <LoadingSpinner v-if="!activity" class="w-full" />
             <div v-if="activity" class="text-left mb-5 font-medium">
                 <div v-if="global.state.responseDocs" class="mt-4 hover:underline text-sky-700">
                     <router-link to="/">
