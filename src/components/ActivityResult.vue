@@ -223,10 +223,10 @@ onBeforeMount(() => {
             <router-view />
             <LoadingSpinner v-if="!activity" class="w-full" />
             <div v-if="activity" class="text-left mb-5 font-medium">
-                <div v-if="global.state.responseDocs" class="mt-4 hover:underline text-sky-700">
-                    <router-link to="/">
+                <div v-if="global.state.responseDocs" class="mt-4 text-sky-700">
+                    <span class="cursor-pointer hover:underline" @click="$router.go(-1)">
                         {{ $t('message.back_to_results') }}
-                    </router-link>
+                    </span>
                 </div>
                 <h1 class="mt-5 text-lg">
                     {{ $t('message.overview_of_iati_activity') }}
