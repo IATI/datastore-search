@@ -7,7 +7,7 @@ import SideBarButtons from './SideBarButtons.vue';
 
 const props = defineProps({
     filters: { type: Array, default: () => [] },
-    defaultQuery: { type: String, default: '' }, // allows for the prepopulation of the narrative field for when a search query exists
+    query: { type: String, default: '' }, // allows for the prepopulation of the narrative field for when a search query exists
 });
 
 const global = inject('global');
@@ -105,21 +105,21 @@ const onRun = () => {
 };
 const resetGroup = (group) => {
     group.items = [];
-    if (props.defaultQuery) {
+    if (props.query) {
         addQueryToGroup(group);
     } else {
         onAddRule(group);
     }
 };
 const addQueryToGroup = (group) => {
-    if (group && !group.items.length && props.defaultQuery) {
+    if (group && !group.items.length && props.query) {
         const textOption = global.state.fieldOptions.find(
             (item) => item.label === 'All Narratives'
         );
         onAddRule(group, {
             type: 'text',
             field: 'iati_text',
-            value: props.defaultQuery,
+            value: props.query,
             operator: 'equals',
             selectedOption: textOption,
         });
@@ -127,7 +127,7 @@ const addQueryToGroup = (group) => {
 };
 
 watch(
-    () => props.defaultQuery,
+    () => props.query,
     () => {
         addQueryToGroup(group);
     }
