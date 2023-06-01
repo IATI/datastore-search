@@ -109,11 +109,12 @@ const addQueryToGroup = (group) => {
         const textOption = global.state.fieldOptions.find(
             (item) => item.label === 'All Narratives'
         );
-        if (
-            items.length === 1 &&
-            items[0].selectedOption.label.toLowerCase() === 'all narratives'
-        ) {
+        if (items.length === 1 && items[0].field === 'iati_text') {
             group.items[0].value = props.query;
+            if (!items[0].selectedOption) {
+                console.log('test', textOption);
+                group.items[0].selectedOption = textOption;
+            }
         } else {
             onAddRule(group, {
                 type: 'text',
@@ -147,6 +148,18 @@ watch(
         if (global.state.filters.length < descendants.length && global.state.filters.length === 1) {
             resetGroup(group);
         } else {
+            addQueryToGroup(group);
+        }
+    }
+);
+
+/**
+ * strange solution, but it allows us to persist the query search on page refresh
+ *  */
+watch(
+    () => global.state.fieldOptions,
+    () => {
+        if (global.state.fieldOptions && props.query) {
             addQueryToGroup(group);
         }
     }
