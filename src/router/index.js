@@ -20,6 +20,16 @@ const routes = [
         component: ActivityView,
     },
     {
+        path: '/simple',
+        name: 'Simple search',
+        redirect: '/',
+    },
+    {
+        path: '/advanced',
+        name: 'Advanced search',
+        redirect: '/',
+    },
+    {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: () => import('../views/NotFound.vue'),
