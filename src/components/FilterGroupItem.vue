@@ -29,6 +29,7 @@ const updateFilterFromSelectedOption = (option) => {
     filter.type = option.type;
     filter.desc = option.description;
     filter.field = option.field;
+    filter.value = null; // reset value
 
     if (filter.type === 'date' && !filter.value) {
         filter.value = new Date();
