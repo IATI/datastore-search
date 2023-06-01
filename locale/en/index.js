@@ -195,6 +195,8 @@ export default {
         `,
         advanced: 'Advanced',
         found_activities: 'Found <b>%{count}</b> activities',
+        results_by_advanced_search:
+            'Results filtered by Advanced parameters. See Advanced tab for more details.',
         relevance: 'Relevance',
         sort_relevance_label: 'Sort results by relevance',
         identifier: 'Identifier',

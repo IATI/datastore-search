@@ -39,6 +39,9 @@ const onSearch = (query) => {
                     {{ $t('message.advanced') }}
                 </button>
             </div>
+            <div v-if="!global.state.queryInProgress && !$route.query.q" class="text-sm mb-2">
+                {{ $t('message.results_by_advanced_search') }}
+            </div>
             <div class="md:flex items-center mb-3 justify-between">
                 <div
                     v-if="global.state.responseTotal > 0"
