@@ -30,6 +30,10 @@ const updateFilterFromSelectedOption = (option) => {
     filter.desc = option.description;
     filter.field = option.field;
 
+    if (filter.type === 'date' && !filter.value) {
+        filter.value = new Date();
+    }
+
     emit('change', filter);
 };
 const filterOptions = computed(() =>
