@@ -3,7 +3,6 @@ const props = defineProps({
     variant: { type: String, default: 'yellow' },
     size: { type: String, default: 'base' },
     ariaLabel: { type: String, default: '' },
-    disabled: { type: Boolean, default: false },
 });
 const emits = defineEmits(['click']);
 
@@ -15,8 +14,6 @@ const classes = {
     'border border-iati-blue hover:text-white': props.variant === 'outline-blue',
     'border border-iati-accent hover:text-white': props.variant === 'outline-accent',
     'text-xs h-8': props.size === 'sm',
-    'disabled:hover:bg-inherit disabled:hover:text-inherit disabled:cursor-not-allowed disabled:opacity-25':
-        props.disabled,
 };
 </script>
 
@@ -25,7 +22,6 @@ const classes = {
         :aria-label="props.ariaLabel"
         class="hover:bg-iati-grey py-1.5 px-5 rounded"
         :class="classes"
-        :disabled="props.disabled"
         @click="emits('click')"
     >
         <span class="p-[2px] inline-flex align-middle"><slot /></span>

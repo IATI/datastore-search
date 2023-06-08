@@ -3,10 +3,7 @@ import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
 import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
 
-defineProps({
-    deletable: { type: Boolean, default: true },
-    showAddGroup: { type: Boolean, default: true },
-});
+defineProps({ deletable: { type: Boolean, default: true } });
 const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
 
 const operator = ref('AND');
@@ -57,13 +54,7 @@ const buttonClasses =
         <AppButton variant="outline" size="sm" class="mr-2 px-[8px]" @click="emits('addRule')">
             <span class="uppercase">Add Rule</span>
         </AppButton>
-        <AppButton
-            variant="outline-accent"
-            class="px-[8px]"
-            size="sm"
-            :disabled="!showAddGroup"
-            @click="emits('addGroup')"
-        >
+        <AppButton variant="outline-accent" class="px-[8px]" size="sm" @click="emits('addGroup')">
             <span class="uppercase">Add Group</span>
         </AppButton>
     </div>
