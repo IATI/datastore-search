@@ -1,6 +1,6 @@
 {
     "name": "datastore-search",
-    "version": "1.9.5",
+    "version": "1.9.6",
     "type": "module",
     "scripts": {
         "start": "npm run dev",
