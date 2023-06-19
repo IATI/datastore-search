@@ -92,28 +92,6 @@ const onRun = () => {
         global.run();
     }
 };
-const addQueryToGroup = (group) => {
-    if (group && group.items.length <= 1 && props.query) {
-        const { items } = group;
-        const textOption = global.state.fieldOptions.find(
-            (item) => item.label === 'All Narratives'
-        );
-        if (items.length === 1 && items[0].field === 'iati_text') {
-            group.items[0].value = props.query;
-            if (!items[0].selectedOption) {
-                group.items[0].selectedOption = textOption;
-            }
-        } else {
-            onAddRule(group, {
-                type: 'text',
-                field: 'iati_text',
-                value: props.query,
-                operator: 'equals',
-                selectedOption: textOption,
-            });
-        }
-    }
-};
 
 const getGroupFromFilters = (filters, startIndex = 0) => {
     let nextIndex = startIndex;
@@ -143,29 +121,10 @@ const getGroupFromFilters = (filters, startIndex = 0) => {
 };
 
 watch(
-    () => props.query,
-    () => {
-        // TODO: add query to filters
-        addQueryToGroup(group);
-    }
-);
-watch(
     () => props.filters,
     () => {
         const result = getGroupFromFilters(props.filters);
         group = result.group;
-    }
-);
-
-/**
- * strange solution, but it allows us to persist the query search on page refresh
- *  */
-watch(
-    () => global.state.fieldOptions,
-    () => {
-        if (global.state.fieldOptions && props.query) {
-            addQueryToGroup(group);
-        }
     }
 );
 </script>

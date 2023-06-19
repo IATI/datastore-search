@@ -1,9 +1,10 @@
 //Simple global state and API management
-import { reactive, readonly } from 'vue';
 import axios from 'axios';
-import { startOfToday, format } from 'date-fns';
 import MD5 from 'crypto-js/md5';
+import { format, startOfToday } from 'date-fns';
 import Plausible from 'plausible-tracker';
+import { v4 as uuidv4 } from 'uuid';
+import { reactive, readonly } from 'vue';
 import i18n from './i18n.js';
 
 const { t } = i18n.global;
@@ -584,6 +585,44 @@ const run = async (start = 0, rows = 10) => {
     }
 };
 
+const generateFiltersForQuery = async (query) => {
+    if (!state.fieldOptions || !state.fieldOptions.length) {
+        await populateOptions();
+    }
+    if (state.fieldOptions) {
+        const brackets = state.fieldOptions.find((item) => item.type === 'grouping');
+        const textOption = state.fieldOptions.find((item) => item.label === 'All Narratives');
+        if (!brackets || !textOption) {
+            console.log('Missing field option (either grouping or narrative)');
+        } else {
+            const grouping = {
+                type: 'grouping',
+                field: '()',
+                value: '(',
+                operator: 'equals',
+                joinOperator: 'AND',
+            };
+            state.filters = [
+                { id: uuidv4(), ...grouping },
+                {
+                    id: uuidv4(),
+                    type: 'text',
+                    field: 'iati_text',
+                    value: query,
+                    operator: 'equals',
+                    selectedOption: textOption,
+                    joinOperator: 'AND',
+                },
+                {
+                    id: uuidv4(),
+                    ...grouping,
+                    value: ')',
+                },
+            ];
+        }
+    }
+};
+
 const runSimple = async (searchterm, start = 0, rows = 10) => {
     state.queryInProgress = true;
     state.responseTotal = null;
@@ -604,6 +643,9 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
     state.query = cleanSearchTerm;
     state.responseTotal = null;
     setResponseState(result);
+
+    // make compatible with advanced search
+    generateFiltersForQuery(state.query);
 
     if (start === 0) {
         trackEvent('Run query', {
