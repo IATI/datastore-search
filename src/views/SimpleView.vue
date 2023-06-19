@@ -40,7 +40,8 @@ const onSearch = (query) => {
                 </button>
             </div>
             <div v-if="!global.state.queryInProgress && !$route.query.q" class="text-sm mb-2">
-                {{ $t('message.results_by_advanced_search') }}
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <p v-html="$t('message.results_by_advanced_search')"></p>
             </div>
             <div class="md:flex items-center mb-3 justify-between">
                 <div
