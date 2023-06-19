@@ -99,7 +99,7 @@ const getGroupFromFilters = (filters, startIndex = 0) => {
     filters.forEach((item, index) => {
         if (index === nextIndex) {
             if (item.type === 'grouping') {
-                if (item.value === '(') {
+                if (item.value === '(' && index) {
                     const { group: nestedGroup, index: nestedIndex } = getGroupFromFilters(
                         filters,
                         index + 1
@@ -108,6 +108,8 @@ const getGroupFromFilters = (filters, startIndex = 0) => {
                     nextIndex = nestedIndex + 1;
                 } else if (item.value === ')') {
                     nextIndex = index;
+                } else {
+                    nextIndex++;
                 }
             } else {
                 group.operator = item.joinOperator;
