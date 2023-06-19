@@ -27,7 +27,7 @@ const emits = defineEmits(['run']);
                 <PlusCircleIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
                 <span class="uppercase">{{ $t('message.add') }}</span>
             </AppButton>
-            <div class="hidden">
+            <div>
                 <AppButton
                     :aria-label="$t('message.export_aria')"
                     variant="red"

@@ -1,5 +1,8 @@
 <script setup>
+import { inject } from 'vue';
 import { ArrowDownIcon } from '@heroicons/vue/20/solid';
+
+const global = inject('global');
 </script>
 
 <template>
@@ -12,8 +15,10 @@ import { ArrowDownIcon } from '@heroicons/vue/20/solid';
             <h2 class="text-2xl">{{ $t('message.export_filters') }}</h2>
 
             <div class="mt-1">
+                <!-- eslint-disable vue/no-v-html -->
                 <p class="mb-4 mt-2 text-left text-md" v-html="$t('message.export_para1')"></p>
                 <p class="mb-4 mt-2 text-left text-sm" v-html="$t('message.export_para2')"></p>
+                <!-- eslint-enable vue/no-v-html -->
                 <div class="flex justify-between">
                     <button
                         class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded"
@@ -40,10 +45,3 @@ import { ArrowDownIcon } from '@heroicons/vue/20/solid';
         </div>
     </div>
 </template>
-
-<script>
-export default {
-    name: 'ExportModal',
-    inject: ['global'],
-};
-</script>

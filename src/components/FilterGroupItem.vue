@@ -24,12 +24,12 @@ const selectedOption = ref();
 
 const getSelectedOption = (label) =>
     label ? global.state.fieldOptions.find((item) => item.label === label) : null;
-const updateFilterFromSelectedOption = (option) => {
+const updateFilterFromSelectedOption = (option, resetValue = false) => {
     filter.selectedOption = option;
     filter.type = option.type;
     filter.desc = option.description;
     filter.field = option.field;
-    filter.value = null; // reset value
+    filter.value = resetValue ? null : filter.value; // reset value
 
     if (filter.type === 'date' && !filter.value) {
         filter.value = new Date();
@@ -61,8 +61,9 @@ watch(
     }
 );
 watch(select, () => {
+    const resetValue = !!selectedOption.value;
     selectedOption.value = getSelectedOption(select.value.label);
-    updateFilterFromSelectedOption(selectedOption.value);
+    updateFilterFromSelectedOption(selectedOption.value, resetValue);
 });
 
 onBeforeMount(() => {

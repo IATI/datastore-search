@@ -1,5 +1,5 @@
 <script setup>
-import { inject, onBeforeMount, computed } from 'vue';
+import { inject, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import FilterInputs from './FilterInputs.vue';
 import ExportModal from './ExportModal.vue';
@@ -9,10 +9,6 @@ import BboxModal from './BboxModal.vue';
 const global = inject('global');
 const route = useRoute();
 const query = computed(() => route.query.q);
-
-onBeforeMount(() => {
-    global.addFilter();
-});
 </script>
 
 <template>

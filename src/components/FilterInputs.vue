@@ -39,18 +39,6 @@ const getFiltersFromGroup = (group, parentGroupOperator) => {
         getBracketFilter('closing', group.operator)
     );
 };
-const getGroupDescendants = (group) =>
-    group.items
-        .concat(
-            ...group.items
-                .filter((item) => item.type === 'group')
-                .map((item) => getGroupDescendants(item))
-        )
-        .filter((item) => item.type !== 'group');
-
-watch(group, () => {
-    global.setFilters(getFiltersFromGroup(group));
-});
 
 const onAddRule = (group, rule = {}) => {
     const items = group.items.concat({
@@ -100,6 +88,7 @@ const onRun = () => {
             router.push({ path: '/' });
             sessionStorage.removeItem('searchterm');
         }
+        global.setFilters(getFiltersFromGroup(group));
         global.run();
     }
 };
@@ -112,7 +101,6 @@ const addQueryToGroup = (group) => {
         if (items.length === 1 && items[0].field === 'iati_text') {
             group.items[0].value = props.query;
             if (!items[0].selectedOption) {
-                console.log('test', textOption);
                 group.items[0].selectedOption = textOption;
             }
         } else {
@@ -126,30 +114,46 @@ const addQueryToGroup = (group) => {
         }
     }
 };
-const resetGroup = (group) => {
-    group.items = [];
-    if (props.query) {
-        addQueryToGroup(group);
-    } else {
-        onAddRule(group);
-    }
+
+const getGroupFromFilters = (filters, startIndex = 0) => {
+    let nextIndex = startIndex;
+    const group = { id: uuidv4(), type: 'group', operator: 'AND', items: [] };
+    filters.forEach((item, index) => {
+        if (index === nextIndex) {
+            if (item.type === 'grouping') {
+                if (item.value === '(') {
+                    const { group: nestedGroup, index: nestedIndex } = getGroupFromFilters(
+                        filters,
+                        index + 1
+                    );
+                    group.items.push(nestedGroup);
+                    nextIndex = nestedIndex + 1;
+                } else if (item.value === ')') {
+                    nextIndex = index;
+                }
+            } else {
+                group.operator = item.joinOperator;
+                onAddRule(group, item);
+                nextIndex = index + 1;
+            }
+        }
+    });
+
+    return { group, index: nextIndex };
 };
 
 watch(
     () => props.query,
     () => {
+        // TODO: add query to filters
         addQueryToGroup(group);
     }
 );
 watch(
-    () => global.state.filters,
+    () => props.filters,
     () => {
-        const descendants = getGroupDescendants(group);
-        if (global.state.filters.length < descendants.length && global.state.filters.length === 1) {
-            resetGroup(group);
-        } else {
-            addQueryToGroup(group);
-        }
+        const result = getGroupFromFilters(props.filters);
+        group = result.group;
     }
 );
 
@@ -169,7 +173,7 @@ watch(
 <template>
     <div class="text-left">
         <FilterGroup
-            v-if="global.state.filters.length"
+            v-if="filters.length"
             :group="group"
             :deletable="false"
             @add-rule="onAddRule"

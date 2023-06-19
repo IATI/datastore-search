@@ -1,5 +1,8 @@
 <script setup>
+import { inject } from 'vue';
 import { ArrowUpIcon } from '@heroicons/vue/20/solid';
+
+const global = inject('global');
 </script>
 
 <template>
@@ -11,8 +14,10 @@ import { ArrowUpIcon } from '@heroicons/vue/20/solid';
         <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
             <h2 class="text-2xl">{{ $t('message.import_filters') }}</h2>
             <div class="mt-1">
+                <!-- eslint-disable vue/no-v-html -->
                 <p class="my-4 text-left text-md" v-html="$t('message.import_para1')"></p>
                 <p class="my-4 text-left text-sm" v-html="$t('message.import_para2')"></p>
+                <!-- eslint-enable vue/no-v-html -->
                 <div class="flex justify-between items-center">
                     <label for="filename" hidden>{{ $t('message.file') }}:</label>
                     <input
@@ -60,10 +65,3 @@ import { ArrowUpIcon } from '@heroicons/vue/20/solid';
         </div>
     </div>
 </template>
-
-<script>
-export default {
-    name: 'ImportModal',
-    inject: ['global'],
-};
-</script>
