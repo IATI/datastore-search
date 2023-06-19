@@ -351,6 +351,7 @@ export const exportFilters = () => {
     state.export.fileLoading = true;
     const filterHash = MD5(JSON.stringify(state.filters)).toString();
     const exportObj = {
+        version: '2.0',
         hash: filterHash,
         data: state.filters,
     };
