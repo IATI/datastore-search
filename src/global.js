@@ -295,8 +295,7 @@ const importFilters = async () => {
     state.import.errors = [];
     state.import.fileLoading = true;
     await populateOptions();
-    const filterHash = state.import.file.hash;
-    const filterData = state.import.file.data;
+    const { hash: filterHash, data: filterData } = state.import.file;
     if (MD5(JSON.stringify(filterData)).toString() === filterHash) {
         state.filters = [...filterData];
 
