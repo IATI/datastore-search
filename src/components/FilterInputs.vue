@@ -1,6 +1,6 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
-import { inject, reactive, watch } from 'vue';
+import { inject, reactive, watch, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import FilterGroup from './FilterGroup.vue';
 import SideBarButtons from './SideBarButtons.vue';
@@ -135,6 +135,11 @@ watch(
         populateGroupFromFilters(props.filters, group);
     }
 );
+onBeforeMount(() => {
+    if (props.filters && props.filters.length) {
+        populateGroupFromFilters(props.filters, group);
+    }
+});
 </script>
 
 <template>

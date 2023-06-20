@@ -11,6 +11,7 @@ const { t } = i18n.global;
 const browser_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
 let language = JSON.parse(localStorage.getItem('language')) || '';
 const IMPORT_FILE_VERSION = '2.0';
+const LOCAL_STORAGE_KEY_ADVANCED = 'query.advanced';
 
 if (language === '') {
     language = browser_locale;
@@ -250,6 +251,19 @@ const addFilter = async () => {
 
 const setFilters = (filters) => {
     state.filters = filters;
+    window.localStorage.setItem(LOCAL_STORAGE_KEY_ADVANCED, JSON.stringify(filters));
+};
+
+const restoreFilters = async () => {
+    const filters = window.localStorage.getItem(LOCAL_STORAGE_KEY_ADVANCED);
+    if (filters) {
+        if (!state.filterOptions) {
+            await populateOptions();
+        }
+        state.filters = JSON.parse(filters);
+    }
+
+    return state.filters;
 };
 
 const removeFilter = (id) => {
@@ -262,6 +276,7 @@ const resetFilters = () => {
     state.filters = [];
     state.nextFilterId = 0;
     state.import.file = { version: IMPORT_FILE_VERSION };
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY_ADVANCED);
 };
 
 export const importSimpleSearchToAdv = async () => {
@@ -1340,6 +1355,7 @@ export default {
     setFilters,
     removeFilter,
     resetFilters,
+    restoreFilters,
     changeFilter,
     validateFilter,
     loadActivity,

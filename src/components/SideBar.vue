@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed, watch, reactive } from 'vue';
+import { inject, computed, watch, reactive, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import FilterInputs from './FilterInputs.vue';
 import ExportModal from './ExportModal.vue';
@@ -9,6 +9,7 @@ import FilterString from './FilterString.vue';
 import LoadingSpinner from './LoadingSpinner.vue';
 
 const global = inject('global');
+const showAdvancedSearch = inject('showAdvancedSearch');
 const route = useRoute();
 const query = computed(() => route.query.q);
 const fileImport = reactive({ loading: false, file: null, version: null });
@@ -18,6 +19,15 @@ watch([() => global.state.import.fileLoading, () => global.state.import.file], (
     fileImport.loading = !!fileLoading;
     fileImport.file = file;
     fileImport.version = file.version ? Number(file.version) : null;
+});
+
+onBeforeMount(async () => {
+    if (!query.value) {
+        const filters = await global.restoreFilters();
+        if (filters.length) {
+            showAdvancedSearch.value = true;
+        }
+    }
 });
 </script>
 
