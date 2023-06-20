@@ -1,5 +1,5 @@
 <script setup>
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { ArrowPathRoundedSquareIcon, PlusCircleIcon } from '@heroicons/vue/20/solid';
 import { ArrowDownIcon } from '@heroicons/vue/20/solid';
 import { ArrowUpIcon } from '@heroicons/vue/20/solid';
@@ -7,8 +7,29 @@ import { PlayIcon } from '@heroicons/vue/20/solid';
 import AppButton from '../components/AppButton.vue';
 
 const global = inject('global');
+const resetStatus = ref('waiting');
+const timeoutId = ref(null);
 
 const emits = defineEmits(['run']);
+const onReset = () => {
+    if (resetStatus.value === 'waiting') {
+        resetStatus.value = 'awaiting-confirmation';
+        timeoutId.value = window.setTimeout(() => {
+            resetStatus.value = 'waiting';
+        }, 3000);
+
+        return;
+    } else if (resetStatus.value === 'awaiting-confirmation') {
+        window.clearTimeout(timeoutId.value);
+        timeoutId.value = null;
+        global.resetFilters();
+        resetStatus.value = 'waiting';
+
+        return;
+    }
+    resetStatus.value = 'waiting';
+    return;
+};
 </script>
 
 <template>
@@ -45,10 +66,16 @@ const emits = defineEmits(['run']);
                     variant="yellow"
                     size="sm"
                     class="mr-2"
-                    @click="global.resetFilters()"
+                    @click="onReset"
                 >
                     <ArrowPathRoundedSquareIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
-                    <span class="uppercase">{{ $t('message.reset') }}</span>
+                    <span class="uppercase">
+                        {{
+                            resetStatus === 'waiting'
+                                ? $t('message.reset')
+                                : $t('message.confirm_reset')
+                        }}
+                    </span>
                 </AppButton>
                 <AppButton
                     :aria-label="$t('message.run_aria')"
