@@ -93,15 +93,22 @@ const onRun = () => {
     }
 };
 
-const getGroupFromFilters = (filters, startIndex = 0) => {
+const populateGroupFromFilters = (filters, group, startIndex = 0) => {
     let nextIndex = startIndex;
-    const group = { id: uuidv4(), type: 'group', operator: 'AND', items: [] };
+    // reset group, but preserve reactivity if available
+    group.id = uuidv4();
+    group.operator = 'AND';
+    group.items = [];
+
+    // populate group from filters
     filters.forEach((item, index) => {
         if (index === nextIndex) {
             if (item.type === 'grouping') {
                 if (item.value === '(' && index) {
-                    const { group: nestedGroup, index: nestedIndex } = getGroupFromFilters(
+                    const nestedGroup = { id: uuidv4(), type: 'group', operator: 'AND', items: [] };
+                    const { index: nestedIndex } = populateGroupFromFilters(
                         filters,
+                        nestedGroup,
                         index + 1
                     );
                     group.items.push(nestedGroup);
@@ -125,8 +132,7 @@ const getGroupFromFilters = (filters, startIndex = 0) => {
 watch(
     () => props.filters,
     () => {
-        const result = getGroupFromFilters(props.filters);
-        group = result.group;
+        populateGroupFromFilters(props.filters, group);
     }
 );
 </script>
