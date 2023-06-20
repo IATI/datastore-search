@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <span v-if="filter">
+    <span v-if="filter" class="inline-block">
         <b v-if="showOperator && operatorPosition === 'start'" class="pr-2">
             {{ filter.joinOperator }}
         </b>
