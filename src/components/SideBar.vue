@@ -5,6 +5,7 @@ import FilterInputs from './FilterInputs.vue';
 import ExportModal from './ExportModal.vue';
 import ImportModal from './ImportModal.vue';
 import BboxModal from './BboxModal.vue';
+import FilterString from './FilterString.vue';
 import LoadingSpinner from './LoadingSpinner.vue';
 
 const global = inject('global');
@@ -38,6 +39,7 @@ watch(
                     :filters="global.state.filters"
                     :query="query"
                 />
+                <FilterString v-else :filters="global.state.filters" />
             </div>
         </div>
     </div>

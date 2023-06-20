@@ -210,6 +210,8 @@ export default {
         grouping: 'Grouping',
         standard_fields: 'Standard fields',
         incompatible_file_error: 'Incompatible file detected. Please try a different file.',
+        incompatible_file_version:
+            'Deprecated file version. The query can be run, but cannot be edited.',
         search_term_is_required: 'Search term is required',
         selection_is_required: 'Selection is required',
         value_is_required: 'Value is required',
