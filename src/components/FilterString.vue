@@ -2,6 +2,7 @@
 import { inject } from 'vue';
 import SideBarButtons from './SideBarButtons.vue';
 import FilterStringItem from './FilterStringItem.vue';
+import AppAlert from './AppAlert.vue';
 
 defineProps({ filters: { type: Array, default: () => [] } });
 const global = inject('global');
@@ -23,7 +24,9 @@ const showOperator = (filters, index) => {
 <template>
     <div>
         <div class="text-left px-2">
-            <p class="mb-4">{{ $t('message.incompatible_file_version') }}</p>
+            <AppAlert>
+                {{ $t('message.incompatible_file_version') }}
+            </AppAlert>
             <hr class="pb-4" />
             <div>
                 <FilterStringItem
