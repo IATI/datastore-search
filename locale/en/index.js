@@ -159,6 +159,7 @@ export default {
         `,
         run_aria: 'Run search query with selected filters',
         run: 'Run',
+        reset: 'Reset',
         export_aria: 'Export filters to file',
         export: 'Export',
         import_aria: 'Import filters from file',

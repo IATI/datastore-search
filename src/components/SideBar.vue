@@ -13,15 +13,12 @@ const route = useRoute();
 const query = computed(() => route.query.q);
 const fileImport = reactive({ loading: false, file: null, version: null });
 
-watch(
-    () => global.state.import.fileLoading,
-    () => {
-        const { fileLoading, file } = global.state.import;
-        fileImport.loading = !!fileLoading;
-        fileImport.file = file;
-        fileImport.version = file.version ? Number(file.version) : null;
-    }
-);
+watch([() => global.state.import.fileLoading, () => global.state.import.file], () => {
+    const { fileLoading, file } = global.state.import;
+    fileImport.loading = !!fileLoading;
+    fileImport.file = file;
+    fileImport.version = file.version ? Number(file.version) : null;
+});
 </script>
 
 <template>
@@ -39,7 +36,14 @@ watch(
                     :filters="global.state.filters"
                     :query="query"
                 />
-                <FilterString v-else :filters="global.state.filters" />
+                <FilterString
+                    v-if="
+                        fileImport.file &&
+                        fileImport.file.data &&
+                        (!fileImport.version || fileImport.version < 2)
+                    "
+                    :filters="global.state.filters"
+                />
             </div>
         </div>
     </div>

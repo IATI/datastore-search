@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from 'vue';
-import { PlusCircleIcon } from '@heroicons/vue/20/solid';
+import { ArrowPathRoundedSquareIcon, PlusCircleIcon } from '@heroicons/vue/20/solid';
 import { ArrowDownIcon } from '@heroicons/vue/20/solid';
 import { ArrowUpIcon } from '@heroicons/vue/20/solid';
 import { PlayIcon } from '@heroicons/vue/20/solid';
@@ -15,19 +15,9 @@ const emits = defineEmits(['run']);
     <div id="buttons w-full">
         <div
             v-if="global.state.filters.length > 0"
-            class="border-solid border-t border-b py-5 flex justify-between w-full px-4 content-end pr-0"
+            class="border-solid border-t border-b py-5 flex flex-col lg:flex-row items-start justify-between w-full px-0 content-end pr-0"
         >
-            <AppButton
-                :aria-label="$t('message.add_aria')"
-                variant="yellow"
-                size="sm"
-                class="hidden"
-                @click="global.addFilter()"
-            >
-                <PlusCircleIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
-                <span class="uppercase">{{ $t('message.add') }}</span>
-            </AppButton>
-            <div>
+            <div class="mb-3 lg:mb-0">
                 <AppButton
                     :aria-label="$t('message.export_aria')"
                     variant="red"
@@ -49,21 +39,33 @@ const emits = defineEmits(['run']);
                     <span class="uppercase">{{ $t('message.import') }}</span>
                 </AppButton>
             </div>
-            <AppButton
-                :aria-label="$t('message.run_aria')"
-                variant="green"
-                size="sm"
-                class="float-right"
-                @click="emits('run')"
-            >
-                <PlayIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
-                <span class="uppercase">{{ $t('message.run') }}</span>
-            </AppButton>
+            <div>
+                <AppButton
+                    :aria-label="$t('message.add_aria')"
+                    variant="yellow"
+                    size="sm"
+                    class="mr-2"
+                    @click="global.resetFilters()"
+                >
+                    <ArrowPathRoundedSquareIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <span class="uppercase">{{ $t('message.reset') }}</span>
+                </AppButton>
+                <AppButton
+                    :aria-label="$t('message.run_aria')"
+                    variant="green"
+                    size="sm"
+                    class="float-right"
+                    @click="emits('run')"
+                >
+                    <PlayIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <span class="uppercase">{{ $t('message.run') }}</span>
+                </AppButton>
+            </div>
         </div>
         <div v-if="global.state.filters.length === 0">
             <button
                 :aria-label="$t('message.add_aria')"
-                class="bg-btn-yellow hover:bg-iati-grey text-white py-1.5 px-5 rounded float-left ml-8 w-2/24 inline-flex"
+                class="bg-btn-yellow hover:bg-iati-grey text-white py-1.5 px-5 rounded float-left ml-2 w-2/24 inline-flex"
                 @click="global.addFilter()"
             >
                 <PlusCircleIcon class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]" />

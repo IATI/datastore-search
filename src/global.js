@@ -10,6 +10,7 @@ import i18n from './i18n.js';
 const { t } = i18n.global;
 const browser_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
 let language = JSON.parse(localStorage.getItem('language')) || '';
+const IMPORT_FILE_VERSION = '2.0';
 
 if (language === '') {
     language = browser_locale;
@@ -260,6 +261,7 @@ const removeFilter = (id) => {
 const resetFilters = () => {
     state.filters = [];
     state.nextFilterId = 0;
+    state.import.file = { version: IMPORT_FILE_VERSION };
 };
 
 export const importSimpleSearchToAdv = async () => {
@@ -350,7 +352,7 @@ export const exportFilters = () => {
     state.export.fileLoading = true;
     const filterHash = MD5(JSON.stringify(state.filters)).toString();
     const exportObj = {
-        version: '2.0',
+        version: IMPORT_FILE_VERSION,
         hash: filterHash,
         data: state.filters,
     };
