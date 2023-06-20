@@ -251,7 +251,6 @@ const addFilter = async () => {
 
 const setFilters = (filters) => {
     state.filters = filters;
-    window.localStorage.setItem(LOCAL_STORAGE_KEY_ADVANCED, JSON.stringify(filters));
 };
 
 const restoreFilters = async () => {
@@ -554,6 +553,13 @@ const validateFilters = () => {
 
         return validatedFilter;
     });
+    if (
+        !count &&
+        state.filters.length &&
+        !state.filters.filter((item) => item.type !== 'grouping').length
+    ) {
+        count++;
+    }
     return count === 0;
 };
 
@@ -563,6 +569,9 @@ const run = async (start = 0, rows = 10) => {
     state.responseErrorMessage = '';
 
     if (validateFilters()) {
+        // persist filters to local storage
+        window.localStorage.setItem(LOCAL_STORAGE_KEY_ADVANCED, JSON.stringify(state.filters));
+
         state.queryInProgress = true;
         await compileQuery();
         let url = new URL(baseUrl);
