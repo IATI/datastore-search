@@ -260,7 +260,6 @@ const removeFilter = (id) => {
 const resetFilters = () => {
     state.filters = [];
     state.nextFilterId = 0;
-    addFilter();
 };
 
 export const importSimpleSearchToAdv = async () => {
