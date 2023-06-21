@@ -66,6 +66,7 @@ const onReset = () => {
                     variant="yellow"
                     size="sm"
                     class="mr-2"
+                    data-cy="reset-filters"
                     @click="onReset"
                 >
                     <ArrowPathRoundedSquareIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
