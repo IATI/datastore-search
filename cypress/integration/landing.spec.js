@@ -16,15 +16,16 @@ describe('The landing view', () => {
         cy.contains('IATI Unified Platform');
     });
 
-    describe('search bar', () => {
-        it('routes a search to the simple view', () => {
+    describe('search bar, on search', () => {
+        it('shows the results view with a URL query', () => {
             cy.visit('/');
-            cy.get('input[title=Search]').type('test');
+            const query = 'test';
+            cy.get('input[title=Search]').type(query);
             cy.get('button[aria-label=Submit]').click();
-            cy.url().should('includes', '/simple');
+            cy.url().should('includes', `/?q=${query}`);
         });
 
-        it('retains the search term after routing', () => {
+        it('retains the search term', () => {
             cy.visit('/');
             cy.get('input[title=Search]').type('test');
             cy.get('button[aria-label=Submit]').click();
