@@ -124,14 +124,13 @@ describe('The advanced search', { testIsolation: false }, () => {
     });
 
     describe('filters', () => {
-        let baseUrl =
-            'https://dev-api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&';
-        if (Cypress.config('baseUrl') === 'https://datastore.iatistandard.org') {
-            baseUrl =
-                'https://api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&';
-        }
-        const urlSuffix = '&sort=score+desc';
-        const buildURL = (query) => `${baseUrl}${query}${urlSuffix}`;
+        // let baseUrl = 'https://dev-api.iatistandard.org/dss/activity/select?wt=json&fl=id,title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_narrative,activity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&';
+        const baseUrl =
+            Cypress.config('baseUrl') === 'https://datastore.iatistandard.org'
+                ? 'https://api.iatistandard.org/dss/activity/select'
+                : 'https://dev-api.iatistandard.org/dss/activity/select';
+        const urlSuffix = '&sort=score desc';
+        const buildRouteMatcher = (query) => ({ url: `${baseUrl}*`, query });
 
         beforeEach(() => {
             cy.visit('/');
@@ -149,7 +148,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.contains('Selection is required');
             cy.get('button:contains("TRUE")').click();
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildURL('q=%28humanitarian%3Atrue%29'), advanced_q_test).as(
+                cy.intercept(buildRouteMatcher({ q: '(humanitarian:true)' }), advanced_q_test).as(
                     'booleanQuery'
                 );
                 cy.get('[data-cy="run-filters"]').click();
@@ -172,7 +171,9 @@ describe('The advanced search', { testIsolation: false }, () => {
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    buildURL('q=%28activity_date_iso_date%3A%222022-01-31T00%3A00%3A00Z%22%29'),
+                    buildRouteMatcher({
+                        q: '(activity_date_iso_date:"2022-01-31T00:00:00Z")',
+                    }),
                     advanced_q_test
                 ).as('dateQuery');
 
@@ -196,7 +197,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="filter-number-input"]').type(1);
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildURL('q=%28hierarchy%3A%221%22%29'), advanced_q_test).as(
+                cy.intercept(buildRouteMatcher({ q: '(hierarchy:"1")' }), advanced_q_test).as(
                     'integerQuery'
                 );
                 cy.get('[data-cy="run-filters"]').click({ force: true });
@@ -220,7 +221,7 @@ describe('The advanced search', { testIsolation: false }, () => {
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    buildURL('q=%28sector_percentage%3A%2299.9%22%29'),
+                    buildRouteMatcher({ q: '(sector_percentage:"99.9")' }),
                     advanced_q_test
                 ).as('numberQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
@@ -243,7 +244,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="filter-select-input"] select').select('2 - Revised');
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildURL('q=%28budget_type%3A2%29'), advanced_q_test).as(
+                cy.intercept(buildRouteMatcher({ q: '(budget_type:2)' }), advanced_q_test).as(
                     'selectQuery'
                 );
                 cy.get('[data-cy="run-filters"]').click({ force: true });
@@ -253,32 +254,28 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // select filters
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(5).select('Budget Type');
-            cy.get('button[aria-label="Run search query with selected filters"]').click();
-            cy.contains('Selection is required');
-            cy.wait(1000);
-            cy.get('select').eq(6).select('2 - Revised');
+        it('can add, validate & run text rules', () => {
+            const now = new Date(2022, 0, 1).getTime();
+            cy.clock(now);
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.contains('Title Narrative').click();
+            cy.get('[data-cy="filter-text-input"]').type('Hello world');
+
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A%221%22' +
-                        '+AND+sector_percentage%3A%2299.9%22' +
-                        '+AND+budget_type%3A2' +
-                        urlSuffix,
+                    buildRouteMatcher({ q: '(title_narrative:(Hello world))' }),
                     advanced_q_test
-                ).as('selectQuery');
-                //
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
-                cy.wait('@selectQuery').then((interception) => {
+                ).as('textQuery');
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@textQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
 
+        xit('can add/run all filter types and import/export the generated config', () => {
             // text filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(7).select('Title Narrative');
