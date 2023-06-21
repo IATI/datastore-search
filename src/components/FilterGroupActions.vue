@@ -51,11 +51,23 @@ const buttonClasses =
         </div>
     </div>
     <div class="inline-flex items-center w-full" role="toolbar">
-        <AppButton variant="outline" size="sm" class="mr-2 px-[8px]" @click="emits('addRule')">
-            <span class="uppercase">Add Rule</span>
+        <AppButton
+            variant="outline"
+            size="sm"
+            class="mr-2 px-[8px]"
+            data-cy="add-rule"
+            @click="emits('addRule')"
+        >
+            <span class="uppercase">{{ $t('message.add_rule') }}</span>
         </AppButton>
-        <AppButton variant="outline-accent" class="px-[8px]" size="sm" @click="emits('addGroup')">
-            <span class="uppercase">Add Group</span>
+        <AppButton
+            variant="outline-accent"
+            class="px-[8px]"
+            size="sm"
+            data-cy="add-group"
+            @click="emits('addGroup')"
+        >
+            <span class="uppercase">{{ $t('message.add_rule') }}</span>
         </AppButton>
     </div>
 </template>

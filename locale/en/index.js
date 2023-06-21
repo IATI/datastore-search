@@ -181,6 +181,8 @@ export default {
             Advanced Search.
         `,
         file: 'File',
+        add_rule: 'Add rule',
+        add_group: 'Add group',
         and: 'AND',
         or: 'OR',
         select_field: 'Select field',

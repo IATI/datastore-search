@@ -93,6 +93,7 @@ const onReset = () => {
             <button
                 :aria-label="$t('message.add_aria')"
                 class="bg-btn-yellow hover:bg-iati-grey text-white py-1.5 px-5 rounded float-left ml-2 w-2/24 inline-flex"
+                data-cy="build-query"
                 @click="global.addFilter()"
             >
                 <PlusCircleIcon class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]" />
