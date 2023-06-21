@@ -25,12 +25,14 @@ watch(searchterm, () => {
                 type="text"
                 class="px-4 py-2 placeholder-gray-600 search-bar"
                 :placeholder="$t('message.search_iati_activities')"
+                data-cy="search-input"
                 @keyup.enter="$emit('search', searchterm)"
             />
             <button
                 role="button"
                 :aria-label="$t('message.submit')"
                 class="flex items-center justify-center px-4 border-l"
+                data-cy="search-button"
                 @click="$emit('search', searchterm)"
             >
                 <svg
