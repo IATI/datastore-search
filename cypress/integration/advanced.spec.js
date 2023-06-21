@@ -15,7 +15,7 @@ describe('The advanced search', { testIsolation: false }, () => {
         cy.contains('Build Query');
     });
 
-    xdescribe('side bar', () => {
+    describe('side bar', () => {
         const query = 'test';
         beforeEach(() => {
             // cy.get('button[aria-label="Add an additional filter"]').click();
@@ -140,7 +140,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="build-query"]').click();
         });
 
-        it('can add, validate & run boolean filters', () => {
+        it('can add, validate & run boolean rules', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.wait(2000);
@@ -155,6 +155,30 @@ describe('The advanced search', { testIsolation: false }, () => {
                 ).as('booleanQuery');
                 cy.get('[data-cy="run-filters"]').click();
                 cy.wait('@booleanQuery').then((interception) => {
+                    cy.wrap(interception.response.statusCode).should('eq', 200);
+                });
+            });
+        });
+
+        it('can add, validate & run date rules', () => {
+            const now = new Date(2022, 0, 1).getTime();
+            cy.clock(now);
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.contains('Activity Date Iso Date').click();
+
+            cy.get('[data-cy="filter-date-input"]').click();
+            cy.get('button:contains("31")').eq(1).click({ force: true });
+
+            cy.fixture('advanced_q_test').then((advanced_q_test) => {
+                cy.intercept(
+                    `${baseUrl}q=%28activity_date_iso_date%3A%222022-01-31T00%3A00%3A00Z%22%29${urlSuffix}`,
+                    advanced_q_test
+                ).as('dateQuery');
+
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@dateQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });

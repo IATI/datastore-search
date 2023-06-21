@@ -46,6 +46,8 @@ const emits = defineEmits(['changeOperator', 'changeValue']);
             <datepicker
                 :model-value="new Date(filter.value)"
                 class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                position="left"
+                allow-prevent-default
                 @update:model-value="(date) => emits('changeValue', date)"
             />
         </div>

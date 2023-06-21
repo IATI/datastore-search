@@ -153,6 +153,7 @@ onBeforeMount(() => {
             <FilterDateInput
                 v-if="selectedOption.type === 'date'"
                 :filter="filter"
+                data-cy="filter-date-input"
                 @change-operator="(operator) => onChange(operator, true)"
                 @change-value="(value) => onChange(value)"
             />
