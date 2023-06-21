@@ -83,6 +83,7 @@ const onReset = () => {
                     variant="green"
                     size="sm"
                     class="float-right"
+                    data-cy="run-filters"
                     @click="emits('run')"
                 >
                     <PlayIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />

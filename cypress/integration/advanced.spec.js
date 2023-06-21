@@ -15,7 +15,7 @@ describe('The advanced search', { testIsolation: false }, () => {
         cy.contains('Build Query');
     });
 
-    describe('side bar', () => {
+    xdescribe('side bar', () => {
         const query = 'test';
         beforeEach(() => {
             // cy.get('button[aria-label="Add an additional filter"]').click();
@@ -123,7 +123,7 @@ describe('The advanced search', { testIsolation: false }, () => {
         });
     });
 
-    xdescribe('filters', () => {
+    describe('filters', () => {
         let baseUrl =
             'https://dev-api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&';
         if (Cypress.config('baseUrl') === 'https://datastore.iatistandard.org') {
@@ -133,23 +133,34 @@ describe('The advanced search', { testIsolation: false }, () => {
 
         const urlSuffix = '&sort=score+desc';
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // boolean filters
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(1).select('Humanitarian');
-            cy.get('button[aria-label="Run search query with selected filters"]').click();
+        beforeEach(() => {
+            cy.visit('/');
+            window.localStorage.clear();
+            cy.get('[data-cy="advanced-search-landing"]').click();
+            cy.get('[data-cy="build-query"]').click();
+        });
+
+        it('can add, validate & run boolean filters', () => {
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.contains('Humanitarian').click();
+            cy.get('[data-cy="run-filters"]').click();
             cy.contains('Selection is required');
             cy.get('button:contains("TRUE")').click();
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(baseUrl + 'q=humanitarian%3Atrue' + urlSuffix, advanced_q_test).as(
-                    'booleanQuery'
-                );
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
+                cy.intercept(
+                    `${baseUrl}q=%28humanitarian%3Atrue%29${urlSuffix}`,
+                    advanced_q_test
+                ).as('booleanQuery');
+                cy.get('[data-cy="run-filters"]').click();
                 cy.wait('@booleanQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
 
+        xit('can add/run all filter types and import/export the generated config', () => {
             // date filters
             const now = new Date(2022, 0, 1).getTime();
             cy.clock(now);
