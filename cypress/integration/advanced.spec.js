@@ -130,8 +130,8 @@ describe('The advanced search', { testIsolation: false }, () => {
             baseUrl =
                 'https://api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&';
         }
-
         const urlSuffix = '&sort=score+desc';
+        const buildURL = (query) => `${baseUrl}${query}${urlSuffix}`;
 
         beforeEach(() => {
             cy.visit('/');
@@ -149,10 +149,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.contains('Selection is required');
             cy.get('button:contains("TRUE")').click();
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(
-                    `${baseUrl}q=%28humanitarian%3Atrue%29${urlSuffix}`,
-                    advanced_q_test
-                ).as('booleanQuery');
+                cy.intercept(buildURL('q=%28humanitarian%3Atrue%29'), advanced_q_test).as(
+                    'booleanQuery'
+                );
                 cy.get('[data-cy="run-filters"]').click();
                 cy.wait('@booleanQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
@@ -173,7 +172,7 @@ describe('The advanced search', { testIsolation: false }, () => {
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    `${baseUrl}q=%28activity_date_iso_date%3A%222022-01-31T00%3A00%3A00Z%22%29${urlSuffix}`,
+                    buildURL('q=%28activity_date_iso_date%3A%222022-01-31T00%3A00%3A00Z%22%29'),
                     advanced_q_test
                 ).as('dateQuery');
 
@@ -184,29 +183,30 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // date filters
+        it('can add, validate & run integer rules', () => {
             const now = new Date(2022, 0, 1).getTime();
             cy.clock(now);
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(2).select('Activity Date Iso Date');
-            cy.get('button:contains("<")').click();
-            cy.get('input[type="text"]').click();
-            cy.get('button:contains("31")').eq(1).click();
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.contains('Hierarchy').click();
+            cy.get('[data-cy="run-filters"]').click({ force: true });
+            cy.contains('Value is required');
+
+            cy.get('[data-cy="filter-number-input"]').type(1);
+
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        urlSuffix,
-                    advanced_q_test
-                ).as('dateQuery');
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
-                cy.wait('@dateQuery').then((interception) => {
+                cy.intercept(buildURL('q=%28hierarchy%3A%221%22%29'), advanced_q_test).as(
+                    'integerQuery'
+                );
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@integerQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
 
+        xit('can add/run all filter types and import/export the generated config', () => {
             // integer filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(3).select('Hierarchy');

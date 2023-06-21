@@ -135,6 +135,7 @@ onBeforeMount(() => {
             <FilterNumberInput
                 v-if="selectedOption.type === 'number' || selectedOption.type === 'integer'"
                 :filter="filter"
+                data-cy="filter-number-input"
                 @change-operator="(operator) => onChange(operator, true)"
                 @change-value="(value) => onChange(value)"
             />
