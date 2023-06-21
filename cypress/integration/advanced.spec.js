@@ -35,7 +35,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
             cy.get('[data-cy="advanced-search-landing"]').click();
             cy.get('[data-cy="search-bar--menu"]').should('be.visible');
-            cy.get('[data-cy="search-bar--wrapper"]').click();
+            cy.get('[data-cy="close-advanced"]').click();
             cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
         });
 
@@ -69,27 +69,48 @@ describe('The advanced search', { testIsolation: false }, () => {
             validate(queryUpdate);
         });
 
-        xit('creates a dropdown when you click Add Filters button', () => {
-            cy.get('[data-cy="advanced-search-results"]').click();
-            cy.contains('Select field');
-        });
+        describe('query', () => {
+            beforeEach(() => {
+                cy.visit('/');
+                cy.get('[data-cy="advanced-search-landing"]').click();
+                cy.get('[data-cy="build-query"]').click();
+            });
+            it('shows a dropdown when you click the Add Rule button', () => {
+                cy.contains('Select field').should('not.exist');
+                cy.get('[data-cy="add-rule"]').click();
+                cy.contains('Select field');
+            });
 
-        xit('creates a textbox when you select Title Narrative', () => {
-            cy.get('select').eq(1).select('Title Narrative');
-            cy.get('input[placeholder="Search term"]').should('be.visible');
-        });
+            xit('adds a group when you click the Add Group button', () => {
+                cy.get('[data-cy="advanced-search-results"]').click();
+                cy.contains('Select field');
+            });
 
-        xit('yields an error message when the search is run empty', () => {
-            cy.get('select').eq(1).select('Title Narrative');
-            cy.get('button[aria-label="Run search query with selected filters"]').click();
-            cy.contains('Search term is required');
-        });
+            xit('creates a textbox when you select Title Narrative', () => {
+                cy.get('select').eq(1).select('Title Narrative');
+                cy.get('input[placeholder="Search term"]').should('be.visible');
+            });
 
-        xit('clears the error message when another field is selected', () => {
-            cy.get('select').eq(1).select('Title Narrative');
-            cy.get('button[aria-label="Run search query with selected filters"]').click();
-            cy.get('select').eq(1).select('Dataset Version');
-            cy.contains('Search term is required').should('not.exist');
+            xit('yields an error message when the search is run empty', () => {
+                cy.get('select').eq(1).select('Title Narrative');
+                cy.get('button[aria-label="Run search query with selected filters"]').click();
+                cy.contains('Search term is required');
+            });
+
+            xit('clears the error message when another field is selected', () => {
+                cy.get('select').eq(1).select('Title Narrative');
+                cy.get('button[aria-label="Run search query with selected filters"]').click();
+                cy.get('select').eq(1).select('Dataset Version');
+                cy.contains('Search term is required').should('not.exist');
+            });
+
+            xit('has a reset feature that requires confirmation', () => {
+                //
+            });
+
+            xit('clears filters when a reset is confirmed', () => {
+                //
+            });
         });
     });
 
