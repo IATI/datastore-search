@@ -27,9 +27,15 @@ const onClose = () => {
     <div
         class="search-bar--wrapper"
         :class="{ '!block': showAdvancedSearch }"
+        data-cy="search-bar--wrapper"
         @click.stop="onClose"
     >
-        <div class="search-bar--menu pr-4 md:pr-0" :class="{ show }" @click.stop>
+        <div
+            class="search-bar--menu pr-4 md:pr-0"
+            :class="{ show }"
+            data-cy="search-bar--menu"
+            @click.stop
+        >
             <div class="p-4 text-left flex justify-between items-center">
                 <h1 class="text-3xl font-semibold">{{ $t('message.advanced_search') }}</h1>
                 <XMarkIcon class="h-25 w-10 text-grey-300 mr-1 cursor-pointer" @click="onClose" />

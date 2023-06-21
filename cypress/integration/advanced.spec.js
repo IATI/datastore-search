@@ -1,6 +1,6 @@
 /// <reference types="Cypress"/>
 
-describe('The advanced view', { testIsolation: false }, () => {
+describe('The advanced search', { testIsolation: false }, () => {
     beforeEach(() => {
         cy.intercept('https://dev-api.iatistandard.org/dss/resources/filters?locale=en').as(
             'getFilters'
@@ -8,7 +8,7 @@ describe('The advanced view', { testIsolation: false }, () => {
         cy.intercept('https://api.iatistandard.org/dss/resources/filters?locale=en').as(
             'getFilters'
         );
-        cy.visit('/advanced');
+        cy.visit('/');
         cy.wait('@getFilters');
     });
     it('has a button to build query', () => {
@@ -17,7 +17,36 @@ describe('The advanced view', { testIsolation: false }, () => {
 
     describe('side bar', () => {
         beforeEach(() => {
-            cy.get('button[aria-label="Add an additional filter"]').click();
+            // cy.get('button[aria-label="Add an additional filter"]').click();
+        });
+        it('can be toggled from the landing view', () => {
+            cy.get('[data-cy="advanced-search-landing"]').should('be.visible');
+            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
+            cy.get('[data-cy="advanced-search-landing"]').click();
+            cy.get('[data-cy="search-bar--menu"]').should('be.visible');
+            cy.get('[data-cy="search-bar--wrapper"]').click();
+            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
+        });
+        it('can be toggled from the results view', () => {
+            const query = 'test';
+            cy.visit(`/?q=${query}`);
+
+            cy.fixture('simple_q_test').then((simple_q_test) => {
+                cy.intercept(
+                    `https://dev-api.iatistandard.org/dss/activity/search?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=${query}&sort=score+desc`,
+                    simple_q_test
+                );
+                cy.intercept(
+                    `https://api.iatistandard.org/dss/activity/search?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=${query}&sort=score+desc`,
+                    simple_q_test
+                );
+            });
+            cy.get('[data-cy="advanced-search-results"]').should('be.visible');
+            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
+            cy.get('[data-cy="advanced-search-results"]').click();
+            cy.get('[data-cy="search-bar--menu"]').should('be.visible');
+            cy.get('[data-cy="search-bar--wrapper"]').click();
+            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
         });
         it('creates a dropdown when you click Add Filters button', () => {
             cy.contains('Select field');

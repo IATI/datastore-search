@@ -9,7 +9,7 @@ describe('The results view', () => {
     it('has a visible button for showing the advanced search sidebar', () => {
         const query = 'test';
         cy.visit(`/?q=${query}`);
-        cy.get('[data-cy="advanced-search-button"]').should('be.visible');
+        cy.get('[data-cy="advanced-search-results"]').should('be.visible');
     });
 
     describe('search bar', () => {

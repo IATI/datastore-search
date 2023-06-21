@@ -34,7 +34,7 @@ const onSearch = (query) => {
                 <button
                     v-if="!global.state.queryInProgress"
                     class="py-2 px-4 justify-self-start 2xl:ml-6 my-auto bg-slate-100 hover:bg-slate-300 text-slate-600 font-medium rounded"
-                    data-cy="advanced-search-button"
+                    data-cy="advanced-search-results"
                     @click="showAdvancedSearch = true"
                 >
                     {{ $t('message.advanced') }}
