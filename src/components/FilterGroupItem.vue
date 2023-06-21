@@ -142,6 +142,7 @@ onBeforeMount(() => {
             <FilterSelectInput
                 v-if="selectedOption.type === 'select'"
                 :filter="filter"
+                data-cy="filter-select-input"
                 @change-value="onChange($event.target.value)"
                 @change-operator="(operator) => onChange(operator, true)"
             />

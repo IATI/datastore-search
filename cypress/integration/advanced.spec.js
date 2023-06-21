@@ -230,29 +230,30 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // number filters
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(4).select('Sector Percentage');
-            cy.get('button[aria-label="Run search query with selected filters"]').click();
-            cy.contains('Value is required');
-            cy.get('input[min="0"]').type(99.9);
+        it('can add, validate & run select rules', () => {
+            const now = new Date(2022, 0, 1).getTime();
+            cy.clock(now);
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.contains('Budget Type').click();
+            cy.get('[data-cy="run-filters"]').click({ force: true });
+            cy.contains('Selection is required');
+
+            cy.get('[data-cy="filter-select-input"] select').select('2 - Revised');
+
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A%221%22' +
-                        '+AND+sector_percentage%3A%2299.9%22' +
-                        urlSuffix,
-                    advanced_q_test
-                ).as('numberQuery');
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
-                cy.wait('@numberQuery').then((interception) => {
+                cy.intercept(buildURL('q=%28budget_type%3A2%29'), advanced_q_test).as(
+                    'selectQuery'
+                );
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@selectQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
 
+        xit('can add/run all filter types and import/export the generated config', () => {
             // select filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(5).select('Budget Type');
