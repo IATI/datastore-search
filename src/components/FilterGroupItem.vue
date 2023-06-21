@@ -100,6 +100,7 @@ onBeforeMount(() => {
                 track-by="field"
                 label="label"
                 class="filter-group-item"
+                data-cy="field-selector"
             />
         </div>
 
@@ -118,6 +119,7 @@ onBeforeMount(() => {
             <FilterTextInput
                 v-if="selectedOption.type === 'text'"
                 :filter="filter"
+                data-cy="filter-text-input"
                 @change="onChange($event.target.value)"
             />
             <FilterLatLongInput

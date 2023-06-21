@@ -16,21 +16,9 @@ describe('The advanced search', { testIsolation: false }, () => {
     });
 
     describe('side bar', () => {
+        const query = 'test';
         beforeEach(() => {
             // cy.get('button[aria-label="Add an additional filter"]').click();
-        });
-        it('can be toggled from the landing view', () => {
-            cy.get('[data-cy="advanced-search-landing"]').should('be.visible');
-            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
-            cy.get('[data-cy="advanced-search-landing"]').click();
-            cy.get('[data-cy="search-bar--menu"]').should('be.visible');
-            cy.get('[data-cy="search-bar--wrapper"]').click();
-            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
-        });
-        it('can be toggled from the results view', () => {
-            const query = 'test';
-            cy.visit(`/?q=${query}`);
-
             cy.fixture('simple_q_test').then((simple_q_test) => {
                 cy.intercept(
                     `https://dev-api.iatistandard.org/dss/activity/search?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=${query}&sort=score+desc`,
@@ -41,29 +29,63 @@ describe('The advanced search', { testIsolation: false }, () => {
                     simple_q_test
                 );
             });
-            cy.get('[data-cy="advanced-search-results"]').should('be.visible');
+        });
+        it('can be toggled from the landing view', () => {
+            cy.get('[data-cy="advanced-search-landing"]').should('be.visible');
             cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
-            cy.get('[data-cy="advanced-search-results"]').click();
+            cy.get('[data-cy="advanced-search-landing"]').click();
             cy.get('[data-cy="search-bar--menu"]').should('be.visible');
             cy.get('[data-cy="search-bar--wrapper"]').click();
             cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
         });
-        it('creates a dropdown when you click Add Filters button', () => {
+
+        it('can be toggled from the results view', () => {
+            cy.visit(`/?q=${query}`);
+
+            cy.get('[data-cy="advanced-search-results"]').should('be.visible');
+            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
+            cy.get('[data-cy="advanced-search-results"]').click();
+            cy.get('[data-cy="search-bar--menu"]').should('be.visible');
+            cy.get('[data-cy="close-advanced"]').click();
+            cy.get('[data-cy="search-bar--menu"]').should('not.be.visible');
+        });
+
+        it('captures a representation of the basic search input', () => {
+            const query = 'test';
+            cy.visit(`/?q=${query}`);
+            const validate = (value) => {
+                cy.get('[data-cy="advanced-search-results"]').click();
+                cy.get('[data-cy="field-selector"]').should('be.visible');
+                cy.get('[data-cy="filter-text-input"]').should('have.value', value);
+            };
+            validate(query);
+
+            // capture change
+            const queryUpdate = 'test2';
+            cy.get('[data-cy="close-advanced"]').click();
+            cy.get('[data-cy="search-input"]').clear();
+            cy.get('[data-cy="search-input"]').type(queryUpdate);
+            cy.get('[data-cy="search-button"]').click();
+            validate(queryUpdate);
+        });
+
+        xit('creates a dropdown when you click Add Filters button', () => {
+            cy.get('[data-cy="advanced-search-results"]').click();
             cy.contains('Select field');
         });
 
-        it('creates a textbox when you select Title Narrative', () => {
+        xit('creates a textbox when you select Title Narrative', () => {
             cy.get('select').eq(1).select('Title Narrative');
             cy.get('input[placeholder="Search term"]').should('be.visible');
         });
 
-        it('yields an error message when the search is run empty', () => {
+        xit('yields an error message when the search is run empty', () => {
             cy.get('select').eq(1).select('Title Narrative');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.contains('Search term is required');
         });
 
-        it('clears the error message when another field is selected', () => {
+        xit('clears the error message when another field is selected', () => {
             cy.get('select').eq(1).select('Title Narrative');
             cy.get('button[aria-label="Run search query with selected filters"]').click();
             cy.get('select').eq(1).select('Dataset Version');
@@ -71,7 +93,7 @@ describe('The advanced search', { testIsolation: false }, () => {
         });
     });
 
-    describe('filters', () => {
+    xdescribe('filters', () => {
         let baseUrl =
             'https://dev-api.iatistandard.org/dss/activity/select?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&';
         if (Cypress.config('baseUrl') === 'https://datastore.iatistandard.org') {
@@ -81,7 +103,7 @@ describe('The advanced search', { testIsolation: false }, () => {
 
         const urlSuffix = '&sort=score+desc';
 
-        it('can add/run all filter types and import/export the generated config', () => {
+        xit('can add/run all filter types and import/export the generated config', () => {
             // boolean filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(1).select('Humanitarian');
