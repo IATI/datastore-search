@@ -206,28 +206,31 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // integer filters
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(3).select('Hierarchy');
-            cy.get('button[aria-label="Run search query with selected filters"]').click();
+        it('can add, validate & run number rules', () => {
+            const now = new Date(2022, 0, 1).getTime();
+            cy.clock(now);
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.contains('Sector Percentage').click();
+            cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
-            cy.get('input[type="number"]').type(1);
+
+            cy.get('[data-cy="filter-number-input"]').type(99.9);
+
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A%221%22' +
-                        urlSuffix,
+                    buildURL('q=%28sector_percentage%3A%2299.9%22%29'),
                     advanced_q_test
-                ).as('integerQuery');
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
-                cy.wait('@integerQuery').then((interception) => {
+                ).as('numberQuery');
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@numberQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
 
+        xit('can add/run all filter types and import/export the generated config', () => {
             // number filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(4).select('Sector Percentage');
