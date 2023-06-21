@@ -38,7 +38,9 @@ const onClose = () => {
         >
             <div class="p-4 text-left flex justify-between items-center">
                 <h1 class="text-3xl font-semibold">{{ $t('message.advanced_search') }}</h1>
-                <XMarkIcon class="h-25 w-10 text-grey-300 mr-1 cursor-pointer" @click="onClose" />
+                <span data-cy="close-advanced" class="mr-1" @click="onClose">
+                    <XMarkIcon class="h-25 w-10 text-grey-300 cursor-pointer" />
+                </span>
             </div>
             <SideBar />
         </div>
