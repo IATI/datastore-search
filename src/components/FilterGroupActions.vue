@@ -47,7 +47,9 @@ const buttonClasses =
         </button>
 
         <div v-if="deletable" class="p-2 float-right">
-            <XCircleIcon class="h-6 cursor-pointer" @click="emits('delete')" />
+            <span data-cy="remove-group" @click="emits('delete')">
+                <XCircleIcon class="h-6 cursor-pointer" />
+            </span>
         </div>
     </div>
     <div class="inline-flex items-center w-full" role="toolbar">

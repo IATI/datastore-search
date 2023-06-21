@@ -75,16 +75,31 @@ describe('The advanced search', { testIsolation: false }, () => {
                 cy.get('[data-cy="advanced-search-landing"]').click();
                 cy.get('[data-cy="build-query"]').click();
             });
+
             it('shows a dropdown when you click the Add Rule button', () => {
                 cy.contains('Select field').should('not.exist');
                 cy.get('[data-cy="add-rule"]').click();
                 cy.contains('Select field');
             });
 
+            it('can remove an existing rule', () => {
+                cy.get('[data-cy="add-rule"]').click();
+                cy.contains('Select field');
+                cy.get('[data-cy="remove-rule"]').click();
+                cy.contains('Select field').should('not.exist');
+            });
+
             it('adds a group when you click the Add Group button', () => {
                 cy.get('[data-cy="add-group"]').its('length').should('equal', 1);
                 cy.get('[data-cy="add-group"]').click();
                 cy.get('[data-cy="add-group"]').its('length').should('equal', 2);
+            });
+
+            it('can remove a nested group', () => {
+                cy.get('[data-cy="add-group"]').click();
+                cy.get('[data-cy="add-group"]').its('length').should('equal', 2);
+                cy.get('[data-cy="remove-group"]').click();
+                cy.get('[data-cy="add-group"]').its('length').should('equal', 1);
             });
 
             it('has a reset feature that requires confirmation', () => {
