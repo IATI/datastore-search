@@ -67,7 +67,7 @@ const buttonClasses =
             data-cy="add-group"
             @click="emits('addGroup')"
         >
-            <span class="uppercase">{{ $t('message.add_rule') }}</span>
+            <span class="uppercase">{{ $t('message.add_group') }}</span>
         </AppButton>
     </div>
 </template>
