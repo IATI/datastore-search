@@ -185,6 +185,7 @@ export default {
         add_group: 'Add group',
         and: 'AND',
         or: 'OR',
+        group_operator: 'Group Operator',
         select_field: 'Select field',
         true: 'TRUE',
         false: 'FALSE',

@@ -1,14 +1,17 @@
 <script setup>
+import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
 import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
-import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
+import i18n from '../i18n';
+
+const { t } = i18n.global;
 
 defineProps({ deletable: { type: Boolean, default: true } });
 const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
 
 const operator = ref('AND');
 const toggleOperator = () => {
-    operator.value = operator.value === 'AND' ? 'OR' : 'AND';
+    operator.value = operator.value === t('message.and') ? t('message.or') : t('message.and');
     emits('toggleOperator', operator.value);
 };
 const buttonClasses =
@@ -18,19 +21,21 @@ const buttonClasses =
 <template>
     <div class="mr-3 mb-1 text-center flex">
         <div class="py-1">
-            <span class="mr-3 text-sm">Group Operator</span>
+            <span class="mr-3 text-sm">{{ $t('message.group_operator') }}</span>
             <button
-                :class="[operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
+                :class="[operator === $t('message.and') ? 'bg-blue-300' : '', buttonClasses]"
                 class="border-l border-t border-b rounded-l"
                 type="button"
+                data-cy="group-and"
                 @click="toggleOperator"
             >
                 {{ $t('message.and') }}
             </button>
             <button
-                :class="[operator === 'OR' ? 'bg-blue-300' : '', buttonClasses]"
+                :class="[operator === $t('message.or') ? 'bg-blue-300' : '', buttonClasses]"
                 type="button"
                 class="border-r border-t border-b rounded-r"
+                data-cy="group-or"
                 @click="toggleOperator"
             >
                 {{ $t('message.or') }}
