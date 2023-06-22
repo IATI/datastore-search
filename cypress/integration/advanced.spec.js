@@ -349,34 +349,27 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // spatial filter
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(12).select('Geospatial search');
+        it('can add, validate & run combo rules', () => {
+            const now = new Date(2022, 0, 1).getTime();
+            cy.clock(now);
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
             cy.wait(1000);
-            cy.get('button:contains("Open map")').click();
-            cy.wait(1000);
-            cy.get('button:contains("Apply")').click();
+            cy.get('[data-cy="field-selector"] input').type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"] input').type('11110');
+
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A%221%22' +
-                        '+AND+sector_percentage%3A%2299.9%22' +
-                        '+AND+budget_type%3A2' +
-                        '+AND+title_narrative%3A%28Hello+world%29' +
-                        '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
-                        '+AND+location_point_latlon%3A%5B*%5D' +
-                        urlSuffix,
-                    advanced_q_test
-                ).as('spatialQuery');
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
-                cy.wait('@spatialQuery').then((interception) => {
+                cy.intercept(buildRouteMatcher({ q: '(sector_code:(11110))' }), advanced_q_test).as(
+                    'comboQuery'
+                );
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@comboQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
 
+        xit('can add/run all filter types and import/export the generated config', () => {
             // combo filters
             cy.get('button[aria-label="Add an additional filter"]').click();
             cy.get('select').eq(13).select('Sector Code');

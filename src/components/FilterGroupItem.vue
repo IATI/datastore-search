@@ -149,6 +149,7 @@ onBeforeMount(() => {
             <FilterComboInput
                 v-if="selectedOption.type === 'combo'"
                 :filter="filter"
+                data-cy="filter-combo-input"
                 @change-operator="(operator) => onChange(operator, true)"
                 @change-value="onChange($event.target.value)"
             />
