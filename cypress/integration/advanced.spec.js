@@ -326,6 +326,29 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
+        it('can add, validate & run geospacial rules', () => {
+            const now = new Date(2022, 0, 1).getTime();
+            cy.clock(now);
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.wait(2000);
+            cy.get('[data-cy="field-selector"] input').type('Geospatial search{enter}');
+            cy.get('button:contains("Open map")').click();
+            cy.wait(1000);
+            cy.get('button:contains("Apply")').click();
+
+            cy.fixture('advanced_q_test').then((advanced_q_test) => {
+                cy.intercept(
+                    buildRouteMatcher({ q: '(location_point_latlon:[-31.7,-45.0 TO 31.7,45.0])' }),
+                    advanced_q_test
+                ).as('spatialQuery');
+                cy.get('[data-cy="run-filters"]').click({ force: true });
+                cy.wait('@spatialQuery').then((interception) => {
+                    cy.wrap(interception.response.statusCode).should('eq', 200);
+                });
+            });
+        });
+
         xit('can add/run all filter types and import/export the generated config', () => {
             // spatial filter
             cy.get('button[aria-label="Add an additional filter"]').click();
