@@ -142,7 +142,7 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can add, validate & run boolean rules', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Humanitarian').click();
             cy.get('[data-cy="run-filters"]').click();
             cy.contains('Selection is required');
@@ -163,7 +163,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Activity Date Iso Date').click();
 
             cy.get('[data-cy="filter-date-input"]').click();
@@ -189,7 +189,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Hierarchy').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
@@ -212,7 +212,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Sector Percentage').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
@@ -236,7 +236,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Budget Type').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Selection is required');
@@ -259,7 +259,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
@@ -284,7 +284,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             addRuleCount++;
             cy.contains('Select field').click();
             selectFieldCount++;
-            cy.wait(2000);
+            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
@@ -331,7 +331,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(2000);
+            cy.wait(1000);
             cy.get('[data-cy="field-selector"] input').type('Geospatial search{enter}');
             cy.get('button:contains("Open map")').click();
             cy.wait(1000);
