@@ -28,6 +28,7 @@ const global = inject('global');
                     </button>
                     <button
                         class="px-4 py-2 text-white font-bold bg-iati-grey hover:bg-iati-blue rounded flex justify-between"
+                        data-cy="export-filters"
                         @click="global.exportFilters()"
                     >
                         <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1" />

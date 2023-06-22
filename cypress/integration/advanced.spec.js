@@ -255,8 +255,6 @@ describe('The advanced search', { testIsolation: false }, () => {
         });
 
         it('can add, validate & run text rules', () => {
-            const now = new Date(2022, 0, 1).getTime();
-            cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.wait(1000);
@@ -369,66 +367,36 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        xit('can add/run all filter types and import/export the generated config', () => {
-            // combo filters
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(13).select('Sector Code');
+        it.only('can export and import filters', () => {
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
             cy.wait(1000);
-            cy.get('input[type="text"]').eq(3).type('11111');
-            cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A%221%22' +
-                        '+AND+sector_percentage%3A%2299.9%22' +
-                        '+AND+budget_type%3A2' +
-                        '+AND+title_narrative%3A%28Hello+world%29' +
-                        '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
-                        '+AND+location_point_latlon%3A%5B*%5D' +
-                        '+AND+sector_code%3A%2811111%29' +
-                        urlSuffix,
-                    advanced_q_test
-                ).as('comboQuery');
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
-                cy.wait('@comboQuery').then((interception) => {
-                    cy.wrap(interception.response.statusCode).should('eq', 200);
-                });
-            });
+            cy.contains('Humanitarian').click();
+            cy.get('button:contains("TRUE")').click();
 
-            // export and import filters
+            // export
             const downloadsFolder = Cypress.config('downloadsFolder');
-            cy.get('button[aria-label="Export filters to file"]').click();
-            cy.get('button.bg-iati-grey:contains("Export")').click();
-            cy.get('button[aria-label="Import filters from file"]').click();
+            cy.get('[data-cy="open-export-modal"]').click();
+            cy.get('[data-cy="export-filters"]').click();
 
+            //import
+            cy.get('[data-cy="open-import-modal"]').click();
             cy.task('isExistFile', downloadsFolder).then((filename) => {
+                // import
                 cy.readFile(filename).then((fileContent) => {
                     cy.get('input[type="file"]').attachFile({
                         fileContent: fileContent,
                         fileName: filename,
                         mimeType: 'application/json',
                     });
-                    cy.get('button.bg-iati-grey:contains("Import")').click();
+                    cy.get('[data-cy="import-filters"]').click();
                     cy.wait(1000);
                     cy.fixture('advanced_q_test').then((advanced_q_test) => {
                         cy.intercept(
-                            baseUrl +
-                                'q=humanitarian%3Atrue' +
-                                '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                                '+AND+hierarchy%3A%221%22' +
-                                '+AND+sector_percentage%3A%2299.9%22' +
-                                '+AND+budget_type%3A2' +
-                                '+AND+title_narrative%3A%28Hello+world%29' +
-                                '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
-                                '+AND+location_point_latlon%3A%5B*%5D' +
-                                '+AND+sector_code%3A%2811111%29' +
-                                urlSuffix,
+                            buildRouteMatcher({ q: '(humanitarian:true)' }),
                             advanced_q_test
                         ).as('eximQuery');
-                        cy.get(
-                            'button[aria-label="Run search query with selected filters"]'
-                        ).click();
+                        cy.get('[data-cy="run-filters"]').click({ force: true });
                         cy.wait('@eximQuery').then((interception) => {
                             cy.wrap(interception.response.statusCode).should('eq', 200);
                         });
@@ -437,27 +405,23 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
 
             // function normally after import
-            cy.get('button[aria-label="Add an additional filter"]').click();
-            cy.get('select').eq(14).select('Description Narrative');
+
+            cy.get('[data-cy="advanced-search-results"]').click();
+            cy.get('[data-cy="reset-filters"]').dblclick();
+            cy.get('[data-cy="build-query"]').click();
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
             cy.wait(1000);
-            cy.get('input[type="text"]').eq(4).type('Hello world2');
+            cy.contains('Title Narrative').click();
+            cy.get('[data-cy="filter-text-input"]').type('Hello world');
+
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    baseUrl +
-                        'q=humanitarian%3Atrue' +
-                        '+AND+activity_date_iso_date%3A%5B+*+TO+2022-01-31T00%3A00%3A00Z%5D' +
-                        '+AND+hierarchy%3A%221%22' +
-                        '+AND+sector_percentage%3A%2299.9%22' +
-                        '+AND+budget_type%3A2' +
-                        '+AND+title_narrative%3A%28Hello+world%29' +
-                        '+AND+%28humanitarian%3Atrue%29+AND+humanitarian%3Atrue' +
-                        '+AND+location_point_latlon%3A%5B*%5D' +
-                        '+AND+sector_code%3A%2811111%29' +
-                        '+AND+description_narrative%3A%28Hello+world2%29' +
-                        urlSuffix,
+                    buildRouteMatcher({ q: '(title_narrative:(Hello world))' }),
                     advanced_q_test
                 ).as('textQuery');
-                cy.get('button[aria-label="Run search query with selected filters"]').click();
+                cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@textQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });

@@ -93,6 +93,14 @@ const onRun = () => {
     }
 };
 
+const onExport = () => {
+    const [isValid] = validateGroup(group);
+    if (isValid) {
+        global.setFilters(getFiltersFromGroup(group));
+        global.toggleExportModal();
+    }
+};
+
 const populateGroupFromFilters = (filters, group, startIndex = 0) => {
     let nextIndex = startIndex;
     // reset group, but preserve reactivity if available
@@ -154,5 +162,5 @@ onBeforeMount(() => {
         />
     </div>
 
-    <SideBarButtons class="mt-5" @run="onRun" />
+    <SideBarButtons class="mt-5" @run="onRun" @export="onExport" />
 </template>

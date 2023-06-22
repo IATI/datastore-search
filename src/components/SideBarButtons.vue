@@ -10,7 +10,7 @@ const global = inject('global');
 const resetStatus = ref('waiting');
 const timeoutId = ref(null);
 
-const emits = defineEmits(['run']);
+const emits = defineEmits(['run', 'export']);
 const onReset = () => {
     if (resetStatus.value === 'waiting') {
         resetStatus.value = 'awaiting-confirmation';
@@ -44,7 +44,8 @@ const onReset = () => {
                     variant="red"
                     class="mr-1"
                     size="sm"
-                    @click="global.toggleExportModal()"
+                    data-cy="open-export-modal"
+                    @click="emits('export')"
                 >
                     <ArrowDownIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
                     <span class="uppercase">{{ $t('message.export') }}</span>
@@ -54,6 +55,7 @@ const onReset = () => {
                     variant="red"
                     class="ml-1"
                     size="sm"
+                    data-cy="open-import-modal"
                     @click="global.toggleImportModal()"
                 >
                     <ArrowUpIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
@@ -104,6 +106,7 @@ const onReset = () => {
             <button
                 :aria-label="$t('message.import_aria')"
                 class="bg-btn-red hover:bg-iati-grey text-white py-1.5 px-5 rounded ml-4 float-left w-3/24 inline-flex"
+                data-cy="import-filters"
                 @click="global.toggleImportModal()"
             >
                 <ArrowUpIcon class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]" />
