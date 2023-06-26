@@ -4,7 +4,7 @@ export default {
         iati_standard_website: 'Site Internet de la norme de l’IITA',
         datastore_search: 'Datastore Search',
         navigation: 'Navigation',
-        simple_search: 'Recherche simple',
+        simple_search: 'Recherche',
         advanced_search: 'Recherche avancée',
         api: 'API',
         about: 'À propos',
@@ -48,6 +48,7 @@ export default {
         download_confirmation_5c: 'dans un document d’activités de l’IITA au format XML ?',
         cancel: 'Annuler',
         view: 'Afficher',
+        view_on: 'Afficher sur',
         publisher: 'Signataire',
         iati_identifier: 'Identifiant de l’IITA',
         last_updated: 'Dernière mise à jour',
@@ -64,7 +65,7 @@ export default {
         advanced_unavailable_para1:
             '\n            La page de filtre avancé n’est malheureusement pas prise en charge par les appareils dont l’écran est trop petit.',
         advanced_unavailable_para2:
-            '\n            Veuillez <a href="/simple" class="hover:underline text-blue-600"\n                >effectuer une recherche simple</a> ou utiliser un appareil doté d’un écran plus grand.',
+            '\n            Veuillez <a href="/simple" class="text-underline text-blue"\n                >effectuer une recherche simple</a> ou utiliser un appareil doté d’un écran plus grand.',
         run_aria: 'Exécuter la requête de recherche avec les filtres sélectionnés',
         run: 'Exécuter',
         export_aria: 'Exporter les filtres vers le fichier',

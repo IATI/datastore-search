@@ -1,44 +1,16 @@
 <template>
-    <div class="grid grid-cols-10 gap-4 text-left mb-5">
-        <div class="col-span-1"></div>
-        <div class="col-span-3 meta">
-            {{ $t('message.publisher') }}:
-            <b>{{ doc.reporting_org_narrative[0] }}</b>
+    <div class="text-left mb-5">
+        <div class="flex mb-2 text-lg">
+            <div class="meta">
+                {{ $t('message.publisher') }}:
+                <b>{{ doc.reporting_org_narrative[0] }}</b>
+            </div>
+            <div class="meta ml-5">
+                {{ $t('message.iati_identifier') }}:
+                <b>{{ doc.iati_identifier }}</b>
+            </div>
         </div>
-        <div class="col-span-3 meta">
-            {{ $t('message.iati_identifier') }}:
-            <b>{{ doc.iati_identifier }}</b>
-        </div>
-        <div v-if="doc.actualStart" class="col-span-1 meta">
-            {{ $t('message.actual_start') }}:
-            <b v-html="prettyDate(doc.actualStart)"></b>
-        </div>
-        <div
-            v-if="!doc.actualStart && doc.plannedStart"
-            class="col-span-1 meta"
-        >
-            {{ $t('message.planned_start') }}:
-            <b v-html="prettyDate(doc.plannedStart)"></b>
-        </div>
-        <div
-            v-if="!doc.actualStart && !doc.plannedStart"
-            class="col-span-1 meta"
-        ></div>
-        <div v-if="doc.actualEnd" class="col-span-1 meta">
-            {{ $t('message.actual_end') }}:
-            <b v-html="prettyDate(doc.actualEnd)"></b>
-        </div>
-        <div v-if="!doc.actualEnd && doc.plannedEnd" class="col-span-1 meta">
-            {{ $t('message.planned_end') }}:
-            <b v-html="prettyDate(doc.plannedEnd)"></b>
-        </div>
-        <div
-            v-if="!doc.actualEnd && !doc.plannedEnd"
-            class="col-span-1 meta"
-        ></div>
-        <div class="col-span-1"></div>
-        <div class="col-span-1"></div>
-        <div class="col-span-8 hover:underline text-sky-700">
+        <div class="hover:underline text-sky-700 text-xl font-medium">
             <router-link
                 :to="{
                     name: 'activity',
@@ -47,13 +19,32 @@
                 >{{ doc.title_narrative[0] }}</router-link
             >
         </div>
-        <div class="col-span-1"></div>
-        <div class="col-span-1"></div>
-        <div class="col-span-8 border-b pb-2">
-            <!-- eslint-disable vue/no-v-html -->
+
+        <!-- eslint-disable vue/no-v-html -->
+        <div class="flex mb-2 text-slate-700">
+            <div v-if="doc.actualStart" class="meta">
+                {{ $t('message.actual_start') }}:
+                <b v-html="prettyDate(doc.actualStart)"></b>
+            </div>
+            <div v-if="!doc.actualStart && doc.plannedStart" class="meta">
+                {{ $t('message.planned_start') }}:
+                <b v-html="prettyDate(doc.plannedStart)"></b>
+            </div>
+            <div v-if="!doc.actualStart && !doc.plannedStart" class="meta"></div>
+            <div v-if="doc.actualEnd" class="meta ml-5">
+                {{ $t('message.actual_end') }}:
+                <b v-html="prettyDate(doc.actualEnd)"></b>
+            </div>
+            <div v-if="!doc.actualEnd && doc.plannedEnd" class="meta ml-5">
+                {{ $t('message.planned_end') }}:
+                <b v-html="prettyDate(doc.plannedEnd)"></b>
+            </div>
+            <div v-if="!doc.actualEnd && !doc.plannedEnd" class="meta ml-5"></div>
+        </div>
+        <div class="border-b pb-2 text-sm">
             <span v-html="doc.highlighting"></span>
         </div>
-        <div class="col-span-1"></div>
+        <!-- eslint-enable vue/no-v-html -->
     </div>
 </template>
 

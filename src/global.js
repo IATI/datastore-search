@@ -1,14 +1,17 @@
 //Simple global state and API management
-import { reactive, readonly } from 'vue';
 import axios from 'axios';
-import { startOfToday, format } from 'date-fns';
 import MD5 from 'crypto-js/md5';
+import { format, startOfToday } from 'date-fns';
 import Plausible from 'plausible-tracker';
+import { v4 as uuidv4 } from 'uuid';
+import { reactive, readonly } from 'vue';
 import i18n from './i18n.js';
 
 const { t } = i18n.global;
 const browser_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
 let language = JSON.parse(localStorage.getItem('language')) || '';
+const IMPORT_FILE_VERSION = '2.0';
+const LOCAL_STORAGE_KEY_ADVANCED = 'query.advanced';
 
 if (language === '') {
     language = browser_locale;
@@ -246,10 +249,33 @@ const addFilter = async () => {
     return filterId;
 };
 
+const setFilters = (filters) => {
+    state.filters = filters;
+};
+
+const restoreFilters = async () => {
+    const filters = window.localStorage.getItem(LOCAL_STORAGE_KEY_ADVANCED);
+    if (filters) {
+        if (!state.filterOptions) {
+            await populateOptions();
+        }
+        state.filters = JSON.parse(filters);
+    }
+
+    return state.filters;
+};
+
 const removeFilter = (id) => {
     state.filters = state.filters.filter(function (filter) {
         return filter.id !== id;
     });
+};
+
+const resetFilters = () => {
+    state.filters = [];
+    state.nextFilterId = 0;
+    state.import.file = { version: IMPORT_FILE_VERSION };
+    window.localStorage.removeItem(LOCAL_STORAGE_KEY_ADVANCED);
 };
 
 export const importSimpleSearchToAdv = async () => {
@@ -284,8 +310,7 @@ const importFilters = async () => {
     state.import.errors = [];
     state.import.fileLoading = true;
     await populateOptions();
-    const filterHash = state.import.file.hash;
-    const filterData = state.import.file.data;
+    const { hash: filterHash, data: filterData } = state.import.file;
     if (MD5(JSON.stringify(filterData)).toString() === filterHash) {
         state.filters = [...filterData];
 
@@ -341,6 +366,7 @@ export const exportFilters = () => {
     state.export.fileLoading = true;
     const filterHash = MD5(JSON.stringify(state.filters)).toString();
     const exportObj = {
+        version: IMPORT_FILE_VERSION,
         hash: filterHash,
         data: state.filters,
     };
@@ -364,125 +390,176 @@ export const exportFilters = () => {
 // don't allow use of Functions in DSS
 const disallowedStrings = ['{!func}', '_val_'];
 
-const validateFilters = () => {
+const validateFilter = (filter) => {
     let count = 0;
-    state.filters = state.filters.map((filter) => {
-        // require input value check
-        if (filter.value === null || filter.value === '') {
-            switch (filter.type) {
-                case 'text':
-                    count += 1;
-                    return {
+    // require input value check
+    if (filter.value === null || filter.value === '') {
+        switch (filter.type) {
+            case 'text':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.search_term_is_required'),
-                    };
-                case 'combo':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'combo':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.search_term_is_required'),
-                    };
-                case 'boolean':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'boolean':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.selection_is_required'),
-                    };
-                case 'grouping':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'grouping':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.selection_is_required'),
-                    };
-                case 'number':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'number':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.value_is_required'),
-                    };
-                case 'integer':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'integer':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.value_is_required'),
-                    };
-                case 'latlon':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'latlon':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.value_is_required'),
-                    };
-                case 'date':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'date':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.date_is_required'),
-                    };
-                case 'select':
-                    count += 1;
-                    return {
+                    },
+                ];
+            case 'select':
+                count += 1;
+                return [
+                    count,
+                    {
                         ...filter,
                         valid: false,
                         validationMessage: t('message.selection_is_required'),
-                    };
-                default:
-                    break;
-            }
+                    },
+                ];
+            default:
+                break;
         }
+    }
 
-        // Disallowed strings to prevent Solr Function queries
-        if (filter.type === 'text' || filter.type === 'combo') {
-            const badStrs = disallowedStrings.reduce((acc, str) => {
-                if (filter.value.includes(str)) {
-                    acc.push(str);
-                }
-                return acc;
-            }, []);
+    // Disallowed strings to prevent Solr Function queries
+    if (filter.type === 'text' || filter.type === 'combo') {
+        const badStrs = disallowedStrings.reduce((acc, str) => {
+            if (filter.value.includes(str)) {
+                acc.push(str);
+            }
+            return acc;
+        }, []);
 
-            if (badStrs.length > 0) {
-                count += 1;
-                return {
+        if (badStrs.length > 0) {
+            count += 1;
+            return [
+                count,
+                {
                     ...filter,
                     valid: false,
                     validationMessage: t('message.is_not_allowed', {
                         bad: badStrs.join(),
                     }),
-                };
-            }
+                },
+            ];
         }
+    }
 
-        // percentages 0 to 100 check
-        if (
-            filter.type === 'number' &&
-            filter.field.includes('_percentage') &&
-            (filter.value < 0 || filter.value > 100)
-        ) {
-            count += 1;
-            return {
+    // percentages 0 to 100 check
+    if (
+        filter.type === 'number' &&
+        filter.field.includes('_percentage') &&
+        (filter.value < 0 || filter.value > 100)
+    ) {
+        count += 1;
+        return [
+            count,
+            {
                 ...filter,
                 valid: false,
                 validationMessage: t('message.percentage_validation'),
-            };
-        }
-        // integer check
-        if (filter.type === 'integer' && !Number.isInteger(filter.value)) {
-            count += 1;
-            return {
+            },
+        ];
+    }
+    // integer check
+    if (filter.type === 'integer' && !Number.isInteger(filter.value)) {
+        count += 1;
+        return [
+            count,
+            {
                 ...filter,
                 valid: false,
                 validationMessage: t('message.integer_validation'),
-            };
-        }
-        return { ...filter };
+            },
+        ];
+    }
+    return [count, filter];
+};
+
+const validateFilters = () => {
+    let count = 0;
+    state.filters = state.filters.map((filter) => {
+        const [errorsCount, validatedFilter] = validateFilter({ ...filter });
+        count += errorsCount;
+
+        return validatedFilter;
     });
+    if (
+        !count &&
+        state.filters.length &&
+        !state.filters.filter((item) => item.type !== 'grouping').length
+    ) {
+        count++;
+    }
     return count === 0;
 };
 
@@ -492,6 +569,9 @@ const run = async (start = 0, rows = 10) => {
     state.responseErrorMessage = '';
 
     if (validateFilters()) {
+        // persist filters to local storage
+        window.localStorage.setItem(LOCAL_STORAGE_KEY_ADVANCED, JSON.stringify(state.filters));
+
         state.queryInProgress = true;
         await compileQuery();
         let url = new URL(baseUrl);
@@ -529,6 +609,44 @@ const run = async (start = 0, rows = 10) => {
     }
 };
 
+const generateFiltersForQuery = async (query) => {
+    if (!state.fieldOptions || !state.fieldOptions.length) {
+        await populateOptions();
+    }
+    if (state.fieldOptions) {
+        const brackets = state.fieldOptions.find((item) => item.type === 'grouping');
+        const textOption = state.fieldOptions.find((item) => item.label === 'All Narratives');
+        if (!brackets || !textOption) {
+            console.log('Missing field option (either grouping or narrative)');
+        } else {
+            const grouping = {
+                type: 'grouping',
+                field: '()',
+                value: '(',
+                operator: 'equals',
+                joinOperator: 'AND',
+            };
+            state.filters = [
+                { id: uuidv4(), ...grouping },
+                {
+                    id: uuidv4(),
+                    type: 'text',
+                    field: 'iati_text',
+                    value: query,
+                    operator: 'equals',
+                    selectedOption: textOption,
+                    joinOperator: 'AND',
+                },
+                {
+                    id: uuidv4(),
+                    ...grouping,
+                    value: ')',
+                },
+            ];
+        }
+    }
+};
+
 const runSimple = async (searchterm, start = 0, rows = 10) => {
     state.queryInProgress = true;
     state.responseTotal = null;
@@ -549,6 +667,9 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
     state.query = cleanSearchTerm;
     state.responseTotal = null;
     setResponseState(result);
+
+    // make compatible with advanced search
+    generateFiltersForQuery(state.query);
 
     if (start === 0) {
         trackEvent('Run query', {
@@ -1240,8 +1361,12 @@ const compileQuery = () => {
 export default {
     state: readonly(state),
     addFilter,
+    setFilters,
     removeFilter,
+    resetFilters,
+    restoreFilters,
     changeFilter,
+    validateFilter,
     loadActivity,
     isFieldType,
     isFieldSelected,

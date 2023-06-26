@@ -2,7 +2,7 @@
     <div
         v-if="global.state.bbox.showModal"
         role="dialog"
-        class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
+        class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-10"
     >
         <div class="max-w p-6 bg-white divide-y divide-gray-500 rounded">
             <h2 class="text-2xl">{{ $t('message.pan_and_zoom') }}</h2>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import SmallMap from './SmallMap.vue';
+import SmallMap from '../components/SmallMap.vue';
 
 export default {
     name: 'BboxModal',

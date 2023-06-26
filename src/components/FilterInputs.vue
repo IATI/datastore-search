@@ -1,437 +1,166 @@
 <script setup>
-import Datepicker from 'vue3-datepicker';
-import { TrashIcon } from '@heroicons/vue/20/solid';
-import { QuestionMarkCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/vue/20/solid';
+import { v4 as uuidv4 } from 'uuid';
+import { inject, reactive, watch, onBeforeMount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import FilterGroup from './FilterGroup.vue';
+import SideBarButtons from './SideBarButtons.vue';
+
+const props = defineProps({
+    filters: { type: Array, default: () => [] },
+    query: { type: String, default: '' }, // allows for the prepopulation of the narrative field for when a search query exists
+});
+
+const global = inject('global');
+const route = useRoute();
+const router = useRouter();
+
+let group = reactive({ id: uuidv4(), type: 'group', operator: 'AND', items: [] });
+
+// alternative value for variant is "closing"
+const getBracketFilter = (variant = 'opening', joinOperator = 'AND') => {
+    return {
+        id: uuidv4(),
+        type: 'grouping',
+        field: '()',
+        value: variant === 'opening' ? '(' : ')',
+        operator: 'equals',
+        joinOperator,
+    };
+};
+const getFiltersFromGroup = (group, parentGroupOperator) => {
+    return [getBracketFilter('opening', parentGroupOperator || group.operator)].concat(
+        group.items.reduce((filters, item) => {
+            if (item.type === 'group') {
+                return filters.concat(getFiltersFromGroup(item, group.operator));
+            }
+            item.joinOperator = group.operator;
+            return filters.concat(item);
+        }, []),
+        getBracketFilter('closing', group.operator)
+    );
+};
+
+const onAddRule = (group, rule = {}) => {
+    const items = group.items.concat({
+        id: uuidv4(),
+        type: null,
+        field: null,
+        value: null,
+        operator: 'equals',
+        joinOperator: 'AND',
+        ...rule,
+    });
+    group.items = items;
+};
+const onAddGroup = () => {
+    const items = group.items.concat({
+        id: uuidv4(),
+        type: 'group',
+        operator: 'AND',
+        items: [],
+    });
+    group.items = items;
+};
+const onToggleOperator = (group, operator) => {
+    group.operator = operator;
+};
+const validateGroup = (grup) => {
+    let isValid = true;
+    grup.items = grup.items.map((item) => {
+        if (item.type === 'group') {
+            const [valid, _group] = validateGroup(item);
+
+            isValid = valid;
+            return _group;
+        }
+        const [errorCount, filter] = global.validateFilter(item);
+        isValid = !errorCount;
+
+        return filter;
+    });
+
+    return [isValid, grup];
+};
+const onRun = () => {
+    const [isValid] = validateGroup(group);
+    if (isValid) {
+        if (route.query.q) {
+            router.push({ path: '/' });
+            sessionStorage.removeItem('searchterm');
+        }
+        global.setFilters(getFiltersFromGroup(group));
+        global.run();
+    }
+};
+
+const onExport = () => {
+    const [isValid] = validateGroup(group);
+    if (isValid) {
+        global.setFilters(getFiltersFromGroup(group));
+        global.toggleExportModal();
+    }
+};
+
+const populateGroupFromFilters = (filters, group, startIndex = 0) => {
+    let nextIndex = startIndex;
+    // reset group, but preserve reactivity if available
+    group.id = uuidv4();
+    group.operator = 'AND';
+    group.items = [];
+
+    // populate group from filters
+    filters.forEach((item, index) => {
+        if (index === nextIndex) {
+            if (item.type === 'grouping') {
+                if (item.value === '(' && index) {
+                    const nestedGroup = { id: uuidv4(), type: 'group', operator: 'AND', items: [] };
+                    const { index: nestedIndex } = populateGroupFromFilters(
+                        filters,
+                        nestedGroup,
+                        index + 1
+                    );
+                    group.items.push(nestedGroup);
+                    nextIndex = nestedIndex + 1;
+                } else if (item.value === ')') {
+                    nextIndex = index;
+                } else {
+                    nextIndex++;
+                }
+            } else {
+                group.operator = item.joinOperator;
+                onAddRule(group, item);
+                nextIndex = index + 1;
+            }
+        }
+    });
+
+    return { group, index: nextIndex };
+};
+
+watch(
+    () => props.filters,
+    () => {
+        populateGroupFromFilters(props.filters, group);
+    }
+);
+onBeforeMount(() => {
+    if (props.filters && props.filters.length) {
+        populateGroupFromFilters(props.filters, group);
+    }
+});
 </script>
 
 <template>
-    <div class="grid grid-cols-7 gap-4">
-        <div
-            v-if="!global.isFilterFirstInChain(filter.id) && !global.filterIsGrouping(filter.id)"
-            class="inline-flex"
-            role="toolbar"
-        >
-            <button
-                :class="{ 'bg-blue-300': filter.joinOperator === 'AND' }"
-                type="button"
-                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                @click="global.changeFilter(filter.id, 'joinOperator', 'AND')"
-            >
-                {{ $t('message.and') }}
-            </button>
-            <button
-                :class="{ 'bg-blue-300': filter.joinOperator === 'OR' }"
-                type="button"
-                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                @click="global.changeFilter(filter.id, 'joinOperator', 'OR')"
-            >
-                {{ $t('message.or') }}
-            </button>
-        </div>
+    <div class="text-left">
+        <FilterGroup
+            v-if="filters.length"
+            :group="group"
+            :deletable="false"
+            @add-rule="onAddRule"
+            @add-group="onAddGroup"
+            @toggle-operator="onToggleOperator"
+        />
     </div>
-    <div class="grid grid-cols-7 gap-4 my-3">
-        <div class="col-span-3">
-            <select
-                class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                @change="global.changeFilter(filter.id, 'field', $event.target.value)"
-            >
-                <option ref="default-option" disabled value="" selected>
-                    {{ $t('message.select_field') }}
-                </option>
-                <option
-                    v-for="filterOption in global.state.fieldOptions"
-                    :key="filterOption.field"
-                    :selected="global.isFieldOptionSelected(filter.id, filterOption.field)"
-                    :disabled="filterOption.disabled === true"
-                >
-                    {{ filterOption.label }}
-                </option>
-            </select>
-        </div>
 
-        <div class="col-span-3">
-            <!-- Latitude/longitude inputs -->
-            <div v-if="global.isFieldType(filter.field, 'latlon')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-5">
-                    <div class="flex items-center justify-center">
-                        <input
-                            type="text"
-                            disabled="true"
-                            :class="{ 'border-red-400': filter.valid === false }"
-                            class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                            :placeholder="$t('message.latlon_placeholder')"
-                            :value="filter.value"
-                            @input="global.changeFilter(filter.id, 'value', $event.target.value)"
-                        />
-                    </div>
-                </div>
-                <div class="col-span-3">
-                    <div class="inline-flex" role="toolbar">
-                        <button
-                            type="button"
-                            class="bg-blue-300 hover:bg-iati-grey text-white font-bold py-2 px-2 rounded float-right"
-                            @click="global.toggleBboxModal(filter.id)"
-                        >
-                            {{ $t('message.use_map') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Grouping inputs -->
-            <div
-                v-if="global.isFieldType(filter.field, 'grouping')"
-                class="inline-flex"
-                role="toolbar"
-            >
-                <button
-                    :class="{ 'bg-blue-300': filter.value === '(' }"
-                    type="button"
-                    class="h-10 border-l border-t border-b rounded-l px-5 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', '(')"
-                >
-                    (
-                </button>
-                <button
-                    :class="{ 'bg-blue-300': filter.value === ')' }"
-                    type="button"
-                    class="h-10 border rounded-r px-5 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', ')')"
-                >
-                    )
-                </button>
-            </div>
-            <!-- Boolean inputs -->
-            <div
-                v-if="global.isFieldType(filter.field, 'boolean')"
-                class="inline-flex"
-                role="toolbar"
-            >
-                <button
-                    :class="{ 'bg-blue-300': filter.value === 'true' }"
-                    type="button"
-                    class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', 'true')"
-                >
-                    {{ $t('message.true') }}
-                </button>
-                <button
-                    :class="{ 'bg-blue-300': filter.value === 'false' }"
-                    type="button"
-                    class="h-10 border rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                    @click="global.changeFilter(filter.id, 'value', 'false')"
-                >
-                    {{ $t('message.false') }}
-                </button>
-            </div>
-            <!-- Number inputs -->
-            <div
-                v-if="
-                    global.isFieldType(filter.field, 'number') ||
-                    global.isFieldType(filter.field, 'integer')
-                "
-                class="grid grid-cols-8 gap-2"
-            >
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'lessThan',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'lessThan')"
-                            >
-                                &#60;
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                =
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'greaterThan',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'greaterThan')"
-                            >
-                                &#62;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <input
-                        type="number"
-                        :min="minNumber"
-                        :max="maxNumber"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :value="filter.value"
-                        @input="
-                            global.changeFilter(filter.id, 'value', Number($event.target.value))
-                        "
-                    />
-                </div>
-            </div>
-
-            <!-- Text inputs -->
-            <input
-                v-if="global.isFieldType(filter.field, 'text')"
-                type="text"
-                :class="{ 'border-red-400': filter.valid === false }"
-                class="h-10 mb-2 float-left border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                :placeholder="$t('message.search_term')"
-                :value="filter.value"
-                @input="global.changeFilter(filter.id, 'value', $event.target.value)"
-            />
-            <!-- Select inputs -->
-            <div v-if="global.isFieldType(filter.field, 'select')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                ==
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'notEquals',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'notEquals')"
-                            >
-                                !=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <select
-                        v-if="global.isFieldType(filter.field, 'select')"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        :value="filter.value"
-                        @change="global.changeFilter(filter.id, 'value', $event.target.value)"
-                    >
-                        <option disabled value="" :selected="global.dropdownStateBlank(filter.id)">
-                            {{
-                                $t('message.select_from_codes', {
-                                    name: filter.selectedOption.codelistMeta.name,
-                                })
-                            }}
-                        </option>
-                        <option
-                            v-for="(valueOption, index) in filter.selectedOption.options"
-                            :key="valueOption.code"
-                            :value="valueOption.code"
-                            :selected="
-                                global.validateDropdownOptions(
-                                    filter.id,
-                                    index,
-                                    filter.selectedOption.options
-                                )
-                            "
-                        >
-                            <span
-                                >{{ valueOption.code
-                                }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
-                            >
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <!-- Combo inputs -->
-            <div v-if="global.isFieldType(filter.field, 'combo')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                ==
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'notEquals',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'notEquals')"
-                            >
-                                !=
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <input
-                        v-if="global.isFieldType(filter.field, 'combo')"
-                        type="text"
-                        :placeholder="
-                            $t('message.select_from_codes', {
-                                name: filter.selectedOption.codelistMeta.name,
-                            })
-                        "
-                        :list="'datalist' + filter.id"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        :class="{ 'border-red-400': filter.valid === false }"
-                        :value="filter.value"
-                        @change="global.changeFilter(filter.id, 'value', $event.target.value)"
-                    />
-                    <datalist :id="'datalist' + filter.id">
-                        <option
-                            v-for="valueOption in filter.selectedOption.options"
-                            :key="valueOption.code"
-                            :value="valueOption.code"
-                        >
-                            <span
-                                >{{ valueOption.code
-                                }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
-                            >
-                        </option>
-                    </datalist>
-                </div>
-            </div>
-
-            <!-- Date inputs -->
-            <div v-if="global.isFieldType(filter.field, 'date')" class="grid grid-cols-8 gap-2">
-                <div class="col-span-3">
-                    <div class="flex items-center justify-center">
-                        <div class="inline-flex" role="toolbar">
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'lessThan',
-                                }"
-                                type="button"
-                                class="h-10 border-l border-t border-b rounded-l px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'lessThan')"
-                            >
-                                &#60;
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'equals',
-                                }"
-                                type="button"
-                                class="h-10 border px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'equals')"
-                            >
-                                =
-                            </button>
-                            <button
-                                :class="{
-                                    'bg-blue-300': filter.operator === 'greaterThan',
-                                }"
-                                type="button"
-                                class="h-10 border-r border-t border-b rounded-r px-2 py-2 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out"
-                                @click="global.changeFilter(filter.id, 'operator', 'greaterThan')"
-                            >
-                                &#62;
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-5">
-                    <datepicker
-                        :model-value="new Date(filter.value)"
-                        class="h-10 float-left bg-white border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-                        @update:model-value="global.changeFilter(filter.id, 'value', $event)"
-                    />
-                </div>
-            </div>
-            <p v-if="filter.valid === false" id="validation" class="text-sm text-red-600">
-                {{ filter.validationMessage }}
-            </p>
-        </div>
-        <div class="col-span-1 self-center">
-            <div class="grid grid-cols-3 gap-1">
-                <a
-                    v-if="
-                        global.isFieldType(filter.field, 'select') ||
-                        global.isFieldType(filter.field, 'combo')
-                    "
-                    type="link"
-                    target="_blank"
-                    aria-label="Link to codelist describe on iati website"
-                    class="float-left has-tooltip"
-                    :href="global.state.codelistURL + filter.selectedOption.codelist_name"
-                >
-                    <ArrowTopRightOnSquareIcon class="h-7 w-7 text-grey-500" />
-                </a>
-                <button
-                    type="button"
-                    aria-label="Remove filter"
-                    class="float-left"
-                    @click="global.removeFilter(filter.id)"
-                >
-                    <TrashIcon class="h-7 w-7 text-grey-300" />
-                </button>
-                <button
-                    v-if="global.isFieldSelected(filter.id)"
-                    type="button"
-                    aria-label="Hover for description"
-                    class="float-left has-tooltip"
-                >
-                    <QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1" /><span
-                        role="definition"
-                        class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
-                        >{{ filter.desc }}</span
-                    >
-                </button>
-            </div>
-        </div>
-    </div>
+    <SideBarButtons class="mt-5" @run="onRun" @export="onExport" />
 </template>
-
-<script>
-export default {
-    name: 'FilterInputs',
-    inject: ['global'],
-    props: {
-        filter: {
-            type: Object,
-            default() {
-                return {};
-            },
-        },
-    },
-    computed: {
-        minNumber() {
-            if (this.$props.filter.field.includes('_percentage')) {
-                return 0;
-            }
-            return null;
-        },
-        maxNumber() {
-            if (this.$props.filter.field.includes('_percentage')) {
-                return 100;
-            }
-            return null;
-        },
-    },
-    mounted() {
-        // force default select after mount for field selector due to Vue weirdness
-        this.$refs['default-option'].setAttribute('selected', true);
-    },
-};
-</script>

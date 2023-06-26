@@ -323,7 +323,7 @@ msgstr "\n            La page de filtre avancé n’est malheureusement pas pris
 msgid ""
 "\n"
 "            Please\n"
-"            <a href=\"/simple\" class=\"hover:underline text-blue-600\"\n"
+"            <a href=\"/simple\" class=\"text-underline text-blue\"\n"
 "                >try the Simple Search</a\n"
 "            >\n"
 "            instead, or switch to a device with a larger screen.\n"

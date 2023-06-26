@@ -4,7 +4,7 @@ export default {
         iati_standard_website: 'IATI Standard Website',
         datastore_search: 'Datastore Search',
         navigation: 'Navigation',
-        simple_search: 'Simple Search',
+        simple_search: 'Search',
         advanced_search: 'Advanced Search',
         api: 'API',
         about: 'About',
@@ -132,6 +132,7 @@ export default {
         download_confirmation_5c: 'in an IATI Activities XML document?',
         cancel: 'Cancel',
         view: 'View',
+        view_on: 'View on',
         publisher: 'Publisher',
         iati_identifier: 'IATI Identifier',
         last_updated: 'Last updated',
@@ -151,21 +152,23 @@ export default {
         `,
         advanced_unavailable_para2: `
             Please
-            <a href="/simple" class="hover:underline text-blue-600"
+            <a href="/simple" class="text-underline text-blue"
                 >try the Simple Search</a
             >
             instead, or switch to a device with a larger screen.
         `,
         run_aria: 'Run search query with selected filters',
         run: 'Run',
+        reset: 'Reset',
+        confirm_reset: 'Confirm reset',
         export_aria: 'Export filters to file',
         export: 'Export',
         import_aria: 'Import filters from file',
         import: 'Import',
         add_aria: 'Add an additional filter',
         add: 'Add',
-        add_filter: 'Add Filter',
-        import_filters: 'Import Filters',
+        add_filter: 'Build Query',
+        import_filters: 'Import Query',
         export_filters: 'Export Filters',
         export_para1: `Export currently selected filters to file?`,
         export_para2: `
@@ -178,8 +181,11 @@ export default {
             Advanced Search.
         `,
         file: 'File',
+        add_rule: 'Add rule',
+        add_group: 'Add group',
         and: 'AND',
         or: 'OR',
+        group_operator: 'Group Operator',
         select_field: 'Select field',
         true: 'TRUE',
         false: 'FALSE',
@@ -194,6 +200,8 @@ export default {
         `,
         advanced: 'Advanced',
         found_activities: 'Found <b>%{count}</b> activities',
+        results_by_advanced_search:
+            'Results filtered by advanced parameters. See <b>Advanced Search</b> tab for more details.',
         relevance: 'Relevance',
         sort_relevance_label: 'Sort results by relevance',
         identifier: 'Identifier',
@@ -207,6 +215,8 @@ export default {
         grouping: 'Grouping',
         standard_fields: 'Standard fields',
         incompatible_file_error: 'Incompatible file detected. Please try a different file.',
+        incompatible_file_version:
+            'Deprecated file version. The query can be run, but cannot be edited.',
         search_term_is_required: 'Search term is required',
         selection_is_required: 'Selection is required',
         value_is_required: 'Value is required',
