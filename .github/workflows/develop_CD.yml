@@ -73,7 +73,7 @@ jobs:
           cache: 'npm'
 
       - name: Cypress CI Run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           wait-on: 'https://dev-datastore.iatistandard.org'
           config-file: cypress.config.dev.js
