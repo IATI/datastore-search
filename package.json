@@ -28,7 +28,7 @@
         "@hennge/vue3-pagination": "^1.0.17",
         "@heroicons/vue": "^2.0.18",
         "axios": "^1.5.1",
-        "crypto-js": "^4.1.1",
+        "crypto-js": "^4.2.0",
         "date-fns": "^2.30.0",
         "esm": "^3.2.25",
         "leaflet": "^1.9.4",
