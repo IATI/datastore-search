@@ -29,7 +29,7 @@
         "@heroicons/vue": "^2.1.1",
         "axios": "^1.6.2",
         "crypto-js": "^4.2.0",
-        "date-fns": "^3.0.5",
+        "date-fns": "^3.0.6",
         "esm": "^3.2.25",
         "leaflet": "^1.9.4",
         "leaflet.markercluster": "^1.5.3",
