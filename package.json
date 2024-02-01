@@ -54,7 +54,7 @@
         "eslint": "^8.56.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-vue": "^9.21.1",
-        "husky": "^8.0.3",
+        "husky": "^9.0.9",
         "lint-staged": "^14.0.1",
         "postcss": "^8.4.33",
         "prettier": "3.2.4",
