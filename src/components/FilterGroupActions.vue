@@ -6,10 +6,14 @@ import i18n from '../i18n';
 
 const { t } = i18n.global;
 
-defineProps({ deletable: { type: Boolean, default: true } });
+const props = defineProps({
+    deletable: { type: Boolean, default: true },
+    group: { type: Object, default: () => {} },
+});
+
 const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
 
-const operator = ref('AND');
+const operator = ref(props.group.operator);
 const toggleOperator = () => {
     operator.value = operator.value === t('message.and') ? t('message.or') : t('message.and');
     emits('toggleOperator', operator.value);

@@ -41,6 +41,7 @@ const onDeleteItem = (group, itemId) => {
     <div class="p-2 border border-iati-grey">
         <FilterGroupActions
             :deletable="deletable"
+            :group="group"
             @add-rule="emit('addRule', group)"
             @add-group="emit('addGroup', group)"
             @toggle-operator="(operator) => emit('toggleOperator', group, operator)"
