@@ -367,7 +367,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        it.only('can export and import filters', () => {
+        it('can export and import filters', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.wait(1000);
