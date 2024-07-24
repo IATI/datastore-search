@@ -1,22 +1,20 @@
 <script setup>
 import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
-import { ref } from 'vue';
 import AppButton from '../components/AppButton.vue';
 import i18n from '../i18n';
 
+// eslint-disable-next-line no-unused-vars
 const { t } = i18n.global;
 
-const props = defineProps({
+defineProps({
     deletable: { type: Boolean, default: true },
     group: { type: Object, default: () => {} },
 });
 
 const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
 
-const operator = ref(props.group.operator);
-const toggleOperator = () => {
-    operator.value = operator.value === t('message.and') ? t('message.or') : t('message.and');
-    emits('toggleOperator', operator.value);
+const toggleOperator = (operator) => {
+    emits('toggleOperator', operator);
 };
 const buttonClasses =
     'h-8 text-xs px-2 py-1 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out';
@@ -27,20 +25,20 @@ const buttonClasses =
         <div class="py-1">
             <span class="mr-3 text-sm">{{ $t('message.group_operator') }}</span>
             <button
-                :class="[operator === $t('message.and') ? 'bg-blue-300' : '', buttonClasses]"
+                :class="[group.operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
                 class="border-l border-t border-b rounded-l"
                 type="button"
                 data-cy="group-and"
-                @click="toggleOperator"
+                @click="toggleOperator('AND')"
             >
                 {{ $t('message.and') }}
             </button>
             <button
-                :class="[operator === $t('message.or') ? 'bg-blue-300' : '', buttonClasses]"
+                :class="[group.operator === 'OR' ? 'bg-blue-300' : '', buttonClasses]"
                 type="button"
                 class="border-r border-t border-b rounded-r"
                 data-cy="group-or"
-                @click="toggleOperator"
+                @click="toggleOperator('OR')"
             >
                 {{ $t('message.or') }}
             </button>

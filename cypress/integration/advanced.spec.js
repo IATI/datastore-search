@@ -428,6 +428,49 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
+        it('restores exported and imported filters correctly', () => {
+            // Add some filters
+            cy.get('[data-cy="group-or"]').click();
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]').contains('Sector Code');
+            cy.get('[data-cy="field-selector"]').type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"]').type('11110');
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]').last().contains('Sector Code');
+            cy.get('[data-cy="field-selector"]').last().type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"]').last().type('11120');
+
+            // Export
+            const downloadsFolder = Cypress.config('downloadsFolder');
+            cy.get('[data-cy="open-export-modal"]').click();
+            cy.get('[data-cy="export-filters"]').click();
+
+            // Reset
+            cy.get('[data-cy="reset-filters"]').click();
+            cy.get('[data-cy="reset-filters"]').contains('Confirm').click();
+
+            //Import
+            cy.get('[data-cy="build-query"]').click();
+            cy.get('[data-cy="open-import-modal"]').click();
+            cy.task('isExistFile', downloadsFolder).then((filename) => {
+                cy.readFile(filename).then((fileContent) => {
+                    cy.get('input[type="file"]').attachFile({
+                        fileContent: fileContent,
+                        fileName: filename,
+                        mimeType: 'application/json',
+                    });
+                    cy.get('[data-cy="import-filters"]').click();
+                });
+            });
+
+            // Assert that filters are correct
+            cy.get('[data-cy="group-or"]').should('have.class', 'bg-blue-300');
+        });
+
         it('restores filters after page refresh', () => {
             // Add some filters
             cy.get('[data-cy="group-or"]').click();
