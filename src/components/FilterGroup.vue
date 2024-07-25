@@ -1,5 +1,4 @@
 <script setup>
-import { v4 as uuidv4 } from 'uuid';
 import FilterGroupActions from './FilterGroupActions.vue';
 import FilterGroupItem from './FilterGroupItem.vue';
 
@@ -8,33 +7,6 @@ defineProps({
     deletable: { type: Boolean, default: true },
 });
 const emit = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
-
-const onAddRule = (group) => {
-    const items = group.items.concat({
-        id: uuidv4(),
-        type: null,
-        field: null,
-        value: null,
-        operator: 'equals',
-        joinOperator: 'AND',
-    });
-    group.items = items;
-};
-const onAddGroup = (group) => {
-    const items = group.items.concat({
-        id: uuidv4(),
-        type: 'group',
-        operator: 'AND',
-        items: [],
-    });
-    group.items = items;
-};
-const onToggleOperator = (group, operator) => {
-    group.operator = operator;
-};
-const onDeleteItem = (group, itemId) => {
-    group.items = group.items.filter((item) => item.id !== itemId);
-};
 </script>
 
 <template>
@@ -42,26 +14,24 @@ const onDeleteItem = (group, itemId) => {
         <FilterGroupActions
             :deletable="deletable"
             :group="group"
-            @add-rule="emit('addRule', group)"
-            @add-group="emit('addGroup', group)"
-            @toggle-operator="(operator) => emit('toggleOperator', group, operator)"
-            @delete="emit('delete', group)"
+            @add-rule="(groupId) => emit('addRule', groupId)"
+            @add-group="(groupId) => emit('addGroup', groupId)"
+            @toggle-operator="(groupId, operator) => emit('toggleOperator', groupId, operator)"
+            @delete="(groupId) => emit('delete', groupId)"
         />
         <div v-for="item in group.items" :key="item.id">
             <div v-if="item.type !== 'group'">
-                <FilterGroupItem
-                    :key="item.id"
-                    :filter="item"
-                    @delete="onDeleteItem(group, item.id)"
-                />
+                <FilterGroupItem :key="item.id" :filter="item" @delete="emit('delete', item.id)" />
             </div>
             <div v-else class="mt-3">
                 <FilterGroup
                     :group="item"
-                    @add-rule="onAddRule"
-                    @add-group="onAddGroup"
-                    @toggle-operator="onToggleOperator"
-                    @delete="onDeleteItem(group, item.id)"
+                    @add-rule="(itemId) => emit('addRule', itemId)"
+                    @add-group="(itemId) => emit('addGroup', itemId)"
+                    @toggle-operator="
+                        (itemId, operator) => emit('toggleOperator', itemId, operator)
+                    "
+                    @delete="(itemId) => emit('delete', itemId)"
                 />
             </div>
         </div>

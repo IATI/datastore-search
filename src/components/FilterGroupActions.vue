@@ -6,16 +6,13 @@ import i18n from '../i18n';
 // eslint-disable-next-line no-unused-vars
 const { t } = i18n.global;
 
-defineProps({
+const props = defineProps({
     deletable: { type: Boolean, default: true },
     group: { type: Object, default: () => {} },
 });
 
 const emits = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
 
-const toggleOperator = (operator) => {
-    emits('toggleOperator', operator);
-};
 const buttonClasses =
     'h-8 text-xs px-2 py-1 text-gray-700 font-medium text-xs leading-tight uppercase hover:bg-blue-500 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out';
 </script>
@@ -29,7 +26,7 @@ const buttonClasses =
                 class="border-l border-t border-b rounded-l"
                 type="button"
                 data-cy="group-and"
-                @click="toggleOperator('AND')"
+                @click="emits('toggleOperator', props.group.id, 'AND')"
             >
                 {{ $t('message.and') }}
             </button>
@@ -38,7 +35,7 @@ const buttonClasses =
                 type="button"
                 class="border-r border-t border-b rounded-r"
                 data-cy="group-or"
-                @click="toggleOperator('OR')"
+                @click="emits('toggleOperator', props.group.id, 'OR')"
             >
                 {{ $t('message.or') }}
             </button>
@@ -54,7 +51,7 @@ const buttonClasses =
         </button>
 
         <div v-if="deletable" class="p-2 float-right">
-            <span data-cy="remove-group" @click="emits('delete')">
+            <span data-cy="remove-group" @click="emits('delete', props.group.id)">
                 <XCircleIcon class="h-6 cursor-pointer" />
             </span>
         </div>
@@ -65,7 +62,7 @@ const buttonClasses =
             size="sm"
             class="mr-2 px-[8px]"
             data-cy="add-rule"
-            @click="emits('addRule')"
+            @click="emits('addRule', props.group.id)"
         >
             <span class="uppercase">{{ $t('message.add_rule') }}</span>
         </AppButton>
@@ -74,7 +71,7 @@ const buttonClasses =
             class="px-[8px]"
             size="sm"
             data-cy="add-group"
-            @click="emits('addGroup')"
+            @click="emits('addGroup', props.group.id)"
         >
             <span class="uppercase">{{ $t('message.add_group') }}</span>
         </AppButton>
