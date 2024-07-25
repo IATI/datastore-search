@@ -7,6 +7,9 @@ describe('The results view', () => {
         cy.get('[data-cy="search-input"]').should('be.visible');
     });
     it('has a visible button for showing the advanced search sidebar', () => {
+        cy.fixture('simple_q_test').then((simple_q_test) => {
+            cy.intercept(`https://dev-api.iatistandard.org/dss/activity/search*`, simple_q_test);
+        });
         const query = 'test';
         cy.visit(`/?q=${query}`);
         cy.get('[data-cy="advanced-search-results"]').should('be.visible');

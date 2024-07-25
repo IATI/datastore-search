@@ -51,6 +51,12 @@ describe('The advanced search', { testIsolation: false }, () => {
         });
 
         it('captures a representation of the basic search input', () => {
+            cy.fixture('simple_q_test').then((simple_q_test) => {
+                cy.intercept(
+                    `https://dev-api.iatistandard.org/dss/activity/search*`,
+                    simple_q_test,
+                );
+            });
             const query = 'test';
             cy.visit(`/?q=${query}`);
             const validate = (value) => {
@@ -338,7 +344,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     buildRouteMatcher({ q: '(location_point_latlon:[-31.7,-45.0 TO 31.7,45.0])' }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('spatialQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@spatialQuery').then((interception) => {
