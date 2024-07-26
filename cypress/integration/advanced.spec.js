@@ -524,5 +524,27 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="group-or"]').eq(1).should('have.class', 'bg-blue-300');
             cy.get('[data-cy="group-or"]').eq(2).should('have.class', 'bg-blue-300');
         });
+
+        it('persists filters correctly after export (2)', () => {
+            // Set first group to OR
+            cy.get('[data-cy="group-and"]').click();
+
+            // Add second nested group with OR
+            cy.get('[data-cy="add-group"]').click();
+            cy.get('[data-cy="group-or"]').last().click();
+
+            // Add third nested group with OR
+            cy.get('[data-cy="add-group"]').last().click();
+            cy.get('[data-cy="group-and"]').last().click();
+
+            // Click export
+            cy.get('[data-cy="open-export-modal"]').click();
+            cy.get('[data-cy="export-filters"]').should('be.visible');
+
+            // Assert that all three ORs are still set
+            cy.get('[data-cy="group-and"]').eq(0).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]').eq(1).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-and"]').eq(2).should('have.class', 'bg-blue-300');
+        });
     });
 });

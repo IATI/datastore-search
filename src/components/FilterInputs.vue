@@ -161,6 +161,7 @@ const populateGroupFromFilters = (filters, group, startIndex = 0) => {
                     group.items.push(nestedGroup);
                     nextIndex = nestedIndex + 1;
                 } else if (item.value === ')') {
+                    group.operator = item.joinOperator
                     nextIndex = index;
                 } else {
                     nextIndex++;
