@@ -36,33 +36,68 @@ const getFiltersFromGroup = (group, parentGroupOperator) => {
             item.joinOperator = group.operator;
             return filters.concat(item);
         }, []),
-        getBracketFilter('closing', group.operator)
+        getBracketFilter('closing', group.operator),
     );
 };
 
-const onAddRule = (group, rule = {}) => {
-    const items = group.items.concat({
-        id: uuidv4(),
-        type: null,
-        field: null,
-        value: null,
-        operator: 'equals',
-        joinOperator: 'AND',
-        ...rule,
-    });
-    group.items = items;
+const onAddRule = (group, groupId, rule = {}) => {
+    if (group.id == groupId) {
+        const items = group.items.concat({
+            id: uuidv4(),
+            type: null,
+            field: null,
+            value: null,
+            operator: 'equals',
+            joinOperator: 'AND',
+            ...rule,
+        });
+        group.items = items;
+    } else {
+        group.items.forEach((item) => {
+            if (item.type === 'group') {
+                onAddRule(item, groupId);
+            }
+        });
+    }
 };
-const onAddGroup = () => {
-    const items = group.items.concat({
-        id: uuidv4(),
-        type: 'group',
-        operator: 'AND',
-        items: [],
-    });
-    group.items = items;
+const onAddGroup = (group, groupId) => {
+    if (group.id == groupId) {
+        const items = group.items.concat({
+            id: uuidv4(),
+            type: 'group',
+            operator: 'AND',
+            items: [],
+        });
+        group.items = items;
+    } else {
+        group.items.forEach((item) => {
+            if (item.type === 'group') {
+                onAddGroup(item, groupId);
+            }
+        });
+    }
 };
-const onToggleOperator = (group, operator) => {
-    group.operator = operator;
+const onToggleOperator = (group, groupId, operator) => {
+    if (group.id == groupId) {
+        group.operator = operator;
+    } else {
+        group.items.forEach((item) => {
+            if (item.type === 'group') {
+                onToggleOperator(item, groupId, operator);
+            }
+        });
+    }
+};
+const onDeleteItem = (group, itemId) => {
+    if (group.items.map((item) => item.id).includes(itemId)) {
+        group.items = group.items.filter((item) => item.id !== itemId);
+    } else {
+        group.items.forEach((item) => {
+            if (item.type === 'group') {
+                onDeleteItem(item, itemId);
+            }
+        });
+    }
 };
 const validateGroup = (grup) => {
     let isValid = true;
@@ -105,7 +140,6 @@ const populateGroupFromFilters = (filters, group, startIndex = 0) => {
     let nextIndex = startIndex;
     // reset group, but preserve reactivity if available
     group.id = uuidv4();
-    group.operator = 'AND';
     group.items = [];
 
     // populate group from filters
@@ -113,22 +147,28 @@ const populateGroupFromFilters = (filters, group, startIndex = 0) => {
         if (index === nextIndex) {
             if (item.type === 'grouping') {
                 if (item.value === '(' && index) {
-                    const nestedGroup = { id: uuidv4(), type: 'group', operator: 'AND', items: [] };
+                    const nestedGroup = {
+                        id: uuidv4(),
+                        type: 'group',
+                        operator: item.joinOperator,
+                        items: [],
+                    };
                     const { index: nestedIndex } = populateGroupFromFilters(
                         filters,
                         nestedGroup,
-                        index + 1
+                        index + 1,
                     );
                     group.items.push(nestedGroup);
                     nextIndex = nestedIndex + 1;
                 } else if (item.value === ')') {
+                    group.operator = item.joinOperator
                     nextIndex = index;
                 } else {
                     nextIndex++;
                 }
             } else {
                 group.operator = item.joinOperator;
-                onAddRule(group, item);
+                onAddRule(group, group.id, item);
                 nextIndex = index + 1;
             }
         }
@@ -141,7 +181,7 @@ watch(
     () => props.filters,
     () => {
         populateGroupFromFilters(props.filters, group);
-    }
+    },
 );
 onBeforeMount(() => {
     if (props.filters && props.filters.length) {
@@ -156,9 +196,10 @@ onBeforeMount(() => {
             v-if="filters.length"
             :group="group"
             :deletable="false"
-            @add-rule="onAddRule"
-            @add-group="onAddGroup"
-            @toggle-operator="onToggleOperator"
+            @add-rule="(groupId) => onAddRule(group, groupId)"
+            @add-group="(groupId) => onAddGroup(group, groupId)"
+            @toggle-operator="(groupId, operator) => onToggleOperator(group, groupId, operator)"
+            @delete="(itemId) => onDeleteItem(group, itemId)"
         />
     </div>
 

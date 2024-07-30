@@ -12,10 +12,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4.0.3
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
@@ -52,16 +52,16 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4.0.3
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
 
       - name: Cypress CI Run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           wait-on: "https://datastore.iatistandard.org"
           config-file: cypress.config.prod.js

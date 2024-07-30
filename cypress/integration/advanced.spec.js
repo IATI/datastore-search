@@ -51,6 +51,12 @@ describe('The advanced search', { testIsolation: false }, () => {
         });
 
         it('captures a representation of the basic search input', () => {
+            cy.fixture('simple_q_test').then((simple_q_test) => {
+                cy.intercept(
+                    `https://dev-api.iatistandard.org/dss/activity/search*`,
+                    simple_q_test,
+                );
+            });
             const query = 'test';
             cy.visit(`/?q=${query}`);
             const validate = (value) => {
@@ -338,7 +344,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     buildRouteMatcher({ q: '(location_point_latlon:[-31.7,-45.0 TO 31.7,45.0])' }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('spatialQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@spatialQuery').then((interception) => {
@@ -367,7 +373,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
         });
 
-        it.only('can export and import filters', () => {
+        it('can export and import filters', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.wait(1000);
@@ -426,6 +432,119 @@ describe('The advanced search', { testIsolation: false }, () => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
                 });
             });
+        });
+
+        it('restores exported and imported filters correctly', () => {
+            // Add some filters
+            cy.get('[data-cy="group-or"]').click();
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]').contains('Sector Code');
+            cy.get('[data-cy="field-selector"]').type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"]').type('11110');
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]').last().contains('Sector Code');
+            cy.get('[data-cy="field-selector"]').last().type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"]').last().type('11120');
+
+            // Export
+            const downloadsFolder = Cypress.config('downloadsFolder');
+            cy.get('[data-cy="open-export-modal"]').click();
+            cy.get('[data-cy="export-filters"]').click();
+
+            // Reset
+            cy.get('[data-cy="reset-filters"]').click();
+            cy.get('[data-cy="reset-filters"]').contains('Confirm').click();
+
+            //Import
+            cy.get('[data-cy="build-query"]').click();
+            cy.get('[data-cy="open-import-modal"]').click();
+            cy.task('isExistFile', downloadsFolder).then((filename) => {
+                cy.readFile(filename).then((fileContent) => {
+                    cy.get('input[type="file"]').attachFile({
+                        fileContent: fileContent,
+                        fileName: filename,
+                        mimeType: 'application/json',
+                    });
+                    cy.get('[data-cy="import-filters"]').click();
+                });
+            });
+
+            // Assert that filters are correct
+            cy.get('[data-cy="group-or"]').should('have.class', 'bg-blue-300');
+        });
+
+        it('restores filters after page refresh', () => {
+            // Add some filters
+            cy.get('[data-cy="group-or"]').click();
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]').contains('Sector Code');
+            cy.get('[data-cy="field-selector"]').type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"]').type('11110');
+
+            cy.get('[data-cy="add-rule"]').click();
+            cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]').last().contains('Sector Code');
+            cy.get('[data-cy="field-selector"]').last().type('Sector Code{enter}');
+            cy.get('[data-cy="filter-combo-input"]').last().type('11120');
+
+            // Run the filter
+            cy.get('[data-cy="run-filters"]').click();
+
+            // Refresh the page
+            cy.reload();
+
+            // Assert that the filters are correct
+            cy.get('[data-cy="group-or"]').should('have.class', 'bg-blue-300');
+        });
+
+        it('persists filters correctly after export', () => {
+            // Set first group to OR
+            cy.get('[data-cy="group-or"]').click();
+
+            // Add second nested group with OR
+            cy.get('[data-cy="add-group"]').click();
+            cy.get('[data-cy="group-or"]').last().click();
+
+            // Add third nested group with OR
+            cy.get('[data-cy="add-group"]').last().click();
+            cy.get('[data-cy="group-or"]').last().click();
+
+            // Click export
+            cy.get('[data-cy="open-export-modal"]').click();
+            cy.get('[data-cy="export-filters"]').should('be.visible');
+
+            // Assert that all three ORs are still set
+            cy.get('[data-cy="group-or"]').eq(0).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]').eq(1).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]').eq(2).should('have.class', 'bg-blue-300');
+        });
+
+        it('persists filters correctly after export (2)', () => {
+            // Set first group to OR
+            cy.get('[data-cy="group-and"]').click();
+
+            // Add second nested group with OR
+            cy.get('[data-cy="add-group"]').click();
+            cy.get('[data-cy="group-or"]').last().click();
+
+            // Add third nested group with OR
+            cy.get('[data-cy="add-group"]').last().click();
+            cy.get('[data-cy="group-and"]').last().click();
+
+            // Click export
+            cy.get('[data-cy="open-export-modal"]').click();
+            cy.get('[data-cy="export-filters"]').should('be.visible');
+
+            // Assert that all three ORs are still set
+            cy.get('[data-cy="group-and"]').eq(0).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]').eq(1).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-and"]').eq(2).should('have.class', 'bg-blue-300');
         });
     });
 });
