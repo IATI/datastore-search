@@ -37,7 +37,7 @@
         "plausible-tracker": "^0.3.9",
         "pofile": "^1.1.4",
         "split.js": "^1.6.5",
-        "vue": "^3.5.10",
+        "vue": "^3.5.11",
         "vue-i18n": "^10.0.3",
         "vue-multiselect": "^3.1.0",
         "vue-router": "^4.4.5",
