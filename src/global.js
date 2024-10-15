@@ -8,7 +8,8 @@ import { reactive, readonly } from 'vue';
 import i18n from './i18n.js';
 
 const { t } = i18n.global;
-const browser_locale = navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
+const browser_locale =
+    navigator.language.split('-')[0] || navigator.userLanguage.split('-')[0];
 let language = JSON.parse(localStorage.getItem('language')) || '';
 const IMPORT_FILE_VERSION = '2.0';
 const LOCAL_STORAGE_KEY_ADVANCED = 'query.advanced';
@@ -174,14 +175,14 @@ const populateOptions = async () => {
 
     let response = await axios.get(
         `${domain}/dss/resources/filters?locale=${state.language}`,
-        axiosConfig
+        axiosConfig,
     );
 
     filterOptions = response.data;
 
     response = await axios.get(
         `${domain}/dss/resources/codelists?locale=${state.language}`,
-        axiosConfig
+        axiosConfig,
     );
 
     const codelists = response.data;
@@ -570,7 +571,10 @@ const run = async (start = 0, rows = 10) => {
 
     if (validateFilters()) {
         // persist filters to local storage
-        window.localStorage.setItem(LOCAL_STORAGE_KEY_ADVANCED, JSON.stringify(state.filters));
+        window.localStorage.setItem(
+            LOCAL_STORAGE_KEY_ADVANCED,
+            JSON.stringify(state.filters),
+        );
 
         state.queryInProgress = true;
         await compileQuery();
@@ -578,7 +582,10 @@ const run = async (start = 0, rows = 10) => {
         url.searchParams.set('q', state.query);
         url.searchParams.set('start', start);
         url.searchParams.set('rows', rows);
-        url.searchParams.set('sort', `${state.searchOrderField} ${state.searchOrderDirection}`);
+        url.searchParams.set(
+            'sort',
+            `${state.searchOrderField} ${state.searchOrderDirection}`,
+        );
         let result = {
             data: {
                 response: {
@@ -614,8 +621,12 @@ const generateFiltersForQuery = async (query) => {
         await populateOptions();
     }
     if (state.fieldOptions) {
-        const brackets = state.fieldOptions.find((item) => item.type === 'grouping');
-        const textOption = state.fieldOptions.find((item) => item.label === 'All Narratives');
+        const brackets = state.fieldOptions.find(
+            (item) => item.type === 'grouping',
+        );
+        const textOption = state.fieldOptions.find(
+            (item) => item.label === 'All Narratives',
+        );
         if (!brackets || !textOption) {
             console.log('Missing field option (either grouping or narrative)');
         } else {
@@ -661,7 +672,10 @@ const runSimple = async (searchterm, start = 0, rows = 10) => {
     url.searchParams.set('q', cleanSearchTerm);
     url.searchParams.set('start', start);
     url.searchParams.set('rows', rows);
-    url.searchParams.set('sort', `${state.searchOrderField} ${state.searchOrderDirection}`);
+    url.searchParams.set(
+        'sort',
+        `${state.searchOrderField} ${state.searchOrderDirection}`,
+    );
     let result = await axios.get(url, axiosConfig);
     state.simpleSearch = true;
     state.query = cleanSearchTerm;
@@ -736,57 +750,81 @@ const setResponseState = (result) => {
         if ('title_narrative' in state.responseDocs[index]) {
             if ('title_narrative_xml_lang' in state.responseDocs[index]) {
                 if (
-                    state.responseDocs[index].title_narrative_xml_lang.length ===
+                    state.responseDocs[index].title_narrative_xml_lang
+                        .length ===
                     state.responseDocs[index].title_narrative.length
                 ) {
                     // First remove blank titles, iterating backwards
                     for (
                         let narrativeKey =
-                            state.responseDocs[index].title_narrative_xml_lang.length - 1;
+                            state.responseDocs[index].title_narrative_xml_lang
+                                .length - 1;
                         narrativeKey >= 0;
                         narrativeKey--
                     ) {
-                        if (state.responseDocs[index].title_narrative[narrativeKey] === '') {
-                            state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
-                            state.responseDocs[index].title_narrative_xml_lang.splice(
+                        if (
+                            state.responseDocs[index].title_narrative[
+                                narrativeKey
+                            ] === ''
+                        ) {
+                            state.responseDocs[index].title_narrative.splice(
                                 narrativeKey,
-                                1
+                                1,
                             );
+                            state.responseDocs[
+                                index
+                            ].title_narrative_xml_lang.splice(narrativeKey, 1);
                         }
                     }
                     // Then preference locale, if still available
-                    if (state.responseDocs[index].title_narrative_xml_lang.length > 0) {
+                    if (
+                        state.responseDocs[index].title_narrative_xml_lang
+                            .length > 0
+                    ) {
                         for (const narrativeKey in state.responseDocs[index]
                             .title_narrative_xml_lang) {
                             if (
-                                state.responseDocs[index].title_narrative_xml_lang[narrativeKey] ===
+                                state.responseDocs[index]
+                                    .title_narrative_xml_lang[narrativeKey] ===
                                 state.language
                             ) {
                                 langTitleNarrative =
-                                    state.responseDocs[index].title_narrative[narrativeKey];
-                                state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
-                                state.responseDocs[index].title_narrative.unshift(
-                                    langTitleNarrative
-                                );
-                                state.responseDocs[index].title_narrative_xml_lang.splice(
+                                    state.responseDocs[index].title_narrative[
+                                        narrativeKey
+                                    ];
+                                state.responseDocs[
+                                    index
+                                ].title_narrative.splice(narrativeKey, 1);
+                                state.responseDocs[
+                                    index
+                                ].title_narrative.unshift(langTitleNarrative);
+                                state.responseDocs[
+                                    index
+                                ].title_narrative_xml_lang.splice(
                                     narrativeKey,
-                                    1
+                                    1,
                                 );
-                                state.responseDocs[index].title_narrative_xml_lang.unshift(
-                                    state.language
+                                state.responseDocs[
+                                    index
+                                ].title_narrative_xml_lang.unshift(
+                                    state.language,
                                 );
                                 break;
                             }
                         }
                     } else {
                         // No non-blank titles, set a default
-                        state.responseDocs[index].title_narrative = [langTitleNarrative];
+                        state.responseDocs[index].title_narrative = [
+                            langTitleNarrative,
+                        ];
                     }
                 } else {
-                    langTitleNarrative = state.responseDocs[index].title_narrative[0];
+                    langTitleNarrative =
+                        state.responseDocs[index].title_narrative[0];
                 }
             } else {
-                langTitleNarrative = state.responseDocs[index].title_narrative[0];
+                langTitleNarrative =
+                    state.responseDocs[index].title_narrative[0];
             }
         } else {
             state.responseDocs[index].title_narrative = [langTitleNarrative];
@@ -794,52 +832,71 @@ const setResponseState = (result) => {
 
         if (state.responseDocs[index]['highlighting'] === '') {
             if ('description_narrative' in state.responseDocs[index]) {
-                if ('description_narrative_xml_lang' in state.responseDocs[index]) {
+                if (
+                    'description_narrative_xml_lang' in
+                    state.responseDocs[index]
+                ) {
                     if (
-                        state.responseDocs[index].description_narrative_xml_lang.length ===
+                        state.responseDocs[index].description_narrative_xml_lang
+                            .length ===
                         state.responseDocs[index].description_narrative.length
                     ) {
                         // First remove blank descriptions, iterating backwards
                         for (
                             let narrativeKey =
-                                state.responseDocs[index].description_narrative_xml_lang.length - 1;
+                                state.responseDocs[index]
+                                    .description_narrative_xml_lang.length - 1;
                             narrativeKey >= 0;
                             narrativeKey--
                         ) {
                             if (
-                                state.responseDocs[index].description_narrative[narrativeKey] === ''
+                                state.responseDocs[index].description_narrative[
+                                    narrativeKey
+                                ] === ''
                             ) {
-                                state.responseDocs[index].description_narrative.splice(
+                                state.responseDocs[
+                                    index
+                                ].description_narrative.splice(narrativeKey, 1);
+                                state.responseDocs[
+                                    index
+                                ].description_narrative_xml_lang.splice(
                                     narrativeKey,
-                                    1
-                                );
-                                state.responseDocs[index].description_narrative_xml_lang.splice(
-                                    narrativeKey,
-                                    1
+                                    1,
                                 );
                             }
                         }
                         // Then proceed to preference locale, if available
-                        if (state.responseDocs[index].description_narrative.length > 0) {
+                        if (
+                            state.responseDocs[index].description_narrative
+                                .length > 0
+                        ) {
                             let langDescriptionNarrative =
-                                state.responseDocs[index].description_narrative[0];
+                                state.responseDocs[index]
+                                    .description_narrative[0];
                             for (const narrativeKey in state.responseDocs[index]
                                 .description_narrative_xml_lang) {
                                 if (
-                                    state.responseDocs[index].description_narrative_xml_lang[
+                                    state.responseDocs[index]
+                                        .description_narrative_xml_lang[
                                         narrativeKey
                                     ] === state.language
                                 ) {
                                     langDescriptionNarrative =
-                                        state.responseDocs[index].description_narrative[
+                                        state.responseDocs[index]
+                                            .description_narrative[
                                             narrativeKey
                                         ];
                                     break;
                                 }
                             }
 
-                            if (langDescriptionNarrative !== langTitleNarrative) {
-                                if (langDescriptionNarrative.split(' ').length > 30) {
+                            if (
+                                langDescriptionNarrative !== langTitleNarrative
+                            ) {
+                                if (
+                                    langDescriptionNarrative.split(' ').length >
+                                    30
+                                ) {
                                     langDescriptionNarrative =
                                         langDescriptionNarrative
                                             .split(' ')
@@ -855,17 +912,26 @@ const setResponseState = (result) => {
                             state.responseDocs[index].description_narrative[0];
                         if (descriptionNarrative.split(' ').length > 30) {
                             descriptionNarrative =
-                                descriptionNarrative.split(' ').splice(0, 30).join(' ') + ' ...';
+                                descriptionNarrative
+                                    .split(' ')
+                                    .splice(0, 30)
+                                    .join(' ') + ' ...';
                         }
-                        state.responseDocs[index]['highlighting'] = descriptionNarrative;
+                        state.responseDocs[index]['highlighting'] =
+                            descriptionNarrative;
                     }
                 } else {
-                    let descriptionNarrative = state.responseDocs[index].description_narrative[0];
+                    let descriptionNarrative =
+                        state.responseDocs[index].description_narrative[0];
                     if (descriptionNarrative.split(' ').length > 30) {
                         descriptionNarrative =
-                            descriptionNarrative.split(' ').splice(0, 30).join(' ') + ' ...';
+                            descriptionNarrative
+                                .split(' ')
+                                .splice(0, 30)
+                                .join(' ') + ' ...';
                     }
-                    state.responseDocs[index]['highlighting'] = descriptionNarrative;
+                    state.responseDocs[index]['highlighting'] =
+                        descriptionNarrative;
                 }
             }
         }
@@ -890,10 +956,12 @@ const changeFilter = (id, key, value) => {
             if (key === 'field') {
                 for (let n = 0; n < state.fieldOptions.length; n++) {
                     if (state.fieldOptions[n].label === value) {
-                        state.filters[i]['selectedOption'] = state.fieldOptions[n];
+                        state.filters[i]['selectedOption'] =
+                            state.fieldOptions[n];
 
                         state.filters[i][key] = state.fieldOptions[n].field;
-                        state.filters[i]['desc'] = state.fieldOptions[n].description;
+                        state.filters[i]['desc'] =
+                            state.fieldOptions[n].description;
                         state.filters[i]['type'] = state.fieldOptions[n].type;
 
                         if (state.fieldOptions[n].type === 'date') {
@@ -987,7 +1055,10 @@ const validateDropdownOptions = (id, index, options) => {
         if (state.filters[i].id === id) {
             const currentValue = state.filters[i].value;
             // If the current field value is null or not in the list of valid options, set blank so "Select code" can be reselected
-            if (!options.map((d) => d.code).includes(currentValue) && index === 0) {
+            if (
+                !options.map((d) => d.code).includes(currentValue) &&
+                index === 0
+            ) {
                 state.filters[i].value = '';
             }
         }
@@ -1067,12 +1138,12 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
                 query: query,
                 format,
             },
-            axiosConfig
+            axiosConfig,
         );
         await sleep(500);
         const response = await statusRequest(
             startDownloadRes.data.statusQueryGetUri,
-            startDownloadRes.data.terminatePostUri
+            startDownloadRes.data.terminatePostUri,
         );
         if ('config' in response && response.config.method === 'post') {
             trackEvent('Cancelled download', {
@@ -1090,7 +1161,9 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
     } catch (error) {
         // If a user cancels right before download finishes, POST returns error 410 GONE. Don't alert user in this case.
         if (state.download.fileLoading === true) {
-            alert(`Sorry, an error occurred while downloading your file. Please try again later.`);
+            alert(
+                `Sorry, an error occurred while downloading your file. Please try again later.`,
+            );
             trackEvent(`Error download`, {
                 props: {
                     event_category: 'Download buttons',
@@ -1129,7 +1202,7 @@ const paginationUpdate = async (page) => {
         await runSimple(
             state.simpleSearchTerm,
             (state.page - 1) * state.resultsPerPage,
-            state.resultsPerPage
+            state.resultsPerPage,
         );
 
         trackEvent('Pagination', {
@@ -1139,7 +1212,10 @@ const paginationUpdate = async (page) => {
             },
         });
     } else {
-        await run((state.page - 1) * state.resultsPerPage, state.resultsPerPage);
+        await run(
+            (state.page - 1) * state.resultsPerPage,
+            state.resultsPerPage,
+        );
 
         trackEvent('Pagination', {
             props: {
@@ -1152,7 +1228,8 @@ const paginationUpdate = async (page) => {
 
 const sortResults = async (field) => {
     if (field == state.searchOrderField) {
-        state.searchOrderDirection = state.searchOrderDirection == 'desc' ? 'asc' : 'desc';
+        state.searchOrderDirection =
+            state.searchOrderDirection == 'desc' ? 'asc' : 'desc';
     } else {
         state.searchOrderField = field;
         const fieldObj = sortFields.filter((d) => d.field == field)[0];
@@ -1192,11 +1269,25 @@ const setMapBbox = (map) => {
     state.bbox.zoom = map.getZoom();
     state.bbox.centerLat = center.lat;
     state.bbox.centerLon = center.lng;
-    state.bbox.southWestLat = Math.max(Math.min(bounds._southWest.lat, 90), -90);
-    state.bbox.northEastLat = Math.max(Math.min(bounds._northEast.lat, 90), -90);
-    state.bbox.southWestLon = Math.max(Math.min(bounds._southWest.lng, 180), -180);
-    state.bbox.northEastLon = Math.max(Math.min(bounds._northEast.lng, 180), -180);
-    state.bbox.displayPrecision = Math.round(1 + ((state.bbox.zoom - 3) / 16) * 5);
+    state.bbox.southWestLat = Math.max(
+        Math.min(bounds._southWest.lat, 90),
+        -90,
+    );
+    state.bbox.northEastLat = Math.max(
+        Math.min(bounds._northEast.lat, 90),
+        -90,
+    );
+    state.bbox.southWestLon = Math.max(
+        Math.min(bounds._southWest.lng, 180),
+        -180,
+    );
+    state.bbox.northEastLon = Math.max(
+        Math.min(bounds._northEast.lng, 180),
+        -180,
+    );
+    state.bbox.displayPrecision = Math.round(
+        1 + ((state.bbox.zoom - 3) / 16) * 5,
+    );
 };
 
 const applyBbox = () => {
@@ -1204,12 +1295,12 @@ const applyBbox = () => {
         state.bbox.filterId,
         'value',
         `[${state.bbox.southWestLat.toFixed(
-            state.bbox.displayPrecision
+            state.bbox.displayPrecision,
         )},${state.bbox.southWestLon.toFixed(
-            state.bbox.displayPrecision
+            state.bbox.displayPrecision,
         )} TO ${state.bbox.northEastLat.toFixed(
-            state.bbox.displayPrecision
-        )},${state.bbox.northEastLon.toFixed(state.bbox.displayPrecision)}]`
+            state.bbox.displayPrecision,
+        )},${state.bbox.northEastLon.toFixed(state.bbox.displayPrecision)}]`,
     );
 
     toggleBboxModal();
@@ -1236,12 +1327,25 @@ const relocalizeResponseDocs = () => {
             doc.title_narrative_xml_lang.length === doc.title_narrative.length
         ) {
             for (const narrativeKey in doc.title_narrative_xml_lang) {
-                if (doc.title_narrative_xml_lang[narrativeKey] === state.language) {
+                if (
+                    doc.title_narrative_xml_lang[narrativeKey] ===
+                    state.language
+                ) {
                     langTitleNarrative = doc.title_narrative[narrativeKey];
-                    state.responseDocs[index].title_narrative.splice(narrativeKey, 1);
-                    state.responseDocs[index].title_narrative.unshift(langTitleNarrative);
-                    state.responseDocs[index].title_narrative_xml_lang.splice(narrativeKey, 1);
-                    state.responseDocs[index].title_narrative_xml_lang.unshift(state.language);
+                    state.responseDocs[index].title_narrative.splice(
+                        narrativeKey,
+                        1,
+                    );
+                    state.responseDocs[index].title_narrative.unshift(
+                        langTitleNarrative,
+                    );
+                    state.responseDocs[index].title_narrative_xml_lang.splice(
+                        narrativeKey,
+                        1,
+                    );
+                    state.responseDocs[index].title_narrative_xml_lang.unshift(
+                        state.language,
+                    );
                     break;
                 }
             }
@@ -1249,22 +1353,30 @@ const relocalizeResponseDocs = () => {
         if ('description_narrative' in doc) {
             if ('description_narrative_xml_lang' in doc) {
                 if (
-                    doc.description_narrative_xml_lang.length === doc.description_narrative.length
+                    doc.description_narrative_xml_lang.length ===
+                    doc.description_narrative.length
                 ) {
                     let langDescriptionNarrative = doc.description_narrative[0];
                     for (const narrativeKey in doc.description_narrative_xml_lang) {
-                        if (doc.description_narrative_xml_lang[narrativeKey] === state.language) {
-                            langDescriptionNarrative = doc.description_narrative[narrativeKey];
+                        if (
+                            doc.description_narrative_xml_lang[narrativeKey] ===
+                            state.language
+                        ) {
+                            langDescriptionNarrative =
+                                doc.description_narrative[narrativeKey];
                             break;
                         }
                     }
                     if (langDescriptionNarrative !== langTitleNarrative) {
                         if (langDescriptionNarrative.split(' ').length > 30) {
                             langDescriptionNarrative =
-                                langDescriptionNarrative.split(' ').splice(0, 30).join(' ') +
-                                ' ...';
+                                langDescriptionNarrative
+                                    .split(' ')
+                                    .splice(0, 30)
+                                    .join(' ') + ' ...';
                         }
-                        state.responseDocs[index]['highlighting'] = langDescriptionNarrative;
+                        state.responseDocs[index]['highlighting'] =
+                            langDescriptionNarrative;
                     }
                 }
             }
@@ -1330,10 +1442,12 @@ const compileQuery = () => {
                     query = query + filter['field'] + ':"' + queryValue + `"`;
                     break;
                 case 'lessThan':
-                    query = query + filter['field'] + ':[ * TO ' + queryValue + ']';
+                    query =
+                        query + filter['field'] + ':[ * TO ' + queryValue + ']';
                     break;
                 case 'greaterThan':
-                    query = query + filter['field'] + ':[' + queryValue + ' TO * ]';
+                    query =
+                        query + filter['field'] + ':[' + queryValue + ' TO * ]';
                     break;
                 default:
                     break;
@@ -1346,7 +1460,13 @@ const compileQuery = () => {
                     query = query + filter['field'] + ':' + queryValue;
                     break;
                 case 'notEquals':
-                    query = query + '(*:* -' + filter['field'] + ':' + queryValue + ')';
+                    query =
+                        query +
+                        '(*:* -' +
+                        filter['field'] +
+                        ':' +
+                        queryValue +
+                        ')';
                     break;
                 default:
                     break;

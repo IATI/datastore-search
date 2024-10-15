@@ -11,8 +11,10 @@ const classes = {
     'bg-btn-red text-white': props.variant === 'red',
     'bg-btn-yellow text-white': props.variant === 'yellow',
     'border border-iati-grey hover:text-white': props.variant === 'outline',
-    'border border-iati-blue hover:text-white': props.variant === 'outline-blue',
-    'border border-iati-accent hover:text-white': props.variant === 'outline-accent',
+    'border border-iati-blue hover:text-white':
+        props.variant === 'outline-blue',
+    'border border-iati-accent hover:text-white':
+        props.variant === 'outline-accent',
     'text-xs h-8': props.size === 'sm',
 };
 </script>

@@ -23,7 +23,9 @@ const select = ref('');
 const selectedOption = ref();
 
 const getSelectedOption = (label) =>
-    label ? global.state.fieldOptions.find((item) => item.label === label) : null;
+    label
+        ? global.state.fieldOptions.find((item) => item.label === label)
+        : null;
 const updateFilterFromSelectedOption = (option, resetValue = false) => {
     filter.selectedOption = option;
     filter.type = option.type;
@@ -40,9 +42,10 @@ const updateFilterFromSelectedOption = (option, resetValue = false) => {
 const filterOptions = computed(() =>
     global.state.fieldOptions
         .filter(
-            (option) => option.type !== 'grouping' && option.label !== 'Grouping:' // exclude grouping(bracket) options
+            (option) =>
+                option.type !== 'grouping' && option.label !== 'Grouping:', // exclude grouping(bracket) options
         )
-        .map((option) => ({ ...option, $isDisabled: option.disabled }))
+        .map((option) => ({ ...option, $isDisabled: option.disabled })),
 );
 const onChange = (value, isOperator = false) => {
     if (isOperator) {
@@ -58,7 +61,7 @@ watch(
     () => props.filter,
     () => {
         filter = reactive(props.filter);
-    }
+    },
 );
 watch(select, () => {
     const resetValue = !!selectedOption.value;
@@ -78,7 +81,10 @@ onBeforeMount(() => {
             class="md:col-span-3"
             :class="
                 (!filter.desc ||
-                    !(selectedOption && ['select', 'combo'].includes(selectedOption.type))) &&
+                    !(
+                        selectedOption &&
+                        ['select', 'combo'].includes(selectedOption.type)
+                    )) &&
                 !(
                     selectedOption &&
                     (selectedOption.type === 'number' ||
@@ -133,7 +139,10 @@ onBeforeMount(() => {
                 @change="(value) => onChange(value)"
             />
             <FilterNumberInput
-                v-if="selectedOption.type === 'number' || selectedOption.type === 'integer'"
+                v-if="
+                    selectedOption.type === 'number' ||
+                    selectedOption.type === 'integer'
+                "
                 :filter="filter"
                 data-cy="filter-number-input"
                 @change-operator="(operator) => onChange(operator, true)"
@@ -161,14 +170,20 @@ onBeforeMount(() => {
                 @change-value="(value) => onChange(value)"
             />
 
-            <p v-if="!filter.valid" id="validation" class="text-sm text-red-600">
+            <p
+                v-if="!filter.valid"
+                id="validation"
+                class="text-sm text-red-600"
+            >
                 {{ filter.validationMessage }}
             </p>
         </div>
         <div
             class="md:col-span-1"
             :class="
-                filter.desc && selectedOption && ['select', 'combo'].includes(selectedOption.type)
+                filter.desc &&
+                selectedOption &&
+                ['select', 'combo'].includes(selectedOption.type)
                     ? 'col-span-2'
                     : 'col-span-1'
             "
@@ -178,12 +193,17 @@ onBeforeMount(() => {
                     <XCircleIcon class="h-6 mr-1 cursor-pointer" />
                 </span>
                 <a
-                    v-if="selectedOption && ['select', 'combo'].includes(selectedOption.type)"
+                    v-if="
+                        selectedOption &&
+                        ['select', 'combo'].includes(selectedOption.type)
+                    "
                     type="link"
                     target="_blank"
                     aria-label="Link to codelist describe on iati website"
                     class="float-left"
-                    :href="global.state.codelistURL + selectedOption.codelist_name"
+                    :href="
+                        global.state.codelistURL + selectedOption.codelist_name
+                    "
                 >
                     <ArrowTopRightOnSquareIcon class="h-5 mr-1 -mt-[1px]" />
                 </a>

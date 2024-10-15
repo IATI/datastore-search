@@ -1,6 +1,9 @@
 <script setup>
 import { inject, ref } from 'vue';
-import { ArrowPathRoundedSquareIcon, PlusCircleIcon } from '@heroicons/vue/20/solid';
+import {
+    ArrowPathRoundedSquareIcon,
+    PlusCircleIcon,
+} from '@heroicons/vue/20/solid';
 import { ArrowDownIcon } from '@heroicons/vue/20/solid';
 import { ArrowUpIcon } from '@heroicons/vue/20/solid';
 import { PlayIcon } from '@heroicons/vue/20/solid';
@@ -47,7 +50,9 @@ const onReset = () => {
                     data-cy="open-export-modal"
                     @click="emits('export')"
                 >
-                    <ArrowDownIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <ArrowDownIcon
+                        class="h-3.5 w-5 text-grey-300 mr-1 relative"
+                    />
                     <span class="uppercase">{{ $t('message.export') }}</span>
                 </AppButton>
                 <AppButton
@@ -58,7 +63,9 @@ const onReset = () => {
                     data-cy="open-import-modal"
                     @click="global.toggleImportModal()"
                 >
-                    <ArrowUpIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <ArrowUpIcon
+                        class="h-3.5 w-5 text-grey-300 mr-1 relative"
+                    />
                     <span class="uppercase">{{ $t('message.import') }}</span>
                 </AppButton>
             </div>
@@ -71,7 +78,9 @@ const onReset = () => {
                     data-cy="reset-filters"
                     @click="onReset"
                 >
-                    <ArrowPathRoundedSquareIcon class="h-3.5 w-5 text-grey-300 mr-1 relative" />
+                    <ArrowPathRoundedSquareIcon
+                        class="h-3.5 w-5 text-grey-300 mr-1 relative"
+                    />
                     <span class="uppercase">
                         {{
                             resetStatus === 'waiting'
@@ -100,7 +109,9 @@ const onReset = () => {
                 data-cy="build-query"
                 @click="global.addFilter()"
             >
-                <PlusCircleIcon class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]" />
+                <PlusCircleIcon
+                    class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]"
+                />
                 <span class="float-left">{{ $t('message.add_filter') }}</span>
             </button>
             <button
@@ -109,8 +120,12 @@ const onReset = () => {
                 data-cy="import-filters"
                 @click="global.toggleImportModal()"
             >
-                <ArrowUpIcon class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]" />
-                <span class="float-left">{{ $t('message.import_filters') }}</span>
+                <ArrowUpIcon
+                    class="h-4 w-5 text-grey-300 mr-1 float-left relative top-[3px]"
+                />
+                <span class="float-left">{{
+                    $t('message.import_filters')
+                }}</span>
             </button>
         </div>
     </div>

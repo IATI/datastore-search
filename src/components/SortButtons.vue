@@ -8,7 +8,11 @@ const global = inject('global');
 
 const selected = computed({
     get() {
-        return global.sortFields.find((item) => item.field === global.state.searchOrderField) || '';
+        return (
+            global.sortFields.find(
+                (item) => item.field === global.state.searchOrderField,
+            ) || ''
+        );
     },
     set(value) {
         global.sortResults(value.field);

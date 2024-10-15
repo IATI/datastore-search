@@ -9,7 +9,10 @@ const global = inject('global');
 
 const showOperator = (filters, index) => {
     const item = filters[index];
-    if (index === filters.length - 1 || (item.type === 'grouping' && item.value === '(')) {
+    if (
+        index === filters.length - 1 ||
+        (item.type === 'grouping' && item.value === '(')
+    ) {
         return false;
     }
     const next = index === filters.length - 1 ? null : filters[index + 1];

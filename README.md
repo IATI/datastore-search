@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
--   Node.js: get version from `.nvmrc` or if using [nvm](https://github.com/nvm-sh/nvm) run `nvm use`
+- Node.js: get version from `.nvmrc` or if using [nvm](https://github.com/nvm-sh/nvm) run `nvm use`
 
 ## Install dependencies
 
@@ -55,8 +55,8 @@ https://vueschool.io/articles/vuejs-tutorials/eslint-and-prettier-with-vite-and-
 
 It's recommended you install the following VSCode Extensions:
 
--   [ESLint](https://open-vsx.org/extension/dbaeumer/vscode-eslint) VSCode extension.
--   [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+- [ESLint](https://open-vsx.org/extension/dbaeumer/vscode-eslint) VSCode extension.
+- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
 ### Manual Lint w/ ESLint
 

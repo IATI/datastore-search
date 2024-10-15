@@ -33,14 +33,17 @@ watch(
         if (global.state.queryInProgress) {
             showAdvancedSearch.value = false;
         }
-    }
+    },
 );
 </script>
 
 <template>
     <div class="flex h-5/6">
         <div
-            v-if="!global.state.queryInProgress && global.state.responseTotal === null"
+            v-if="
+                !global.state.queryInProgress &&
+                global.state.responseTotal === null
+            "
             class="m-auto"
         >
             <SearchBar class="landing" @search="onSearch" />
@@ -53,7 +56,10 @@ watch(
             </button>
         </div>
         <div
-            v-if="global.state.queryInProgress || global.state.responseTotal != null"
+            v-if="
+                global.state.queryInProgress ||
+                global.state.responseTotal != null
+            "
             class="flex-grow"
         >
             <SearchResults />
