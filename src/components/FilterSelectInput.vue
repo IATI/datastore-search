@@ -65,12 +65,10 @@ const global = inject('global');
                         )
                     "
                 >
-                    <span
-                        >{{ valueOption.code
-                        }}{{
-                            valueOption.name ? ' - ' + valueOption.name : null
-                        }}</span
-                    >
+                    {{
+                        valueOption.code +
+                        (valueOption.name ? ' - ' + valueOption.name : null)
+                    }}
                 </option>
             </select>
         </div>

@@ -17,7 +17,7 @@ const global = inject('global');
                 :key="langKey"
                 :value="langKey"
             >
-                <span>{{ langText }}</span>
+                {{ langText }}
             </option>
         </select>
     </div>

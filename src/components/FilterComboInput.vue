@@ -50,12 +50,10 @@ const emits = defineEmits(['changeOperator', 'changeValue']);
                     :key="valueOption.code"
                     :value="valueOption.code"
                 >
-                    <span
-                        >{{ valueOption.code
-                        }}{{
-                            valueOption.name ? ' - ' + valueOption.name : null
-                        }}</span
-                    >
+                    {{
+                        valueOption.code +
+                        (valueOption.name ? ' - ' + valueOption.name : null)
+                    }}
                 </option>
             </datalist>
         </div>
