@@ -14,12 +14,15 @@ const route = useRoute();
 const query = computed(() => route.query.q);
 const fileImport = reactive({ loading: false, file: null, version: null });
 
-watch([() => global.state.import.fileLoading, () => global.state.import.file], () => {
-    const { fileLoading, file } = global.state.import;
-    fileImport.loading = !!fileLoading;
-    fileImport.file = file;
-    fileImport.version = file.version ? Number(file.version) : null;
-});
+watch(
+    [() => global.state.import.fileLoading, () => global.state.import.file],
+    () => {
+        const { fileLoading, file } = global.state.import;
+        fileImport.loading = !!fileLoading;
+        fileImport.file = file;
+        fileImport.version = file.version ? Number(file.version) : null;
+    },
+);
 
 onBeforeMount(async () => {
     if (!query.value) {

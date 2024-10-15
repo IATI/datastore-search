@@ -9,9 +9,15 @@ const global = inject('global');
 <template>
     <footer class="bg-iati-grey text-white text-left text-sm">
         <div class="mx-auto">
-            <div class="py-4 px-12 xl:max-w-[75%] mx-auto flex justify-between align-middle">
+            <div
+                class="py-4 px-12 xl:max-w-[75%] mx-auto flex justify-between align-middle"
+            >
                 <p class="inline-block float-left mt-1">
-                    {{ $t('message.datastore_search_is_part_of_the_iati_unified_platform') }}
+                    {{
+                        $t(
+                            'message.datastore_search_is_part_of_the_iati_unified_platform',
+                        )
+                    }}
                 </p>
 
                 <div class="flex align-middle">
@@ -32,7 +38,9 @@ const global = inject('global');
                             class="hover:underline"
                             role="link"
                             :href="
-                                'https://iatistandard.org/' + global.state.language + '/contact/'
+                                'https://iatistandard.org/' +
+                                global.state.language +
+                                '/contact/'
                             "
                             >{{ $t('message.contact') }}</a
                         >

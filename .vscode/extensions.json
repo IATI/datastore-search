@@ -1,6 +1,3 @@
 {
-    "recommendations": [
-        "vue.volar",
-        "editorconfig.editorconfig"
-    ]
+    "recommendations": ["vue.volar", "editorconfig.editorconfig"]
 }

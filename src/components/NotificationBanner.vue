@@ -3,10 +3,19 @@ import { QuestionMarkCircleIcon } from '@heroicons/vue/20/solid';
 </script>
 
 <template>
-    <div v-if="showBanner" class="bg-yellow-200 flex items-center justify-center">
+    <div
+        v-if="showBanner"
+        class="bg-yellow-200 flex items-center justify-center"
+    >
         <p class="p-1 text-black flex items-center">
-            <button type="button" aria-label="Hover for more detail" @click="toggleTooltip">
-                <QuestionMarkCircleIcon class="h-7 w-7 text-grey-300 mx-1" /><span
+            <button
+                type="button"
+                aria-label="Hover for more detail"
+                @click="toggleTooltip"
+            >
+                <QuestionMarkCircleIcon
+                    class="h-7 w-7 text-grey-300 mx-1"
+                /><span
                     role="definition"
                     class="tooltip border rounded text-white p-2 ml-9 -mt-8 bg-iati-grey"
                     :class="{
@@ -14,11 +23,13 @@ import { QuestionMarkCircleIcon } from '@heroicons/vue/20/solid';
                             showTooltip === true,
                         invisible: showTooltip === false,
                     }"
-                    >During planned maintenance you may not receive search results as expected.
-                    Please come back later to run your queries.</span
+                    >During planned maintenance you may not receive search
+                    results as expected. Please come back later to run your
+                    queries.</span
                 >
             </button>
-            Planned Maintenance - Tuesday 13 June 2023 - 1800-1900 BST (London GMT+1)
+            Planned Maintenance - Tuesday 13 June 2023 - 1800-1900 BST (London
+            GMT+1)
         </p>
     </div>
 </template>

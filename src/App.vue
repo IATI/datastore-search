@@ -30,7 +30,8 @@ export default {
     mounted() {
         const { trackEvent } = Plausible();
 
-        const responseStart = performance.getEntriesByType('navigation')[0].responseStart;
+        const responseStart =
+            performance.getEntriesByType('navigation')[0].responseStart;
         trackEvent('TTFB', {
             props: {
                 event_category: 'PageSpeed',

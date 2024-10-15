@@ -1,5 +1,9 @@
 <script setup>
-import { ArrowDownIcon, ArrowDownTrayIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
+import {
+    ArrowDownIcon,
+    ArrowDownTrayIcon,
+    ChevronDownIcon,
+} from '@heroicons/vue/20/solid';
 import { inject, ref } from 'vue';
 import DropdownMenu from '../components/DropdownMenu.vue';
 import { formatNumber } from '../utils';
@@ -36,7 +40,9 @@ const core = ref('activity');
                 role="dialog"
                 class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
             >
-                <div class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded">
+                <div
+                    class="max-w-sm p-6 bg-white divide-y divide-gray-500 rounded"
+                >
                     <div class="flex items-center justify-between">
                         <h2 class="text-2xl">
                             {{
@@ -82,13 +88,16 @@ const core = ref('activity');
                             </select>
                             {{
                                 $t('message.download_confirmation_5a', {
-                                    format: global.state.download.selectedFormat,
+                                    format: global.state.download
+                                        .selectedFormat,
                                 })
                             }}
                         </p>
 
                         <p
-                            v-if="global.state.download.selectedFormat === 'EXCEL'"
+                            v-if="
+                                global.state.download.selectedFormat === 'EXCEL'
+                            "
                             class="mb-4 mt-2 text-md"
                         >
                             {{ $t('message.download_confirmation_1') }}
@@ -117,11 +126,15 @@ const core = ref('activity');
                                     {{ $t('message.download_confirmation_4c') }}
                                 </option>
                             </select>
-                            <span v-html="$t('message.download_confirmation_5b')"></span>
+                            <span>
+                                {{ $t('message.download_confirmation_5b') }}
+                            </span>
                         </p>
 
                         <p
-                            v-if="global.state.download.selectedFormat === 'XML'"
+                            v-if="
+                                global.state.download.selectedFormat === 'XML'
+                            "
                             class="mb-4 mt-2 text-md"
                         >
                             {{ $t('message.download_confirmation_1') }}
@@ -132,7 +145,9 @@ const core = ref('activity');
                             <span v-if="!props.iatiIdentifier">
                                 {{
                                     $t('message.download_confirmation_2b', {
-                                        count: formatNumber(global.state.responseTotal),
+                                        count: formatNumber(
+                                            global.state.responseTotal,
+                                        ),
                                     })
                                 }}
                             </span>
@@ -152,14 +167,17 @@ const core = ref('activity');
                                     global.downloadFile(
                                         global.state.download.selectedFormat,
                                         props.iatiIdentifier,
-                                        core
+                                        core,
                                     )
                                 "
                             >
-                                <ArrowDownIcon class="h-5 w-5 text-grey-300 mr-1" />
-                                <span v-if="!global.state.download.fileLoading">{{
-                                    $t('message.download')
-                                }}</span>
+                                <ArrowDownIcon
+                                    class="h-5 w-5 text-grey-300 mr-1"
+                                />
+                                <span
+                                    v-if="!global.state.download.fileLoading"
+                                    >{{ $t('message.download') }}</span
+                                >
                                 <div
                                     v-if="global.state.download.fileLoading"
                                     style="border-top-color: transparent"

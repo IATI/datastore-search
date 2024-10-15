@@ -190,7 +190,8 @@ export default {
         true: 'TRUE',
         false: 'FALSE',
         select_from_codes: 'Select from %{name} codes',
-        found_matching_iati_activities: 'Found <b>%{count}</b> matching IATI activities',
+        found_matching_iati_activities:
+            'Found <b>%{count}</b> matching IATI activities',
         sort: 'Sort',
         no_match: 'No matching IATI Activities - please try a different search',
         not_found: 'Not Found',
@@ -207,14 +208,16 @@ export default {
         identifier: 'Identifier',
         sort_identifier_label: 'Sort results by IATI identifier',
         all_narratives: 'All Narratives',
-        all_narratives_desc: 'Searches all IATI narrative fields, used by simple search',
+        all_narratives_desc:
+            'Searches all IATI narrative fields, used by simple search',
         boolean_grouping: 'Boolean Grouping',
         boolean_grouping_desc:
             'Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis.',
         special_fields: 'Special fields',
         grouping: 'Grouping',
         standard_fields: 'Standard fields',
-        incompatible_file_error: 'Incompatible file detected. Please try a different file.',
+        incompatible_file_error:
+            'Incompatible file detected. Please try a different file.',
         incompatible_file_version:
             'Deprecated file version. The query can be run, but cannot be edited.',
         search_term_is_required: 'Search term is required',
@@ -228,7 +231,8 @@ export default {
             'There was an error fetching your query. Please check how your query is constructed and try again.',
         search_term: 'Search term',
         spatial_search: 'Geospatial search',
-        location_point_latlon_desc: 'Spatial search on location/point/pos latitude and longitude',
+        location_point_latlon_desc:
+            'Spatial search on location/point/pos latitude and longitude',
         latlon_placeholder: 'X1,Y1 TO X2,Y2',
         use_map: 'Open map',
         pan_and_zoom: 'Pan and zoom map to select bounds',
