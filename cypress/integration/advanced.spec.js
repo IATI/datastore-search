@@ -152,7 +152,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             Cypress.config('baseUrl') === 'https://datastore.iatistandard.org'
                 ? 'https://api.iatistandard.org/dss/activity/select'
                 : 'https://dev-api.iatistandard.org/dss/activity/select';
-        const urlSuffix = '&sort=score desc';
         const buildRouteMatcher = (query) => ({ url: `${baseUrl}*`, query });
 
         beforeEach(() => {
@@ -165,7 +164,6 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can add, validate & run boolean rules', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Humanitarian').click();
             cy.get('[data-cy="run-filters"]').click();
             cy.contains('Selection is required');
@@ -187,7 +185,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Activity Date Iso Date').click();
 
             cy.get('[data-cy="filter-date-input"]').click();
@@ -213,7 +210,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Hierarchy').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
@@ -237,7 +233,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Sector Percentage').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
@@ -261,7 +256,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Budget Type').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Selection is required');
@@ -285,7 +279,6 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can add, validate & run text rules', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
@@ -310,7 +303,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             addRuleCount++;
             cy.contains('Select field').click();
             selectFieldCount++;
-            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
@@ -361,12 +353,10 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.get('[data-cy="field-selector"] input').type(
                 'Geospatial search{enter}',
             );
             cy.get('button:contains("Open map")').click();
-            cy.wait(1000);
             cy.get('button:contains("Apply")').click();
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
@@ -388,7 +378,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.get('[data-cy="field-selector"] input').type(
                 'Sector Code{enter}',
             );
@@ -409,7 +398,6 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can export and import filters', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Humanitarian').click();
             cy.get('button:contains("TRUE")').click();
 
@@ -429,7 +417,6 @@ describe('The advanced search', { testIsolation: false }, () => {
                         mimeType: 'application/json',
                     });
                     cy.get('[data-cy="import-filters"]').click();
-                    cy.wait(1000);
                     cy.fixture('advanced_q_test').then((advanced_q_test) => {
                         cy.intercept(
                             buildRouteMatcher({ q: '(humanitarian:true)' }),
@@ -456,7 +443,6 @@ describe('The advanced search', { testIsolation: false }, () => {
 
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
