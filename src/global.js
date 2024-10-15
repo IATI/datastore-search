@@ -346,7 +346,7 @@ const stageFilter = (event) => {
     try {
         state.import.file = JSON.parse(event.target.result);
         state.import.disabled = false;
-    } catch (error) {
+    } catch {
         state.import.errors.push(t('message.incompatible_file_error'));
         state.import.file = {};
     }
@@ -598,7 +598,7 @@ const run = async (start = 0, rows = 10) => {
         };
         try {
             result = await axios.get(url, axiosConfig);
-        } catch (error) {
+        } catch {
             state.responseErrorMessage = t('message.fetch_error');
         }
 
@@ -1245,13 +1245,13 @@ const sortResults = async (field) => {
 };
 
 const resetResults = () => {
-    (state.query = null),
-        (state.responseDocs = null),
-        (state.responseTotal = null),
-        (state.responseStart = null),
-        (state.numberPages = null),
-        (state.simpleSearch = null),
-        (state.simpleSearchTerm = null);
+    state.query = null;
+    state.responseDocs = null;
+    state.responseTotal = null;
+    state.responseStart = null;
+    state.numberPages = null;
+    state.simpleSearch = null;
+    state.simpleSearchTerm = null;
 };
 
 const toggleBboxModal = (filterId = null) => {

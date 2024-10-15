@@ -126,9 +126,9 @@ const core = ref('activity');
                                     {{ $t('message.download_confirmation_4c') }}
                                 </option>
                             </select>
-                            <span
-                                v-html="$t('message.download_confirmation_5b')"
-                            ></span>
+                            <span>
+                                {{ $t('message.download_confirmation_5b') }}
+                            </span>
                         </p>
 
                         <p
