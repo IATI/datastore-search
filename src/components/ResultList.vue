@@ -17,7 +17,8 @@ let page = 1;
     <div class="flex flex-col h-full">
         <ResultListHeader
             v-if="
-                (global.state.queryInProgress || global.state.responseTotal > 0) &&
+                (global.state.queryInProgress ||
+                    global.state.responseTotal > 0) &&
                 route.matched[0].path === '/advanced'
             "
             :count="global.state.responseTotal"
@@ -32,7 +33,10 @@ let page = 1;
         <div class="flex-grow">
             <router-view />
             <ul
-                v-if="global.state.responseTotal != null && global.state.responseTotal > 0"
+                v-if="
+                    global.state.responseTotal != null &&
+                    global.state.responseTotal > 0
+                "
                 id="results"
                 class="my-5"
             >
@@ -42,13 +46,19 @@ let page = 1;
             </ul>
 
             <p
-                v-if="global.state.responseTotal === 0 && global.state.responseErrorMessage === ''"
+                v-if="
+                    global.state.responseTotal === 0 &&
+                    global.state.responseErrorMessage === ''
+                "
                 class="mt-10"
             >
                 {{ $t('message.no_match') }}
             </p>
             <p
-                v-if="global.state.responseTotal === 0 && global.state.responseErrorMessage !== ''"
+                v-if="
+                    global.state.responseTotal === 0 &&
+                    global.state.responseErrorMessage !== ''
+                "
                 class="mt-10"
             >
                 {{ global.state.responseErrorMessage }}

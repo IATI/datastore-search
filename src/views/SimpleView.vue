@@ -40,7 +40,10 @@ const onSearch = (query) => {
                     {{ $t('message.advanced') }}
                 </button>
             </div>
-            <div v-if="!global.state.queryInProgress && !$route.query.q" class="text-sm mb-2">
+            <div
+                v-if="!global.state.queryInProgress && !$route.query.q"
+                class="text-sm mb-2"
+            >
                 <!-- eslint-disable-next-line vue/no-v-html -->
                 <p v-html="$t('message.results_by_advanced_search')"></p>
             </div>
@@ -67,7 +70,8 @@ const onSearch = (query) => {
                     >
                         <SortButtons
                             v-if="
-                                global.state.responseTotal != null && global.state.responseTotal > 0
+                                global.state.responseTotal != null &&
+                                global.state.responseTotal > 0
                             "
                             class="max-w-full sm:mb-0"
                         />

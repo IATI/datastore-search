@@ -39,12 +39,18 @@ provide('sharedState', { active, toggle });
     text-align: center;
     text-decoration: none;
     border-radius: 0.28571429rem;
-    box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset;
+    box-shadow:
+        0 0 0 1px transparent inset,
+        0 0 0 0 rgba(34, 36, 38, 0.15) inset;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease,
+    transition:
+        opacity 0.1s ease,
+        background-color 0.1s ease,
+        color 0.1s ease,
+        box-shadow 0.1s ease,
         background 0.1s ease;
     will-change: '';
     -webkit-tap-highlight-color: transparent;

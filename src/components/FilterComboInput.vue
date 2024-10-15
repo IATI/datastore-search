@@ -52,7 +52,9 @@ const emits = defineEmits(['changeOperator', 'changeValue']);
                 >
                     <span
                         >{{ valueOption.code
-                        }}{{ valueOption.name ? ' - ' + valueOption.name : null }}</span
+                        }}{{
+                            valueOption.name ? ' - ' + valueOption.name : null
+                        }}</span
                     >
                 </option>
             </datalist>

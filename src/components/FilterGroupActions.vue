@@ -22,7 +22,10 @@ const buttonClasses =
         <div class="py-1">
             <span class="mr-3 text-sm">{{ $t('message.group_operator') }}</span>
             <button
-                :class="[group.operator === 'AND' ? 'bg-blue-300' : '', buttonClasses]"
+                :class="[
+                    group.operator === 'AND' ? 'bg-blue-300' : '',
+                    buttonClasses,
+                ]"
                 class="border-l border-t border-b rounded-l"
                 type="button"
                 data-cy="group-and"
@@ -31,7 +34,10 @@ const buttonClasses =
                 {{ $t('message.and') }}
             </button>
             <button
-                :class="[group.operator === 'OR' ? 'bg-blue-300' : '', buttonClasses]"
+                :class="[
+                    group.operator === 'OR' ? 'bg-blue-300' : '',
+                    buttonClasses,
+                ]"
                 type="button"
                 class="border-r border-t border-b rounded-r"
                 data-cy="group-or"
@@ -51,7 +57,10 @@ const buttonClasses =
         </button>
 
         <div v-if="deletable" class="p-2 float-right">
-            <span data-cy="remove-group" @click="emits('delete', props.group.id)">
+            <span
+                data-cy="remove-group"
+                @click="emits('delete', props.group.id)"
+            >
                 <XCircleIcon class="h-6 cursor-pointer" />
             </span>
         </div>

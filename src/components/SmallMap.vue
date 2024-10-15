@@ -28,7 +28,7 @@ export default {
             zoomSnap: 0,
         }).setView(
             [global.state.bbox.centerLat, global.state.bbox.centerLon],
-            global.state.bbox.zoom
+            global.state.bbox.zoom,
         );
         this.map.setMaxBounds(bounds);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

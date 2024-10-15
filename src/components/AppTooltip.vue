@@ -6,7 +6,11 @@ provide('showTooltip', show);
 </script>
 
 <template>
-    <div class="has-tooltip" @mouseenter="show = true" @mouseleave="show = false">
+    <div
+        class="has-tooltip"
+        @mouseenter="show = true"
+        @mouseleave="show = false"
+    >
         <slot name="trigger" />
         <slot />
     </div>

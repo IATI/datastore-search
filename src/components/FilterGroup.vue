@@ -16,12 +16,18 @@ const emit = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
             :group="group"
             @add-rule="(groupId) => emit('addRule', groupId)"
             @add-group="(groupId) => emit('addGroup', groupId)"
-            @toggle-operator="(groupId, operator) => emit('toggleOperator', groupId, operator)"
+            @toggle-operator="
+                (groupId, operator) => emit('toggleOperator', groupId, operator)
+            "
             @delete="(groupId) => emit('delete', groupId)"
         />
         <div v-for="item in group.items" :key="item.id">
             <div v-if="item.type !== 'group'">
-                <FilterGroupItem :key="item.id" :filter="item" @delete="emit('delete', item.id)" />
+                <FilterGroupItem
+                    :key="item.id"
+                    :filter="item"
+                    @delete="emit('delete', item.id)"
+                />
             </div>
             <div v-else class="mt-3">
                 <FilterGroup
@@ -29,7 +35,8 @@ const emit = defineEmits(['addRule', 'addGroup', 'toggleOperator', 'delete']);
                     @add-rule="(itemId) => emit('addRule', itemId)"
                     @add-group="(itemId) => emit('addGroup', itemId)"
                     @toggle-operator="
-                        (itemId, operator) => emit('toggleOperator', itemId, operator)
+                        (itemId, operator) =>
+                            emit('toggleOperator', itemId, operator)
                     "
                     @delete="(itemId) => emit('delete', itemId)"
                 />
