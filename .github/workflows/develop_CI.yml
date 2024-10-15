@@ -25,6 +25,12 @@ jobs:
         with:
           node-version-file: ".nvmrc"
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint project
+        run: npm run lint
+
       - name: Cypress CI Run
         uses: cypress-io/github-action@v6
         with:
