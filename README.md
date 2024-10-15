@@ -1,8 +1,10 @@
 # IATI Datastore Search Web Application
 
-## Package install
+## Prerequisites
 
-To install:
+-   Node.js: get version from `.nvmrc` or if using [nvm](https://github.com/nvm-sh/nvm) run `nvm use`
+
+## Install dependencies
 
 `npm install`
 
