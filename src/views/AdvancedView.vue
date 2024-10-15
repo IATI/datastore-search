@@ -26,10 +26,9 @@ onUnmounted(() => {
             <p class="text-orange-600 text-left">
                 {{ $t('message.advanced_unavailable_para1') }}
             </p>
-            <p
-                class="pt-6 text-left"
-                v-html="$t('message.advanced_unavailable_para2')"
-            ></p>
+            <p class="pt-6 text-left">
+                {{ $t('message.advanced_unavailable_para2') }}
+            </p>
         </div>
         <div class="h-full split invisible advanced:visible">
             <div id="split-0"><SideBar /></div>
