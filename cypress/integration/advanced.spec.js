@@ -353,6 +353,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]')
+                .contains('List is empty.')
+                .should('not.be.visible');
             cy.get('[data-cy="field-selector"] input').type(
                 'Geospatial search{enter}',
             );
@@ -378,6 +381,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
+            cy.get('[data-cy="field-selector"]')
+                .contains('List is empty.')
+                .should('not.be.visible');
             cy.get('[data-cy="field-selector"] input').type(
                 'Sector Code{enter}',
             );
