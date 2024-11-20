@@ -4,7 +4,6 @@ import globals from 'globals';
 import eslintPluginCypress from 'eslint-plugin-cypress/flat';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginVue from 'eslint-plugin-vue';
-import ts from 'typescript-eslint';
 
 export default [
     gitignore(),
@@ -14,20 +13,15 @@ export default [
                 ...globals.node,
                 ...globals.browser,
             },
-        },
-    },
-    js.configs.recommended,
-    ...ts.configs.recommended,
-    eslintPluginCypress.configs.globals,
-    eslintPluginCypress.configs.recommended,
-    ...eslintPluginVue.configs['flat/recommended'],
-    {
-        files: ['*.vue', '**/*.vue'],
-        languageOptions: {
             parserOptions: {
-                parser: '@typescript-eslint/parser',
+                ecmaVersion: 2020,
+                sourceType: 'module',
             },
         },
     },
+    js.configs.recommended,
+    eslintPluginCypress.configs.globals,
+    eslintPluginCypress.configs.recommended,
+    ...eslintPluginVue.configs['flat/recommended'],
     eslintConfigPrettier,
 ];
