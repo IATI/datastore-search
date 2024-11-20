@@ -1,10 +1,6 @@
 <script setup>
 import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid';
 import AppButton from '../components/AppButton.vue';
-import i18n from '../i18n';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { t } = i18n.global;
 
 const props = defineProps({
     deletable: { type: Boolean, default: true },
