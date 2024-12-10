@@ -5,11 +5,11 @@ describe('The single activity view', () => {
         cy.fixture('activity_test').then((activity_test) => {
             cy.intercept(
                 'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,participating_org_narrative,participating_org_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,reporting_org_narrative_xml_lang,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-1%22',
-                activity_test
+                activity_test,
             );
             cy.intercept(
                 'https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,participating_org_narrative,participating_org_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,reporting_org_narrative_xml_lang,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-1%22',
-                activity_test
+                activity_test,
             );
         });
         cy.visit('/activity/XM-IATI-1');
@@ -21,16 +21,18 @@ describe('The single activity view', () => {
     });
 
     it('Activity page with blank fields renders with expected data', () => {
-        cy.fixture('activity_blank_fields_test').then((activity_blank_fields_test) => {
-            cy.intercept(
-                'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,participating_org_narrative,participating_org_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,reporting_org_narrative_xml_lang,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22',
-                activity_blank_fields_test
-            );
-            cy.intercept(
-                'https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,participating_org_narrative,participating_org_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,reporting_org_narrative_xml_lang,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22',
-                activity_blank_fields_test
-            );
-        });
+        cy.fixture('activity_blank_fields_test').then(
+            (activity_blank_fields_test) => {
+                cy.intercept(
+                    'https://dev-api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,participating_org_narrative,participating_org_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,reporting_org_narrative_xml_lang,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22',
+                    activity_blank_fields_test,
+                );
+                cy.intercept(
+                    'https://api.iatistandard.org/dss/activity/select?wt=json&sort=iati_identifier%20asc&fl=title_narrative,title_narrative_xml_lang,description_narrative,description_narrative_xml_lang,participating_org_narrative,participating_org_narrative_xml_lang,iati_identifier,last_updated_datetime,reporting_org_ref,reporting_org_narrative,reporting_org_narrative_xml_lang,activity_date*&rows=1&q=iati_identifier:%22XM-IATI-2%22',
+                    activity_blank_fields_test,
+                );
+            },
+        );
         cy.visit('/activity/XM-IATI-2');
         cy.contains('Title not provided');
         cy.contains('Description not provided');

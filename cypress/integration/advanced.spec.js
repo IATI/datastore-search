@@ -2,12 +2,12 @@
 
 describe('The advanced search', { testIsolation: false }, () => {
     beforeEach(() => {
-        cy.intercept('https://dev-api.iatistandard.org/dss/resources/filters?locale=en').as(
-            'getFilters'
-        );
-        cy.intercept('https://api.iatistandard.org/dss/resources/filters?locale=en').as(
-            'getFilters'
-        );
+        cy.intercept(
+            'https://dev-api.iatistandard.org/dss/resources/filters?locale=en',
+        ).as('getFilters');
+        cy.intercept(
+            'https://api.iatistandard.org/dss/resources/filters?locale=en',
+        ).as('getFilters');
         cy.visit('/');
         cy.wait('@getFilters');
     });
@@ -22,11 +22,11 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.fixture('simple_q_test').then((simple_q_test) => {
                 cy.intercept(
                     `https://dev-api.iatistandard.org/dss/activity/search?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=${query}&sort=score+desc`,
-                    simple_q_test
+                    simple_q_test,
                 );
                 cy.intercept(
                     `https://api.iatistandard.org/dss/activity/search?wt=json&fl=id%2Ctitle_narrative%2Ctitle_narrative_xml_lang%2Cdescription_narrative%2Cdescription_narrative_xml_lang%2Ciati_identifier%2Clast_updated_datetime%2Creporting_org_narrative%2Cactivity_date*&start=0&rows=10&hl=true&hl.method=unified&hl.fl=*_narrative&q=${query}&sort=score+desc`,
-                    simple_q_test
+                    simple_q_test,
                 );
             });
         });
@@ -62,7 +62,10 @@ describe('The advanced search', { testIsolation: false }, () => {
             const validate = (value) => {
                 cy.get('[data-cy="advanced-search-results"]').click();
                 cy.get('[data-cy="field-selector"]').should('be.visible');
-                cy.get('[data-cy="filter-text-input"]').should('have.value', value);
+                cy.get('[data-cy="filter-text-input"]').should(
+                    'have.value',
+                    value,
+                );
             };
             validate(query);
 
@@ -96,31 +99,45 @@ describe('The advanced search', { testIsolation: false }, () => {
             });
 
             it('adds a group when you click the Add Group button', () => {
-                cy.get('[data-cy="add-group"]').its('length').should('equal', 1);
+                cy.get('[data-cy="add-group"]')
+                    .its('length')
+                    .should('equal', 1);
                 cy.get('[data-cy="add-group"]').click();
-                cy.get('[data-cy="add-group"]').its('length').should('equal', 2);
+                cy.get('[data-cy="add-group"]')
+                    .its('length')
+                    .should('equal', 2);
             });
 
             it('can remove a nested group', () => {
                 cy.get('[data-cy="add-group"]').click();
-                cy.get('[data-cy="add-group"]').its('length').should('equal', 2);
+                cy.get('[data-cy="add-group"]')
+                    .its('length')
+                    .should('equal', 2);
                 cy.get('[data-cy="remove-group"]').click();
-                cy.get('[data-cy="add-group"]').its('length').should('equal', 1);
+                cy.get('[data-cy="add-group"]')
+                    .its('length')
+                    .should('equal', 1);
             });
 
             it('has a reset feature that requires confirmation', () => {
                 cy.get('[data-cy="add-rule"]').click();
                 cy.get('[data-cy="add-rule"]').click();
-                cy.get('[data-cy="field-selector"]').its('length').should('equal', 2);
+                cy.get('[data-cy="field-selector"]')
+                    .its('length')
+                    .should('equal', 2);
 
                 cy.get('[data-cy="reset-filters"]').click();
-                cy.get('[data-cy="field-selector"]').its('length').should('equal', 2); // confirm that a single click cannot reset
+                cy.get('[data-cy="field-selector"]')
+                    .its('length')
+                    .should('equal', 2); // confirm that a single click cannot reset
             });
 
             it('clears filters when a reset is confirmed', () => {
                 cy.get('[data-cy="add-rule"]').click();
                 cy.get('[data-cy="add-rule"]').click();
-                cy.get('[data-cy="field-selector"]').its('length').should('equal', 2);
+                cy.get('[data-cy="field-selector"]')
+                    .its('length')
+                    .should('equal', 2);
 
                 cy.get('[data-cy="reset-filters"]').dblclick();
                 cy.contains('Select field').should('not.exist');
@@ -135,7 +152,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             Cypress.config('baseUrl') === 'https://datastore.iatistandard.org'
                 ? 'https://api.iatistandard.org/dss/activity/select'
                 : 'https://dev-api.iatistandard.org/dss/activity/select';
-        const urlSuffix = '&sort=score desc';
         const buildRouteMatcher = (query) => ({ url: `${baseUrl}*`, query });
 
         beforeEach(() => {
@@ -148,15 +164,15 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can add, validate & run boolean rules', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Humanitarian').click();
             cy.get('[data-cy="run-filters"]').click();
             cy.contains('Selection is required');
             cy.get('button:contains("TRUE")').click();
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildRouteMatcher({ q: '(humanitarian:true)' }), advanced_q_test).as(
-                    'booleanQuery'
-                );
+                cy.intercept(
+                    buildRouteMatcher({ q: '(humanitarian:true)' }),
+                    advanced_q_test,
+                ).as('booleanQuery');
                 cy.get('[data-cy="run-filters"]').click();
                 cy.wait('@booleanQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
@@ -169,7 +185,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Activity Date Iso Date').click();
 
             cy.get('[data-cy="filter-date-input"]').click();
@@ -180,7 +195,7 @@ describe('The advanced search', { testIsolation: false }, () => {
                     buildRouteMatcher({
                         q: '(activity_date_iso_date:"2022-01-31T00:00:00Z")',
                     }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('dateQuery');
 
                 cy.get('[data-cy="run-filters"]').click({ force: true });
@@ -195,7 +210,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Hierarchy').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
@@ -203,9 +217,10 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="filter-number-input"]').type(1);
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildRouteMatcher({ q: '(hierarchy:"1")' }), advanced_q_test).as(
-                    'integerQuery'
-                );
+                cy.intercept(
+                    buildRouteMatcher({ q: '(hierarchy:"1")' }),
+                    advanced_q_test,
+                ).as('integerQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@integerQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
@@ -218,7 +233,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Sector Percentage').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Value is required');
@@ -228,7 +242,7 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     buildRouteMatcher({ q: '(sector_percentage:"99.9")' }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('numberQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@numberQuery').then((interception) => {
@@ -242,17 +256,19 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Budget Type').click();
             cy.get('[data-cy="run-filters"]').click({ force: true });
             cy.contains('Selection is required');
 
-            cy.get('[data-cy="filter-select-input"] select').select('2 - Revised');
+            cy.get('[data-cy="filter-select-input"] select').select(
+                '2 - Revised',
+            );
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildRouteMatcher({ q: '(budget_type:2)' }), advanced_q_test).as(
-                    'selectQuery'
-                );
+                cy.intercept(
+                    buildRouteMatcher({ q: '(budget_type:2)' }),
+                    advanced_q_test,
+                ).as('selectQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@selectQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
@@ -263,14 +279,13 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can add, validate & run text rules', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     buildRouteMatcher({ q: '(title_narrative:(Hello world))' }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('textQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@textQuery').then((interception) => {
@@ -288,7 +303,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             addRuleCount++;
             cy.contains('Select field').click();
             selectFieldCount++;
-            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
@@ -297,7 +311,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="group-or"').eq(1).click({ force: true });
 
             // add field to new group
-            cy.get('[data-cy="add-rule"]').eq(addRuleCount).click({ force: true });
+            cy.get('[data-cy="add-rule"]')
+                .eq(addRuleCount)
+                .click({ force: true });
             cy.contains('Select field').click({ force: true });
             cy.get('[data-cy="field-selector"] input')
                 .eq(selectFieldCount)
@@ -306,7 +322,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('button:contains("TRUE")').click({ force: true });
 
             // add field to new group
-            cy.get('[data-cy="add-rule"]').eq(addRuleCount).click({ force: true });
+            cy.get('[data-cy="add-rule"]')
+                .eq(addRuleCount)
+                .click({ force: true });
             addRuleCount++;
             cy.contains('Select field').click({ force: true });
             cy.get('[data-cy="field-selector"] input')
@@ -321,7 +339,7 @@ describe('The advanced search', { testIsolation: false }, () => {
                     buildRouteMatcher({
                         q: '(title_narrative:(Hello world) AND (humanitarian:true OR activity_date_iso_date:"2022-01-31T00:00:00Z"))',
                     }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('groupQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@groupQuery').then((interception) => {
@@ -335,15 +353,20 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
-            cy.get('[data-cy="field-selector"] input').type('Geospatial search{enter}');
+            cy.get('[data-cy="field-selector"]')
+                .contains('List is empty.')
+                .should('not.be.visible');
+            cy.get('[data-cy="field-selector"] input').type(
+                'Geospatial search{enter}',
+            );
             cy.get('button:contains("Open map")').click();
-            cy.wait(1000);
             cy.get('button:contains("Apply")').click();
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
-                    buildRouteMatcher({ q: '(location_point_latlon:[-31.7,-45.0 TO 31.7,45.0])' }),
+                    buildRouteMatcher({
+                        q: '(location_point_latlon:[-31.7,-45.0 TO 31.7,45.0])',
+                    }),
                     advanced_q_test,
                 ).as('spatialQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
@@ -358,14 +381,19 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.clock(now);
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
-            cy.get('[data-cy="field-selector"] input').type('Sector Code{enter}');
+            cy.get('[data-cy="field-selector"]')
+                .contains('List is empty.')
+                .should('not.be.visible');
+            cy.get('[data-cy="field-selector"] input').type(
+                'Sector Code{enter}',
+            );
             cy.get('[data-cy="filter-combo-input"] input').type('11110');
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
-                cy.intercept(buildRouteMatcher({ q: '(sector_code:(11110))' }), advanced_q_test).as(
-                    'comboQuery'
-                );
+                cy.intercept(
+                    buildRouteMatcher({ q: '(sector_code:(11110))' }),
+                    advanced_q_test,
+                ).as('comboQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@comboQuery').then((interception) => {
                     cy.wrap(interception.response.statusCode).should('eq', 200);
@@ -376,7 +404,6 @@ describe('The advanced search', { testIsolation: false }, () => {
         it('can export and import filters', () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Humanitarian').click();
             cy.get('button:contains("TRUE")').click();
 
@@ -396,15 +423,19 @@ describe('The advanced search', { testIsolation: false }, () => {
                         mimeType: 'application/json',
                     });
                     cy.get('[data-cy="import-filters"]').click();
-                    cy.wait(1000);
                     cy.fixture('advanced_q_test').then((advanced_q_test) => {
                         cy.intercept(
                             buildRouteMatcher({ q: '(humanitarian:true)' }),
-                            advanced_q_test
+                            advanced_q_test,
                         ).as('eximQuery');
-                        cy.get('[data-cy="run-filters"]').click({ force: true });
+                        cy.get('[data-cy="run-filters"]').click({
+                            force: true,
+                        });
                         cy.wait('@eximQuery').then((interception) => {
-                            cy.wrap(interception.response.statusCode).should('eq', 200);
+                            cy.wrap(interception.response.statusCode).should(
+                                'eq',
+                                200,
+                            );
                         });
                     });
                 });
@@ -418,14 +449,13 @@ describe('The advanced search', { testIsolation: false }, () => {
 
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
-            cy.wait(1000);
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('Hello world');
 
             cy.fixture('advanced_q_test').then((advanced_q_test) => {
                 cy.intercept(
                     buildRouteMatcher({ q: '(title_narrative:(Hello world))' }),
-                    advanced_q_test
+                    advanced_q_test,
                 ).as('textQuery');
                 cy.get('[data-cy="run-filters"]').click({ force: true });
                 cy.wait('@textQuery').then((interception) => {
@@ -447,7 +477,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.get('[data-cy="field-selector"]').last().contains('Sector Code');
-            cy.get('[data-cy="field-selector"]').last().type('Sector Code{enter}');
+            cy.get('[data-cy="field-selector"]')
+                .last()
+                .type('Sector Code{enter}');
             cy.get('[data-cy="filter-combo-input"]').last().type('11120');
 
             // Export
@@ -490,7 +522,9 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.get('[data-cy="field-selector"]').last().contains('Sector Code');
-            cy.get('[data-cy="field-selector"]').last().type('Sector Code{enter}');
+            cy.get('[data-cy="field-selector"]')
+                .last()
+                .type('Sector Code{enter}');
             cy.get('[data-cy="filter-combo-input"]').last().type('11120');
 
             // Run the filter
@@ -520,9 +554,15 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="export-filters"]').should('be.visible');
 
             // Assert that all three ORs are still set
-            cy.get('[data-cy="group-or"]').eq(0).should('have.class', 'bg-blue-300');
-            cy.get('[data-cy="group-or"]').eq(1).should('have.class', 'bg-blue-300');
-            cy.get('[data-cy="group-or"]').eq(2).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]')
+                .eq(0)
+                .should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]')
+                .eq(1)
+                .should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]')
+                .eq(2)
+                .should('have.class', 'bg-blue-300');
         });
 
         it('persists filters correctly after export (2)', () => {
@@ -542,9 +582,15 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="export-filters"]').should('be.visible');
 
             // Assert that all three ORs are still set
-            cy.get('[data-cy="group-and"]').eq(0).should('have.class', 'bg-blue-300');
-            cy.get('[data-cy="group-or"]').eq(1).should('have.class', 'bg-blue-300');
-            cy.get('[data-cy="group-and"]').eq(2).should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-and"]')
+                .eq(0)
+                .should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-or"]')
+                .eq(1)
+                .should('have.class', 'bg-blue-300');
+            cy.get('[data-cy="group-and"]')
+                .eq(2)
+                .should('have.class', 'bg-blue-300');
         });
     });
 });

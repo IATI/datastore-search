@@ -19,7 +19,8 @@ export default {
         contact: 'Contact',
         twitter_aria: 'lien vers la page twitter de l’iita',
         linkedin_aria: 'lien vers la page linkedin de l’iita',
-        about_iati_datastore_search: 'À propos de la recherche dans la banque de données de l’IITA',
+        about_iati_datastore_search:
+            'À propos de la recherche dans la banque de données de l’IITA',
         about_para_1:
             '\n            L’<a\n                class="hover:underline text-iati-grey"\n                href="https://iatistandard.org"\n                >Initiative internationale pour la transparence de l’aide (IITA)</a> est une initiative mondiale visant à améliorer la transparence des ressources allouées au développement et à l’action humanitaire et de leurs résultats en matière de lutte contre les crises et la pauvreté. Elle propose une norme XML ouverte permettant à toute entité octroyant ou utilisant des ressources dans le domaine du développement international de publier des informations détaillées sur ses activités. La banque de données de l’IITA comprend toutes les données connues du <a\n                class="hover:underline text-iati-grey"\n                href="https://www.iatiregistry.org/"\n                >registre de l’IITA</a> en version 2.0 (ou ultérieure) et conformes au schéma de l’IITA pour les données XML. Les fichiers qui ne sont pas conformes au schéma de l’IITA pour les données XML sont indiqués comme non valides dans l’<a\n                class="hover:underline text-iati-grey"\n                href="https://iativalidator.iatistandard.org/"\n                >outil de validation de l’IITA</a>. La <a href="/" class="hover:underline text-iati-grey"\n                >recherche dans la banque de données</a> permet à toute personne d’effectuer une recherche dans la banque de données de l’IITA, puis de télécharger les résultats aux formats JSON, CSV ou XML de l’IITA.',
         about_para_2:
@@ -45,7 +46,8 @@ export default {
         download_confirmation_5a: 'éléments de base au format %{format} ?',
         download_confirmation_5b:
             '\n            éléments de base au format CSV optimisé pour Excel* ?<br /><br /><span\n                class="text-sm"\n                >* L’ouverture du fichier Excel s’effectuera avec un encodage et un formatage corrects, mais les cellules de plus de 32 700 caractères seront tronquées.</span>\n',
-        download_confirmation_5c: 'dans un document d’activités de l’IITA au format XML ?',
+        download_confirmation_5c:
+            'dans un document d’activités de l’IITA au format XML ?',
         cancel: 'Annuler',
         view: 'Afficher',
         view_on: 'Afficher sur',
@@ -66,7 +68,8 @@ export default {
             '\n            La page de filtre avancé n’est malheureusement pas prise en charge par les appareils dont l’écran est trop petit.',
         advanced_unavailable_para2:
             '\n            Veuillez <a href="/simple" class="text-underline text-blue"\n                >effectuer une recherche simple</a> ou utiliser un appareil doté d’un écran plus grand.',
-        run_aria: 'Exécuter la requête de recherche avec les filtres sélectionnés',
+        run_aria:
+            'Exécuter la requête de recherche avec les filtres sélectionnés',
         run: 'Exécuter',
         export_aria: 'Exporter les filtres vers le fichier',
         export: 'Exporter',
@@ -77,7 +80,8 @@ export default {
         add_filter: 'Ajouter un filtre',
         import_filters: 'Importer des filtres',
         export_filters: 'Exporter des filtres',
-        export_para1: 'Exporter les filtres actuellement sélectionnés vers le fichier ?',
+        export_para1:
+            'Exporter les filtres actuellement sélectionnés vers le fichier ?',
         export_para2:
             '\n            Cette action vous permettra de les importer ultérieurement pour exécuter la même requête ou pour les partager avec d’autres utilisateurs.',
         import_para1: 'Importer les filtres à partir du fichier ?',
@@ -105,7 +109,8 @@ export default {
         identifier: 'Identifiant',
         sort_identifier_label: 'Trier les résultats par identifiant de l’IITA',
         all_narratives: 'All Narratives',
-        all_narratives_desc: 'Searches all IATI narrative fields, used by simple search',
+        all_narratives_desc:
+            'Searches all IATI narrative fields, used by simple search',
         boolean_grouping: 'Boolean Grouping',
         boolean_grouping_desc:
             'Parenthesis for grouping boolean queries. Ensure every opening parenthesis is matched with a closing parenthesis',
@@ -120,13 +125,15 @@ export default {
         date_is_required: 'La date est obligatoire.',
         is_not_allowed:
             '%{bad} n’est pas autorisé pour les requêtes de recherche dans la banque de données.',
-        percentage_validation: 'Le pourcentage doit être compris entre 0 et 100.',
+        percentage_validation:
+            'Le pourcentage doit être compris entre 0 et 100.',
         integer_validation: 'La valeur doit être un nombre entier.',
         fetch_error:
             'Une erreur s’est produite lors du traitement de votre requête. Veuillez vérifier la formulation de votre requête puis essayez à nouveau.',
         search_term: 'Terme de recherche',
         spatial_search: 'Geospatial search',
-        location_point_latlon_desc: 'Spatial search on location/point/pos latitude and longitude',
+        location_point_latlon_desc:
+            'Spatial search on location/point/pos latitude and longitude',
         latlon_placeholder: 'X1,Y1 À X2,Y2',
         use_map: 'Ouvrir la carte',
         pan_and_zoom:

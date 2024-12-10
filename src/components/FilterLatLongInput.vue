@@ -7,13 +7,18 @@ const global = inject('global');
 
 watch(global.state.bbox, () => {
     if (global.state.bbox.filterId === props.filter.id) {
-        const { southWestLat, southWestLon, displayPrecision, northEastLat, northEastLon } =
-            global.state.bbox;
+        const {
+            southWestLat,
+            southWestLon,
+            displayPrecision,
+            northEastLat,
+            northEastLon,
+        } = global.state.bbox;
         if (southWestLat && southWestLon && northEastLat && northEastLon) {
             const value = `[${southWestLat.toFixed(displayPrecision)},${southWestLon.toFixed(
-                displayPrecision
+                displayPrecision,
             )} TO ${northEastLat.toFixed(displayPrecision)},${northEastLon.toFixed(
-                displayPrecision
+                displayPrecision,
             )}]`;
 
             emits('change', value);
