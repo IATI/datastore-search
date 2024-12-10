@@ -38,12 +38,12 @@ export default {
         download_results_file: 'Télécharger le fichier de résultats',
         download_confirmation_1: 'Télécharger',
         download_confirmation_2a: 'cette activité de l’IITA',
-        download_confirmation_2b: '%{count} résultats',
+        download_confirmation_2b: '{count} résultats',
         download_confirmation_3: 'depuis cette',
         download_confirmation_4a: 'Activité',
         download_confirmation_4b: 'Transaction',
         download_confirmation_4c: 'Budget',
-        download_confirmation_5a: 'éléments de base au format %{format} ?',
+        download_confirmation_5a: 'éléments de base au format {format} ?',
         download_confirmation_5b:
             '\n            éléments de base au format CSV optimisé pour Excel* ?<br /><br /><span\n                class="text-sm"\n                >* L’ouverture du fichier Excel s’effectuera avec un encodage et un formatage corrects, mais les cellules de plus de 32 700 caractères seront tronquées.</span>\n',
         download_confirmation_5c:
@@ -93,9 +93,9 @@ export default {
         select_field: 'Sélectionner un champ',
         true: 'TRUE',
         false: 'FALSE',
-        select_from_codes: 'Sélectionner parmi les codes %{name}',
+        select_from_codes: 'Sélectionner parmi les codes {name}',
         found_matching_iati_activities:
-            '<b>%{count}</b> activités de l’IITA correspondantes ont été trouvées.',
+            '<b>{count}</b> activités de l’IITA correspondantes ont été trouvées.',
         sort: 'Trier',
         no_match:
             'Aucune activité de l’IITA correspondante n’a été trouvée. Veuillez effectuer une nouvelle recherche.',
@@ -103,7 +103,7 @@ export default {
         not_found_para:
             '\n            Malheureusement, nous n’avons pas pu trouver cette page. Veuillez retourner à la page d’<a class="hover:underline" href="/">Accueil</a>',
         advanced: 'Avancé',
-        found_activities: '<b>%{count}</b> activités ont été trouvées.',
+        found_activities: '<b>{count}</b> activités ont été trouvées.',
         relevance: 'Pertinence',
         sort_relevance_label: 'Trier par pertinence',
         identifier: 'Identifiant',
@@ -124,7 +124,7 @@ export default {
         value_is_required: 'La valeur est obligatoire.',
         date_is_required: 'La date est obligatoire.',
         is_not_allowed:
-            '%{bad} n’est pas autorisé pour les requêtes de recherche dans la banque de données.',
+            '{bad} n’est pas autorisé pour les requêtes de recherche dans la banque de données.',
         percentage_validation:
             'Le pourcentage doit être compris entre 0 et 100.',
         integer_validation: 'La valeur doit être un nombre entier.',
