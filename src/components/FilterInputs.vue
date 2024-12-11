@@ -14,7 +14,12 @@ const global = inject('global');
 const route = useRoute();
 const router = useRouter();
 
-let group = reactive({ id: uuidv4(), type: 'group', operator: 'AND', items: [] });
+let group = reactive({
+    id: uuidv4(),
+    type: 'group',
+    operator: 'AND',
+    items: [],
+});
 
 // alternative value for variant is "closing"
 const getBracketFilter = (variant = 'opening', joinOperator = 'AND') => {
@@ -28,10 +33,14 @@ const getBracketFilter = (variant = 'opening', joinOperator = 'AND') => {
     };
 };
 const getFiltersFromGroup = (group, parentGroupOperator) => {
-    return [getBracketFilter('opening', parentGroupOperator || group.operator)].concat(
+    return [
+        getBracketFilter('opening', parentGroupOperator || group.operator),
+    ].concat(
         group.items.reduce((filters, item) => {
             if (item.type === 'group') {
-                return filters.concat(getFiltersFromGroup(item, group.operator));
+                return filters.concat(
+                    getFiltersFromGroup(item, group.operator),
+                );
             }
             item.joinOperator = group.operator;
             return filters.concat(item);
@@ -161,7 +170,7 @@ const populateGroupFromFilters = (filters, group, startIndex = 0) => {
                     group.items.push(nestedGroup);
                     nextIndex = nestedIndex + 1;
                 } else if (item.value === ')') {
-                    group.operator = item.joinOperator
+                    group.operator = item.joinOperator;
                     nextIndex = index;
                 } else {
                     nextIndex++;
@@ -198,7 +207,10 @@ onBeforeMount(() => {
             :deletable="false"
             @add-rule="(groupId) => onAddRule(group, groupId)"
             @add-group="(groupId) => onAddGroup(group, groupId)"
-            @toggle-operator="(groupId, operator) => onToggleOperator(group, groupId, operator)"
+            @toggle-operator="
+                (groupId, operator) =>
+                    onToggleOperator(group, groupId, operator)
+            "
             @delete="(itemId) => onDeleteItem(group, itemId)"
         />
     </div>

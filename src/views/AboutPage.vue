@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
     <div class="flex flex-col h-full min-w-fit sm:min-w-0">
         <div class="text-left">
@@ -5,6 +6,7 @@
                 <h1 class="text-2xl border-b pb-2 mt-10">
                     {{ $t('message.about_iati_datastore_search') }}
                 </h1>
+                <!-- eslint-disable vue/no-v-html -->
                 <p class="mt-5" v-html="$t('message.about_para_1')"></p>
                 <p class="mt-5 ml-10" v-html="$t('message.about_para_2')"></p>
                 <p class="mt-5 ml-10" v-html="$t('message.about_para_3')"></p>
@@ -13,6 +15,7 @@
                     class="mt-5 border-b pb-4"
                     v-html="$t('message.about_para_5')"
                 ></p>
+                <!-- eslint-enable vue/no-v-html -->
             </div>
         </div>
     </div>

@@ -16,8 +16,14 @@ const global = inject('global');
 
             <div class="mt-1">
                 <!-- eslint-disable vue/no-v-html -->
-                <p class="mb-4 mt-2 text-left text-md" v-html="$t('message.export_para1')"></p>
-                <p class="mb-4 mt-2 text-left text-sm" v-html="$t('message.export_para2')"></p>
+                <p
+                    class="mb-4 mt-2 text-left text-md"
+                    v-html="$t('message.export_para1')"
+                ></p>
+                <p
+                    class="mb-4 mt-2 text-left text-sm"
+                    v-html="$t('message.export_para2')"
+                ></p>
                 <!-- eslint-enable vue/no-v-html -->
                 <div class="flex justify-between">
                     <button

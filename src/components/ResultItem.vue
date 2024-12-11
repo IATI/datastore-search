@@ -30,7 +30,10 @@
                 {{ $t('message.planned_start') }}:
                 <b v-html="prettyDate(doc.plannedStart)"></b>
             </div>
-            <div v-if="!doc.actualStart && !doc.plannedStart" class="meta"></div>
+            <div
+                v-if="!doc.actualStart && !doc.plannedStart"
+                class="meta"
+            ></div>
             <div v-if="doc.actualEnd" class="meta ml-5">
                 {{ $t('message.actual_end') }}:
                 <b v-html="prettyDate(doc.actualEnd)"></b>
@@ -39,7 +42,10 @@
                 {{ $t('message.planned_end') }}:
                 <b v-html="prettyDate(doc.plannedEnd)"></b>
             </div>
-            <div v-if="!doc.actualEnd && !doc.plannedEnd" class="meta ml-5"></div>
+            <div
+                v-if="!doc.actualEnd && !doc.plannedEnd"
+                class="meta ml-5"
+            ></div>
         </div>
         <div class="border-b pb-2 text-sm">
             <span v-html="doc.highlighting"></span>

@@ -14,7 +14,9 @@ import LanguageSelector from './LanguageSelector.vue';
                         class="bg-logo-white h-12 bg-contain block bg-no-repeat lg:bg-left bg-center"
                     ></a>
                 </div>
-                <div class="inline-block h-full my-2 align-middle w-full md:w-1/2 lg:w-1/3">
+                <div
+                    class="inline-block h-full my-2 align-middle w-full md:w-1/2 lg:w-1/3"
+                >
                     <h1 class="text-3xl mt-1 md:mt-4 pb-3">
                         <a href="/">
                             <b>{{ $t('message.datastore_search') }}</b>
@@ -25,8 +27,15 @@ import LanguageSelector from './LanguageSelector.vue';
                 <div
                     class="inline-flex items-center mx-2 lg:mx-0 justify-around lg:justify-between h-full my-2 align-middle w-full md:w-1/2 lg:w-1/3"
                 >
-                    <nav :aria-label="$t('message.navigation')" class="md:mt-5 text-xl">
-                        <router-link v-if="$route.path !== '/'" to="/" class="hover:underline">
+                    <nav
+                        :aria-label="$t('message.navigation')"
+                        class="md:mt-5 text-xl"
+                    >
+                        <router-link
+                            v-if="$route.path !== '/'"
+                            to="/"
+                            class="hover:underline"
+                        >
                             {{ $t('message.simple_search') }}
                         </router-link>
                         <a
@@ -41,7 +50,10 @@ import LanguageSelector from './LanguageSelector.vue';
                             href="https://developer.iatistandard.org/api-details#api=datastore"
                             >{{ $t('message.api') }}</a
                         >
-                        <a class="hover:underline border-l pl-2 ml-2" href="/about">
+                        <a
+                            class="hover:underline border-l pl-2 ml-2"
+                            href="/about"
+                        >
                             {{ $t('message.about') }}
                         </a>
                     </nav>
