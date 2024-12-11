@@ -115,12 +115,12 @@ export default {
         download_results_file: 'Download Results File',
         download_confirmation_1: 'Download',
         download_confirmation_2a: 'this IATI Activity',
-        download_confirmation_2b: '%{count} results',
+        download_confirmation_2b: '{count} results',
         download_confirmation_3: 'from the',
         download_confirmation_4a: 'Activity',
         download_confirmation_4b: 'Transaction',
         download_confirmation_4c: 'Budget',
-        download_confirmation_5a: 'core in %{format} format?',
+        download_confirmation_5a: 'core in {format} format?',
         download_confirmation_5b: `
             core in Excel-optimised* CSV format?<br /><br /><span
                 class="text-sm"
@@ -189,9 +189,9 @@ export default {
         select_field: 'Select field',
         true: 'TRUE',
         false: 'FALSE',
-        select_from_codes: 'Select from %{name} codes',
+        select_from_codes: 'Select from {name} codes',
         found_matching_iati_activities:
-            'Found <b>%{count}</b> matching IATI activities',
+            'Found <b>{count}</b> matching IATI activities',
         sort: 'Sort',
         no_match: 'No matching IATI Activities - please try a different search',
         not_found: 'Not Found',
@@ -200,7 +200,7 @@ export default {
             <a class="hover:underline" href="/">Home</a>
         `,
         advanced: 'Advanced',
-        found_activities: 'Found <b>%{count}</b> activities',
+        found_activities: 'Found <b>{count}</b> activities',
         results_by_advanced_search:
             'Results filtered by advanced parameters. See <b>Advanced Search</b> tab for more details.',
         relevance: 'Relevance',
@@ -224,7 +224,7 @@ export default {
         selection_is_required: 'Selection is required',
         value_is_required: 'Value is required',
         date_is_required: 'Date is required',
-        is_not_allowed: '%{bad} is not allowed for Datastore Search queries',
+        is_not_allowed: '{bad} is not allowed for Datastore Search queries',
         percentage_validation: 'Percentage must be between 0 and 100',
         integer_validation: 'Value must be a whole number',
         fetch_error:

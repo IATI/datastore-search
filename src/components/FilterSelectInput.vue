@@ -41,17 +41,18 @@ const global = inject('global');
                 :value="filter.value"
                 @change="(event) => emits('changeValue', event)"
             >
+                <!-- eslint-disable vue/no-v-html -->
                 <option
                     disabled
                     value=""
                     :selected="global.dropdownStateBlank(filter.id)"
-                >
-                    {{
+                    v-html="
                         $t('message.select_from_codes', {
                             name: filter.selectedOption.codelistMeta.name,
                         })
-                    }}
-                </option>
+                    "
+                ></option>
+                <!-- eslint-enable vue/no-v-html -->
                 <option
                     v-for="(valueOption, index) in filter.selectedOption
                         .options"
