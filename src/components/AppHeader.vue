@@ -52,7 +52,11 @@ import LanguageSelector from './LanguageSelector.vue';
                         >
                         <a
                             class="hover:underline border-l pl-2 ml-2"
-                            href="/about"
+                            :href="
+                                'https://docs.datastore.iatistandard.org/' +
+                                $i18n.locale +
+                                '/latest'
+                            "
                         >
                             {{ $t('message.about') }}
                         </a>
