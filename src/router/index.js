@@ -1,18 +1,12 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import LandingView from '../views/LandingView.vue';
 import ActivityView from '../views/ActivityView.vue';
-import AboutPage from '../views/AboutPage.vue';
 
 const routes = [
     {
         path: '/',
         name: 'landing',
         component: LandingView,
-    },
-    {
-        path: '/about',
-        name: 'about',
-        component: AboutPage,
     },
     {
         path: '/activity/:iati_identifier',

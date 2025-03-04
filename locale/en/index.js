@@ -7,7 +7,7 @@ export default {
         simple_search: 'Search',
         advanced_search: 'Advanced Search',
         api: 'API',
-        about: 'About',
+        about: 'Help',
         search: 'Search',
         search_iati_data: 'Search IATI data',
         search_iati_activities: 'Search IATI Activities...',
