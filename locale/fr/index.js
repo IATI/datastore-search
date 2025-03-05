@@ -7,7 +7,7 @@ export default {
         simple_search: 'Recherche',
         advanced_search: 'Recherche avancée',
         api: 'API',
-        about: 'À propos',
+        about: 'Aide',
         search: 'Recherche',
         search_iati_data: 'Rechercher dans les données de l’IITA',
         search_iati_activities: 'Rechercher dans les activités de l’IITA',
