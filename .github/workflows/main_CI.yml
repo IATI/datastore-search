@@ -32,7 +32,7 @@ jobs:
         run: npm run lint
 
       - name: Cypress CI Run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           command-prefix: "--"
           build: npm run build:development
