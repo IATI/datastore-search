@@ -42,25 +42,24 @@
         "vue": "^3.5.13",
         "vue-i18n": "^10.0.5",
         "vue-multiselect": "^3.1.0",
-        "vue-router": "^4.5.0",
+        "vue-router": "^5.0.0",
         "vue3-datepicker": "^0.4.0"
     },
     "devDependencies": {
         "@types/leaflet": "^1.9.15",
         "@types/leaflet.markercluster": "^1.5.5",
         "@vitejs/plugin-vue": "^3.2.0",
-        "@vue/cli-plugin-router": "~5.0.8",
         "autoprefixer": "^10.4.20",
         "cypress": "^13.16.0",
         "cypress-file-upload": "^5.0.8",
         "eslint": "^8.57.0",
         "eslint-config-flat-gitignore": "^0.1.5",
         "eslint-config-prettier": "^9.1.0",
-        "eslint-plugin-vue": "^9.32.0",
         "eslint-plugin-cypress": "^3.5.0",
+        "eslint-plugin-vue": "^9.32.0",
         "globals": "^15.11.0",
         "husky": "^8.0.3",
-        "lint-staged": "^14.0.1",
+        "lint-staged": "^17.0.0",
         "postcss": "^8.4.49",
         "prettier": "3.4.2",
         "serve": "^14.2.4",
@@ -73,7 +72,7 @@
         "*": "npm run format"
     },
     "engines": {
-        "node": "20.x.x",
-        "npm": "10.x.x"
+        "node": "24.x.x",
+        "npm": "11.x.x"
     }
 }
