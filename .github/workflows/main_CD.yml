@@ -12,10 +12,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4.2.0
+        uses: actions/setup-node@v6.4.0
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
@@ -37,9 +37,9 @@ jobs:
           echo -e 'User-agent: *\nDisallow:\nSitemap: https://datastore.iatistandard.org/sitemap-index.xml\n' > dist/robots.txt
 
       - name: Upload to blob storage
-        uses: azure/CLI@v1
+        uses: azure/cli@v2
         with:
-          azcliversion: 2.34.0
+          azcliversion: 2.65.0
           inlineScript: |
             az storage blob upload-batch \
             --overwrite true \
@@ -52,16 +52,16 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4.2.0
+        uses: actions/setup-node@v6.4.0
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
 
       - name: Cypress CI Run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           wait-on: "https://datastore.iatistandard.org"
           config-file: cypress.config.prod.js
