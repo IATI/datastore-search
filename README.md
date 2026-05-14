@@ -1,5 +1,16 @@
 # IATI Datastore Search Web Application
 
+## Summary
+
+| Product          | Datastore Services API                                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Description      | Single-page Vue app that is the frontend for the IATI Datastore.                                                               |
+| Website          | [https://datastore.iatistandard.org](https://datastore.iatistandard.org)                                                       |
+| Related          | [IATI Datastore Services](https://github.com/IATI/datastore-services), [IATI Validator](https://github.com/IATI/validator-web) |
+| Documentation    | [https://developer.iatistandard.org/](https://developer.iatistandard.org/)                                                     |
+| Technical Issues | https://github.com/IATI/datastore-search/issues                                                                                |
+| Support          | https://iatistandard.org/en/guidance/get-support/                                                                              |
+
 ## Prerequisites
 
 - Node.js: get version from `.nvmrc` or if using [nvm](https://github.com/nvm-sh/nvm) run `nvm use`
@@ -30,7 +41,7 @@ To make a production build using (`./envs/.env.production` vars):
 
 `npm run build:production`
 
-To serve a production build locally for testing:
+To serve a production build locally for testing (NOTE: running the above servers will may not be suitable for running the tests against because they are significantly slower and the tests include some timed tests):
 
 `npm run serve`
 
