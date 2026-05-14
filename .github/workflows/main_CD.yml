@@ -37,9 +37,9 @@ jobs:
           echo -e 'User-agent: *\nDisallow:\nSitemap: https://datastore.iatistandard.org/sitemap-index.xml\n' > dist/robots.txt
 
       - name: Upload to blob storage
-        uses: azure/cli@v2
+        uses: azure/cli@v3
         with:
-          azcliversion: 2.65.0
+          azcliversion: 2.86.0
           inlineScript: |
             az storage blob upload-batch \
             --overwrite true \
