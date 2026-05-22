@@ -54,7 +54,7 @@
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-cypress": "^3.5.0",
         "eslint-plugin-vue": "^9.32.0",
-        "globals": "^15.11.0",
+        "globals": "^17.6.0",
         "husky": "^9.1.7",
         "lint-staged": "^17.0.0",
         "pofile": "^1.1.4",
