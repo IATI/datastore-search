@@ -106,6 +106,7 @@ const state = reactive({
         fileLoading: false,
         showModal: false,
         selectedFormat: null,
+        maxDownloadResults: 110000, //Larger downloads time out datastore-services, see issue #955
     },
     export: {
         showModal: false,
@@ -1109,6 +1110,17 @@ const downloadFile = async (format, iid = null, core = 'activity') => {
 
     if (format === 'XML') {
         core = 'activity';
+    }
+
+    if (
+        iid === null &&
+        state.responseTotal > state.download.maxDownloadResults
+    ) {
+        alert(
+            `Sorry, this search has too many results (${state.responseTotal}) to download. Please narrow your search, or use the API for larger datasets.`,
+        );
+        toggleDownloadModal(null);
+        return;
     }
 
     let query = null;

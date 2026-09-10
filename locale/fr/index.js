@@ -48,6 +48,9 @@ export default {
             '\n            éléments de base au format CSV optimisé pour Excel* ?<br /><br /><span\n                class="text-sm"\n                >* L’ouverture du fichier Excel s’effectuera avec un encodage et un formatage corrects, mais les cellules de plus de 32 700 caractères seront tronquées.</span>\n',
         download_confirmation_5c:
             'dans un document d’activités de l’IITA au format XML ?',
+        download_limit_exceeded: 'Téléchargement indisponible',
+        download_limit_exceeded_detail:
+            'Cette recherche contient {count} résultats, ce qui dépasse la limite de téléchargement de {max}. Veuillez affiner votre recherche ou utiliser l’API pour les ensembles de données plus volumineux.',
         cancel: 'Annuler',
         view: 'Afficher',
         view_on: 'Afficher sur',
