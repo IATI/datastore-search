@@ -84,11 +84,17 @@ const onSearch = (query) => {
                         v-if="global.state.responseTotal > 0"
                         class="flex justify-left items-center mt-2 sm:m-1"
                     >
-                        <DownloadButtons />
+                        <DownloadButtons
+                            description-id="download-limit-detail"
+                        />
                     </div>
                 </div>
             </div>
-            <div v-if="overDownloadLimit" class="mb-3 text-sm text-gray-700">
+            <div
+                v-if="overDownloadLimit"
+                id="download-limit-detail"
+                class="mb-3 text-sm"
+            >
                 {{
                     $t('message.download_limit_exceeded_detail', {
                         max: formatNumber(

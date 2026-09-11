@@ -3,6 +3,7 @@ import {
     ArrowDownIcon,
     ArrowDownTrayIcon,
     ChevronDownIcon,
+    NoSymbolIcon,
 } from '@heroicons/vue/20/solid';
 import { computed, inject, ref } from 'vue';
 import DropdownMenu from '../components/DropdownMenu.vue';
@@ -10,7 +11,10 @@ import { formatNumber } from '../utils';
 import DropdownMenuContent from './DropdownMenuContent.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 
-const props = defineProps({ iatiIdentifier: { type: String, default: null } });
+const props = defineProps({
+    iatiIdentifier: { type: String, default: null },
+    descriptionId: { type: String, default: null },
+});
 const global = inject('global');
 const core = ref('activity');
 
@@ -25,11 +29,11 @@ const overDownloadLimit = computed(
     <div>
         <div
             v-if="overDownloadLimit"
-            class="toggler text-grey-300 bg-iati-grey flex cursor-not-allowed opacity-60"
-            role="button"
+            class="toggler text-grey-300 bg-iati-grey flex !cursor-not-allowed"
             aria-disabled="true"
+            :aria-describedby="descriptionId"
         >
-            <ArrowDownTrayIcon class="inline h-4 w-5 text-white" />
+            <NoSymbolIcon class="inline h-4 w-5 text-white" />
             <span class="align-bottom ml-2 text-white">{{
                 $t('message.download_limit_exceeded')
             }}</span>
