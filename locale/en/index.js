@@ -132,7 +132,7 @@ export default {
         download_confirmation_5c: 'in an IATI Activities XML document?',
         download_limit_exceeded: 'Download unavailable',
         download_limit_exceeded_detail:
-            'This search has {count} results, which is more than the {max} download limit. Please narrow your search, or use the API for larger datasets.',
+            'This exceeds the {max} download limit. Please narrow your search, or use the API for larger datasets.',
         cancel: 'Cancel',
         view: 'View',
         view_on: 'View on',

@@ -26,12 +26,8 @@ const overDownloadLimit = computed(
         <div
             v-if="overDownloadLimit"
             class="toggler text-grey-300 bg-iati-grey flex cursor-not-allowed opacity-60"
-            :title="
-                $t('message.download_limit_exceeded_detail', {
-                    count: formatNumber(global.state.responseTotal),
-                    max: formatNumber(global.state.download.maxDownloadResults),
-                })
-            "
+            role="button"
+            aria-disabled="true"
         >
             <ArrowDownTrayIcon class="inline h-4 w-5 text-white" />
             <span class="align-bottom ml-2 text-white">{{

@@ -50,7 +50,7 @@ export default {
             'dans un document d’activités de l’IITA au format XML ?',
         download_limit_exceeded: 'Téléchargement indisponible',
         download_limit_exceeded_detail:
-            'Cette recherche contient {count} résultats, ce qui dépasse la limite de téléchargement de {max}. Veuillez affiner votre recherche ou utiliser l’API pour les ensembles de données plus volumineux.',
+            'Cela dépasse la limite de téléchargement de {max}. Veuillez affiner votre recherche ou utiliser l’API pour les ensembles de données plus volumineux.',
         cancel: 'Annuler',
         view: 'Afficher',
         view_on: 'Afficher sur',
