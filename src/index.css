@@ -377,3 +377,8 @@
 .multiselect__option--selected.multiselect__option--highlight {
     background: #155366;
 }
+
+.toggler.not-allowed {
+    border: none;
+    cursor: not-allowed;
+}
