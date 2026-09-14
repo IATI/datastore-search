@@ -29,12 +29,12 @@ const overDownloadLimit = computed(
     <div>
         <div
             v-if="overDownloadLimit"
-            class="toggler text-grey-300 bg-iati-grey flex !cursor-not-allowed"
+            class="toggler bg-slate-100 flex not-allowed"
             aria-disabled="true"
             :aria-describedby="descriptionId"
         >
-            <NoSymbolIcon class="inline h-4 w-5 text-white" />
-            <span class="align-bottom ml-2 text-white">{{
+            <NoSymbolIcon class="inline h-4 w-5 text-slate-600" />
+            <span class="align-bottom ml-2 text-slate-600">{{
                 $t('message.download_limit_exceeded')
             }}</span>
         </div>
