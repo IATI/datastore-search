@@ -6,7 +6,7 @@ const global = inject('global');
 <template>
     <div class="iati-country-switcher">
         <label for="iati-country-switcher" class="iati-country-switcher__label">
-            Choose your language
+            {{ $t('message.choose_language') }}
         </label>
         <select
             class="iati-country-switcher__control"

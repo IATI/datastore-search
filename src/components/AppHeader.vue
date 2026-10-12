@@ -8,17 +8,21 @@ import LanguageSelector from './LanguageSelector.vue';
         <div class="iati-mobile-nav__overlay js-iati-mobile-overlay"></div>
         <nav class="iati-mobile-nav__menu">
             <div class="iati-mobile-nav__header">
-                <h2 class="iati-mobile-nav__label">Menu</h2>
+                <h2 class="iati-mobile-nav__label">
+                    {{ $t('message.header_menu') }}
+                </h2>
 
                 <button
                     class="iati-menu-toggle iati-menu-toggle--close js-iati-menu-toggle-close"
                 >
-                    <span>Close</span>
+                    <span>{{ $t('message.header_close') }}</span>
                 </button>
             </div>
             <ul class="">
                 <li class="iati-mobile-nav__item">
-                    <a href="/" class="iati-mobile-nav__link">Tool Home</a>
+                    <a href="/" class="iati-mobile-nav__link">{{
+                        $t('message.header_tool_home')
+                    }}</a>
                 </li>
                 <li class="iati-mobile-nav__item">
                     <a
@@ -37,7 +41,7 @@ import LanguageSelector from './LanguageSelector.vue';
                             '/about/'
                         "
                         class="iati-mobile-nav__link"
-                        >About IATI</a
+                        >{{ $t('message.header_about_iati') }}</a
                     >
                 </li>
                 <li class="iati-mobile-nav__item">
@@ -48,7 +52,7 @@ import LanguageSelector from './LanguageSelector.vue';
                             '/using-data/'
                         "
                         class="iati-mobile-nav__link"
-                        >Use Data</a
+                        >{{ $t('message.header_use_data') }}</a
                     >
                 </li>
                 <li class="iati-mobile-nav__item">
@@ -60,7 +64,7 @@ import LanguageSelector from './LanguageSelector.vue';
                         "
                         class="iati-mobile-nav__link"
                     >
-                        Publish Data
+                        {{ $t('message.header_publish_data') }}
                     </a>
                 </li>
                 <li class="iati-mobile-nav__item">
@@ -68,7 +72,7 @@ import LanguageSelector from './LanguageSelector.vue';
                         href="https://iatistandard.org/guidance/get-support/"
                         class="iati-mobile-nav__link"
                     >
-                        Contact
+                        {{ $t('message.header_contact') }}
                     </a>
                 </li>
                 <li class="iati-mobile-nav__item">
@@ -79,7 +83,7 @@ import LanguageSelector from './LanguageSelector.vue';
                             '/latest'
                         "
                         class="iati-mobile-nav__link"
-                        >Help Docs</a
+                        >{{ $t('message.header_help_docs') }}</a
                     >
                 </li>
             </ul>
@@ -112,7 +116,7 @@ import LanguageSelector from './LanguageSelector.vue';
                                     $i18n.locale +
                                     '/about/'
                                 "
-                                >About IATI</a
+                                >{{ $t('message.header_about_iati') }}</a
                             >
                         </li>
                         <li>
@@ -122,7 +126,7 @@ import LanguageSelector from './LanguageSelector.vue';
                                     $i18n.locale +
                                     '/using-data/'
                                 "
-                                >Use Data</a
+                                >{{ $t('message.header_use_data') }}</a
                             >
                         </li>
                         <li>
@@ -133,14 +137,14 @@ import LanguageSelector from './LanguageSelector.vue';
                                     '/guidance/publishing-data/'
                                 "
                             >
-                                Publish Data
+                                {{ $t('message.header_publish_data') }}
                             </a>
                         </li>
                         <li>
                             <a
                                 href="https://iatistandard.org/guidance/get-support/"
                             >
-                                Contact
+                                {{ $t('message.header_contact') }}
                             </a>
                         </li>
                     </ul>
@@ -161,19 +165,23 @@ import LanguageSelector from './LanguageSelector.vue';
                         "
                         class="iati-button iati-button--light hide--mobile-nav"
                     >
-                        <span>Help Docs</span>
+                        <span>{{ $t('message.header_help_docs') }}</span>
                         <i class="iati-icon iati-icon--info"></i>
                     </a>
 
                     <button
                         class="iati-menu-toggle iati-menu-toggle--open js-iati-menu-toggle-open"
                     >
-                        <span class="iati-menu-toggle__label">Menu</span>
+                        <span class="iati-menu-toggle__label">{{
+                            $t('message.header_menu')
+                        }}</span>
                     </button>
                 </div>
 
                 <div class="iati-header-title">
-                    <p class="iati-header-title__eyebrow">IATI Tools</p>
+                    <p class="iati-header-title__eyebrow">
+                        {{ $t('message.header_iati_tools') }}
+                    </p>
                     <p class="iati-header-title__heading">
                         {{ $t('message.datastore_search') }}
                     </p>

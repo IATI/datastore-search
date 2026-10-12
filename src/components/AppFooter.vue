@@ -16,7 +16,7 @@ import LanguageSelector from './LanguageSelector.vue';
                                         $i18n.locale +
                                         '/latest/privacy-policy/'
                                     "
-                                    >Privacy</a
+                                    >{{ $t('message.footer_privacy') }}</a
                                 >
                             </li>
                             <li>
@@ -26,7 +26,7 @@ import LanguageSelector from './LanguageSelector.vue';
                                         $i18n.locale +
                                         '/latest/cookie-policy/'
                                     "
-                                    >Cookies</a
+                                    >{{ $t('message.footer_cookies') }}</a
                                 >
                             </li>
                             <li>
@@ -36,7 +36,7 @@ import LanguageSelector from './LanguageSelector.vue';
                                         $i18n.locale +
                                         '/latest/copyright/'
                                     "
-                                    >Copyright</a
+                                    >{{ $t('message.footer_copyright') }}</a
                                 >
                             </li>
                             <li>
@@ -46,7 +46,7 @@ import LanguageSelector from './LanguageSelector.vue';
                                         $i18n.locale +
                                         '/latest/data-removal/'
                                     "
-                                    >Data Removal</a
+                                    >{{ $t('message.footer_data_removal') }}</a
                                 >
                             </li>
                         </ul>
