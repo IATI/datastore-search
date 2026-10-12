@@ -44,15 +44,15 @@ watch(
                 !global.state.queryInProgress &&
                 global.state.responseTotal === null
             "
-            class="m-auto"
+            class="inline-flex w-full mx-16 my-auto"
         >
-            <SearchBar class="landing" @search="onSearch" />
+            <SearchBar class="landing w-full mr-2" @search="onSearch" />
             <button
-                class="bg-slate-100 hover:bg-slate-300 text-slate-600 py-2 px-4 rounded"
+                class="iati-button"
                 data-cy="advanced-search-landing"
                 @click="showAdvancedSearch = true"
             >
-                {{ $t('message.switch_to_advanced_search') }}
+                {{ $t('message.advanced') }}
             </button>
         </div>
         <div

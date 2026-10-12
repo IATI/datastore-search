@@ -40,7 +40,7 @@ const overDownloadLimit = computed(
         </div>
         <DropdownMenu v-else>
             <template #toggler>
-                <button class="toggler text-grey-300 bg-iati-grey flex">
+                <button class="iati-button">
                     <ArrowDownTrayIcon class="inline h-4 w-5 text-white" />
                     <span class="align-bottom ml-2 text-white">Download</span>
                     <ChevronDownIcon class="inline h-5 w-5 text-white ml-4" />

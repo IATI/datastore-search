@@ -31,13 +31,11 @@ const onSearch = (query) => {
 <template>
     <div class="flex flex-col h-full min-w-fit sm:min-w-0 mx-5">
         <div class="md:gap-4 text-left border-b">
-            <div class="inline-flex">
-                <div class="my-auto mr-2">
-                    <SearchBar class="simple" @search="onSearch" />
-                </div>
+            <div class="inline-flex mt-4">
+                <SearchBar class="simple mr-2" @search="onSearch" />
                 <button
                     v-if="!global.state.queryInProgress"
-                    class="py-2 px-4 justify-self-start 2xl:ml-6 my-auto bg-slate-100 hover:bg-slate-300 text-slate-600 font-medium rounded"
+                    class="iati-button"
                     data-cy="advanced-search-results"
                     @click="showAdvancedSearch = true"
                 >
