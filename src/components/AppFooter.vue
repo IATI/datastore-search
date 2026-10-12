@@ -1,66 +1,82 @@
 <script setup>
-import { inject } from 'vue';
-import LinkedInLogo from './LinkedInLogo.vue';
-import TwitterLogo from './TwitterLogo.vue';
-
-const global = inject('global');
+import LanguageSelector from './LanguageSelector.vue';
 </script>
 
 <template>
-    <footer class="bg-iati-grey text-white text-left text-sm">
-        <div class="mx-auto">
-            <div
-                class="py-4 px-12 xl:max-w-[75%] mx-auto flex justify-between align-middle"
-            >
-                <p class="inline-block float-left mt-1">
-                    {{
-                        $t(
-                            'message.datastore_search_is_part_of_the_iati_unified_platform',
-                        )
-                    }}
-                </p>
-
-                <div class="flex align-middle">
-                    <p class="inline-block float-left mt-1 mr-5">
+    <footer class="iati-footer iati-brand-background">
+        <div class="iati-brand-background__content">
+            <div class="iati-footer__section iati-footer__section--last">
+                <div class="iati-footer__container">
+                    <nav>
+                        <ul class="iati-piped-list iati-footer__legal-nav">
+                            <li>
+                                <a
+                                    :href="
+                                        'https://web-terms.iatistandard.org/' +
+                                        $i18n.locale +
+                                        '/latest/privacy-policy/'
+                                    "
+                                    >Privacy</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    :href="
+                                        'https://web-terms.iatistandard.org/' +
+                                        $i18n.locale +
+                                        '/latest/cookie-policy/'
+                                    "
+                                    >Cookies</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    :href="
+                                        'https://web-terms.iatistandard.org/' +
+                                        $i18n.locale +
+                                        '/latest/copyright/'
+                                    "
+                                    >Copyright</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    :href="
+                                        'https://web-terms.iatistandard.org/' +
+                                        $i18n.locale +
+                                        '/latest/data-removal/'
+                                    "
+                                    >Data Removal</a
+                                >
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="iati-footer__actions">
+                        <LanguageSelector />
+                    </div>
+                    <div class="iati-footer__social">
                         <a
-                            class="hover:underline"
-                            role="link"
-                            :href="
-                                'https://iatistandard.org/' +
-                                global.state.language +
-                                '/privacy-policy/'
-                            "
-                            >{{ $t('message.privacy') }}</a
+                            href="https://www.linkedin.com/company/international-aid-transparency-initiative/"
+                            aria-label="LinkedIn"
                         >
-                    </p>
-                    <p class="inline-block float-left mt-1 mr-5">
+                            <i class="iati-icon iati-icon--linkedin"></i>
+                        </a>
+                        <a href="https://x.com/IATI_aid" aria-label="X">
+                            <i class="iati-icon iati-icon--x"></i>
+                        </a>
                         <a
-                            class="hover:underline"
-                            role="link"
-                            :href="
-                                'https://iatistandard.org/' +
-                                global.state.language +
-                                '/contact/'
-                            "
-                            >{{ $t('message.contact') }}</a
+                            href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ"
+                            aria-label="YouTube"
                         >
-                    </p>
-                    <a
-                        class="inline-block ml-2"
-                        role="link"
-                        :aria-label="$t('message.twitter_aria')"
-                        href="https://twitter.com/IATI_aid"
-                    >
-                        <TwitterLogo class="w-8 h-8" />
-                    </a>
-                    <a
-                        class="inline-block ml-5"
-                        role="link"
-                        :aria-label="$t('message.linkedin_aria')"
-                        href="https://www.linkedin.com/company/international-aid-transparency-initiative/"
-                    >
-                        <LinkedInLogo class="w-8 h-8" />
-                    </a>
+                            <i class="iati-icon iati-icon--youtube"></i>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/IATIaid/"
+                            aria-label="Facebook"
+                        >
+                            <i class="iati-icon iati-icon--facebook"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

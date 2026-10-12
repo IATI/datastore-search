@@ -4,64 +4,198 @@ import LanguageSelector from './LanguageSelector.vue';
 </script>
 
 <template>
-    <header :aria-label="$t('message.main_header')" class="bg-iati-grey">
-        <div class="text-white ml-auto mr-auto max-w-[1200px] relative">
-            <div class="lg:mx-5 lg:flex">
-                <div class="lg:inline-block my-2 w-full lg:w-1/3">
-                    <a
-                        href="https://iatistandard.org"
-                        :title="$t('message.iati_standard_website')"
-                        class="bg-logo-white h-12 bg-contain block bg-no-repeat lg:bg-left bg-center"
-                    ></a>
-                </div>
-                <div
-                    class="inline-block h-full my-2 align-middle w-full md:w-1/2 lg:w-1/3"
+    <div class="iati-mobile-nav js-iati-mobile-nav">
+        <div class="iati-mobile-nav__overlay js-iati-mobile-overlay"></div>
+        <nav class="iati-mobile-nav__menu">
+            <div class="iati-mobile-nav__header">
+                <h2 class="iati-mobile-nav__label">Menu</h2>
+
+                <button
+                    class="iati-menu-toggle iati-menu-toggle--close js-iati-menu-toggle-close"
                 >
-                    <h1 class="text-3xl mt-1 md:mt-4 pb-3">
-                        <a href="/">
-                            <b>{{ $t('message.datastore_search') }}</b>
-                        </a>
-                    </h1>
+                    <span>Close</span>
+                </button>
+            </div>
+            <ul class="">
+                <li class="iati-mobile-nav__item">
+                    <a href="/" class="iati-mobile-nav__link">Tool Home</a>
+                </li>
+                <li class="iati-mobile-nav__item">
+                    <a
+                        href="https://developer.iatistandard.org/api-details#api=datastore"
+                        class="iati-mobile-nav__link"
+                        >{{ $t('message.api') }}</a
+                    >
+                </li>
+            </ul>
+            <ul class="">
+                <li class="iati-mobile-nav__item">
+                    <a
+                        :href="
+                            'https://iatistandard.org/' +
+                            $i18n.locale +
+                            '/about/'
+                        "
+                        class="iati-mobile-nav__link"
+                        >About IATI</a
+                    >
+                </li>
+                <li class="iati-mobile-nav__item">
+                    <a
+                        :href="
+                            'https://iatistandard.org/' +
+                            $i18n.locale +
+                            '/using-data/'
+                        "
+                        class="iati-mobile-nav__link"
+                        >Use Data</a
+                    >
+                </li>
+                <li class="iati-mobile-nav__item">
+                    <a
+                        :href="
+                            'https://iatistandard.org/' +
+                            $i18n.locale +
+                            '/guidance/publishing-data/'
+                        "
+                        class="iati-mobile-nav__link"
+                    >
+                        Publish Data
+                    </a>
+                </li>
+                <li class="iati-mobile-nav__item">
+                    <a
+                        href="https://iatistandard.org/guidance/get-support/"
+                        class="iati-mobile-nav__link"
+                    >
+                        Contact
+                    </a>
+                </li>
+                <li class="iati-mobile-nav__item">
+                    <a
+                        :href="
+                            'https://docs.datastore.iatistandard.org/' +
+                            $i18n.locale +
+                            '/latest'
+                        "
+                        class="iati-mobile-nav__link"
+                        >Help Docs</a
+                    >
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <header :aria-label="$t('message.main_header')" class="iati-header">
+        <div class="iati-header__section iati-header__section--first">
+            <div class="iati-header__container">
+                <a
+                    href="https://iatistandard.org/"
+                    aria-label="Go to IATI homepage"
+                >
+                    <img
+                        class="iati-header__logo"
+                        alt=""
+                        src="https://iati.github.io/design-system/assets/logo-colour-Bag5CeA4.svg"
+                    />
+                </a>
+
+                <nav
+                    :aria-label="$t('message.navigation')"
+                    class="iati-header__general-nav"
+                >
+                    <ul class="iati-piped-list">
+                        <li>
+                            <a
+                                :href="
+                                    'https://iatistandard.org/' +
+                                    $i18n.locale +
+                                    '/about/'
+                                "
+                                >About IATI</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                :href="
+                                    'https://iatistandard.org/' +
+                                    $i18n.locale +
+                                    '/using-data/'
+                                "
+                                >Use Data</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                :href="
+                                    'https://iatistandard.org/' +
+                                    $i18n.locale +
+                                    '/guidance/publishing-data/'
+                                "
+                            >
+                                Publish Data
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://iatistandard.org/guidance/get-support/"
+                            >
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div
+            class="iati-header__section iati-header__section--last iati-brand-background"
+        >
+            <div class="iati-header__container iati-brand-background__content">
+                <div class="iati-header__actions">
+                    <LanguageSelector />
+                    <a
+                        :href="
+                            'https://docs.datastore.iatistandard.org/' +
+                            $i18n.locale +
+                            '/latest'
+                        "
+                        class="iati-button iati-button--light hide--mobile-nav"
+                    >
+                        <span>Help Docs</span>
+                        <i class="iati-icon iati-icon--info"></i>
+                    </a>
+
+                    <button
+                        class="iati-menu-toggle iati-menu-toggle--open js-iati-menu-toggle-open"
+                    >
+                        <span class="iati-menu-toggle__label">Menu</span>
+                    </button>
                 </div>
 
-                <div
-                    class="inline-flex items-center mx-2 lg:mx-0 justify-around lg:justify-between h-full my-2 align-middle w-full md:w-1/2 lg:w-1/3"
-                >
-                    <nav
-                        :aria-label="$t('message.navigation')"
-                        class="md:mt-5 text-xl"
-                    >
-                        <router-link
-                            v-if="$route.path !== '/'"
-                            to="/"
-                            class="hover:underline"
-                        >
-                            {{ $t('message.simple_search') }}
-                        </router-link>
-                        <a
-                            v-if="$route.path === '/'"
-                            class="hover:underline pl-2 ml-2"
-                            href="https://developer.iatistandard.org/api-details#api=datastore"
-                            >{{ $t('message.api') }}</a
-                        >
-                        <a
-                            v-if="$route.path !== '/'"
-                            class="hover:underline border-l pl-2 ml-2"
-                            href="https://developer.iatistandard.org/api-details#api=datastore"
-                            >{{ $t('message.api') }}</a
-                        >
-                        <a
-                            class="hover:underline border-l pl-2 ml-2"
-                            :href="
-                                'https://docs.datastore.iatistandard.org/' +
-                                $i18n.locale +
-                                '/latest'
-                            "
-                        >
-                            {{ $t('message.about') }}
-                        </a>
+                <div class="iati-header-title">
+                    <p class="iati-header-title__eyebrow">IATI Tools</p>
+                    <p class="iati-header-title__heading">
+                        {{ $t('message.datastore_search') }}
+                    </p>
+                </div>
+
+                <div class="iati-header__nav">
+                    <nav>
+                        <ul class="iati-tool-nav">
+                            <li>
+                                <a href="/" class="iati-tool-nav-link">{{
+                                    $t('message.datastore_search')
+                                }}</a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://developer.iatistandard.org/api-details#api=datastore"
+                                    class="iati-tool-nav-link"
+                                    >{{ $t('message.api') }}</a
+                                >
+                            </li>
+                        </ul>
                     </nav>
-                    <LanguageSelector />
                 </div>
             </div>
             <NotificationBanner />
