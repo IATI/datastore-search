@@ -3,7 +3,9 @@ import MultiSelect from 'vue-multiselect';
 import plausible from '../plugins/plausible';
 import App from './App.vue';
 import i18n from './i18n.js';
+import 'iati-design-system/dist/css/iati.css';
 import './index.css';
+import 'iati-design-system';
 import router from './router';
 
 const plausibleOptions = {
