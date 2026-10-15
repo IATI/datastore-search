@@ -276,19 +276,17 @@ onBeforeMount(() => {
             <LoadingSpinner v-if="!activity" class="w-full" />
             <div v-if="activity" class="text-left mb-5 font-medium">
                 <div v-if="global.state.responseDocs" class="mt-4 text-sky-700">
-                    <span
+                    <button
                         class="cursor-pointer hover:underline"
                         @click="$router.go(-1)"
                     >
                         {{ $t('message.back_to_results') }}
-                    </span>
+                    </button>
                 </div>
-                <h1 class="mt-5 text-lg">
+                <p class="mt-5 text-lg">
                     {{ $t('message.overview_of_iati_activity') }}
-                </h1>
-                <h1
-                    class="mt-4 pb-2 text-2xl border-b border-dashed break-words text-iati-grey"
-                >
+                </p>
+                <h1>
                     <b>{{ activity.title_narrative }}</b>
                 </h1>
                 <div class="border-b border-dashed py-3 flex items-center">
@@ -297,7 +295,7 @@ onBeforeMount(() => {
                     />
                     <a
                         v-if="dPortalLink"
-                        class="bg-iati-grey hover:bg-iati-blue text-white rounded font-medium py-[0.4rem] px-3 ml-4 w-3/24 block"
+                        class="iati-link ml-4"
                         :href="dPortalLink"
                         target="_blank"
                     >

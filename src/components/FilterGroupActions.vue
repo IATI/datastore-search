@@ -61,11 +61,11 @@ const buttonClasses =
             </span>
         </div>
     </div>
-    <div class="inline-flex items-center w-full" role="toolbar">
+    <div class="inline-flex items-center gap-2 w-full" role="toolbar">
         <AppButton
             variant="outline"
             size="sm"
-            class="mr-2 px-[8px]"
+            class="px-[8px]"
             data-cy="add-rule"
             @click="emits('addRule', props.group.id)"
         >

@@ -10,7 +10,7 @@
                 <b>{{ doc.iati_identifier }}</b>
             </div>
         </div>
-        <div class="hover:underline text-sky-700 text-xl font-medium">
+        <div class="text-sky-700 text-xl font-medium">
             <router-link
                 :to="{
                     name: 'activity',

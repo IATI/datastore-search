@@ -1,7 +1,7 @@
 <script setup>
 import { v4 as uuidv4 } from 'uuid';
 import { inject, reactive, watch, onBeforeMount } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import FilterGroup from './FilterGroup.vue';
 import SideBarButtons from './SideBarButtons.vue';
 
@@ -11,7 +11,6 @@ const props = defineProps({
 });
 
 const global = inject('global');
-const route = useRoute();
 const router = useRouter();
 
 let group = reactive({
@@ -128,10 +127,8 @@ const validateGroup = (grup) => {
 const onRun = () => {
     const [isValid] = validateGroup(group);
     if (isValid) {
-        if (route.query.q) {
-            router.push({ path: '/' });
-            sessionStorage.removeItem('searchterm');
-        }
+        router.push({ path: '/' });
+        sessionStorage.removeItem('searchterm');
         global.setFilters(getFiltersFromGroup(group));
         global.run();
     }
@@ -196,6 +193,9 @@ onBeforeMount(() => {
     if (props.filters && props.filters.length) {
         populateGroupFromFilters(props.filters, group);
     }
+});
+onBeforeRouteLeave(() => {
+    global.saveFilters(group.items.length ? getFiltersFromGroup(group) : []);
 });
 </script>
 

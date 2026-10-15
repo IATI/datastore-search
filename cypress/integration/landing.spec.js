@@ -3,7 +3,7 @@
 describe('The landing view', () => {
     it('has a header', () => {
         cy.visit('/');
-        cy.contains('Datastore Search');
+        cy.get('header').should('exist').should('have.class', 'iati-header');
     });
 
     it('has a visible search bar', () => {
@@ -13,7 +13,7 @@ describe('The landing view', () => {
 
     it('has a footer', () => {
         cy.visit('/');
-        cy.contains('IATI Unified Platform');
+        cy.get('footer').should('exist').should('have.class', 'iati-footer');
     });
 
     describe('search bar, on search', () => {
