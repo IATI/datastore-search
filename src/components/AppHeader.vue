@@ -25,6 +25,11 @@ import LanguageSelector from './LanguageSelector.vue';
                     }}</a>
                 </li>
                 <li class="iati-mobile-nav__item">
+                    <a href="/advanced" class="iati-mobile-nav__link">{{
+                        $t('message.advanced_search')
+                    }}</a>
+                </li>
+                <li class="iati-mobile-nav__item">
                     <a
                         href="https://developer.iatistandard.org/api-details#api=datastore"
                         class="iati-mobile-nav__link"
@@ -191,9 +196,24 @@ import LanguageSelector from './LanguageSelector.vue';
                     <nav>
                         <ul class="iati-tool-nav">
                             <li>
-                                <a href="/" class="iati-tool-nav-link">{{
-                                    $t('message.datastore_search')
-                                }}</a>
+                                <router-link
+                                    to="/"
+                                    class="iati-tool-nav-link"
+                                    data-cy="header-search"
+                                    >{{
+                                        $t('message.datastore_search')
+                                    }}</router-link
+                                >
+                            </li>
+                            <li>
+                                <router-link
+                                    to="/advanced"
+                                    class="iati-tool-nav-link"
+                                    data-cy="header-advanced-search"
+                                    >{{
+                                        $t('message.advanced_search')
+                                    }}</router-link
+                                >
                             </li>
                             <li>
                                 <a

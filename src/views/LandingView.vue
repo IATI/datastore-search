@@ -1,13 +1,10 @@
 <script setup>
-import { inject, provide, onBeforeMount, ref, watch } from 'vue';
+import { inject, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from '../components/SearchBar.vue';
 import SearchResults from '../components/SearchResults.vue';
-import AdvancedSearchBar from '../components/AdvancedSearchBar.vue';
 
 const global = inject('global');
-const showAdvancedSearch = ref(false);
-provide('showAdvancedSearch', showAdvancedSearch);
 const route = useRoute();
 const router = useRouter();
 
@@ -26,15 +23,6 @@ const onSearch = (query) => {
         global.runSimple(query);
     }
 };
-
-watch(
-    () => global.state.queryInProgress,
-    () => {
-        if (global.state.queryInProgress) {
-            showAdvancedSearch.value = false;
-        }
-    },
-);
 </script>
 
 <template>
@@ -44,16 +32,9 @@ watch(
                 !global.state.queryInProgress &&
                 global.state.responseTotal === null
             "
-            class="inline-flex w-full mx-16 my-auto"
+            class="w-full mx-16 my-auto"
         >
             <SearchBar class="landing w-full mr-2" @search="onSearch" />
-            <button
-                class="iati-button"
-                data-cy="advanced-search-landing"
-                @click="showAdvancedSearch = true"
-            >
-                {{ $t('message.advanced') }}
-            </button>
         </div>
         <div
             v-if="
@@ -65,7 +46,4 @@ watch(
             <SearchResults />
         </div>
     </div>
-    <teleport to="#searchbar">
-        <AdvancedSearchBar />
-    </teleport>
 </template>
