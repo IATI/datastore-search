@@ -37,22 +37,6 @@ describe('The advanced search', { testIsolation: false }, () => {
             cy.get('[data-cy="advanced-search-page"]').should('be.visible');
         });
 
-        it('can be opened from the landing view', () => {
-            cy.get('[data-cy="advanced-search-landing"]').should('be.visible');
-            cy.get('[data-cy="advanced-search-landing"]').click();
-            cy.location('pathname').should('eq', '/advanced');
-            cy.get('[data-cy="advanced-search-page"]').should('be.visible');
-        });
-
-        it('can be opened from the results view', () => {
-            cy.visit(`/?q=${query}`);
-
-            cy.get('[data-cy="advanced-search-results"]').should('be.visible');
-            cy.get('[data-cy="advanced-search-results"]').click();
-            cy.location('pathname').should('eq', '/advanced');
-            cy.get('[data-cy="advanced-search-page"]').should('be.visible');
-        });
-
         it('generates filters from the search query on page load', () => {
             cy.visit(`/advanced?q=${query}`);
             cy.get('[data-cy="filter-text-input"]').should('have.value', query);
@@ -60,14 +44,14 @@ describe('The advanced search', { testIsolation: false }, () => {
 
         it('keeps incomplete filters when navigating away', () => {
             window.localStorage.clear();
-            cy.get('[data-cy="advanced-search-landing"]').click();
+            cy.get('[data-cy="header-advanced-search"]').click();
             cy.get('[data-cy="build-query"]').click();
             cy.get('[data-cy="add-rule"]').click();
             cy.contains('Select field').click();
             cy.contains('Title Narrative').click();
             cy.get('[data-cy="filter-text-input"]').type('draft');
             cy.go('back');
-            cy.get('[data-cy="advanced-search-landing"]').click();
+            cy.get('[data-cy="header-advanced-search"]').click();
             cy.get('[data-cy="filter-text-input"]').should(
                 'have.value',
                 'draft',
@@ -82,9 +66,10 @@ describe('The advanced search', { testIsolation: false }, () => {
                 );
             });
             const query = 'test';
+            window.localStorage.clear();
             cy.visit(`/?q=${query}`);
             const validate = (value) => {
-                cy.get('[data-cy="advanced-search-results"]').click();
+                cy.get('[data-cy="header-advanced-search"]').click();
                 cy.get('[data-cy="field-selector"]').should('be.visible');
                 cy.get('[data-cy="filter-text-input"]').should(
                     'have.value',
@@ -104,8 +89,7 @@ describe('The advanced search', { testIsolation: false }, () => {
 
         describe('query', () => {
             beforeEach(() => {
-                cy.visit('/');
-                cy.get('[data-cy="advanced-search-landing"]').click();
+                cy.visit('/advanced');
                 cy.get('[data-cy="build-query"]').click();
             });
 
@@ -179,9 +163,8 @@ describe('The advanced search', { testIsolation: false }, () => {
         const buildRouteMatcher = (query) => ({ url: `${baseUrl}*`, query });
 
         beforeEach(() => {
-            cy.visit('/');
-            window.localStorage.clear();
-            cy.get('[data-cy="advanced-search-landing"]').click();
+            cy.clearLocalStorage();
+            cy.visit('/advanced');
             cy.get('[data-cy="build-query"]').click();
         });
 
@@ -487,7 +470,7 @@ describe('The advanced search', { testIsolation: false }, () => {
 
             // function normally after import
 
-            cy.get('[data-cy="advanced-search-results"]').click();
+            cy.get('[data-cy="header-advanced-search"]').click();
             cy.get('[data-cy="reset-filters"]').dblclick();
             cy.get('[data-cy="build-query"]').click();
 
