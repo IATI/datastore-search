@@ -26,6 +26,6 @@ const classes = {
         :class="classes"
         @click="emits('click')"
     >
-        <span class="p-[2px] inline-flex align-middle"><slot /></span>
+        <span class="inline-flex align-middle"><slot /></span>
     </button>
 </template>

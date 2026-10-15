@@ -41,11 +41,10 @@ const onReset = () => {
             v-if="global.state.filters.length > 0"
             class="border-solid border-t border-b py-5 flex flex-col lg:flex-row items-start justify-between w-full px-0 content-end pr-0"
         >
-            <div class="mb-3 lg:mb-0">
+            <div class="flex gap-2 mb-3 lg:mb-0">
                 <AppButton
                     :aria-label="$t('message.export_aria')"
                     variant="red"
-                    class="mr-1"
                     size="sm"
                     data-cy="open-export-modal"
                     @click="emits('export')"
@@ -58,7 +57,6 @@ const onReset = () => {
                 <AppButton
                     :aria-label="$t('message.import_aria')"
                     variant="red"
-                    class="ml-1"
                     size="sm"
                     data-cy="open-import-modal"
                     @click="global.toggleImportModal()"
@@ -69,12 +67,11 @@ const onReset = () => {
                     <span class="uppercase">{{ $t('message.import') }}</span>
                 </AppButton>
             </div>
-            <div>
+            <div class="flex gap-2">
                 <AppButton
                     :aria-label="$t('message.add_aria')"
                     variant="yellow"
                     size="sm"
-                    class="mr-2"
                     data-cy="reset-filters"
                     @click="onReset"
                 >
@@ -93,7 +90,6 @@ const onReset = () => {
                     :aria-label="$t('message.run_aria')"
                     variant="green"
                     size="sm"
-                    class="float-right"
                     data-cy="run-filters"
                     @click="emits('run')"
                 >
@@ -102,10 +98,10 @@ const onReset = () => {
                 </AppButton>
             </div>
         </div>
-        <div v-if="global.state.filters.length === 0">
+        <div v-if="global.state.filters.length === 0" class="flex gap-4">
             <button
                 :aria-label="$t('message.add_aria')"
-                class="bg-btn-yellow hover:bg-iati-grey text-white py-1.5 px-5 rounded float-left ml-2 w-2/24 inline-flex"
+                class="bg-btn-yellow hover:bg-iati-grey text-white py-1.5 px-5 rounded w-2/24 inline-flex"
                 data-cy="build-query"
                 @click="global.addFilter()"
             >
@@ -116,7 +112,7 @@ const onReset = () => {
             </button>
             <button
                 :aria-label="$t('message.import_aria')"
-                class="bg-btn-red hover:bg-iati-grey text-white py-1.5 px-5 rounded ml-4 float-left w-3/24 inline-flex"
+                class="bg-btn-red hover:bg-iati-grey text-white py-1.5 px-5 rounded w-3/24 inline-flex"
                 data-cy="import-filters"
                 @click="global.toggleImportModal()"
             >
