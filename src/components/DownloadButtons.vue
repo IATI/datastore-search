@@ -42,7 +42,9 @@ const overDownloadLimit = computed(
             <template #toggler>
                 <button class="iati-button">
                     <ArrowDownTrayIcon class="inline h-4 w-5 text-white" />
-                    <span class="align-bottom ml-2 text-white">Download</span>
+                    <span class="align-bottom ml-2 text-white">{{
+                        $t('message.download')
+                    }}</span>
                     <ChevronDownIcon class="inline h-5 w-5 text-white ml-4" />
                 </button>
             </template>
@@ -51,7 +53,8 @@ const overDownloadLimit = computed(
                     v-for="format in global.state.download.formats"
                     :key="format"
                     @click="global.toggleDownloadModal(format)"
-                    >Download as {{ format }}</DropdownMenuItem
+                    >{{ $t('message.download_as') }}
+                    {{ format }}</DropdownMenuItem
                 >
             </DropdownMenuContent>
         </DropdownMenu>

@@ -125,6 +125,7 @@ export default {
         overview_of_iati_activity: 'Overview of IATI Activity',
         back_to_results: 'Back to results',
         download: 'Download',
+        download_as: 'Download as ',
         download_activity_file: 'Download Activity File',
         download_results_file: 'Download Results File',
         download_confirmation_1: 'Download',
@@ -254,5 +255,7 @@ export default {
         use_map: 'Open map',
         pan_and_zoom: 'Pan and zoom map to select bounds',
         apply: 'Apply',
+        tooltip_and_or:
+            'The selected operator is used to join all elements within the group.',
     },
 };

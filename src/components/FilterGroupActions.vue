@@ -45,7 +45,7 @@ const buttonClasses =
         <button
             type="button"
             class="m-2 block"
-            data-tooltip="The selected operator is used to join all elements within the group"
+            :data-tooltip="$t('message.tooltip_and_or')"
             data-position="bottom right"
             data-size="sm"
         >

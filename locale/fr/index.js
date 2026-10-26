@@ -48,6 +48,7 @@ export default {
         overview_of_iati_activity: 'Vue d’ensemble des activités de l’IITA',
         back_to_results: 'Retour aux résultats',
         download: 'Télécharger',
+        download_as: 'Télécharger au format ',
         download_activity_file: 'Télécharger le fichier d’activités',
         download_results_file: 'Télécharger le fichier de résultats',
         download_confirmation_1: 'Télécharger',
@@ -105,8 +106,11 @@ export default {
         import_para2:
             '\n            Sélectionner un fichier JSON précédemment exporté à partir de la recherche avancée dans la banque de données.',
         file: 'Fichier',
+        add_rule: 'Ajouter une règle',
+        add_group: 'Ajouter un groupe',
         and: 'AND',
         or: 'OR',
+        group_operator: 'Opérateur de groupe',
         select_field: 'Sélectionner un champ',
         true: 'TRUE',
         false: 'FALSE',
@@ -121,6 +125,8 @@ export default {
             '\n            Malheureusement, nous n’avons pas pu trouver cette page. Veuillez retourner à la page d’<a class="hover:underline" href="/">Accueil</a>',
         advanced: 'Avancé',
         found_activities: '<b>{count}</b> activités ont été trouvées.',
+        results_by_advanced_search:
+            'Résultats filtrés selon des paramètres avancés. Consultez l’onglet <b>Recherche avancée</b> pour plus de détails.',
         relevance: 'Pertinence',
         sort_relevance_label: 'Trier par pertinence',
         identifier: 'Identifiant',
@@ -156,5 +162,7 @@ export default {
         pan_and_zoom:
             'Effectuer un panoramique de la carte, puis un zoom pour sélectionner les limites.',
         apply: 'Appliquer',
+        tooltip_and_or:
+            'L’opérateur sélectionné permet de regrouper tous les éléments du groupe.',
     },
 };
