@@ -32,6 +32,7 @@
         "axios": "^1.16.1",
         "crypto-js": "^4.2.0",
         "date-fns": "^4.4.0",
+        "iati-design-system": "^5.0.0",
         "leaflet": "^1.9.4",
         "plausible-tracker": "^0.3.9",
         "split.js": "^1.6.5",

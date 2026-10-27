@@ -36,7 +36,7 @@ const selected = computed({
         />
         <button
             v-if="selected"
-            class="bg-iati-blue hover:bg-iati-grey text-white font-bold py-2 px-2.5 rounded ml-2 w-3/24 block disabled:opacity-10"
+            class="iati-button disabled:opacity-10"
             :aria-label="`${selected.label} ${
                 global.state.searchOrderField == selected.field
                     ? global.state.searchOrderDirection

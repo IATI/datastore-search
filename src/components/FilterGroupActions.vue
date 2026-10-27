@@ -45,7 +45,7 @@ const buttonClasses =
         <button
             type="button"
             class="m-2 block"
-            data-tooltip="The selected operator is used to join all elements within the group"
+            :data-tooltip="$t('message.tooltip_and_or')"
             data-position="bottom right"
             data-size="sm"
         >
@@ -61,11 +61,11 @@ const buttonClasses =
             </span>
         </div>
     </div>
-    <div class="inline-flex items-center w-full" role="toolbar">
+    <div class="inline-flex items-center gap-2 w-full" role="toolbar">
         <AppButton
             variant="outline"
             size="sm"
-            class="mr-2 px-[8px]"
+            class="px-[8px]"
             data-cy="add-rule"
             @click="emits('addRule', props.group.id)"
         >
