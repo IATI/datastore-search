@@ -255,12 +255,27 @@ const setFilters = (filters) => {
     state.filters = filters;
 };
 
+const saveFilters = (filters) => {
+    state.filters = filters;
+    if (filters.length) {
+        window.localStorage.setItem(
+            LOCAL_STORAGE_KEY_ADVANCED,
+            JSON.stringify(filters),
+        );
+    } else {
+        window.localStorage.removeItem(LOCAL_STORAGE_KEY_ADVANCED);
+    }
+};
+
 const restoreFilters = async () => {
+    if (
+        window.localStorage.getItem(LOCAL_STORAGE_KEY_ADVANCED) &&
+        !state.fieldOptions.length
+    ) {
+        await populateOptions();
+    }
     const filters = window.localStorage.getItem(LOCAL_STORAGE_KEY_ADVANCED);
     if (filters) {
-        if (!state.filterOptions) {
-            await populateOptions();
-        }
         state.filters = JSON.parse(filters);
     }
 
@@ -1494,6 +1509,8 @@ export default {
     state: readonly(state),
     addFilter,
     setFilters,
+    saveFilters,
+    generateFiltersForQuery,
     removeFilter,
     resetFilters,
     restoreFilters,

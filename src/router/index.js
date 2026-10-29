@@ -21,7 +21,7 @@ const routes = [
     {
         path: '/advanced',
         name: 'Advanced search',
-        redirect: '/',
+        component: () => import('../views/AdvancedView.vue'),
     },
     {
         path: '/:pathMatch(.*)*',
